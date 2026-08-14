@@ -967,9 +967,14 @@
       letter-spacing: -0.01em;
       color: #000;
     }
+    .shopify-app-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
     .shopify-app-bfs {
       display: inline-flex;
-      align-self: flex-start;
       align-items: center;
       gap: 4px;
       padding: 1px 8px;

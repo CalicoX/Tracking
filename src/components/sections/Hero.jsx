@@ -25,26 +25,28 @@ export default function Hero() {
               <img className="shopify-app-icon" src="/assets/shopify-app-icon.png" alt="" width="52" height="52" decoding="async" />
               <span className="shopify-app-meta">
                 <strong className="shopify-app-name">17TRACK Order Tracking</strong>
-                <span className="shopify-app-bfs">
-                  <svg viewBox="0 0 16 14" width="12" height="10" aria-hidden="true">
-                    <path d="m13 0-1 5-4 9 8-9.5L13 0ZM3 0l1 5 4 9-8-9.5L3 0Z" fill="#1495CC" />
-                    <path d="m3 0 1 5 4 9 4-9 1-5H3Z" fill="#58B7DF" />
-                    <path d="M8 14 4 5l-4-.5L8 14ZM8 14l4-9 4-.5L8 14Z" fill="#035F86" />
-                    <path d="M8 5.5 4 5l4 9 4-9-4 .5Z" fill="#1495CC" />
-                    <path d="m4 5 4-5 4 5-4.001.5L4 5Z" fill="#A9DEF4" />
-                    <path d="M4 5 3 0h5L4 5ZM12 5l1-5H8l4 5Z" fill="#58B7DF" />
-                    <path d="M4 5 3 0 0 4.5 4 5ZM12 5l1-5 3 4.5-4 .5Z" fill="#1495CC" />
-                  </svg>
-                  Built for Shopify
-                </span>
-                <span className="shopify-app-rating">
-                  <span className="shopify-app-stars" aria-hidden="true">
-                    {[0, 1, 2, 3, 4].map((i) => (
-                      <svg key={i} viewBox="0 0 16 16"><path d="M8 1.4l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10.36 4.48 12.21l.67-3.91L2.31 5.53l3.93-.57L8 1.4z"/></svg>
-                    ))}
+                <span className="shopify-app-row">
+                  <span className="shopify-app-bfs">
+                    <svg viewBox="0 0 16 14" width="12" height="10" aria-hidden="true">
+                      <path d="m13 0-1 5-4 9 8-9.5L13 0ZM3 0l1 5 4 9-8-9.5L3 0Z" fill="#1495CC" />
+                      <path d="m3 0 1 5 4 9 4-9 1-5H3Z" fill="#58B7DF" />
+                      <path d="M8 14 4 5l-4-.5L8 14ZM8 14l4-9 4-.5L8 14Z" fill="#035F86" />
+                      <path d="M8 5.5 4 5l4 9 4-9-4 .5Z" fill="#1495CC" />
+                      <path d="m4 5 4-5 4 5-4.001.5L4 5Z" fill="#A9DEF4" />
+                      <path d="M4 5 3 0h5L4 5ZM12 5l1-5H8l4 5Z" fill="#58B7DF" />
+                      <path d="M4 5 3 0 0 4.5 4 5ZM12 5l1-5 3 4.5-4 .5Z" fill="#1495CC" />
+                    </svg>
+                    Built for Shopify
                   </span>
-                  4.9/5
-                  <span className="shopify-app-reviews">(3,800+)</span>
+                  <span className="shopify-app-rating">
+                    <span className="shopify-app-stars" aria-hidden="true">
+                      {[0, 1, 2, 3, 4].map((i) => (
+                        <svg key={i} viewBox="0 0 16 16"><path d="M8 1.4l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10.36 4.48 12.21l.67-3.91L2.31 5.53l3.93-.57L8 1.4z"/></svg>
+                      ))}
+                    </span>
+                    4.9/5
+                    <span className="shopify-app-reviews">(3,800+)</span>
+                  </span>
                 </span>
               </span>
             </a>
