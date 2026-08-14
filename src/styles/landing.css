@@ -934,57 +934,77 @@
       justify-content: center;
       min-width: 0;
     }
-    .eyebrows {
+    /* Shopify App Store listing header — match apps.shopify.com/17track */
+    .shopify-app {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
-      margin-top: 16px;
+      gap: 12px;
+      margin-top: 18px;
+      width: fit-content;
+      max-width: 100%;
+      text-decoration: none;
+      color: inherit;
     }
-    .badge {
+    .shopify-app-icon {
+      display: block;
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .shopify-app-meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .shopify-app-name {
+      font-size: 18px;
+      font-weight: 650;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      color: #000;
+    }
+    .shopify-app-bfs {
+      display: inline-flex;
+      align-self: flex-start;
+      align-items: center;
+      gap: 4px;
+      padding: 1px 8px;
+      border-radius: 4px;
+      background: #e0f0ff;
+      color: #000;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 16px;
+      white-space: nowrap;
+    }
+    .shopify-app-bfs svg {
+      display: block;
+      height: 9px;
+      width: auto;
+      flex-shrink: 0;
+    }
+    .shopify-app-rating {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.85);
-      color: var(--text-secondary);
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 18px;
-      box-shadow: var(--shadow-sm);
-    }
-    .badge::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--brand-primary);
-    }
-    .badge.shopify {
-      border-color: rgba(42, 174, 103, 0.28);
-      background: var(--success-soft);
-      color: #176b3f;
-    }
-    .badge.shopify::before { background: var(--brand-shopify); }
-    .badge.rating::before { display: none; }
-    .badge.rating {
       gap: 6px;
-      color: var(--text-secondary);
+      color: #5c5f62;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
     }
-    .badge.rating svg {
-      color: var(--brand-accent);
-      flex-shrink: 0;
+    .shopify-app-stars {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
     }
-    /* Hero: official Built for Shopify mark */
-    .badge-shopify-img {
-      display: block;
-      height: 28px;
-      width: auto;
-      max-width: 160px;
-      object-fit: contain;
-      flex-shrink: 0;
+    .shopify-app-stars svg {
+      width: 12px;
+      height: 12px;
+      fill: #f5c518;
     }
 
     .hero h1 {
