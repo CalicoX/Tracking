@@ -939,11 +939,11 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-top: 28px;
-      padding-top: 22px;
+      margin: 0 0 28px;
+      padding-bottom: 22px;
       width: 100%;
       max-width: 100%;
-      border-top: 1px solid var(--border-default);
+      border-bottom: 1px solid var(--border-default);
       text-decoration: none;
       color: inherit;
     }
