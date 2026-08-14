@@ -1,0 +1,773 @@
+<body>
+  <!--
+    默认：#glass-content 在普通文档流，保证可滚动。
+    仅当浏览器支持 html-in-canvas 时，JS 再把它移入 #glass-source。
+  -->
+  <div class="glass-shell">
+    <div class="page" id="glass-content">
+    <!-- Nav -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="nav-left">
+          <a class="logo" href="#" aria-label="17TRACK">
+            <img src="assets/logo-17track.svg" alt="17TRACK" width="130" height="20">
+          </a>
+          <nav class="nav-links" aria-label="Primary navigation">
+            <div class="nav-group">
+              <a class="nav-item active" href="#">Tracking</a>
+              <a class="nav-item" href="#">17RETURNS</a>
+              <a class="nav-item" href="#">API</a>
+            </div>
+            <div class="nav-divider" aria-hidden="true"></div>
+            <div class="nav-group">
+              <a class="nav-item" href="#">Carriers <img src="assets/icon-dropdown.svg" alt=""></a>
+              <a class="nav-item" href="#">Resources <img src="assets/icon-dropdown.svg" alt=""></a>
+              <a class="nav-item" href="#">Pricing</a>
+            </div>
+          </nav>
+        </div>
+        <div class="nav-actions">
+          <a class="btn-text" href="#">Sign in <img src="assets/icon-chevron.svg" alt=""></a>
+          <a class="btn-split primary" href="#">
+            <span class="main"><span class="full">Sign up</span><span class="short" hidden>Sign up</span></span>
+            <span class="caret"><img src="assets/icon-caret.svg" alt=""></span>
+          </a>
+          <a class="btn-split shopify" href="#">
+            <span class="main">
+              <img src="assets/icon-bag.svg" alt="">
+              Shopify App
+            </span>
+            <span class="caret"><img src="assets/icon-caret.svg" alt=""></span>
+          </a>
+          <button class="menu-toggle" type="button" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <canvas class="hero-undertones" id="hero-undertones-canvas" aria-hidden="true"></canvas>
+        <div class="hero-inner">
+          <div>
+            <div class="eyebrows">
+              <span class="badge">17 Order Tracking</span>
+              <img class="badge-shopify-img" src="https://static.17track.net/www/2026-08/assets/images/appdown/build_for_shopify.svg" alt="Built for Shopify" width="140" height="28" decoding="async">
+            </div>
+            <h1>Bring every order tracking moment back to your brand</h1>
+            <p class="lead">Create a branded order tracking page for Shopify and DTC brands. Proactively sync shipment status, cut WISMO tickets, and turn high-intent tracking visits into repurchase moments.</p>
+            <div class="cta-row">
+              <a class="btn-switch" href="#"><span class="btn-switch-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.4" fill="currentColor" opacity="0.35"/><circle cx="8.2" cy="12" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="11.5" cy="12" r="1.6" fill="currentColor" opacity="0.8"/><path d="M13 7.5L18.5 12 13 16.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="btn-switch-label">Start free trial</span></a>
+              <a class="btn-demo" href="#">Book a demo</a>
+            </div>
+            <p class="cta-note">No credit card required · One-click Shopify install · Embed on any storefront</p>
+          </div>
+
+          <div class="visual" aria-label="Branded tracking page product preview">
+            <div class="visual-asm">
+                                                <div class="browser">
+              <div class="browser-top">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="browser-url">
+                  <svg class="browser-url-lock" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2.5" y="5.5" width="7" height="5" rx="1.2" stroke="currentColor" stroke-width="1.1"/><path d="M4 5.5V4a2 2 0 014 0v1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+                  ogl.com/track
+                </span>
+                <span class="browser-top-actions" aria-hidden="true"><i></i><i></i></span>
+              </div>
+              <div class="hero-ogl" aria-hidden="true">
+                <div class="ogl-page layout-hero theme-ogl">
+                  <header class="ogl-nav">
+                    <div class="ogl-nav-links"><span>Shop</span><span>Collections</span></div>
+                    <div class="ogl-logo">OGL</div>
+                    <div class="ogl-nav-icons" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.5-3.5 4-5 7-5s5.5 1.5 7 5"/></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 7h12l-1 12H7L6 7z"/><path d="M9 7a3 3 0 016 0"/></svg>
+                    </div>
+                  </header>
+                  <div class="ogl-hero">
+                    <img src="https://images.unsplash.com/photo-1516914589923-f105f1535f88?auto=format&amp;fit=crop&amp;w=1000&amp;q=80" alt="" width="700" height="260" decoding="async">
+                    <div class="ogl-track-float">
+                      <h3>Track Your Order</h3>
+                      <div class="ogl-fields">
+                        <input type="text" value="#OGL-28491" readonly tabindex="-1">
+                        <input type="email" value="alex@example.com" readonly tabindex="-1">
+                      </div>
+                      <button type="button" class="ogl-track-btn" tabindex="-1">Track</button>
+                    </div>
+                  </div>
+                  <section class="ogl-status hero-ogl-status">
+                    <div class="ogl-status-main">
+                      <h2>Your Order is Almost Home</h2>
+                      <p class="ogl-sub">Out for delivery — estimated today by 8:00 PM.</p>
+                      <div class="ogl-note">
+                        <span class="ogl-note-ico" aria-hidden="true">🔔</span>
+                        <div>
+                          <strong>SMS · Courier nearby soon</strong>
+                          <span>We'll text you when it's on your street.</span>
+                        </div>
+                      </div>
+                      <div class="ogl-timeline ogl-timeline-rich">
+                        <div class="ogl-tl-item done"><div class="ogl-tl-dot"></div><div class="ogl-tl-body"><strong>Order confirmed</strong><span class="ogl-tl-time">Mon · Mar 12 · 10:24 AM</span><span class="ogl-tl-loc">OGL Studio · New York</span></div></div>
+                        <div class="ogl-tl-item done"><div class="ogl-tl-dot"></div><div class="ogl-tl-body"><strong>In transit</strong><span class="ogl-tl-time">Tue · Mar 13</span><span class="ogl-tl-loc">Departed origin facility</span></div></div>
+                        <div class="ogl-tl-item done"><div class="ogl-tl-dot"></div><div class="ogl-tl-body"><strong>Arrived local facility</strong><span class="ogl-tl-time">Wed · Mar 14 · 10:24 AM</span><span class="ogl-tl-loc">Los Angeles, CA</span></div></div>
+                        <div class="ogl-tl-item active"><div class="ogl-tl-dot"></div><div class="ogl-tl-body"><strong>Out for delivery</strong><span class="ogl-tl-time">Wed · Mar 14 · 07:40 AM</span><span class="ogl-tl-loc">With courier</span></div></div>
+                      </div>
+                    </div>
+                    <aside class="ogl-order-card">
+                      <h4>Order summary</h4>
+                      <div class="ogl-order-row"><span>Order</span><b>#OGL-28491</b></div>
+                      <div class="ogl-order-row"><span>Carrier</span><b>UPS</b></div>
+                      <div class="ogl-order-row"><span>ETA</span><b>Today · 8:00 PM</b></div>
+                      <div class="ogl-order-items">
+                        <div class="ogl-order-item">
+                          <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&amp;fit=crop&amp;w=100&amp;q=80" alt="" width="40" height="40" loading="lazy">
+                          <div><div class="t">Merino Overcoat</div><div class="m">Size M · $248</div></div>
+                        </div>
+                        <div class="ogl-order-item">
+                          <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&amp;fit=crop&amp;w=100&amp;q=80" alt="" width="40" height="40" loading="lazy">
+                          <div><div class="t">Soft Knit Scarf</div><div class="m">One size · $68</div></div>
+                        </div>
+                      </div>
+                    </aside>
+                  </section>
+                </div>
+              </div>
+            </div>
+            <!-- floating metric: lower WISMO -->
+            <div class="float-card float-card-metric">
+              <div class="float-card-top">
+                <span class="label">WISMO inquiries</span>
+                <span class="float-card-tag">−12%</span>
+              </div>
+              <span class="num"><span class="num-arrow" aria-hidden="true">↓</span>35%</span>
+              <span class="hint">More shoppers self-serve after purchase</span>
+              <div class="mini-bars" aria-hidden="true">
+                <span style="height:88%"></span>
+                <span style="height:76%"></span>
+                <span style="height:64%"></span>
+                <span style="height:54%"></span>
+                <span style="height:46%"></span>
+                <span style="height:38%"></span>
+                <span style="height:32%"></span>
+                <span style="height:26%"></span>
+              </div>
+            </div>
+
+            <!-- floating brand video -->
+            <div class="float-card float-card-video">
+              <div class="float-card-top">
+                <span class="label">Brand video</span>
+                <span class="float-card-tag video">Embed</span>
+              </div>
+              <div class="video-thumb" aria-hidden="true">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&amp;fit=crop&amp;w=400&amp;q=80" alt="" width="168" height="105" loading="lazy" decoding="async">
+                <span class="video-play">
+                  <svg viewBox="0 0 12 12" fill="currentColor"><path d="M3.2 2.1v7.8L10 6 3.2 2.1z"/></svg>
+                </span>
+              </div>
+              <strong class="video-title">Winter edit · unbox film</strong>
+              <div class="video-meta"><span>0:42</span><i></i><span>Post-purchase story</span></div>
+            </div>
+            <!-- floating product recommendations — same OGL apparel set as in-page -->
+            <div class="float-card float-card-rec">
+              <div class="float-card-top">
+                <span class="label">Recommended for you</span>
+                <span class="float-card-tag rec">+28% CTR</span>
+              </div>
+              <div class="rec-items">
+                <div class="rec-item">
+                  <span class="rec-thumb">
+                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&amp;fit=crop&amp;w=120&amp;q=80" alt="" width="42" height="42" loading="lazy" decoding="async">
+                  </span>
+                  <div class="rec-meta">
+                    <strong>Leather Gloves</strong>
+                    <span>$86 · Completes the look</span>
+                  </div>
+                  <span class="rec-cta">Add</span>
+                </div>
+                <div class="rec-item">
+                  <span class="rec-thumb">
+                    <img src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&amp;fit=crop&amp;w=120&amp;q=80" alt="" width="42" height="42" loading="lazy" decoding="async">
+                  </span>
+                  <div class="rec-meta">
+                    <strong>Wool Beanie</strong>
+                    <span>$42 · Bought together</span>
+                  </div>
+                  <span class="rec-cta">Add</span>
+                </div>
+              </div>
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Trust：上文案 + 下 logo 无限横滚 -->
+      <section class="trust-band">
+        <div class="trust">
+          <div class="trust-copy">
+            <strong>Trusted by 100,000+ brands and businesses</strong>
+            <span>Post-purchase infrastructure for DTC, cross-border, and Shopify merchants.</span>
+          </div>
+          <div class="logos-marquee" aria-label="Brand logos">
+            <div class="logos-track">
+              <div class="logo-tile"><img src="assets/logos/aliexpress.svg" alt="AliExpress" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile"><img src="assets/logos/baleaf.png" alt="baleaf" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile"><img src="assets/logos/anker.svg" alt="ANKER" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile"><img src="assets/logos/coofandy.png" alt="COOFANDY" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile"><img src="assets/logos/eufy.png" alt="eufy" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile"><img src="assets/logos/shopify.svg" alt="Shopify" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile"><img src="assets/logos/shein.svg" alt="SHEIN" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile"><img src="assets/logos/temu.svg" alt="Temu" width="112" height="28" loading="lazy" decoding="async"></div>
+              <!-- 复制一组，translateX(-50%) 无缝循环 -->
+              <div class="logo-tile" aria-hidden="true"><img src="assets/logos/aliexpress.svg" alt="" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile" aria-hidden="true"><img src="assets/logos/baleaf.png" alt="" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile" aria-hidden="true"><img src="assets/logos/anker.svg" alt="" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile" aria-hidden="true"><img src="assets/logos/coofandy.png" alt="" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile" aria-hidden="true"><img src="assets/logos/eufy.png" alt="" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile" aria-hidden="true"><img src="assets/logos/shopify.svg" alt="" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile" aria-hidden="true"><img src="assets/logos/shein.svg" alt="" width="112" height="28" loading="lazy" decoding="async"></div>
+              <div class="logo-tile" aria-hidden="true"><img src="assets/logos/temu.svg" alt="" width="112" height="28" loading="lazy" decoding="async"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Business impact — 100vh sticky, big stats + glowing growth curve -->
+      <section class="impact-band" id="business-impact">
+        <div class="impact-band-sticky">
+          <canvas class="impact-bg-shader" id="impact-bg-shader" aria-hidden="true"></canvas>
+          <div class="section-inner">
+            <div class="section-head">
+              <h2>Turn post-purchase into<br><span class="impact-h2-l1">measurable growth</span></h2>
+              <p class="impact-sub">Break the “support is pure cost” mindset — create more customer value at lower after-sales cost.</p>
+            </div>
+            <div class="impact-stats">
+              <div class="impact-stat" data-impact data-value="95" data-decimals="0">
+                <span class="impact-stat-bar" aria-hidden="true"></span>
+                <div>
+                  <div class="metric">
+                    <span class="metric-num" data-count>0</span><span class="metric-suffix">%</span>
+                  </div>
+                  <span class="metric-label">Lower WISMO</span>
+                </div>
+              </div>
+              <div class="impact-stat" data-impact data-value="16" data-decimals="0">
+                <span class="impact-stat-bar" aria-hidden="true"></span>
+                <div>
+                  <div class="metric">
+                    <span class="metric-num" data-count>0</span><span class="metric-suffix">%</span>
+                  </div>
+                  <span class="metric-label">Higher repurchase rate</span>
+                </div>
+              </div>
+              <div class="impact-stat" data-impact data-value="20" data-decimals="0" data-plus="1">
+                <span class="impact-stat-bar" aria-hidden="true"></span>
+                <div>
+                  <div class="metric">
+                    <span class="metric-num" data-count>0</span><span class="metric-suffix">+%</span>
+                  </div>
+                  <span class="metric-label">Retained revenue</span>
+                </div>
+              </div>
+              <div class="impact-stat" data-impact data-value="3.3" data-decimals="1">
+                <span class="impact-stat-bar" aria-hidden="true"></span>
+                <div>
+                  <div class="metric">
+                    <span class="metric-num" data-count>0</span><span class="metric-suffix">x</span>
+                  </div>
+                  <span class="metric-label">Loyalty lift</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="impact-curve" aria-hidden="true">
+            <div class="impact-curve-grow">
+              <!-- single line + under-curve fill only (no outer glow stroke) -->
+              <svg viewBox="0 0 1440 560" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="impact-curve-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#67e8f9" stop-opacity="0.55"/>
+                    <stop offset="18%" stop-color="#38bdf8" stop-opacity="0.9"/>
+                    <stop offset="40%" stop-color="#3b82f6"/>
+                    <stop offset="62%" stop-color="#6366f1"/>
+                    <stop offset="82%" stop-color="#a855f7"/>
+                    <stop offset="100%" stop-color="#e879f9"/>
+                  </linearGradient>
+                  <!-- under-curve: soft blue near line → solid white floor (not transparent) -->
+                  <linearGradient id="impact-area-grad" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.26"/>
+                    <stop offset="38%" stop-color="#bfdbfe" stop-opacity="0.12"/>
+                    <stop offset="70%" stop-color="#f7f8fa" stop-opacity="0.92"/>
+                    <stop offset="100%" stop-color="#f7f8fa" stop-opacity="1"/>
+                  </linearGradient>
+                </defs>
+                <path
+                  class="curve-fill"
+                  d="M-40,520
+                     C140,518 280,505 400,460
+                     C540,400 640,320 760,230
+                     C880,140 1000,100 1140,78
+                     C1260,58 1360,52 1520,56
+                     L1520,560 L-40,560 Z"
+                />
+                <path
+                  class="curve-line"
+                  d="M-40,520
+                     C140,518 280,505 400,460
+                     C540,400 640,320 760,230
+                     C880,140 1000,100 1140,78
+                     C1260,58 1360,52 1520,56"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key features — title + left nav sticky; right panels scroll -->
+      <section class="section alt features-section" id="key-features">
+        <div class="section-inner">
+          <div class="feature-scroll" id="feature-scroll">
+            <div class="feature-sticky">
+              <div class="section-head" id="feature-section-head">
+                <div class="section-head-text">
+                  <h2>Everything merchants need to control the post-purchase tracking experience</h2>
+                  <p class="lead">Features are organized around merchant problems — not a technical checklist.</p>
+                </div>
+                <div class="feature-cta">
+                  <a class="btn-switch" href="#"><span class="btn-switch-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.4" fill="currentColor" opacity="0.35"/><circle cx="8.2" cy="12" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="11.5" cy="12" r="1.6" fill="currentColor" opacity="0.8"/><path d="M13 7.5L18.5 12 13 16.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="btn-switch-label">Start free trial</span></a>
+                  <a class="btn-demo" href="#">Book a demo</a>
+                </div>
+              </div>
+              <div class="feature-layout">
+                <div class="feature-side-wrap">
+                  <div class="feature-side" id="feature-side">
+                  <div class="feature-list" role="tablist" aria-label="Key features">
+                    <button class="feature active" type="button" id="feature-tab-0" data-feature="0" role="tab" aria-selected="true" aria-controls="feature-panel-0">
+                      <h3>Branded tracking page</h3>
+                      <p>Let customers self-serve on a branded page that also hosts content, product recommendations, and support entry points.</p>
+                    </button>
+                    <button class="feature" type="button" id="feature-tab-1" data-feature="1" role="tab" aria-selected="false" aria-controls="feature-panel-1">
+                      <h3>Proactive notifications</h3>
+                      <p>Sync logistics milestones via email, SMS, or other channels to cut repetitive support volume.</p>
+                    </button>
+                    <button class="feature" type="button" id="feature-tab-2" data-feature="2" role="tab" aria-selected="false" aria-controls="feature-panel-2">
+                      <h3>Last-mile visibility</h3>
+                      <p>Show last-mile, out-for-delivery, and exception states so customers understand delays and next steps.</p>
+                    </button>
+                    <button class="feature" type="button" id="feature-tab-3" data-feature="3" role="tab" aria-selected="false" aria-controls="feature-panel-3">
+                      <h3>Split-order tracking</h3>
+                      <p>Handle split shipments, multi-package, and multi-carrier orders without confusing customers about fulfillment status.</p>
+                    </button>
+                  </div><!-- /.feature-list -->
+                  </div><!-- /.feature-side -->
+                </div><!-- /.feature-side-wrap -->
+                <div class="feature-panels-col">
+                  <div class="feature-panels" id="feature-panels">
+                  <!-- 0 · Branded tracking page -->
+                  <article class="feature-panel is-active" data-feature="0" id="feature-panel-0" role="tabpanel" aria-labelledby="feature-tab-0">
+                    <div class="feature-visual">
+                      <div class="feature-stage" data-theme="branded" style="--fx-c:1">
+                        <div class="feature-stage-art" aria-hidden="true">
+                          <div class="fx-glass fx-main">
+                            <div class="fx-chrome"><i></i><i></i><i></i><span class="fx-url">brand.com/track/order</span></div>
+                            <div class="fx-body">
+                              <div class="fx-hero-block has-photo">
+                                <img class="fx-hero-photo" src="assets/products/earbuds.jpg" alt="" loading="lazy" decoding="async">
+                                <strong>Track your order</strong>
+                                <span>Estimated delivery · Friday</span>
+                              </div>
+                              <div class="fx-status-grid">
+                                <b class="is-ok">Ordered<em>Mon</em></b>
+                                <b class="is-ok">Shipped<em>Tue</em></b>
+                                <b class="is-on">Transit<em>Live</em></b>
+                                <b>Delivered<em>Fri</em></b>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="fx-glass fx-float-a">
+                            <div class="fx-illus"><img src="assets/products/earbuds.jpg" alt="" loading="lazy" decoding="async"></div>
+                            <strong>Wireless earbuds Pro</strong>
+                            <span>$129 · Brand storefront</span>
+                          </div>
+                          <div class="fx-glass fx-float-b">
+                            <strong>You may also like</strong>
+                            <div class="fx-thumb-row">
+                              <img src="assets/products/case.jpg" alt="" loading="lazy" decoding="async">
+                              <img src="assets/products/tips.jpg" alt="" loading="lazy" decoding="async">
+                              <img src="assets/products/earbuds.jpg" alt="" loading="lazy" decoding="async">
+                            </div>
+                          </div>
+                          <div class="fx-glass fx-float-c">
+                            <strong>Support entry</strong>
+                            <span>Chat · FAQ · Returns</span>
+                          </div>
+                        </div>
+</div>
+                    </div>
+                  </article>
+                  <!-- 1 · Proactive notifications -->
+                  <article class="feature-panel" data-feature="1" id="feature-panel-1" role="tabpanel" aria-labelledby="feature-tab-1">
+                    <div class="feature-visual">
+                      <div class="feature-stage" data-theme="notify" style="--fx-c:0">
+                        <div class="feature-stage-art" aria-hidden="true">
+                          <div class="fx-glass fx-main">
+                            <div class="fx-chrome"><i></i><i></i><i></i><span class="fx-url">brand.com/track/notify</span></div>
+                            <div class="fx-body">
+                              <div class="fx-hero-block has-photo">
+                                <img class="fx-hero-photo" src="assets/features/phone-notify.jpg" alt="" loading="lazy" decoding="async">
+                                <strong>Alerts on autopilot</strong>
+                                <span>Email · SMS · Push synced</span>
+                              </div>
+                              <div class="fx-status-grid">
+                                <b class="is-ok">Email<em>On</em></b>
+                                <b class="is-ok">SMS<em>On</em></b>
+                                <b class="is-on">Push<em>Live</em></b>
+                                <b>Webhook<em>—</em></b>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="fx-glass fx-float-a">
+                            <div class="fx-illus"><img src="assets/features/phone-notify.jpg" alt="" loading="lazy" decoding="async"></div>
+                            <strong>Email queued</strong>
+                            <span>Out for delivery template</span>
+                          </div>
+                          <div class="fx-glass fx-float-b">
+                            <strong>SMS · +1 ··· 4821</strong>
+                            <span>Your package is on the truck today 2–4pm.</span>
+                          </div>
+                          <div class="fx-glass fx-float-c">
+                            <div class="fx-illus"><img src="assets/products/earbuds.jpg" alt="" loading="lazy" decoding="async"></div>
+                            <strong>WISMO avoided</strong>
+                            <span>Proactive ping before they ask</span>
+                          </div>
+                        </div>
+</div>
+                    </div>
+                  </article>
+                  <!-- 2 · Last-mile visibility — arc route + van animation -->
+                  <article class="feature-panel" data-feature="2" id="feature-panel-2" role="tabpanel" aria-labelledby="feature-tab-2">
+                    <div class="feature-visual">
+                      <div class="feature-stage" data-theme="lastmile" style="--fx-c:0">
+                        <div class="feature-stage-art" aria-hidden="true">
+                          <div class="fx-route-map">
+                            <svg viewBox="0 0 440 220" preserveAspectRatio="xMidYMid meet">
+                              <defs>
+                                <linearGradient id="fx-route-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                  <stop offset="0%" stop-color="#38bdf8"/>
+                                  <stop offset="45%" stop-color="#3b82f6"/>
+                                  <stop offset="100%" stop-color="#8b5cf6"/>
+                                </linearGradient>
+                                <filter id="fx-route-glow" x="-20%" y="-20%" width="140%" height="140%">
+                                  <feGaussianBlur stdDeviation="2.2" result="b"/>
+                                  <feMerge>
+                                    <feMergeNode in="b"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                  </feMerge>
+                                </filter>
+                                <path id="fx-route-path"
+                                  d="M 36 168
+                                     C 90 168, 120 120, 168 108
+                                     C 220 94, 250 140, 300 128
+                                     C 348 116, 360 72, 400 64"/>
+                              </defs>
+                              <!-- soft map blocks -->
+                              <rect x="48" y="40" width="52" height="36" rx="6" fill="rgba(255,255,255,0.45)"/>
+                              <rect x="180" y="28" width="70" height="28" rx="6" fill="rgba(255,255,255,0.35)"/>
+                              <rect x="300" y="100" width="60" height="40" rx="6" fill="rgba(255,255,255,0.4)"/>
+                              <rect x="90" y="130" width="48" height="32" rx="6" fill="rgba(255,255,255,0.3)"/>
+                              <!-- dashed base path (arcs) -->
+                              <path class="route-base"
+                                d="M 36 168 C 90 168, 120 120, 168 108 C 220 94, 250 140, 300 128 C 348 116, 360 72, 400 64"/>
+                              <!-- live path draw -->
+                              <path class="route-live" filter="url(#fx-route-glow)" pathLength="280"
+                                d="M 36 168 C 90 168, 120 120, 168 108 C 220 94, 250 140, 300 128 C 348 116, 360 72, 400 64"/>
+                              <!-- nodes -->
+                              <circle class="route-node is-hub" cx="36" cy="168" r="7"/>
+                              <circle class="route-node" cx="168" cy="108" r="5.5"/>
+                              <circle class="route-node" cx="300" cy="128" r="5.5"/>
+                              <circle class="route-node is-home" cx="400" cy="64" r="7"/>
+                              <text class="route-label" x="36" y="192" text-anchor="middle">Hub</text>
+                              <text class="route-label" x="168" y="96" text-anchor="middle">Sort</text>
+                              <text class="route-label" x="300" y="150" text-anchor="middle">Local</text>
+                              <text class="route-label" x="400" y="52" text-anchor="middle">Home</text>
+                              <!-- van along path -->
+                              <g class="fx-van-g">
+                                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto" keyPoints="0;0;1;1" keyTimes="0;0.08;0.78;1" calcMode="linear">
+                                  <mpath href="#fx-route-path"/>
+                                </animateMotion>
+                                <g transform="translate(-18,-14)">
+                                  <rect x="2" y="8" width="22" height="12" rx="2.5" fill="#2563eb"/>
+                                  <path d="M24 11h6l4 5v4H24V11z" fill="#1d4ed8"/>
+                                  <rect x="4" y="10" width="8" height="5" rx="1" fill="#93c5fd"/>
+                                  <circle cx="10" cy="22" r="3" fill="#0f172a"/>
+                                  <circle cx="10" cy="22" r="1.3" fill="#94a3b8"/>
+                                  <circle cx="28" cy="22" r="3" fill="#0f172a"/>
+                                  <circle cx="28" cy="22" r="1.3" fill="#94a3b8"/>
+                                  <rect x="26" y="12" width="4" height="3.5" rx="0.6" fill="#bfdbfe"/>
+                                </g>
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="fx-glass fx-main">
+                            <div class="fx-chrome"><i></i><i></i><i></i><span class="fx-url">brand.com/track/last-mile</span></div>
+                            <div class="fx-body">
+                              <div class="fx-hero-block has-photo">
+                                <img class="fx-hero-photo" src="assets/features/delivery.jpg" alt="" loading="lazy" decoding="async">
+                                <strong>Out for delivery</strong>
+                                <span>Courier · ETA 2–4pm today</span>
+                              </div>
+                              <div class="fx-row">
+                                <span class="fx-chip"><i class="fx-dot is-amber"></i>With driver</span>
+                                <span class="fx-chip"><i class="fx-dot is-blue"></i>Address OK</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="fx-glass fx-float-a">
+                            <div class="fx-illus"><img src="assets/features/package.jpg" alt="" loading="lazy" decoding="async"></div>
+                            <strong>Exception explained</strong>
+                            <span>Not available — redelivery tomorrow 9–12.</span>
+                          </div>
+                          <div class="fx-glass fx-float-b">
+                            <strong>Next steps</strong>
+                            <div class="fx-row">
+                              <span class="fx-chip">Reschedule</span>
+                              <span class="fx-chip">Leave at door</span>
+                            </div>
+                          </div>
+                        </div>
+</div>
+                    </div>
+                  </article>
+                  <!-- 3 · Split-order tracking -->
+                  <article class="feature-panel" data-feature="3" id="feature-panel-3" role="tabpanel" aria-labelledby="feature-tab-3">
+                    <div class="feature-visual">
+                      <div class="feature-stage" data-theme="split" style="--fx-c:0">
+                        <div class="feature-stage-art" aria-hidden="true">
+                          <div class="fx-glass fx-main">
+                            <div class="fx-chrome"><i></i><i></i><i></i><span class="fx-url">brand.com/track/packages</span></div>
+                            <div class="fx-body">
+                              <div class="fx-hero-block has-photo">
+                                <img class="fx-hero-photo" src="assets/features/package.jpg" alt="" loading="lazy" decoding="async">
+                                <strong>2 packages · 1 order</strong>
+                                <span>Package 1 of 2 delivered</span>
+                              </div>
+                              <div class="fx-pkg-pair">
+                                <div>
+                                  <img src="assets/products/earbuds.jpg" alt="">
+                                  <span>Pkg A<em>UPS · Done</em></span>
+                                </div>
+                                <div>
+                                  <img src="assets/products/case.jpg" alt="">
+                                  <span>Pkg B<em>DHL · Live</em></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="fx-glass fx-float-a">
+                            <div class="fx-illus"><img src="assets/products/earbuds.jpg" alt="" loading="lazy" decoding="async"></div>
+                            <strong>Package A</strong>
+                            <div class="fx-carrier-row"><img src="assets/carriers/ups.svg?v=2" alt="UPS"><span style="font-size:10px;color:#64748b">Delivered Mon</span></div>
+                          </div>
+                          <div class="fx-glass fx-float-b">
+                            <div class="fx-illus"><img src="assets/products/case.jpg" alt="" loading="lazy" decoding="async"></div>
+                            <strong>Package B</strong>
+                            <div class="fx-carrier-row"><img src="assets/carriers/dhl.svg?v=2" alt="DHL"><span style="font-size:10px;color:#64748b">In transit</span></div>
+                          </div>
+                          <div class="fx-glass fx-float-c">
+                            <strong>Unified view</strong>
+                            <span>Both on one tracking page</span>
+                          </div>
+                        </div>
+</div>
+                    </div>
+                  </article>
+                </div><!-- /.feature-panels -->
+                </div><!-- /.feature-panels-col -->
+              </div><!-- /.feature-layout -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AI Lab -->
+      <section class="ai-lab" id="ai-lab">
+        <div class="ai-lab-intro-track" id="ai-lab-intro-track">
+          <div class="ai-lab-intro" id="ai-lab-intro">
+            <!-- CSS/SVG streams only — no canvas RAF (was janky) -->
+            <div class="ai-intro-bg" aria-hidden="true">
+              <div class="ai-intro-streams">
+                <svg class="ai-intro-streams-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <defs>
+                    <linearGradient id="ai-stream-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0"/>
+                      <stop offset="35%" stop-color="#c4b5fd" stop-opacity="0.55"/>
+                      <stop offset="65%" stop-color="#e879f9" stop-opacity="0.45"/>
+                      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <g class="ai-stream-layer ai-stream-layer-a" fill="none" stroke="url(#ai-stream-grad)" stroke-linecap="round">
+                    <path class="ai-stream" d="M-40 120 C 200 80, 420 160, 720 110 S 1200 60, 1500 130"/>
+                    <path class="ai-stream" d="M-40 200 C 240 250, 480 150, 760 210 S 1180 180, 1500 230"/>
+                    <path class="ai-stream" d="M-40 720 C 260 680, 500 760, 780 700 S 1160 740, 1500 690"/>
+                    <path class="ai-stream" d="M-40 800 C 220 840, 460 760, 740 820 S 1200 780, 1500 830"/>
+                  </g>
+                  <g class="ai-stream-layer ai-stream-layer-b" fill="none" stroke="url(#ai-stream-grad)" stroke-linecap="round">
+                    <path class="ai-stream" d="M-40 160 C 280 200, 520 100, 800 170 S 1220 140, 1500 190"/>
+                    <path class="ai-stream" d="M-40 760 C 300 720, 540 800, 820 740 S 1180 780, 1500 760"/>
+                  </g>
+                </svg>
+                <div class="ai-intro-dots"></div>
+              </div>
+              <div class="ai-intro-veil"></div>
+            </div>
+            <div class="ai-lab-intro-inner" id="ai-lab-intro-inner">
+              <!-- blur/fade only this block — pills stay sharp outside -->
+              <div class="ai-lab-intro-copy" id="ai-lab-intro-copy">
+                <div class="ai-intro-orb-row ai-reveal" id="ai-intro-orb-row">
+                  <canvas id="ai-intro-orb-canvas" width="128" height="128" aria-hidden="true"></canvas>
+                  <span class="ai-intro-orb-label" id="ai-intro-orb-label"><span class="ai-orb-type-text">Searching…</span><span class="ai-orb-caret" aria-hidden="true"></span></span>
+                </div>
+                <h2 id="ai-intro-title">
+                  Show how AI turns tracking pages into personalized post-purchase journeys
+                </h2>
+                <p class="lead ai-reveal delay-2">Use real brand case studies when available. Without approval, ship industry-template scenarios first — never present mockups as customer outcomes.</p>
+              </div>
+              <div class="ai-pills" id="ai-pills">
+                <span class="ai-pill"><span class="ai-pill-label">AI content personalization</span></span>
+                <span class="ai-pill"><span class="ai-pill-label">Shipment-status aware</span></span>
+                <span class="ai-pill"><span class="ai-pill-label">Risk-based messaging</span></span>
+                <span class="ai-pill"><span class="ai-pill-label">Smart product recommendation</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 竖线：从 intro 标签模块延伸到案例区（绝对定位在 .ai-lab 内） -->
+        <div class="ai-intro-rail" id="ai-intro-rail" aria-hidden="true">
+          <div class="ai-intro-rail-track"></div>
+          <div class="ai-intro-rail-fill" id="ai-intro-rail-fill"></div>
+          <div class="ai-intro-rail-dot" id="ai-intro-rail-dot"></div>
+        </div>
+
+        <!-- 连接桥：高度占位，背景与案例区衔接 -->
+        <div class="ai-intro-bridge" id="ai-intro-bridge" aria-hidden="true"></div>
+
+        <div class="ai-lab-work" id="ai-lab-work">
+          <div class="ai-lab-sticky">
+            <div class="ai-lab-grid">
+              <div class="ai-lab-left">
+              <aside class="ai-think" aria-label="AI analyzing">
+                <div class="ai-agent-card">
+                  <div class="ai-agent-title">
+                    <span>Tracking AI Agent</span>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </div>
+                  <p class="ai-agent-lead">Our AI is analyzing your page and creating templates that match your brand</p>
+                  <div class="ai-agent-url">
+                    <span class="ai-agent-url-ico" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </span>
+                    <span class="ai-agent-url-text">https://www.anker.com</span>
+                    <span class="ai-agent-badge" id="ai-agent-badge">Processing</span>
+                  </div>
+                </div>
+                <div class="ai-orb-row">
+                  <canvas id="ai-orb-canvas" width="128" height="128" aria-hidden="true"></canvas>
+                  <span class="ai-orb-label"><span class="ai-orb-type-text">Searching…</span><span class="ai-orb-caret" aria-hidden="true"></span></span>
+                </div>
+                <div class="ai-sse" id="ai-sse">
+                  <div class="ai-timeline" id="ai-timeline" aria-live="polite">
+                    <div class="ai-step" data-step="0">
+                      <div class="ai-step-ico" data-ico="search"></div>
+                      <div class="ai-step-body">
+                        <div class="ai-step-title">Fetching your store style</div>
+                        <div class="ai-step-detail">
+                          <span class="ai-chip">storefront</span>
+                          <span class="ai-chip">css tokens</span>
+                          <span class="ai-chip">fonts</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ai-step" data-step="1">
+                      <div class="ai-step-ico" data-ico="image"></div>
+                      <div class="ai-step-body">
+                        <div class="ai-step-title">Analyzing your brand style</div>
+                        <div class="ai-step-detail">
+                          <div class="ai-mini-card">
+                            <div class="ai-mini-card-top"><span class="ai-mini-dot"></span><span class="ai-mini-dot"></span></div>
+                            <strong>Brand palette</strong>
+                            <span>Primary · accent · type scale</span>
+                          </div>
+                          <span class="ai-step-sub">Profile extracted from storefront</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ai-step" data-step="2">
+                      <div class="ai-step-ico" data-ico="globe"></div>
+                      <div class="ai-step-body">
+                        <div class="ai-step-title">Generating tracking page</div>
+                        <div class="ai-step-detail">
+                          <button type="button" class="ai-step-link" tabindex="-1">Explored 6 modules <span>›</span></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ai-step" data-step="3">
+                      <div class="ai-step-ico" data-ico="gear"></div>
+                      <div class="ai-step-body">
+                        <div class="ai-step-title">Adjust the page</div>
+                        <div class="ai-step-detail">
+                          <span class="ai-step-sub">Compiling layout, copy, and recommendations…</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ai-step" data-step="4">
+                      <div class="ai-step-ico" data-ico="check"></div>
+                      <div class="ai-step-body">
+                        <div class="ai-step-title">Done</div>
+                        <div class="ai-step-detail">
+                          <span class="ai-step-sub">Tracking template ready for review</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- CTA：在 agent 面板内部底部，上下排 -->
+                <div class="ai-lab-cta">
+                  <a class="btn-switch" href="#"><span class="btn-switch-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.4" fill="currentColor" opacity="0.35"/><circle cx="8.2" cy="12" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="11.5" cy="12" r="1.6" fill="currentColor" opacity="0.8"/><path d="M13 7.5L18.5 12 13 16.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="btn-switch-label">Start free trial</span></a>
+              <a class="btn-demo" href="#">Book a demo</a>
+                </div>
+              </aside>
+              </div>
+
+              <div class="ai-stack">
+                <div class="ai-stack-stage" id="ai-stack-stage">
+                      <!-- Card 0–3: full OGL fashion tracking page (fig.1) -->
+                      <article class="ai-case" data-i="0">
+                        <div class="ai-case-inner">
+                          <div class="ai-case-face front">
+                            <button type="button" class="ai-case-zoom" aria-label="Open case" title="Open">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/><path d="M11 8v6M8 11h6"/></svg>
+                            </button>
+                            <div class="ai-case-art" data-ogl-page></div>
+                          </div>
+                          <div class="ai-case-face back">
+                            <strong>Status-aware messaging</strong>
+                            <p>Copy and CTAs that shift with shipment status — out for delivery becomes the conversion moment.</p>
+                          </div>
+                        </div>
+                      </article>
+                      <article class="ai-case" data-i="1">
+                        <div class="ai-case-inner">
+                          <div class="ai-case-face front">
+                            <button type="button" class="ai-case-zoom" aria-label="Open case" title="Open">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/><path d="M11 8v6M8 11h6"/></svg>
+                            </button>
+  
