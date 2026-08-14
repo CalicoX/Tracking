@@ -14,10 +14,6 @@ export default function Hero() {
         <canvas className="hero-undertones" id="hero-undertones-canvas" aria-hidden="true"></canvas>
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="eyebrows">
-              <span className="badge">17 Order Tracking</span>
-              <img className="badge-shopify-img" src="https://static.17track.net/www/2026-08/assets/images/appdown/build_for_shopify.svg" alt="Built for Shopify" width="140" height="28" decoding="async" />
-            </div>
             <h1>Bring every order tracking moment back to your brand</h1>
             <p className="lead">Create a branded order tracking page for Shopify and DTC brands. Proactively sync shipment status, cut WISMO tickets, and turn high-intent tracking visits into repurchase moments.</p>
             <div className="cta-row">
@@ -25,6 +21,14 @@ export default function Hero() {
               <a className="btn-demo" href="#">Book a demo</a>
             </div>
             <p className="cta-note">No credit card required · One-click Shopify install · Embed on any storefront</p>
+            <div className="eyebrows">
+              <span className="badge rating">
+                <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M8 1.4l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10.36 4.48 12.21l.67-3.91L2.31 5.53l3.93-.57L8 1.4z"/></svg>
+                4.9/5
+              </span>
+              <span className="badge">17 Order Tracking</span>
+              <img className="badge-shopify-img" src="https://static.17track.net/www/2026-08/assets/images/appdown/build_for_shopify.svg" alt="Built for Shopify" width="140" height="28" decoding="async" />
+            </div>
           </div>
 
           <div className="visual" aria-label="Branded tracking page product preview">

@@ -939,7 +939,7 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 10px;
-      margin-bottom: 20px;
+      margin-top: 16px;
     }
     .badge {
       display: inline-flex;
@@ -968,6 +968,15 @@
       color: #176b3f;
     }
     .badge.shopify::before { background: var(--brand-shopify); }
+    .badge.rating::before { display: none; }
+    .badge.rating {
+      gap: 6px;
+      color: var(--text-secondary);
+    }
+    .badge.rating svg {
+      color: var(--brand-accent);
+      flex-shrink: 0;
+    }
     /* Hero: official Built for Shopify mark */
     .badge-shopify-img {
       display: block;

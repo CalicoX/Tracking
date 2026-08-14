@@ -2,6 +2,11 @@
 
 最后更新：2026-08-14
 
+## Hero 文案区
+
+- 标题直接顶上，不再放 eyebrows。
+- `17 Order Tracking`、Built for Shopify、评分 `4.9/5` 在 CTA note 下面。
+
 ## 人
 
 - Park，设计师。直接改代码，回复简体中文。
