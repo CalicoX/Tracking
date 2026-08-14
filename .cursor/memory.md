@@ -4,7 +4,7 @@
 
 ## Hero 文案区
 
-- Hero 文案最上是 Shopify 应用页顶栏复刻：52px 圆角图标 + `17TRACK Order Tracking`；第二行 Built for Shopify 和 `4.9/5 (3,800+)` 同一行。
+- Hero 文案最上是 Shopify 应用页顶栏复刻：52px 圆角图标 + `17TRACK Order Tracking`；第二行 Built for Shopify 和金色星 `4.9/5 (3,800+)` 同一行。星星 18px。
 - 这块下面有分割线，再接标题。
 - 图标在 `public/assets/shopify-app-icon.png`。整块链到 apps.shopify.com/17track。
 
