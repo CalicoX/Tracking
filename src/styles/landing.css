@@ -939,9 +939,11 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-top: 18px;
-      width: fit-content;
+      margin-top: 28px;
+      padding-top: 22px;
+      width: 100%;
       max-width: 100%;
+      border-top: 1px solid var(--border-default);
       text-decoration: none;
       color: inherit;
     }

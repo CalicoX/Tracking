@@ -6,6 +6,7 @@
 
 - 标题直接顶上。
 - CTA note 下面是 Shopify 应用页顶栏复刻：52px 圆角图标 + `17TRACK Order Tracking`；第二行 Built for Shopify 徽章和金色星 `4.9/5 (3,800+)` 同一行。
+- CTA note 和这块之间有分割线，上下间距加大。
 - 图标在 `public/assets/shopify-app-icon.png`。整块链到 apps.shopify.com/17track。
 
 ## 人
