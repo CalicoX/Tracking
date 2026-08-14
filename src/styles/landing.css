@@ -1109,7 +1109,7 @@
 
     /* Agent draw-in: hide pieces until the marquee places them */
     .visual-asm.is-drawing [data-draw] {
-      transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .visual-asm.is-drawing [data-draw]:not(.is-placed) {
       opacity: 0;
@@ -1735,14 +1735,14 @@
       opacity: 0;
     }
     .holo-tag.is-dropping {
-      animation: holo-drop 0.58s cubic-bezier(0.22, 1.12, 0.32, 1) forwards;
+      animation: holo-drop 0.75s cubic-bezier(0.22, 1.12, 0.32, 1) forwards;
     }
     .holo-tag.is-dropping::before {
       animation: none;
       opacity: 0;
     }
     .holo-tag.is-shine::after {
-      animation: holo-flash 0.68s ease-out;
+      animation: holo-flash 0.88s ease-out;
     }
     .visual-asm.is-drawing .holo-tag:not(.is-placed) {
       opacity: 0;

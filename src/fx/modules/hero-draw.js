@@ -5,6 +5,10 @@ import {
   shouldRunContinuousFx,
 } from "../utils.js";
 
+/** Higher = slower. Park: a bit too fast at 1. */
+const PACE = 1.3;
+const dur = (ms) => Math.round(ms * PACE);
+
 const STEPS = [
   ".os-hero img",
   ".os-logo",
@@ -193,7 +197,7 @@ export function mount() {
 
   async function playOnce(gen) {
     resetCycle();
-    await wait(240, gen);
+    await wait(dur(240), gen);
     if (isStale(gen)) return;
 
     for (const sel of STEPS) {
@@ -204,9 +208,9 @@ export function mount() {
       const start = { x: r.x, y: r.y };
       const end = { x: r.x + r.w, y: r.y + r.h };
 
-      await animate({ x: cx, y: cy }, start, 280, (p) => setPointer(p.x, p.y), gen);
+      await animate({ x: cx, y: cy }, start, dur(280), (p) => setPointer(p.x, p.y), gen);
       if (isStale(gen)) return;
-      await wait(70, gen);
+      await wait(dur(70), gen);
       if (isStale(gen)) return;
 
       marquee.hidden = false;
@@ -214,7 +218,7 @@ export function mount() {
       await animate(
         start,
         end,
-        340,
+        dur(340),
         (p) => {
           setPointer(p.x, p.y);
           placeBox(marquee, {
@@ -233,7 +237,7 @@ export function mount() {
       placeBox(box, r);
       sizeEl.textContent = `${Math.round(r.w)} × ${Math.round(r.h)}`;
       el.classList.add("is-placed");
-      await wait(320, gen);
+      await wait(dur(320), gen);
       box.hidden = true;
     }
 
@@ -250,9 +254,9 @@ export function mount() {
       const start = { x: big.x, y: big.y };
       const end = { x: big.x + big.w, y: big.y + big.h };
 
-      await animate({ x: cx, y: cy }, start, 280, (p) => setPointer(p.x, p.y), gen);
+      await animate({ x: cx, y: cy }, start, dur(280), (p) => setPointer(p.x, p.y), gen);
       if (isStale(gen)) return;
-      await wait(70, gen);
+      await wait(dur(70), gen);
       if (isStale(gen)) return;
 
       marquee.hidden = false;
@@ -260,7 +264,7 @@ export function mount() {
       await animate(
         start,
         end,
-        360,
+        dur(360),
         (p) => {
           setPointer(p.x, p.y);
           placeBox(marquee, {
@@ -280,17 +284,17 @@ export function mount() {
       sizeEl.textContent = `${Math.round(big.w)} × ${Math.round(big.h)}`;
       holo.classList.remove("is-dropping", "is-shine");
       holo.classList.add("is-placed", "is-big");
-      await wait(380, gen);
+      await wait(dur(380), gen);
       if (isStale(gen)) return;
       box.hidden = true;
       holo.classList.remove("is-big");
       void holo.offsetWidth;
       holo.classList.add("is-dropping");
-      await wait(620, gen);
+      await wait(dur(620), gen);
       if (isStale(gen)) return;
       holo.classList.remove("is-dropping");
       holo.classList.add("is-shine");
-      await wait(720, gen);
+      await wait(dur(720), gen);
     }
   }
 
@@ -300,7 +304,7 @@ export function mount() {
     overlay.classList.add("is-done");
     root.classList.remove("is-drawing");
     root.classList.add("is-drawn");
-    await wait(400, gen);
+    await wait(dur(400), gen);
     if (isStale(gen)) return;
     finished = true;
     playing = false;

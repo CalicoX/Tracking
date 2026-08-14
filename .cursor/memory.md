@@ -22,6 +22,7 @@
 - 17TRACK 品牌订单追踪落地页。
 - Hero 右侧是 OGL tracking mock（浏览器框 + 冷色图 + 海军蓝 UI）。
 - AI Make 镭射贴纸贴在浏览器顶栏右上：先框选稍大的贴纸，再落下；贴上扫光。只播一遍。
+- Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.3`（越大越慢）。
 
 ## 不要再做
 
