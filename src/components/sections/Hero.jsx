@@ -44,6 +44,7 @@ export default function Hero() {
                     ))}
                   </span>
                   4.9/5
+                  <span className="shopify-app-reviews">(3,800+)</span>
                 </span>
               </span>
             </a>

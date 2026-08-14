@@ -1006,6 +1006,10 @@
       height: 12px;
       fill: #f5c518;
     }
+    .shopify-app-reviews {
+      font-weight: 500;
+      color: #8c9196;
+    }
 
     .hero h1 {
       margin: 0;
