@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": ".cursor/hooks/load-memory.sh"
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/auto-ship.sh",
+        "timeout": 60
+      }
+    ]
+  }
+}

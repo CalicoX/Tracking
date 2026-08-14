@@ -1,0 +1,13 @@
+---
+description: 落地页约定、记忆回写、改完自动提交推送
+alwaysApply: true
+---
+
+# 这个项目
+
+- 先读 `.cursor/memory.md`，按最新事实改。
+- 改完回写 memory（决策 / 现状 / 坑）。只写事实。
+- 有未提交改动就 commit + `git push -u origin HEAD`。禁止 `--no-verify` 和 force push。
+- 回复简体中文。Park 是设计师，直接改代码。
+- FX 模块：`export function mount()` + 非空 dispose。重特效走动态 import。
+- 不要改 `public/js/`。Hero 绘制动画只播一遍。
