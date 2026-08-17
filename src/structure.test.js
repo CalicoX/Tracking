@@ -192,6 +192,7 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/display:\s*none/);
     expect(block768).toMatch(/order:\s*-1/);
     expect(block768).toMatch(/display:\s*contents/);
+    expect(block768).toMatch(/mask-image:\s*linear-gradient/);
     expect(block768).toMatch(/\.ai-lab-intro/);
     expect(block768).toMatch(/position:\s*relative/);
     expect(block768).toMatch(/hero-undertones/);
