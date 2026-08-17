@@ -20,7 +20,7 @@
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
 - logo 跑马灯手机继续滚（≤768 kill 列表里不放 `.logos-track`）。
-- 增长曲线手机显示（≤768 高 26vh，不要 display:none）。impact-metrics 对非 sticky 布局有进度 fallback。
+- 增长曲线手机/平板显示，但高度必须用 px 不用 vh（vh 在平板会爬进文字）：≤980 190px / ≤768 150px，sticky 底部 padding 预留曲线带（≤980 170px / ≤768 sec-y+110px）。impact-metrics 对非 sticky 布局有进度 fallback。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
 ## 人

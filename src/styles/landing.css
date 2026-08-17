@@ -9597,7 +9597,8 @@
         position: relative;
         height: auto;
         min-height: 0;
-        padding: 64px 0 100px;
+        /* bottom band reserved for the growth curve — keep it off the stats */
+        padding: 64px 0 170px;
       }
       .impact-stats {
         grid-template-columns: 1fr 1fr;
@@ -9608,8 +9609,9 @@
         font-size: clamp(36px, 10vw, 48px);
       }
       .impact-curve {
-        height: 34vh;
-        opacity: 0.9;
+        /* px, not vh — tablet vh climbed into the stat labels */
+        height: 190px;
+        opacity: 0.85;
       }
       .impact-band .section-inner {
         padding-bottom: 48px;
@@ -9941,7 +9943,7 @@
         position: relative !important;
         height: auto !important;
         min-height: 0;
-        padding: var(--sec-y) 0;
+        padding: var(--sec-y) 0 calc(var(--sec-y) + 110px);
       }
       .impact-stats {
         grid-template-columns: 1fr 1fr;
@@ -9951,8 +9953,8 @@
         font-size: clamp(30px, 8vw, 40px);
       }
       .impact-curve {
-        height: 26vh;
-        opacity: 0.85;
+        height: 150px;
+        opacity: 0.8;
       }
 
       .explore-card {
