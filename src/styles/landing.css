@@ -9806,7 +9806,7 @@
       }
       .hero-ogl {
         flex: none;
-        height: 580px;
+        height: auto;
       }
       .float-card-rec {
         top: auto;
@@ -9977,8 +9977,8 @@
       .hero-inner {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 28px;
-        padding-top: 40px;
+        gap: 22px;
+        padding-top: 16px;
         padding-bottom: 36px;
       }
       .hero h1 {
@@ -9988,6 +9988,7 @@
         display: none !important;
       }
       .visual {
+        order: -1;
         height: auto;
         min-height: 0;
         max-width: 100%;
@@ -9996,12 +9997,141 @@
       }
       .visual .browser {
         max-width: 100%;
+        border-radius: 16px;
+      }
+      .browser-top {
+        height: 36px;
+        padding: 0 12px;
+        border-radius: 15px 15px 0 0;
+      }
+      .browser-url {
+        max-width: none;
+        font-size: 10.5px;
+      }
+      .holo-tag {
+        top: 5px;
+        right: 10px;
+        padding: 5px 8px 5px 6px;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        transform: rotate(-10deg);
       }
       .visual-asm {
         min-height: 0;
       }
       .visual .float-card {
         animation: none !important;
+      }
+
+      /*
+       * OGL mock → phone tracking page: banner + overlapping form,
+       * then status / summary stacked. Crop the shop grid.
+       */
+      .hero-ogl {
+        height: auto;
+        max-height: 540px;
+        border-radius: 0 0 15px 15px;
+      }
+      .hero-ogl::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 56px;
+        background: linear-gradient(180deg, rgba(244, 246, 249, 0) 0%, var(--os-paper, #f4f6f9) 88%);
+        pointer-events: none;
+        z-index: 4;
+      }
+      .os-hero {
+        height: auto;
+        overflow: visible;
+        display: flex;
+        flex-direction: column;
+      }
+      .os-hero img {
+        height: 176px;
+        flex: none;
+      }
+      .os-hero::after {
+        inset: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 176px;
+      }
+      .os-hero-ui,
+      .os-hero-row {
+        display: contents;
+      }
+      .os-logo {
+        position: absolute;
+        top: 12px;
+        left: 14px;
+        z-index: 2;
+        font-size: 12px;
+      }
+      .os-hero-copy {
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        top: 40px;
+        z-index: 2;
+        margin-top: 0;
+      }
+      .os-hero-copy h2 {
+        font-size: 22px;
+        max-width: none;
+      }
+      .os-hero-copy p {
+        margin-top: 6px;
+        font-size: 11px;
+        max-width: 28em;
+      }
+      .os-track-card {
+        position: relative;
+        z-index: 2;
+        margin: -36px 10px 0;
+        padding: 12px 12px 11px;
+      }
+      .os-board {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 12px 10px 10px;
+      }
+      .os-status,
+      .os-summary {
+        padding: 12px 12px 10px;
+      }
+      .os-status h3 {
+        font-size: 15px;
+        margin-bottom: 12px;
+      }
+      .os-progress {
+        margin: 0 4px;
+      }
+      .os-progress i {
+        width: 20px;
+        height: 20px;
+      }
+      .os-progress-labels {
+        font-size: 7.5px;
+        margin-bottom: 10px;
+      }
+      .os-carrier {
+        font-size: 10.5px;
+        gap: 6px;
+      }
+      .os-carrier span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .os-events li:nth-child(n + 3) {
+        display: none;
+      }
+      .os-look {
+        display: none;
       }
 
       .credentials-grid {
@@ -10105,6 +10235,34 @@
       }
       .impact-stat .metric {
         font-size: clamp(32px, 11vw, 40px);
+      }
+      .hero-inner {
+        gap: 20px;
+        padding-top: 12px;
+      }
+      .hero-ogl {
+        max-height: 480px;
+      }
+      .os-hero img,
+      .os-hero::after {
+        height: 168px;
+      }
+      .os-hero-copy {
+        top: 38px;
+      }
+      .os-hero-copy h2 {
+        font-size: 20px;
+      }
+      .os-hero-copy p {
+        display: block;
+        font-size: 10.5px;
+        margin-top: 5px;
+      }
+      .os-track-card {
+        margin-top: -32px;
+      }
+      .os-events li:nth-child(n + 2) {
+        display: none;
       }
       .hero .cta-row {
         flex-direction: column;
