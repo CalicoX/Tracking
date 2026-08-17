@@ -14,10 +14,10 @@ export function mount() {
   var section = document.querySelector(".hero");
   var canvas = document.getElementById("hero-undertones-canvas");
   if (!section || !canvas) return;
+  /* Phone keeps the earth (Park) — only reduced-motion opts out. */
   if (
-    window.__reduceFx ||
-    window.__isMobileLayout ||
-    (window.matchMedia && window.matchMedia("(max-width: 768px)").matches)
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
   ) {
     canvas.style.display = "none";
     section.classList.add("hero-shader-fallback");
@@ -369,7 +369,10 @@ export function mount() {
     }
     lastCssW = cssW;
     lastCssH = cssH;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    /* phones: cap DPR lower — 3x panels burn GPU on a decorative globe */
+    var isPhone =
+      window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+    dpr = Math.min(window.devicePixelRatio || 1, isPhone ? 1.5 : 2);
     var w = Math.max(1, Math.round(cssW * dpr));
     var h = Math.max(1, Math.round(cssH * dpr));
     if (canvas.width !== w || canvas.height !== h) {

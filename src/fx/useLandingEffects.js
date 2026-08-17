@@ -84,7 +84,8 @@ export function useLandingEffects() {
       }
 
       const hero = document.querySelector(".hero");
-      if (hero && !shouldReduceFx()) {
+      /* particle earth runs on phone too (Park) — skip only for reduced motion */
+      if (hero && !prefersReducedMotion()) {
         // Idle then IO — hero is above-fold but WebGL undertones can wait a tick
         const stopIdle = whenIdle(() => {
           if (cancelled) return;

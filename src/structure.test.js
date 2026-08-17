@@ -195,7 +195,10 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/mask-image:\s*linear-gradient/);
     expect(block768).toMatch(/\.ai-lab-intro/);
     expect(block768).toMatch(/position:\s*relative/);
-    expect(block768).toMatch(/hero-undertones/);
+    // mobile keeps earth + logo marquee + growth curve (Park)
+    expect(block768).not.toMatch(/hero-undertones/);
+    expect(block768).not.toMatch(/\.logos-track/);
+    expect(block768).toMatch(/\.impact-curve/);
     // 900 hero stack (comment-marked block, not overflow-x helper)
     const i900 = css.indexOf("/* —— ≤900");
     expect(i900).toBeGreaterThan(-1);
