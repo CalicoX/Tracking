@@ -9989,6 +9989,27 @@
       .hero h1 {
         max-width: none;
       }
+      /* phone hero copy reads centered under the mock */
+      .hero-copy {
+        text-align: center;
+      }
+      .shopify-app {
+        justify-content: center;
+      }
+      /* lockup itself stays left-aligned inside — only the unit centers */
+      .shopify-app-meta {
+        text-align: left;
+      }
+      .hero .lead {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero .cta-row {
+        justify-content: center;
+      }
+      .hero .cta-note {
+        text-align: center;
+      }
       .float-card {
         display: none !important;
       }
@@ -10286,21 +10307,23 @@
       .os-events li:nth-child(n + 2) {
         display: none;
       }
+      /* buttons side by side, centered (Park) */
       .hero .cta-row {
-        flex-direction: column;
-        align-items: center;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 10px;
       }
       .hero .cta-row > * {
-        width: min(100%, 300px);
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 220px;
       }
       .hero .cta-row .btn,
       .hero .cta-row .btn-switch,
       .hero .cta-row .btn-demo {
-        width: min(100%, 300px);
+        width: 100%;
         justify-content: center;
-      }
-      .hero .cta-note {
-        text-align: center;
+        white-space: nowrap;
       }
       .bottom-cta .cta-row {
         flex-direction: column;
