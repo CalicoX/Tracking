@@ -10,7 +10,9 @@
 
 ## Hero 插图（OGL mock）
 
-- 桌面：文案左、插图右。浏览器框 + 冷色海浪图 + 海军蓝 UI。
+- 桌面：文案左、插图右。浏览器框 + 冷色海浪图。
+- OGL mock 配色（Park 定）：全部走品牌蓝紫家族，不要暖色/米色。`--os-brown: #2563eb`；Track 按钮 `linear-gradient(135deg,#2563eb,#4f46e5)`；进度线 `#38bdf8→#2563eb→#8b5cf6`；Delivered 节点 indigo 渐变+光晕；摘要卡 `#e6edfb`（原米色 #e9e0d4 否掉）；纸底 `#f2f6fd`；海图 saturate(1.08)。第一条 event（Delivered）绿色 #15803d。
+- OGL mock 字体：不要无衬线。`.hero-ogl` 正文 Georgia serif，标题仍 Playfair（--os-serif）；input 加 `font-family: inherit`。
 - ≤768 手机：插图 `order: -1` 提到文案上方。内部改成手机页：banner 叠字 + 表单压在图下沿，状态/摘要单列。`os-look` 隐藏。整块 `.visual` 用 `mask-image` 底部渐变溶进 Hero 背景。外框仍是浏览器框（红黄绿 + 地址栏）。Park 否过深色手机边框 / 刘海版本，不要再做。
 - ≤480：banner 168px，只留 1 条 event。
 - ≤768 文案整体居中：h1/lead/cta-note 居中，Shopify lockup 整体居中但内部左对齐（meta text-align:left）。CTA 两个按钮左右并排居中（≤480 flex:1、max-width 220px、nowrap），不要竖排。
