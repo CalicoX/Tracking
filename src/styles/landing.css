@@ -4113,28 +4113,25 @@
       flex: 0 1 auto;
     }
     .feature-stage[data-theme="split"] .fx-mock {
+      gap: 20px;
       padding: 8px 4%;
     }
-    .fx-so-cluster {
+    .fx-so-side {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      width: min(58%, 400px);
-      flex: 0 1 auto;
+      gap: 10px;
+      width: 200px;
+      flex: 0 0 auto;
     }
     .feature-stage[data-theme="branded"] .fx-mock {
       width: 100%;
       height: 100%;
       padding: 8px 2%;
     }
-    .fx-br-cluster {
+    .fx-br-stage {
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      width: min(92%, 720px);
-      height: auto;
+      width: min(72%, 560px);
+      height: min(78%, 400px);
     }
 
     /* Last-mile — light cards, no stage chrome */
@@ -4356,48 +4353,52 @@
       height: 30px;
     }
 
-    /* Split-order — light, same card language as last-mile */
+    /* Split-order — one main card, floats overlapping (same language as last-mile phone) */
     .fx-so-mail,
     .fx-so-card,
     .fx-so-pkg {
-      position: relative;
-      left: auto;
-      top: auto;
       color: #0f172a;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
       box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.9) inset,
-        0 18px 40px -22px rgba(15, 23, 42, 0.2);
-    }
-    .fx-so-mail {
-      padding: 14px 16px 13px;
-      --ox: -24px;
-      --oy: -16px;
-    }
-    .fx-so-mail strong {
-      display: block;
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #0f172a;
-    }
-    .fx-so-mail span:last-child {
-      margin-top: 4px;
-      font-size: 11.5px;
-      line-height: 1.45;
-      color: #64748b;
+        0 1px 0 rgba(255, 255, 255, 0.95) inset,
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 22px 44px -20px rgba(15, 23, 42, 0.22);
     }
     .fx-so-card {
-      width: 100%;
+      position: relative;
+      width: min(48%, 360px);
       height: auto;
       min-height: 0;
-      padding: 16px 16px 18px;
+      padding: 22px 20px 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      --ox: -36px;
-      --oy: 24px;
+      --ox: -28px;
+      --oy: 20px;
+    }
+    .fx-so-mail {
+      position: relative;
+      right: auto;
+      top: auto;
+      width: 100%;
+      padding: 12px 14px 11px;
+      --ox: 36px;
+      --oy: -22px;
+      --or: 4deg;
+    }
+    .fx-so-mail strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .fx-so-mail span:last-child {
+      margin-top: 3px;
+      font-size: 11px;
+      line-height: 1.4;
+      color: #64748b;
     }
     .fx-so-tabs {
       display: flex;
@@ -4489,13 +4490,13 @@
       font-weight: 650;
       color: #2563eb;
     }
-    .fx-so-pkgs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
     .fx-so-pkg {
+      position: relative;
+      left: auto;
+      top: auto;
       padding: 10px 12px;
+      --ox: 28px;
+      --oy: 18px;
     }
     .fx-so-pkg b {
       display: block;
@@ -4515,50 +4516,29 @@
       color: #2563eb;
     }
 
-    /* Branded form + recs + color wheel — light */
-    .fx-br-select {
-      position: relative;
-      left: auto;
-      top: auto;
-      width: min(52%, 340px);
-      flex: 0 1 auto;
-      z-index: 3;
-      --ox: -32px;
-      --oy: 20px;
-      outline: 1.5px solid #e879f9;
-      outline-offset: 6px;
-      border-radius: 20px;
-    }
-    .fx-br-h {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #fff;
-      border: 1.5px solid #e879f9;
-      z-index: 4;
-    }
-    .fx-br-h.tl { left: -10px; top: -10px; }
-    .fx-br-h.tr { right: -10px; top: -10px; }
-    .fx-br-h.bl { left: -10px; bottom: -10px; }
-    .fx-br-h.br { right: -10px; bottom: -10px; }
+    /* Branded — form is the main, recs + wheel overlap like last-mile phone */
     .fx-br-form,
     .fx-br-recs {
-      position: relative;
-      left: auto;
-      top: auto;
       color: #0f172a;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
       box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.9) inset,
-        0 18px 40px -22px rgba(15, 23, 42, 0.2);
+        0 1px 0 rgba(255, 255, 255, 0.95) inset,
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 22px 44px -20px rgba(15, 23, 42, 0.22);
     }
     .fx-br-form {
-      width: 100%;
+      position: absolute;
+      left: 2%;
+      top: 10%;
+      width: 58%;
       padding: 22px 22px 20px;
       display: flex;
       flex-direction: column;
       gap: 8px;
+      z-index: 2;
+      --ox: -32px;
+      --oy: 16px;
     }
     .fx-br-form h4 {
       margin: 0 0 10px;
@@ -4596,13 +4576,15 @@
       box-shadow: 0 8px 22px -8px rgba(217, 70, 239, 0.7);
     }
     .fx-br-recs {
-      width: min(42%, 240px);
-      flex: 0 0 auto;
+      position: absolute;
+      right: 0;
+      top: 4%;
+      width: 46%;
       padding: 14px 14px 16px;
       z-index: 4;
-      --ox: 44px;
-      --oy: -28px;
-      --or: 5deg;
+      --ox: 40px;
+      --oy: -24px;
+      --or: 3deg;
     }
     .fx-br-recs strong {
       display: block;
@@ -4626,10 +4608,10 @@
     }
     .fx-br-wheel {
       position: absolute;
-      right: 6%;
-      bottom: -18px;
-      width: 96px;
-      height: 96px;
+      right: 4%;
+      bottom: 6%;
+      width: 88px;
+      height: 88px;
       border-radius: 50%;
       z-index: 6;
       background:
@@ -4803,25 +4785,33 @@
         transform: none;
         opacity: 1;
       }
-      .fx-lm-cluster,
-      .fx-so-cluster {
-        width: min(78%, 360px);
+      .fx-lm-cluster {
+        width: min(78%, 340px);
       }
-      .fx-br-cluster {
-        width: 94%;
-        gap: 12px;
+      .fx-so-card {
+        width: min(58%, 280px);
       }
-      .fx-br-select {
-        width: min(58%, 260px);
+      .fx-so-side {
+        width: 160px;
+      }
+      .fx-br-stage {
+        width: 96%;
+        height: 320px;
+      }
+      .fx-br-form {
+        width: 62%;
+        top: 8%;
+        padding: 16px 14px 14px;
       }
       .fx-br-recs {
-        width: min(42%, 180px);
+        width: 44%;
+        top: 6%;
       }
       .fx-br-wheel {
-        width: 64px;
-        height: 64px;
-        right: 4%;
-        bottom: -8px;
+        width: 56px;
+        height: 56px;
+        right: 2%;
+        bottom: 4%;
       }
       .fx-lm-card {
         left: auto;

@@ -123,12 +123,6 @@ export default function FeaturesSection() {
                       <div className="feature-stage" data-theme="split" style={{ ['--fx-c']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                          <div className="fx-so-cluster">
-                            <div className="fx-glass fx-so-mail">
-                              <span className="fx-lm-mail-kicker">Automated email</span>
-                              <strong>Your order was split into 2 packages</strong>
-                              <span>Package #1 shipped today. Package #2 leaves the warehouse tomorrow — both stay on this page.</span>
-                            </div>
                             <div className="fx-glass fx-so-card">
                               <div className="fx-so-tabs">
                                 <span className="is-on">Package #1</span>
@@ -143,11 +137,15 @@ export default function FeaturesSection() {
                               </div>
                               <p className="fx-so-status">In Transit</p>
                             </div>
-                            <div className="fx-so-pkgs">
-                              <div className="fx-glass fx-so-pkg is-live"><b>Package #1</b><span>In transit · UPS</span></div>
-                              <div className="fx-glass fx-so-pkg"><b>Package #2</b><span>Pending · ships tomorrow</span></div>
+                            <div className="fx-so-side">
+                              <div className="fx-glass fx-so-mail">
+                                <span className="fx-lm-mail-kicker">Email</span>
+                                <strong>Split into 2 packages</strong>
+                                <span>#1 shipped today · #2 pending</span>
+                              </div>
+                              <div className="fx-glass fx-so-pkg is-live"><b>Package #1</b><span>In transit</span></div>
+                              <div className="fx-glass fx-so-pkg"><b>Package #2</b><span>Pending</span></div>
                             </div>
-                          </div>
                           </div>
                         </div>
 </div>
@@ -159,17 +157,14 @@ export default function FeaturesSection() {
                       <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                          <div className="fx-br-cluster">
-                            <div className="fx-br-select">
-                              <i className="fx-br-h tl" /><i className="fx-br-h tr" /><i className="fx-br-h bl" /><i className="fx-br-h br" />
-                              <div className="fx-glass fx-br-form">
-                                <h4>Track your order</h4>
-                                <span className="fx-br-label">Order number</span>
-                                <div className="fx-br-field" />
-                                <span className="fx-br-label">Email</span>
-                                <div className="fx-br-field" />
-                                <span className="fx-br-cta">Track</span>
-                              </div>
+                          <div className="fx-br-stage">
+                            <div className="fx-glass fx-br-form">
+                              <h4>Track your order</h4>
+                              <span className="fx-br-label">Order number</span>
+                              <div className="fx-br-field" />
+                              <span className="fx-br-label">Email</span>
+                              <div className="fx-br-field" />
+                              <span className="fx-br-cta">Track</span>
                             </div>
                             <div className="fx-glass fx-br-recs">
                               <strong>You may also like</strong>

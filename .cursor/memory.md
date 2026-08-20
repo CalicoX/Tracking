@@ -43,8 +43,8 @@
 - 桌面内容区（左列表 + 右插图）铺满标题下剩余 sticky 高度；mock 在舞台里居中。
 - 三张插图同一套：浅色白卡、无外边框/舞台底。
 - Last-mile：邮件 + Tracking info（UPS→USPS）+ 电话 + 承运商 logo。
-- Split-order：拆单邮件 + Package tab 时间轴 + Package #1 在途 / #2 待发。
-- Branded：浅色 Track 表单 + 品红选区/色盘 + You may also like（earbuds/case/tips）。
+- Split-order：主卡时间轴 + 右侧邮件/包裹状态浮卡（不要竖着叠三张卡）。
+- Branded：Track 表单为主，推荐卡和色盘叠在右侧（不要 Figma 选区手柄）。
 
 ## 产品
 
