@@ -39,8 +39,8 @@
 
 - 官方产品页只有 3 块，落地页已对齐，去掉 Proactive notifications。
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
-- 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25，正文 15.5。右侧 mock 高度上限 480。
-- 桌面左侧 `--feat-open` 跟滚动插值，切换有过渡。
+- 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25（品牌蓝紫渐变），正文 15.5。正文不淡入淡出，标题不跟滚动缩放。
+- 桌面内容区（左列表 + 右插图）铺满标题下剩余 sticky 高度；mock 在舞台里居中。
 - Last-mile：Tracking info（UPS → USPS Last-mile Carrier）+ 悬浮电话按钮。
 - Split-order：Package tab + 日期区间 + 5 点时间轴。
 - Branded：Track your order 表单 + 品红选区/色盘 + You may also like 四宫格（用现有 earbuds/case/tips，不用暖色瑜伽图）。

@@ -368,15 +368,15 @@ export function mount() {
         panelGap = gap;
 
         /*
-         * Panel height from available sticky space under title — not stretched full.
-         * Col is then fixed to panelH and vertically centered in feature-layout.
+         * Panel height fills leftover sticky space under the section head
+         * (left copy + right visual sit in that band).
          */
         var stickyH = sticky.offsetHeight || Math.max(320, window.innerHeight - pinTop());
         var headEl = sticky.querySelector(".section-head");
         var headH = headEl ? headEl.getBoundingClientRect().height : 120;
-        var padY = 48; /* sticky top+bottom padding approx */
-        var avail = Math.max(300, stickyH - headH - padY);
-        var cap = Math.min(480, Math.max(360, window.innerHeight - pinTop() - 200));
+        var padY = 64; /* sticky padding-top 36 + padding-bottom 28 */
+        var avail = Math.max(320, stickyH - headH - padY);
+        var cap = Math.min(640, window.innerHeight - pinTop() - 130);
         panelH = Math.round(Math.min(avail, cap));
 
         panels.forEach(function (p) {
