@@ -59,6 +59,7 @@ export default function FeaturesSection() {
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
+                          <div className="fx-mock">
                           <div className="fx-glass fx-lm-card">
                             <h4>Tracking info</h4>
                             <div className="fx-lm-ship">
@@ -98,6 +99,7 @@ export default function FeaturesSection() {
                           <div className="fx-glass fx-lm-phone">
                             <svg viewBox="0 0 24 24" fill="none"><path d="M7.1 3.6h2.6l1.3 3.2-1.8 1.2a13.2 13.2 0 0 0 7.2 7.2l1.2-1.8 3.2 1.3v2.6c0 .8-.7 1.5-1.5 1.5A15.4 15.4 0 0 1 5.6 5.1c0-.8.7-1.5 1.5-1.5Z" fill="currentColor"/></svg>
                           </div>
+                          </div>
                         </div>
 </div>
                     </div>
@@ -107,6 +109,7 @@ export default function FeaturesSection() {
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="split" style={{ ['--fx-c']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
+                          <div className="fx-mock">
                           <div className="fx-glass fx-so-card">
                             <div className="fx-so-tabs">
                               <span className="is-on">Package #1</span>
@@ -121,6 +124,7 @@ export default function FeaturesSection() {
                             </div>
                             <p className="fx-so-status">In Transit</p>
                           </div>
+                          </div>
                         </div>
 </div>
                     </div>
@@ -130,6 +134,7 @@ export default function FeaturesSection() {
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
+                          <div className="fx-mock">
                           <div className="fx-br-select">
                             <i className="fx-br-h tl" /><i className="fx-br-h tr" /><i className="fx-br-h bl" /><i className="fx-br-h br" />
                             <div className="fx-glass fx-br-form">
@@ -151,6 +156,7 @@ export default function FeaturesSection() {
                             </div>
                           </div>
                           <div className="fx-br-wheel" />
+                          </div>
                         </div>
 </div>
                     </div>
