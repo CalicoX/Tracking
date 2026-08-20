@@ -3094,7 +3094,7 @@
       --feature-pin-gap: 36px;
       --feature-panel-gap: 24px;
       --feature-n: 3;
-      --feature-visual-h: min(640px, calc(100vh - var(--feature-pin-top) - 140px));
+      --feature-visual-h: calc(100vh - var(--feature-pin-top) - 96px);
       /* no top border / shadow that reads as a seam */
       border-top: none;
       box-shadow: none;
@@ -3125,7 +3125,7 @@
       box-sizing: border-box;
       overflow: hidden;
       background: var(--bg-subtle);
-      padding: var(--feature-pin-gap) 0 28px;
+      padding: 20px 0 16px;
     }
     .features-section .section-head {
       position: relative; /* inside sticky frame — not sticky itself */
@@ -3140,7 +3140,7 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 20px 32px;
-      padding: 0 0 var(--sec-head-gap);
+      padding: 0 0 16px;
       background: transparent;
       box-sizing: border-box;
       text-align: left;
@@ -3183,7 +3183,7 @@
       display: grid;
       grid-template-columns: minmax(340px, 42%) minmax(0, 1fr);
       gap: 24px 28px;
-      align-items: center;
+      align-items: stretch;
       flex: 1 1 auto;
       min-height: 0;
       width: 100%;
@@ -4100,19 +4100,25 @@
       box-sizing: border-box;
     }
     .feature-stage[data-theme="lastmile"] .fx-mock {
-      gap: 28px;
-      padding: 8px 4%;
+      height: 100%;
+      align-items: stretch;
+      gap: 24px;
+      padding: 4px 2% 4px 0;
     }
     .fx-lm-cluster {
       display: flex;
       flex-direction: column;
       gap: 12px;
       width: min(94%, 640px);
-      flex: 0 1 auto;
+      flex: 1 1 auto;
+      height: 100%;
+      min-height: 0;
     }
     .feature-stage[data-theme="split"] .fx-mock {
+      height: 100%;
+      align-items: stretch;
       gap: 20px;
-      padding: 8px 4%;
+      padding: 4px 2%;
     }
     .fx-so-side {
       display: flex;
@@ -4120,6 +4126,7 @@
       gap: 10px;
       width: 200px;
       flex: 0 0 auto;
+      align-self: center;
     }
     .feature-stage[data-theme="branded"] .fx-mock {
       width: 100%;
@@ -4129,7 +4136,7 @@
     .fx-br-stage {
       position: relative;
       width: min(96%, 720px);
-      height: min(78%, 400px);
+      height: 100%;
     }
 
     /* Last-mile — light cards, no stage chrome */
@@ -4173,6 +4180,9 @@
     .fx-lm-card {
       height: auto;
       min-height: 0;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
       padding: 20px 20px 16px;
       --ox: -40px;
       --oy: 28px;
@@ -4265,7 +4275,7 @@
       display: grid;
       grid-template-columns: 92px 1fr;
       gap: 12px;
-      margin-top: 18px;
+      margin-top: auto;
       padding-top: 16px;
       border-top: 1px solid rgba(15, 23, 42, 0.08);
     }
@@ -4326,6 +4336,7 @@
       right: auto;
       top: auto;
       flex: 0 0 auto;
+      align-self: center;
       width: 48px;
       height: 48px;
       padding: 0;
@@ -4360,10 +4371,13 @@
       width: min(64%, 500px);
       height: auto;
       min-height: 0;
+      flex: 1 1 auto;
       padding: 22px 20px 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      gap: 4px;
       text-align: center;
       --ox: -28px;
       --oy: 20px;
