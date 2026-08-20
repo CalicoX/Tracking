@@ -3742,18 +3742,16 @@
       font-size: 16px;
     }
     .feature-visual {
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-xl);
-      background:
-        radial-gradient(circle at 80% 20%, rgba(0, 58, 155, 0.08), transparent 40%),
-        linear-gradient(160deg, #ffffff, #eef2fb 90%);
-      padding: 16px 18px;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      padding: 0;
       min-height: 0;
       height: 100%;
       max-height: var(--feature-visual-h, 640px);
       display: grid;
       align-content: stretch;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
       box-sizing: border-box;
     }
@@ -3781,8 +3779,8 @@
       min-height: 0;
       max-height: 100%;
       display: block; /* art only — no copy column */
-      overflow: hidden;
-      border-radius: calc(var(--radius-xl) - 4px);
+      overflow: visible;
+      border-radius: 0;
       isolation: isolate;
     }
     .feature-stage-copy {
@@ -3796,53 +3794,14 @@
       max-height: 100%;
       display: grid;
       place-items: center;
-      border-radius: 14px;
-      overflow: hidden;
-      background:
-        radial-gradient(ellipse 80% 70% at 20% 10%, rgba(147, 197, 253, 0.45), transparent 55%),
-        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(196, 181, 253, 0.35), transparent 50%),
-        linear-gradient(160deg, #e8eefc 0%, #dbe7fb 45%, #eef2ff 100%);
-    }
-    .feature-stage[data-theme="notify"] .feature-stage-art {
-      background:
-        radial-gradient(ellipse 70% 60% at 80% 15%, rgba(134, 239, 172, 0.4), transparent 50%),
-        radial-gradient(ellipse 55% 50% at 10% 85%, rgba(125, 211, 252, 0.4), transparent 52%),
-        linear-gradient(155deg, #ecfdf5 0%, #e0f2fe 55%, #f0f9ff 100%);
-    }
-    .feature-panel[data-feature="0"] .feature-visual {
-      border: 0;
-      background: none;
-      padding: 0;
-      overflow: visible;
-    }
-    .feature-stage[data-theme="lastmile"] {
-      overflow: visible;
       border-radius: 0;
-    }
-    .feature-stage[data-theme="lastmile"] .feature-stage-art {
-      background: none;
       overflow: visible;
-      border-radius: 0;
+      background: none;
     }
-    .feature-stage[data-theme="lastmile"] .feature-stage-art::before {
+    /* soft grid + depth — unused now that stages are frameless */
+    .feature-stage-art::before {
       content: none;
       display: none;
-    }
-    .feature-stage[data-theme="split"] .feature-stage-art {
-      background:
-        radial-gradient(ellipse 60% 55% at 22% 78%, rgba(196, 181, 253, 0.38), transparent 52%),
-        radial-gradient(ellipse 65% 50% at 82% 18%, rgba(125, 211, 252, 0.36), transparent 50%),
-        linear-gradient(155deg, #eef2ff 0%, #e0e7ff 50%, #f8fafc 100%);
-    }
-    .feature-stage[data-theme="branded"] .feature-stage-art {
-      background:
-        radial-gradient(ellipse 55% 50% at 86% 82%, rgba(244, 114, 182, 0.28), transparent 52%),
-        radial-gradient(ellipse 70% 60% at 18% 12%, rgba(167, 139, 250, 0.38), transparent 50%),
-        linear-gradient(160deg, #ece7ff 0%, #e0e7ff 46%, #f5f3ff 100%);
-    }
-    /* soft grid + depth */
-    .feature-stage-art::before {
-      content: "";
       position: absolute;
       inset: 0;
       background-image:
@@ -4154,37 +4113,28 @@
       flex: 0 1 auto;
     }
     .feature-stage[data-theme="split"] .fx-mock {
-      padding: 12px;
+      padding: 8px 4%;
+    }
+    .fx-so-cluster {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: min(58%, 400px);
+      flex: 0 1 auto;
     }
     .feature-stage[data-theme="branded"] .fx-mock {
-      width: min(94%, 780px);
-      height: min(90%, 420px);
+      width: 100%;
+      height: 100%;
+      padding: 8px 2%;
     }
-
-    /* ——— Feature mocks: last-mile / split-order / branded ——— */
-    .fx-so-card,
-    .fx-br-form,
-    .fx-br-recs {
-      color: #e8eefc;
-      background:
-        linear-gradient(180deg, rgba(28, 36, 68, 0.92), rgba(15, 20, 42, 0.9));
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.12) inset,
-        0 22px 48px -18px rgba(15, 23, 42, 0.45);
-      -webkit-backdrop-filter: blur(22px) saturate(1.2);
-      backdrop-filter: blur(22px) saturate(1.2);
-    }
-    .fx-so-card strong,
-    .fx-br-form strong,
-    .fx-br-recs strong,
-    .fx-br-form h4 {
-      color: #f8fafc;
-    }
-    .fx-so-card span,
-    .fx-br-form span,
-    .fx-br-recs span {
-      color: #94a3b8;
+    .fx-br-cluster {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      width: min(92%, 720px);
+      height: auto;
     }
 
     /* Last-mile — light cards, no stage chrome */
@@ -4406,15 +4356,42 @@
       height: 30px;
     }
 
-    /* Split-order package card */
-    .fx-so-card {
+    /* Split-order — light, same card language as last-mile */
+    .fx-so-mail,
+    .fx-so-card,
+    .fx-so-pkg {
       position: relative;
       left: auto;
       top: auto;
-      width: min(46%, 300px);
+      color: #0f172a;
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 18px 40px -22px rgba(15, 23, 42, 0.2);
+    }
+    .fx-so-mail {
+      padding: 14px 16px 13px;
+      --ox: -24px;
+      --oy: -16px;
+    }
+    .fx-so-mail strong {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .fx-so-mail span:last-child {
+      margin-top: 4px;
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: #64748b;
+    }
+    .fx-so-card {
+      width: 100%;
       height: auto;
       min-height: 0;
-      padding: 16px 16px 20px;
+      padding: 16px 16px 18px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -4436,27 +4413,28 @@
       margin: 0;
       padding: 7px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(15, 23, 42, 0.1);
       font-size: 12px;
       font-weight: 600;
-      color: #94a3b8;
+      color: #64748b;
+      background: #f8fafc;
     }
     .fx-so-tabs span.is-on {
-      color: #f8fafc;
-      border-color: rgba(255, 255, 255, 0.38);
-      background: rgba(255, 255, 255, 0.06);
+      color: #1d4ed8;
+      border-color: rgba(37, 99, 235, 0.28);
+      background: #eef4ff;
     }
     .fx-so-card .fx-so-kicker {
-      margin: 22px 0 0;
+      margin: 20px 0 0;
       font-size: 13px;
-      color: #cbd5e1;
+      color: #64748b;
     }
     .fx-so-card .fx-so-dates {
       margin: 8px 0 0;
       font-size: clamp(20px, 2.1vw, 26px);
       font-weight: 750;
       letter-spacing: -0.035em;
-      color: #f8fafc;
+      color: #0f172a;
       line-height: 1.1;
     }
     .fx-so-card .fx-so-eta {
@@ -4478,7 +4456,7 @@
       left: 8%;
       right: 8%;
       height: 2px;
-      background: rgba(255, 255, 255, 0.22);
+      background: #cbd5e1;
     }
     .fx-so-track i {
       position: relative;
@@ -4487,19 +4465,19 @@
       height: 14px;
       margin: 0 14px;
       border-radius: 50%;
-      border: 2px solid rgba(226, 232, 240, 0.7);
-      background: #1e293b;
+      border: 2px solid #94a3b8;
+      background: #fff;
       box-sizing: border-box;
     }
     .fx-so-track i.is-now {
       width: 22px;
       height: 22px;
       border: 0;
-      background: #fff;
-      color: #0f172a;
+      background: #2563eb;
+      color: #fff;
       display: grid;
       place-items: center;
-      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
     }
     .fx-so-track i.is-now svg {
       width: 12px;
@@ -4509,24 +4487,44 @@
       margin: 10px 0 0;
       font-size: 13.5px;
       font-weight: 650;
-      color: #e2e8f0;
+      color: #2563eb;
+    }
+    .fx-so-pkgs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .fx-so-pkg {
+      padding: 10px 12px;
+    }
+    .fx-so-pkg b {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .fx-so-pkg span {
+      margin-top: 3px;
+      font-size: 11px;
+      color: #64748b;
+    }
+    .fx-so-pkg.is-live {
+      border-color: rgba(37, 99, 235, 0.22);
+    }
+    .fx-so-pkg.is-live span {
+      color: #2563eb;
     }
 
-    /* Branded form + recs + color wheel */
+    /* Branded form + recs + color wheel — light */
     .fx-br-select {
-      position: absolute;
-      left: 6%;
-      top: 11%;
-      width: min(54%, 360px);
+      position: relative;
+      left: auto;
+      top: auto;
+      width: min(52%, 340px);
+      flex: 0 1 auto;
       z-index: 3;
       --ox: -32px;
       --oy: 20px;
-      transform:
-        translate3d(
-          calc(var(--ox) * (1 - var(--fx-c, 1))),
-          calc(var(--oy) * (1 - var(--fx-c, 1))),
-          0
-        );
       outline: 1.5px solid #e879f9;
       outline-offset: 6px;
       border-radius: 20px;
@@ -4543,10 +4541,19 @@
     .fx-br-h.tr { right: -10px; top: -10px; }
     .fx-br-h.bl { left: -10px; bottom: -10px; }
     .fx-br-h.br { right: -10px; bottom: -10px; }
-    .fx-br-form {
+    .fx-br-form,
+    .fx-br-recs {
       position: relative;
       left: auto;
       top: auto;
+      color: #0f172a;
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 18px 40px -22px rgba(15, 23, 42, 0.2);
+    }
+    .fx-br-form {
       width: 100%;
       padding: 22px 22px 20px;
       display: flex;
@@ -4559,18 +4566,19 @@
       font-size: 16px;
       font-weight: 700;
       letter-spacing: -0.02em;
+      color: #0f172a;
     }
     .fx-br-form .fx-br-label {
       display: block;
       margin: 0;
       font-size: 12px;
-      color: #cbd5e1;
+      color: #64748b;
     }
     .fx-br-field {
       height: 36px;
       border-radius: 10px;
-      background: rgba(15, 23, 42, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #f1f5f9;
+      border: 1px solid rgba(15, 23, 42, 0.08);
       margin-bottom: 6px;
     }
     .fx-br-form .fx-br-cta {
@@ -4588,10 +4596,8 @@
       box-shadow: 0 8px 22px -8px rgba(217, 70, 239, 0.7);
     }
     .fx-br-recs {
-      right: auto;
-      left: 46%;
-      top: 12%;
-      width: min(42%, 260px);
+      width: min(42%, 240px);
+      flex: 0 0 auto;
       padding: 14px 14px 16px;
       z-index: 4;
       --ox: 44px;
@@ -4604,6 +4610,7 @@
       text-align: center;
       font-size: 13.5px;
       font-weight: 700;
+      color: #0f172a;
     }
     .fx-br-grid {
       display: grid;
@@ -4619,10 +4626,10 @@
     }
     .fx-br-wheel {
       position: absolute;
-      right: 10%;
-      bottom: 8%;
-      width: 112px;
-      height: 112px;
+      right: 6%;
+      bottom: -18px;
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
       z-index: 6;
       background:
@@ -4787,8 +4794,8 @@
       .feature-stage,
       .feature-stage-art {
         --fx-c: 1;
-        min-height: 300px;
-        max-height: 360px;
+        min-height: 340px;
+        max-height: 460px;
       }
       .feature-stage .fx-glass,
       .feature-stage .fx-br-select,
@@ -4796,8 +4803,25 @@
         transform: none;
         opacity: 1;
       }
-      .fx-lm-cluster {
+      .fx-lm-cluster,
+      .fx-so-cluster {
         width: min(78%, 360px);
+      }
+      .fx-br-cluster {
+        width: 94%;
+        gap: 12px;
+      }
+      .fx-br-select {
+        width: min(58%, 260px);
+      }
+      .fx-br-recs {
+        width: min(42%, 180px);
+      }
+      .fx-br-wheel {
+        width: 64px;
+        height: 64px;
+        right: 4%;
+        bottom: -8px;
       }
       .fx-lm-card {
         left: auto;
@@ -4813,28 +4837,10 @@
         border-radius: 16px;
       }
       .fx-so-card {
-        left: auto;
-        top: auto;
-        width: min(86%, 320px);
+        width: 100%;
         min-height: 0;
         height: auto;
-        padding: 16px 14px 22px;
-      }
-      .fx-br-select {
-        left: 4%;
-        top: 8%;
-        width: 58%;
-      }
-      .fx-br-recs {
-        width: 38%;
-        right: 3%;
-        top: 10%;
-      }
-      .fx-br-wheel {
-        width: 64px;
-        height: 64px;
-        right: 5%;
-        bottom: 6%;
+        padding: 14px 14px 16px;
       }
       .feature-stage-copy {
         transform: none;
@@ -10032,8 +10038,8 @@
       }
       .feature-stage,
       .feature-stage-art {
-        min-height: 280px;
-        max-height: 340px;
+        min-height: 320px;
+        max-height: 440px;
         height: auto;
       }
       .feature-browser,

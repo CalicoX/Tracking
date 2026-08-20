@@ -123,19 +123,30 @@ export default function FeaturesSection() {
                       <div className="feature-stage" data-theme="split" style={{ ['--fx-c']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                          <div className="fx-glass fx-so-card">
-                            <div className="fx-so-tabs">
-                              <span className="is-on">Package #1</span>
-                              <span>Package #2</span>
-                              <span>Package #3</span>
+                          <div className="fx-so-cluster">
+                            <div className="fx-glass fx-so-mail">
+                              <span className="fx-lm-mail-kicker">Automated email</span>
+                              <strong>Your order was split into 2 packages</strong>
+                              <span>Package #1 shipped today. Package #2 leaves the warehouse tomorrow — both stay on this page.</span>
                             </div>
-                            <p className="fx-so-kicker">Your order is in transit</p>
-                            <p className="fx-so-dates">Mar 23 – Mar 30</p>
-                            <p className="fx-so-eta">Estimated time of arrival</p>
-                            <div className="fx-so-track">
-                              <i></i><i></i><i className="is-now"><svg viewBox="0 0 12 12"><path d="M2.4 6.2 4.7 8.5 9.6 3.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></i><i></i><i></i>
+                            <div className="fx-glass fx-so-card">
+                              <div className="fx-so-tabs">
+                                <span className="is-on">Package #1</span>
+                                <span>Package #2</span>
+                                <span>Package #3</span>
+                              </div>
+                              <p className="fx-so-kicker">Your order is in transit</p>
+                              <p className="fx-so-dates">Mar 23 – Mar 30</p>
+                              <p className="fx-so-eta">Estimated time of arrival</p>
+                              <div className="fx-so-track">
+                                <i></i><i></i><i className="is-now"><svg viewBox="0 0 12 12"><path d="M2.4 6.2 4.7 8.5 9.6 3.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></i><i></i><i></i>
+                              </div>
+                              <p className="fx-so-status">In Transit</p>
                             </div>
-                            <p className="fx-so-status">In Transit</p>
+                            <div className="fx-so-pkgs">
+                              <div className="fx-glass fx-so-pkg is-live"><b>Package #1</b><span>In transit · UPS</span></div>
+                              <div className="fx-glass fx-so-pkg"><b>Package #2</b><span>Pending · ships tomorrow</span></div>
+                            </div>
                           </div>
                           </div>
                         </div>
@@ -148,27 +159,29 @@ export default function FeaturesSection() {
                       <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                          <div className="fx-br-select">
-                            <i className="fx-br-h tl" /><i className="fx-br-h tr" /><i className="fx-br-h bl" /><i className="fx-br-h br" />
-                            <div className="fx-glass fx-br-form">
-                              <h4>Track your order</h4>
-                              <span className="fx-br-label">Order number</span>
-                              <div className="fx-br-field" />
-                              <span className="fx-br-label">Email</span>
-                              <div className="fx-br-field" />
-                              <span className="fx-br-cta">Track</span>
+                          <div className="fx-br-cluster">
+                            <div className="fx-br-select">
+                              <i className="fx-br-h tl" /><i className="fx-br-h tr" /><i className="fx-br-h bl" /><i className="fx-br-h br" />
+                              <div className="fx-glass fx-br-form">
+                                <h4>Track your order</h4>
+                                <span className="fx-br-label">Order number</span>
+                                <div className="fx-br-field" />
+                                <span className="fx-br-label">Email</span>
+                                <div className="fx-br-field" />
+                                <span className="fx-br-cta">Track</span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="fx-glass fx-br-recs">
-                            <strong>You may also like</strong>
-                            <div className="fx-br-grid">
-                              <img src="/assets/products/earbuds.jpg" alt="" />
-                              <img src="/assets/products/case.jpg" alt="" />
-                              <img src="/assets/products/tips.jpg" alt="" />
-                              <img src="/assets/products/earbuds.jpg" alt="" style={{ objectPosition: "70% 40%" }} />
+                            <div className="fx-glass fx-br-recs">
+                              <strong>You may also like</strong>
+                              <div className="fx-br-grid">
+                                <img src="/assets/products/earbuds.jpg" alt="" />
+                                <img src="/assets/products/case.jpg" alt="" />
+                                <img src="/assets/products/tips.jpg" alt="" />
+                                <img src="/assets/products/earbuds.jpg" alt="" style={{ objectPosition: "70% 40%" }} />
+                              </div>
                             </div>
+                            <div className="fx-br-wheel" />
                           </div>
-                          <div className="fx-br-wheel" />
                           </div>
                         </div>
 </div>
