@@ -60,41 +60,54 @@ export default function FeaturesSection() {
                       <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                          <div className="fx-glass fx-lm-card">
-                            <h4>Tracking info</h4>
-                            <div className="fx-lm-ship">
-                              <div className="fx-lm-row">
-                                <img className="fx-lm-logo" src="/assets/carriers/ups.svg?v=2" alt="" />
-                                <div className="fx-lm-meta">
-                                  <strong>UPS</strong>
-                                  <span>1ZH814****5355558</span>
+                          <div className="fx-lm-cluster">
+                            <div className="fx-glass fx-lm-mail">
+                              <span className="fx-lm-mail-kicker">Automated email</span>
+                              <strong>Out for delivery today · 2–4pm</strong>
+                              <span>USPS last-mile is live on this shipment. Tap to call the carrier if you need to redirect.</span>
+                            </div>
+                            <div className="fx-glass fx-lm-card">
+                              <h4>Tracking info</h4>
+                              <div className="fx-lm-ship">
+                                <div className="fx-lm-row">
+                                  <img className="fx-lm-logo" src="/assets/carriers/ups.svg?v=2" alt="" />
+                                  <div className="fx-lm-meta">
+                                    <strong>UPS</strong>
+                                    <span>1ZH814****5355558</span>
+                                  </div>
+                                  <span className="fx-lm-ico" title="Call carrier">
+                                    <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 3.8h2.4l1.2 3-1.6 1.1a12.4 12.4 0 0 0 6.7 6.7l1.1-1.6 3 1.2v2.4c0 .7-.6 1.4-1.4 1.4A14.2 14.2 0 0 1 5.8 5.2c0-.8.7-1.4 1.4-1.4Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/></svg>
+                                  </span>
                                 </div>
-                                <span className="fx-lm-ico" title="Call carrier">
-                                  <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 3.8h2.4l1.2 3-1.6 1.1a12.4 12.4 0 0 0 6.7 6.7l1.1-1.6 3 1.2v2.4c0 .7-.6 1.4-1.4 1.4A14.2 14.2 0 0 1 5.8 5.2c0-.8.7-1.4 1.4-1.4Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/></svg>
-                                </span>
-                              </div>
-                              <div className="fx-lm-arrow" aria-hidden="true">
-                                <svg viewBox="0 0 16 20" fill="none"><path d="M8 2v14M3 12l5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                              </div>
-                              <div className="fx-lm-row">
-                                <img className="fx-lm-logo" src="/assets/carriers/usps.svg?v=2" alt="" />
-                                <div className="fx-lm-meta">
-                                  <strong>USPS <em className="fx-lm-badge">Last-mile Carrier</em></strong>
-                                  <span>927489****7658100581329…</span>
+                                <div className="fx-lm-arrow" aria-hidden="true">
+                                  <svg viewBox="0 0 16 20" fill="none"><path d="M8 2v14M3 12l5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
                                 </div>
-                                <span className="fx-lm-ico" title="Copy">
-                                  <svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.7"/><path d="M5 16V5.8A1.8 1.8 0 0 1 6.8 4H16" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></svg>
-                                </span>
+                                <div className="fx-lm-row">
+                                  <img className="fx-lm-logo" src="/assets/carriers/usps.svg?v=2" alt="" />
+                                  <div className="fx-lm-meta">
+                                    <strong>USPS <em className="fx-lm-badge">Last-mile Carrier</em></strong>
+                                    <span>927489****7658100581329…</span>
+                                  </div>
+                                  <span className="fx-lm-ico" title="Copy">
+                                    <svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.7"/><path d="M5 16V5.8A1.8 1.8 0 0 1 6.8 4H16" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></svg>
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="fx-lm-event">
+                                <time>14 Apr, 2024<span>23:45</span></time>
+                                <div>
+                                  <strong>In Transit</strong>
+                                  <span>CLEVELAND OH DISTRIBUTION CENTER, Departed USPS Regional Facility</span>
+                                </div>
                               </div>
                             </div>
-                            <div className="fx-lm-event">
-                              <time>14 Apr, 2024<span>23:45</span></time>
-                              <div>
-                                <strong>In Transit</strong>
-                                <span>CLEVELAND OH DISTRIBUTION CENTER, Departed USPS Regional Facility</span>
-                              </div>
+                            <div className="fx-lm-carriers">
+                              <img src="/assets/carriers/ups.svg?v=2" alt="" />
+                              <img src="/assets/carriers/usps.svg?v=2" alt="" />
+                              <img src="/assets/carriers/dhl.svg?v=2" alt="" />
+                              <img src="/assets/carriers/dpd.svg?v=2" alt="" />
+                              <img src="/assets/carriers/gls.svg?v=2" alt="" />
                             </div>
-                            <span className="fx-lm-more">Show more <svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
                           </div>
                           <div className="fx-glass fx-lm-phone">
                             <svg viewBox="0 0 24 24" fill="none"><path d="M7.1 3.6h2.6l1.3 3.2-1.8 1.2a13.2 13.2 0 0 0 7.2 7.2l1.2-1.8 3.2 1.3v2.6c0 .8-.7 1.5-1.5 1.5A15.4 15.4 0 0 1 5.6 5.1c0-.8.7-1.5 1.5-1.5Z" fill="currentColor"/></svg>

@@ -41,7 +41,7 @@
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
 - 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25（品牌蓝紫渐变），正文 15.5。正文不淡入淡出，标题不跟滚动缩放。
 - 桌面内容区（左列表 + 右插图）铺满标题下剩余 sticky 高度；mock 在舞台里居中。
-- Last-mile：Tracking info（UPS → USPS Last-mile Carrier）+ 悬浮电话按钮。
+- Last-mile 插图：浅色、无外边框/舞台底。邮件卡（自动末公里）+ Tracking info（UPS→USPS）+ 电话按钮 + 承运商 logo 条。
 - Split-order：Package tab + 日期区间 + 5 点时间轴。
 - Branded：Track your order 表单 + 品红选区/色盘 + You may also like 四宫格（用现有 earbuds/case/tips，不用暖色瑜伽图）。
 
