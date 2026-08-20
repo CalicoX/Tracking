@@ -3719,7 +3719,7 @@
     }
     .feature-points li {
       position: relative;
-      padding-left: 26px;
+      padding-left: 22px;
       color: #475569;
       font-size: 15.5px;
       line-height: 1.5;
@@ -3729,10 +3729,10 @@
       position: absolute;
       left: 0;
       top: 0.28em;
-      width: 16px;
-      height: 16px;
+      width: 13px;
+      height: 13px;
       border-radius: 50%;
-      background: #0f766e url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M2.4 6.2 4.7 8.5 9.6 3.4'/></svg>") center / 10px 10px no-repeat;
+      background: #0f766e url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M2.4 6.2 4.7 8.5 9.6 3.4'/></svg>") center / 8px 8px no-repeat;
     }
     .feature:hover p {
       color: #788595;
@@ -4107,7 +4107,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      width: min(62%, 440px);
+      width: min(78%, 560px);
       flex: 0 1 auto;
     }
     .feature-stage[data-theme="split"] .fx-mock {
@@ -4128,7 +4128,7 @@
     }
     .fx-br-stage {
       position: relative;
-      width: min(72%, 560px);
+      width: min(86%, 680px);
       height: min(78%, 400px);
     }
 
@@ -4196,10 +4196,10 @@
       width: 100%;
     }
     .fx-lm-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      flex: 0 0 36px;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      flex: 0 0 24px;
       background: #fff;
       object-fit: contain;
     }
@@ -4237,20 +4237,20 @@
       white-space: nowrap;
     }
     .fx-lm-ico {
-      width: 28px;
-      height: 28px;
+      width: 20px;
+      height: 20px;
       display: grid;
       place-items: center;
       color: #64748b;
       flex: 0 0 auto;
     }
     .fx-lm-ico svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
     }
     .fx-lm-arrow {
-      width: 36px;
-      height: 22px;
+      width: 24px;
+      height: 18px;
       margin: 6px 0;
       color: #94a3b8;
       display: grid;
@@ -4298,9 +4298,9 @@
       gap: 8px;
     }
     .fx-lm-carriers img {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
       box-shadow: none;
@@ -4326,24 +4326,24 @@
       right: auto;
       top: auto;
       flex: 0 0 auto;
-      width: 72px;
-      height: 72px;
+      width: 48px;
+      height: 48px;
       padding: 0;
       display: grid;
       place-items: center;
-      border-radius: 22px;
+      border-radius: 14px;
       background: linear-gradient(160deg, #60a5fa 0%, #2563eb 58%, #1d4ed8 100%);
       border: 1px solid rgba(255, 255, 255, 0.35);
       color: #fff;
-      box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.1);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
       --ox: 48px;
       --oy: -20px;
       --or: 8deg;
       z-index: 5;
     }
     .fx-lm-phone svg {
-      width: 30px;
-      height: 30px;
+      width: 20px;
+      height: 20px;
     }
 
     /* Split-order — one main card, floats overlapping (same language as last-mile phone) */
@@ -4357,7 +4357,7 @@
     }
     .fx-so-card {
       position: relative;
-      width: min(48%, 360px);
+      width: min(58%, 460px);
       height: auto;
       min-height: 0;
       padding: 22px 20px 24px;
@@ -4518,7 +4518,7 @@
       position: absolute;
       left: 2%;
       top: 10%;
-      width: 58%;
+      width: 64%;
       padding: 22px 22px 20px;
       display: flex;
       flex-direction: column;
@@ -4771,10 +4771,10 @@
         opacity: 1;
       }
       .fx-lm-cluster {
-        width: min(78%, 340px);
+        width: min(88%, 420px);
       }
       .fx-so-card {
-        width: min(58%, 280px);
+        width: min(68%, 340px);
       }
       .fx-so-side {
         width: 160px;
@@ -4805,11 +4805,11 @@
         padding: 14px 14px 12px;
       }
       .fx-lm-phone {
-        width: 52px;
-        height: 52px;
+        width: 44px;
+        height: 44px;
         right: auto;
         top: auto;
-        border-radius: 16px;
+        border-radius: 12px;
       }
       .fx-so-card {
         width: 100%;
