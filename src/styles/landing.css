@@ -3181,8 +3181,8 @@
     /* body row: left switcher + right viewport — vertically centered in sticky */
     .feature-layout {
       display: grid;
-      grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
-      gap: 24px 36px;
+      grid-template-columns: minmax(340px, 42%) minmax(0, 1fr);
+      gap: 24px 28px;
       align-items: center;
       flex: 1 1 auto;
       min-height: 0;
@@ -4107,7 +4107,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      width: min(78%, 560px);
+      width: min(94%, 640px);
       flex: 0 1 auto;
     }
     .feature-stage[data-theme="split"] .fx-mock {
@@ -4128,7 +4128,7 @@
     }
     .fx-br-stage {
       position: relative;
-      width: min(86%, 680px);
+      width: min(96%, 720px);
       height: min(78%, 400px);
     }
 
@@ -4357,7 +4357,7 @@
     }
     .fx-so-card {
       position: relative;
-      width: min(58%, 460px);
+      width: min(64%, 500px);
       height: auto;
       min-height: 0;
       padding: 22px 20px 24px;
