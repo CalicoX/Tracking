@@ -3615,7 +3615,6 @@
 
     /* left nav — flat list; active larger, idle readable, soft transitions */
     .feature {
-      --feat-open: 0;
       border: 0;
       border-radius: 0;
       background: transparent;
@@ -3645,7 +3644,6 @@
       box-shadow: none;
     }
     .feature.active {
-      --feat-open: 1;
       gap: 8px;
       padding-top: 12px;
       padding-bottom: 12px;
@@ -3661,22 +3659,23 @@
     }
     .feature h3 {
       margin: 0;
-      font-size: calc(20px + 5px * var(--feat-open, 0));
+      font-size: 20px;
       font-weight: 600;
       line-height: 1.3;
-      letter-spacing: calc(-0.015em - 0.01em * var(--feat-open, 0));
+      letter-spacing: -0.015em;
       color: #64748b;
       -webkit-text-fill-color: currentColor;
       background-image: none;
       overflow-wrap: anywhere;
       word-break: break-word;
-      transition: font-weight 0.45s ease;
     }
     .feature:hover h3 {
       color: #475569;
     }
     .feature.active h3 {
+      font-size: 25px;
       font-weight: 700;
+      letter-spacing: -0.025em;
       background-image: linear-gradient(105deg, #1d4ed8 0%, #2563eb 48%, #4f46e5 100%);
       -webkit-background-clip: text;
       background-clip: text;
@@ -9932,9 +9931,11 @@
         transform: none !important;
       }
       .feature-list .feature h3 {
-        font-size: calc(17px + 3px * var(--feat-open, 0));
+        font-size: 17px;
         margin: 0 0 4px;
-        transition: font-weight 0.45s ease;
+      }
+      .feature-list .feature.active h3 {
+        font-size: 20px;
       }
       .feature-list .feature .feature-points {
         max-height: none;
