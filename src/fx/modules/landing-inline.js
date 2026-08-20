@@ -375,9 +375,8 @@ export function mount() {
         var headEl = sticky.querySelector(".section-head");
         var headH = headEl ? headEl.getBoundingClientRect().height : 120;
         var padY = 48; /* sticky top+bottom padding approx */
-        var avail = Math.max(360, stickyH - headH - padY);
-        /* taller right stage */
-        var cap = Math.min(660, Math.max(460, window.innerHeight - pinTop() - 100));
+        var avail = Math.max(300, stickyH - headH - padY);
+        var cap = Math.min(480, Math.max(360, window.innerHeight - pinTop() - 200));
         panelH = Math.round(Math.min(avail, cap));
 
         panels.forEach(function (p) {
@@ -420,9 +419,13 @@ export function mount() {
         if (idx === current) return;
         current = idx;
         buttons.forEach(function (b) {
-          var on = parseInt(b.getAttribute("data-feature"), 10) === idx;
+          var i = parseInt(b.getAttribute("data-feature"), 10);
+          var on = i === idx;
           b.classList.toggle("active", on);
           b.setAttribute("aria-selected", on ? "true" : "false");
+          if (mqMobile.matches) {
+            b.style.setProperty("--feat-open", on ? "1" : "0");
+          }
         });
         panels.forEach(function (p, i) {
           p.classList.toggle("is-active", i === idx);
@@ -469,6 +472,13 @@ export function mount() {
 
         var continuous = continuousFromProgress(p);
         setActive(progressToIndex(p));
+        buttons.forEach(function (b) {
+          var i = parseInt(b.getAttribute("data-feature"), 10);
+          var dist = Math.abs(continuous - i);
+          var open = Math.max(0, 1 - Math.min(1, dist));
+          open = open * open * (3 - 2 * open);
+          b.style.setProperty("--feat-open", open.toFixed(3));
+        });
 
         var stride = panelH + panelGap;
         var y = -continuous * stride;

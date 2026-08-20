@@ -21,27 +21,33 @@ export default function FeaturesSection() {
                   <div className="feature-list" role="tablist" aria-label="Key features">
                     <button className="feature active" type="button" id="feature-tab-0" data-feature="0" role="tab" aria-selected="true" aria-controls="feature-panel-0">
                       <h3>Last-Mile Visibility</h3>
-                      <ul className="feature-points">
-                        <li>Last-mile information is displayed automatically, allowing buyers to contact carriers directly, reducing delivery failure risks.</li>
-                        <li>Partnerships with major carriers ensure transparent, accurate tracking, enhancing buyer trust.</li>
-                        <li>Customizable last-mile info in automated emails improves the post-purchase experience and eases merchant workload.</li>
-                      </ul>
+                      <div className="feature-points">
+                        <ul className="feature-points-inner">
+                          <li>Last-mile information is displayed automatically, allowing buyers to contact carriers directly, reducing delivery failure risks.</li>
+                          <li>Partnerships with major carriers ensure transparent, accurate tracking, enhancing buyer trust.</li>
+                          <li>Customizable last-mile info in automated emails improves the post-purchase experience and eases merchant workload.</li>
+                        </ul>
+                      </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-1" data-feature="1" role="tab" aria-selected="false" aria-controls="feature-panel-1">
                       <h3>Split-Order Management</h3>
-                      <ul className="feature-points">
-                        <li>The system detects split orders and notifies customers by email for clear communication.</li>
-                        <li>Emails and branded tracking pages sync to show multi-package details, reducing confusion.</li>
-                        <li>Buyers can track shipped and pending items in real time, enhancing the shopping experience.</li>
-                      </ul>
+                      <div className="feature-points">
+                        <ul className="feature-points-inner">
+                          <li>The system detects split orders and notifies customers by email for clear communication.</li>
+                          <li>Emails and branded tracking pages sync to show multi-package details, reducing confusion.</li>
+                          <li>Buyers can track shipped and pending items in real time, enhancing the shopping experience.</li>
+                        </ul>
+                      </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-2" data-feature="2" role="tab" aria-selected="false" aria-controls="feature-panel-2">
                       <h3>Branded Tracking Experience</h3>
-                      <ul className="feature-points">
-                        <li>Custom tracking pages enhance brand identity and reduce customer support load.</li>
-                        <li>Branded pages encourage customer return visits, boosting store engagement.</li>
-                        <li>Product recommendations during tracking offer second exposure, driving repeat purchases.</li>
-                      </ul>
+                      <div className="feature-points">
+                        <ul className="feature-points-inner">
+                          <li>Custom tracking pages enhance brand identity and reduce customer support load.</li>
+                          <li>Branded pages encourage customer return visits, boosting store engagement.</li>
+                          <li>Product recommendations during tracking offer second exposure, driving repeat purchases.</li>
+                        </ul>
+                      </div>
                     </button>
                   </div>{/* /.feature-list */}
                   </div>{/* /.feature-side */}

@@ -3094,8 +3094,7 @@
       --feature-pin-gap: 36px;
       --feature-panel-gap: 24px;
       --feature-n: 3;
-      /* roomy right visual */
-      --feature-visual-h: min(640px, calc(100vh - var(--feature-pin-top) - 120px));
+      --feature-visual-h: min(480px, calc(100vh - var(--feature-pin-top) - 220px));
       /* no top border / shadow that reads as a seam */
       border-top: none;
       box-shadow: none;
@@ -3182,7 +3181,7 @@
     /* body row: left switcher + right viewport — vertically centered in sticky */
     .feature-layout {
       display: grid;
-      grid-template-columns: minmax(300px, 380px) 1fr;
+      grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
       gap: 24px 36px;
       align-items: center; /* center left + right as a block */
       flex: 1 1 auto;
@@ -3616,6 +3615,7 @@
 
     /* left nav — flat list; active larger, idle readable, soft transitions */
     .feature {
+      --feat-open: 0;
       border: 0;
       border-radius: 0;
       background: transparent;
@@ -3637,14 +3637,15 @@
       opacity: 1;
       transform: none;
       transition:
-        gap 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-        padding 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        gap 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        padding 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .feature:hover {
       background: transparent;
       box-shadow: none;
     }
     .feature.active {
+      --feat-open: 1;
       gap: 8px;
       padding-top: 12px;
       padding-bottom: 12px;
@@ -3660,81 +3661,76 @@
     }
     .feature h3 {
       margin: 0;
-      font-size: 17px;
+      font-size: calc(20px + 5px * var(--feat-open, 0));
       font-weight: 600;
       line-height: 1.3;
-      letter-spacing: -0.015em;
-      color: #64748b; /* idle: readable slate, not washed out */
+      letter-spacing: calc(-0.015em - 0.01em * var(--feat-open, 0));
+      color: #64748b;
       overflow-wrap: anywhere;
       word-break: break-word;
       transition:
-        color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-        font-size 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-        font-weight 0.35s ease,
-        letter-spacing 0.35s ease;
+        color 0.45s ease,
+        font-weight 0.45s ease;
     }
     .feature:hover h3 {
       color: #475569;
     }
     .feature.active h3 {
-      font-size: 22px;
       font-weight: 700;
-      letter-spacing: -0.025em;
       color: #0f172a;
     }
     .feature p,
     .feature-points {
       margin: 0;
       color: #94a3b8;
-      font-size: 13.5px;
+      font-size: 15.5px;
       line-height: 1.5;
       overflow-wrap: anywhere;
       word-break: break-word;
       white-space: normal;
     }
     .feature-points {
-      list-style: none;
-      padding: 0;
-      display: grid;
-      gap: 10px;
-      max-height: 0;
-      opacity: 0;
+      max-height: calc(var(--feat-open, 0) * 16em);
+      opacity: var(--feat-open, 0);
       overflow: hidden;
       pointer-events: none;
-      transition:
-        max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.35s ease,
-        margin 0.35s ease;
+      transform: translateY(calc((1 - var(--feat-open, 0)) * -6px));
     }
     .feature.active .feature-points {
-      max-height: 18em;
-      opacity: 1;
-      margin-top: 2px;
       pointer-events: auto;
+    }
+    .feature-points-inner {
+      list-style: none;
+      margin: 0;
+      padding: 6px 0 0;
+      display: grid;
+      gap: 12px;
+      overflow: hidden;
+      min-height: 0;
     }
     .feature-points li {
       position: relative;
-      padding-left: 22px;
+      padding-left: 26px;
       color: #475569;
-      font-size: 13.5px;
-      line-height: 1.45;
+      font-size: 15.5px;
+      line-height: 1.5;
     }
     .feature-points li::before {
       content: "";
       position: absolute;
       left: 0;
-      top: 0.22em;
-      width: 14px;
-      height: 14px;
+      top: 0.28em;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      background: #0f766e url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M2.4 6.2 4.7 8.5 9.6 3.4'/></svg>") center / 9px 9px no-repeat;
+      background: #0f766e url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M2.4 6.2 4.7 8.5 9.6 3.4'/></svg>") center / 10px 10px no-repeat;
     }
     .feature:hover p {
       color: #788595;
     }
     .feature.active p {
       color: #475569;
-      font-size: 14.5px;
+      font-size: 16px;
     }
     .feature-visual {
       border: 1px solid var(--border-default);
@@ -3742,10 +3738,10 @@
       background:
         radial-gradient(circle at 80% 20%, rgba(0, 58, 155, 0.08), transparent 40%),
         linear-gradient(160deg, #ffffff, #eef2fb 90%);
-      padding: 20px 22px;
+      padding: 16px 18px;
       min-height: 0;
       height: 100%;
-      max-height: var(--feature-visual-h, 640px);
+      max-height: var(--feature-visual-h, 480px);
       display: grid;
       align-content: stretch;
       overflow: hidden;
@@ -4687,8 +4683,8 @@
       .feature-stage,
       .feature-stage-art {
         --fx-c: 1;
-        min-height: 380px;
-        max-height: 460px;
+        min-height: 300px;
+        max-height: 360px;
       }
       .feature-stage .fx-glass,
       .feature-stage .fx-br-select,
@@ -9895,26 +9891,27 @@
         transform: none !important;
       }
       .feature-list .feature h3 {
-        font-size: 15px;
+        font-size: calc(17px + 3px * var(--feat-open, 0));
         margin: 0 0 4px;
+        transition:
+          color 0.45s ease,
+          font-weight 0.45s ease;
+      }
+      .feature-list .feature .feature-points {
+        max-height: calc(var(--feat-open, 0) * 20em);
+        opacity: var(--feat-open, 0);
+        transition:
+          max-height 0.5s ease,
+          opacity 0.4s ease,
+          transform 0.45s ease;
       }
       .feature-list .feature p,
       .feature-list .feature .feature-points {
-        max-height: none;
-        font-size: 13px;
+        font-size: 14.5px;
         margin: 0;
       }
-      .feature-list .feature .feature-points {
-        max-height: 0;
-        opacity: 0;
-      }
-      .feature-list .feature.active .feature-points {
-        max-height: 20em;
-        opacity: 1;
-        margin-top: 8px;
-      }
       .feature-list .feature .feature-points li {
-        font-size: 13px;
+        font-size: 14.5px;
       }
       .feature-list .feature.active {
         transform: none !important;
@@ -9930,8 +9927,8 @@
       }
       .feature-stage,
       .feature-stage-art {
-        min-height: 360px;
-        max-height: 440px;
+        min-height: 280px;
+        max-height: 340px;
         height: auto;
       }
       .feature-browser,
