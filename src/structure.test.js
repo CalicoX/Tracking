@@ -120,6 +120,14 @@ describe("React landing structure (gating)", () => {
     expect(fx).toMatch(/bottom-cta|bottomCta/);
     const features = read("components/sections/FeaturesSection.jsx");
     expect(features).toMatch(/feature-scroll|id="feature-scroll"/);
+    expect(features).toMatch(/Last-Mile Visibility/);
+    expect(features).toMatch(/Split-Order Management/);
+    expect(features).toMatch(/Branded Tracking Experience/);
+    expect(features).not.toMatch(/Proactive notifications/);
+    expect(features).not.toMatch(/data-feature="3"/);
+    expect(features).toMatch(/Last-mile Carrier/);
+    expect(features).toMatch(/Package #1/);
+    expect(features).toMatch(/You may also like/);
     const impact = read("components/sections/ImpactBand.jsx");
     expect(impact).toMatch(/business-impact|data-impact/);
     const dock = read("components/layout/ProductDock.jsx");

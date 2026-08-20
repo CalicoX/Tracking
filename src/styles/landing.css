@@ -3093,7 +3093,7 @@
       --feature-pin-top: var(--topbar-h, 64px);
       --feature-pin-gap: 36px;
       --feature-panel-gap: 24px;
-      --feature-n: 4;
+      --feature-n: 3;
       /* roomy right visual */
       --feature-visual-h: min(640px, calc(100vh - var(--feature-pin-top) - 120px));
       /* no top border / shadow that reads as a seam */
@@ -3112,7 +3112,7 @@
       height: calc(
         100vh - var(--feature-pin-top) + (var(--feature-n) - 0.15) * (100vh - var(--feature-pin-top))
       );
-      min-height: 320vh;
+      min-height: 240vh;
     }
     /* pinned UI — nothing in here rides up after stick */
     .feature-sticky {
@@ -3682,21 +3682,52 @@
       letter-spacing: -0.025em;
       color: #0f172a;
     }
-    .feature p {
+    .feature p,
+    .feature-points {
       margin: 0;
-      color: #94a3b8; /* idle desc: mid gray, still clear */
+      color: #94a3b8;
       font-size: 13.5px;
       line-height: 1.5;
       overflow-wrap: anywhere;
       word-break: break-word;
       white-space: normal;
-      display: block;
-      overflow: visible;
-      max-height: 4.5em;
+    }
+    .feature-points {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
       transition:
-        color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-        font-size 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.35s ease;
+        max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.35s ease,
+        margin 0.35s ease;
+    }
+    .feature.active .feature-points {
+      max-height: 18em;
+      opacity: 1;
+      margin-top: 2px;
+      pointer-events: auto;
+    }
+    .feature-points li {
+      position: relative;
+      padding-left: 22px;
+      color: #475569;
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+    .feature-points li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.22em;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #0f766e url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M2.4 6.2 4.7 8.5 9.6 3.4'/></svg>") center / 9px 9px no-repeat;
     }
     .feature:hover p {
       color: #788595;
@@ -3773,117 +3804,21 @@
     }
     .feature-stage[data-theme="lastmile"] .feature-stage-art {
       background:
-        radial-gradient(ellipse 65% 55% at 15% 20%, rgba(253, 224, 71, 0.28), transparent 50%),
-        radial-gradient(ellipse 70% 60% at 90% 70%, rgba(147, 197, 253, 0.4), transparent 52%),
-        linear-gradient(160deg, #f0f7ff 0%, #e8f0fe 45%, #eef2ff 100%);
-    }
-    /* Last-mile route map + truck along arc */
-    .fx-route-map {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      overflow: hidden;
-    }
-    .fx-route-map svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .fx-route-map .route-base {
-      fill: none;
-      stroke: rgba(148, 163, 184, 0.35);
-      stroke-width: 3;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 6 8;
-    }
-    .fx-route-map .route-live {
-      fill: none;
-      stroke: url(#fx-route-grad);
-      stroke-width: 3.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 280;
-      stroke-dashoffset: 280;
-      animation: fx-route-draw 4.5s ease-in-out infinite;
-    }
-    @keyframes fx-route-draw {
-      0% { stroke-dashoffset: 280; opacity: 0.55; }
-      15% { opacity: 1; }
-      55% { stroke-dashoffset: 0; opacity: 1; }
-      85% { stroke-dashoffset: 0; opacity: 1; }
-      100% { stroke-dashoffset: 0; opacity: 0.7; }
-    }
-    .fx-route-map .route-node {
-      fill: #fff;
-      stroke: #3b82f6;
-      stroke-width: 2;
-    }
-    .fx-route-map .route-node.is-hub {
-      fill: #2563eb;
-      stroke: #fff;
-      stroke-width: 2;
-    }
-    .fx-route-map .route-node.is-home {
-      fill: #ef4444;
-      stroke: #fff;
-    }
-    .fx-route-map .route-label {
-      font-size: 9px;
-      font-weight: 650;
-      fill: #475569;
-      font-family: Inter, system-ui, sans-serif;
-    }
-    .fx-route-map .fx-van-g {
-      filter: drop-shadow(0 3px 5px rgba(15, 23, 42, 0.28));
-    }
-    /* pause SMIL when panel inactive — via CSS can't pause SMIL easily; JS toggles */
-    .feature-stage[data-theme="lastmile"]:not(.is-route-on) .route-live {
-      animation-play-state: paused;
-    }
-    .feature-stage[data-theme="lastmile"].is-route-on .route-live {
-      animation-play-state: running;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .fx-route-map .route-live {
-        animation: none;
-        stroke-dashoffset: 0;
-      }
-    }
-    .feature-stage[data-theme="lastmile"] .fx-main {
-      /* smaller glass overlay so map stays readable */
-      left: auto;
-      right: 5%;
-      top: 8%;
-      width: 44%;
-      height: auto;
-      max-height: none;
-      --ox: 40px;
-      --oy: -28px;
-    }
-    .feature-stage[data-theme="lastmile"] .fx-float-a {
-      left: 6%;
-      right: auto;
-      top: auto;
-      bottom: 10%;
-      width: 42%;
-      --ox: -36px;
-      --oy: 40px;
-    }
-    .feature-stage[data-theme="lastmile"] .fx-float-b {
-      right: 6%;
-      bottom: 10%;
-      top: auto;
-      width: 40%;
-    }
-    .feature-stage[data-theme="lastmile"] .fx-float-c {
-      display: none;
+        radial-gradient(ellipse 70% 60% at 88% 42%, rgba(96, 165, 250, 0.38), transparent 55%),
+        radial-gradient(ellipse 55% 50% at 12% 18%, rgba(165, 180, 252, 0.32), transparent 50%),
+        linear-gradient(160deg, #e8eefc 0%, #dce6fb 48%, #eef2ff 100%);
     }
     .feature-stage[data-theme="split"] .feature-stage-art {
       background:
-        radial-gradient(ellipse 60% 55% at 25% 75%, rgba(251, 207, 232, 0.45), transparent 52%),
-        radial-gradient(ellipse 65% 50% at 85% 20%, rgba(165, 243, 252, 0.4), transparent 50%),
-        linear-gradient(155deg, #fdf4ff 0%, #ecfeff 50%, #f8fafc 100%);
+        radial-gradient(ellipse 60% 55% at 22% 78%, rgba(196, 181, 253, 0.38), transparent 52%),
+        radial-gradient(ellipse 65% 50% at 82% 18%, rgba(125, 211, 252, 0.36), transparent 50%),
+        linear-gradient(155deg, #eef2ff 0%, #e0e7ff 50%, #f8fafc 100%);
+    }
+    .feature-stage[data-theme="branded"] .feature-stage-art {
+      background:
+        radial-gradient(ellipse 55% 50% at 86% 82%, rgba(244, 114, 182, 0.28), transparent 52%),
+        radial-gradient(ellipse 70% 60% at 18% 12%, rgba(167, 139, 250, 0.38), transparent 50%),
+        linear-gradient(160deg, #ece7ff 0%, #e0e7ff 46%, #f5f3ff 100%);
     }
     /* soft grid + depth */
     .feature-stage-art::before {
@@ -4177,34 +4112,438 @@
     .fx-float-c > span {
       font-size: 11px;
     }
-    /* branded: big main browser + proportionally large floats */
-    .feature-stage[data-theme="branded"] .fx-main {
-      left: 5%;
-      top: 6%;
-      width: min(62%, 420px);
-      height: 86%;
-      max-height: none;
+    /* ——— Feature mocks: last-mile / split-order / branded ——— */
+    .fx-lm-card,
+    .fx-so-card,
+    .fx-br-form,
+    .fx-br-recs {
+      color: #e8eefc;
+      background:
+        linear-gradient(180deg, rgba(28, 36, 68, 0.92), rgba(15, 20, 42, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.12) inset,
+        0 22px 48px -18px rgba(15, 23, 42, 0.45);
+      -webkit-backdrop-filter: blur(22px) saturate(1.2);
+      backdrop-filter: blur(22px) saturate(1.2);
     }
-    .feature-stage[data-theme="branded"] .fx-float-a {
-      right: 4%;
+    .fx-lm-card strong,
+    .fx-so-card strong,
+    .fx-br-form strong,
+    .fx-br-recs strong,
+    .fx-lm-card h4,
+    .fx-br-form h4 {
+      color: #f8fafc;
+    }
+    .fx-lm-card span,
+    .fx-so-card span,
+    .fx-br-form span,
+    .fx-br-recs span {
+      color: #94a3b8;
+    }
+
+    /* Last-mile tracking info + call button */
+    .fx-lm-card {
+      left: 8%;
       top: 10%;
-      width: min(240px, 34%);
-      max-width: 260px;
+      width: min(58%, 420px);
+      height: auto;
+      padding: 22px 22px 18px;
+      --ox: -40px;
+      --oy: 28px;
     }
-    .feature-stage[data-theme="branded"] .fx-float-a .fx-illus {
-      height: 120px;
+    .fx-lm-card h4 {
+      margin: 0 0 16px;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
     }
-    .feature-stage[data-theme="branded"] .fx-float-b {
-      right: 5%;
-      bottom: 8%;
-      width: min(230px, 32%);
-      max-width: 250px;
+    .fx-lm-ship {
+      display: grid;
+      justify-items: start;
+      gap: 0;
     }
-    .feature-stage[data-theme="branded"] .fx-float-c {
+    .fx-lm-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .fx-lm-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      flex: 0 0 36px;
+      background: #fff;
+      object-fit: contain;
+    }
+    .fx-lm-meta {
+      min-width: 0;
+      flex: 1;
+    }
+    .fx-lm-meta strong {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .fx-lm-meta span {
+      margin-top: 2px;
+      font-size: 11.5px;
+      letter-spacing: 0.01em;
+    }
+    .fx-lm-badge {
+      display: inline-flex;
+      align-items: center;
+      margin: 0;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(148, 163, 255, 0.22);
+      color: #c7d2fe;
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 650;
+      letter-spacing: 0;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .fx-lm-ico {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: #cbd5e1;
+      flex: 0 0 auto;
+    }
+    .fx-lm-ico svg {
+      width: 16px;
+      height: 16px;
+    }
+    .fx-lm-arrow {
+      width: 36px;
+      height: 18px;
+      margin: 2px 0 2px 0;
+      color: #94a3b8;
+      display: grid;
+      place-items: center;
+      justify-items: center;
+    }
+    .fx-lm-arrow svg {
+      width: 12px;
+      height: 16px;
+    }
+    .fx-lm-event {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .fx-lm-event time {
+      font-size: 12px;
+      font-weight: 500;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+    .fx-lm-event time span {
+      display: block;
+      margin-top: 2px;
+    }
+    .fx-lm-event strong {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #5eead4;
+    }
+    .fx-lm-event span {
+      margin-top: 4px;
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .fx-lm-card .fx-lm-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 14px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #e2e8f0;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .fx-lm-more svg {
+      width: 12px;
+      height: 12px;
+    }
+    .fx-lm-phone {
+      right: 9%;
+      top: 38%;
+      width: 72px;
+      height: 72px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      background: linear-gradient(160deg, #60a5fa 0%, #2563eb 58%, #1d4ed8 100%);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      box-shadow:
+        0 0 0 10px rgba(37, 99, 235, 0.12),
+        0 0 36px 6px rgba(37, 99, 235, 0.45),
+        0 16px 32px -12px rgba(29, 78, 216, 0.55);
+      --ox: 48px;
+      --oy: -20px;
+      --or: 8deg;
+      z-index: 5;
+    }
+    .fx-lm-phone svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    /* Split-order package card */
+    .fx-so-card {
+      left: 14%;
+      top: 8%;
+      width: min(54%, 360px);
+      height: auto;
+      min-height: 78%;
+      padding: 22px 20px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      --ox: -36px;
+      --oy: 24px;
+    }
+    .fx-so-tabs {
+      display: flex;
+      gap: 8px;
+      width: calc(100% + 28px);
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, #000 78%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, #000 78%, transparent 100%);
+    }
+    .fx-so-tabs span {
+      display: inline-flex;
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+    .fx-so-tabs span.is-on {
+      color: #f8fafc;
+      border-color: rgba(255, 255, 255, 0.38);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .fx-so-card .fx-so-kicker {
+      margin: 36px 0 0;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+    .fx-so-card .fx-so-dates {
+      margin: 12px 0 0;
+      font-size: clamp(26px, 2.8vw, 34px);
+      font-weight: 750;
+      letter-spacing: -0.035em;
+      color: #f8fafc;
+      line-height: 1.1;
+    }
+    .fx-so-card .fx-so-eta {
+      margin: 8px 0 0;
+      font-size: 12.5px;
+      color: #94a3b8;
+    }
+    .fx-so-track {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 82%;
+      margin: 28px auto 0;
+      position: relative;
+    }
+    .fx-so-track::before {
+      content: "";
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.22);
+    }
+    .fx-so-track i {
+      position: relative;
+      z-index: 1;
+      width: 14px;
+      height: 14px;
+      margin: 0 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(226, 232, 240, 0.7);
+      background: #1e293b;
+      box-sizing: border-box;
+    }
+    .fx-so-track i.is-now {
+      width: 22px;
+      height: 22px;
+      border: 0;
+      background: #fff;
+      color: #0f172a;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
+    }
+    .fx-so-track i.is-now svg {
+      width: 12px;
+      height: 12px;
+    }
+    .fx-so-card .fx-so-status {
+      margin: 10px 0 0;
+      font-size: 13.5px;
+      font-weight: 650;
+      color: #e2e8f0;
+    }
+
+    /* Branded form + recs + color wheel */
+    .fx-br-select {
+      position: absolute;
       left: 6%;
+      top: 11%;
+      width: min(54%, 360px);
+      z-index: 3;
+      --ox: -32px;
+      --oy: 20px;
+      transform:
+        translate3d(
+          calc(var(--ox) * (1 - var(--fx-c, 1))),
+          calc(var(--oy) * (1 - var(--fx-c, 1))),
+          0
+        );
+      outline: 1.5px solid #e879f9;
+      outline-offset: 6px;
+      border-radius: 20px;
+    }
+    .fx-br-h {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border: 1.5px solid #e879f9;
+      z-index: 4;
+    }
+    .fx-br-h.tl { left: -10px; top: -10px; }
+    .fx-br-h.tr { right: -10px; top: -10px; }
+    .fx-br-h.bl { left: -10px; bottom: -10px; }
+    .fx-br-h.br { right: -10px; bottom: -10px; }
+    .fx-br-form {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 100%;
+      padding: 22px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .fx-br-form h4 {
+      margin: 0 0 10px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .fx-br-form .fx-br-label {
+      display: block;
+      margin: 0;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+    .fx-br-field {
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 6px;
+    }
+    .fx-br-form .fx-br-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 42px;
+      margin: 8px 0 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #e879f9, #d946ef 55%, #a855f7);
+      color: #fff !important;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 8px 22px -8px rgba(217, 70, 239, 0.7);
+    }
+    .fx-br-recs {
+      right: auto;
+      left: 46%;
+      top: 12%;
+      width: min(42%, 260px);
+      padding: 14px 14px 16px;
+      z-index: 4;
+      --ox: 44px;
+      --oy: -28px;
+      --or: 5deg;
+    }
+    .fx-br-recs strong {
+      display: block;
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+    .fx-br-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .fx-br-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+    .fx-br-wheel {
+      position: absolute;
+      right: 10%;
       bottom: 8%;
-      width: min(190px, 28%);
-      max-width: 210px;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      z-index: 6;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.55) 0 14%, transparent 38%),
+        conic-gradient(
+          from 0deg,
+          #ef4444, #f97316, #eab308, #22c55e, #14b8a6, #3b82f6, #8b5cf6, #ec4899, #ef4444
+        );
+      box-shadow:
+        0 0 0 7px #fff,
+        0 16px 36px -10px rgba(15, 23, 42, 0.45);
+      --ox: 28px;
+      --oy: 36px;
+      transform:
+        translate3d(
+          calc(28px * (1 - var(--fx-c, 1))),
+          calc(36px * (1 - var(--fx-c, 1))),
+          0
+        )
+        scale(calc(0.86 + var(--fx-c, 1) * 0.14));
+      opacity: calc(0.4 + var(--fx-c, 1) * 0.6);
     }
     .feature-stage-copy {
       min-width: 0;
@@ -4345,9 +4684,54 @@
         max-height: none;
         height: auto;
       }
+      .feature-stage,
       .feature-stage-art {
-        min-height: 300px;
-        max-height: 420px;
+        --fx-c: 1;
+        min-height: 380px;
+        max-height: 460px;
+      }
+      .feature-stage .fx-glass,
+      .feature-stage .fx-br-select,
+      .feature-stage .fx-br-wheel {
+        transform: none;
+        opacity: 1;
+      }
+      .fx-lm-card {
+        left: 4%;
+        top: 6%;
+        width: 72%;
+        padding: 14px 14px 12px;
+      }
+      .fx-lm-phone {
+        width: 52px;
+        height: 52px;
+        right: 5%;
+        top: 14%;
+        border-radius: 16px;
+      }
+      .fx-so-card {
+        left: 7%;
+        width: 86%;
+        min-height: 0;
+        height: auto;
+        top: 6%;
+        padding: 16px 14px 22px;
+      }
+      .fx-br-select {
+        left: 4%;
+        top: 8%;
+        width: 58%;
+      }
+      .fx-br-recs {
+        width: 38%;
+        right: 3%;
+        top: 10%;
+      }
+      .fx-br-wheel {
+        width: 64px;
+        height: 64px;
+        right: 5%;
+        bottom: 6%;
       }
       .feature-stage-copy {
         transform: none;
@@ -9462,8 +9846,8 @@
         transform: none !important;
       }
       /*
-       * Mobile accordion: only the active visual — stacking all 4 panels
-       * made this module ~2400px tall with duplicated copy (list + panels).
+       * Mobile accordion: only the active visual — stacking all panels
+       * made this module too tall with duplicated copy (list + panels).
        */
       .feature-panel:not(.is-active) {
         display: none !important;
@@ -9514,10 +9898,23 @@
         font-size: 15px;
         margin: 0 0 4px;
       }
-      .feature-list .feature p {
+      .feature-list .feature p,
+      .feature-list .feature .feature-points {
         max-height: none;
         font-size: 13px;
         margin: 0;
+      }
+      .feature-list .feature .feature-points {
+        max-height: 0;
+        opacity: 0;
+      }
+      .feature-list .feature.active .feature-points {
+        max-height: 20em;
+        opacity: 1;
+        margin-top: 8px;
+      }
+      .feature-list .feature .feature-points li {
+        font-size: 13px;
       }
       .feature-list .feature.active {
         transform: none !important;
@@ -9533,8 +9930,8 @@
       }
       .feature-stage,
       .feature-stage-art {
-        min-height: 240px;
-        max-height: 340px;
+        min-height: 360px;
+        max-height: 440px;
         height: auto;
       }
       .feature-browser,

@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-17
+最后更新：2026-08-20
 
 ## Hero 文案区
 
@@ -35,6 +35,15 @@
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完自动 commit + push。
 
+## Features（3 块）
+
+- 官方产品页只有 3 块，落地页已对齐，去掉 Proactive notifications。
+- 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
+- 左侧 active 才展开 3 条官方文案；右侧深色产品 UI mock（浅色舞台上）。
+- Last-mile：Tracking info（UPS → USPS Last-mile Carrier）+ 悬浮电话按钮。
+- Split-order：Package tab + 日期区间 + 5 点时间轴。
+- Branded：Track your order 表单 + 品红选区/色盘 + You may also like 四宫格（用现有 earbuds/case/tips，不用暖色瑜伽图）。
+
 ## 产品
 
 - 17TRACK 品牌订单追踪落地页。
@@ -43,6 +52,7 @@
 
 - 不要给 Hero 绘制动画做循环播放。
 - 不要用暖色丘陵 / 大地色服饰图。
+- 不要把 Branded 推荐图换成暖色瑜伽人像（用现有产品图）。
 - 不要把手机 Hero 插图外框改成刘海手机壳（Park 否过，已回退）。
 - 不要动 `public/js/`。
 - 不要 force push、不要 `--no-verify`。

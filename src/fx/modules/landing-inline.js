@@ -426,6 +426,10 @@ export function mount() {
         });
         panels.forEach(function (p, i) {
           p.classList.toggle("is-active", i === idx);
+          var stage = p.querySelector(".feature-stage");
+          if (stage && mqMobile.matches) {
+            stage.style.setProperty("--fx-c", i === idx ? "1" : "0");
+          }
         });
       }
 
@@ -495,17 +499,6 @@ export function mount() {
           var stage = panel.querySelector(".feature-stage");
           if (stage) {
             stage.style.setProperty("--fx-c", c.toFixed(3));
-            if (stage.getAttribute("data-theme") === "lastmile") {
-              var on = leave < 0.55;
-              stage.classList.toggle("is-route-on", on);
-              var routeSvg = stage.querySelector(".fx-route-map svg");
-              if (routeSvg) {
-                try {
-                  if (on) routeSvg.unpauseAnimations();
-                  else routeSvg.pauseAnimations();
-                } catch (err) {}
-              }
-            }
           }
         });
       }
