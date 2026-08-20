@@ -4169,13 +4169,14 @@
       top: auto;
       width: min(58%, 420px);
       height: auto;
-      padding: 22px 22px 18px;
+      min-height: 360px;
+      padding: 26px 24px 22px;
       flex: 0 1 auto;
       --ox: -40px;
       --oy: 28px;
     }
     .fx-lm-card h4 {
-      margin: 0 0 16px;
+      margin: 0 0 20px;
       font-size: 15px;
       font-weight: 650;
       letter-spacing: -0.02em;
@@ -4246,8 +4247,8 @@
     }
     .fx-lm-arrow {
       width: 36px;
-      height: 18px;
-      margin: 2px 0 2px 0;
+      height: 22px;
+      margin: 6px 0;
       color: #94a3b8;
       display: grid;
       place-items: center;
@@ -4261,8 +4262,8 @@
       display: grid;
       grid-template-columns: 92px 1fr;
       gap: 12px;
-      margin-top: 16px;
-      padding-top: 16px;
+      margin-top: 22px;
+      padding-top: 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
     .fx-lm-event time {
@@ -4292,7 +4293,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      margin-top: 14px;
+      margin-top: 18px;
       font-size: 12.5px;
       font-weight: 500;
       color: #e2e8f0;
@@ -4336,10 +4337,10 @@
       position: relative;
       left: auto;
       top: auto;
-      width: min(54%, 360px);
+      width: min(46%, 300px);
       height: auto;
       min-height: 0;
-      padding: 22px 20px 28px;
+      padding: 16px 16px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -4372,13 +4373,13 @@
       background: rgba(255, 255, 255, 0.06);
     }
     .fx-so-card .fx-so-kicker {
-      margin: 36px 0 0;
-      font-size: 14px;
+      margin: 22px 0 0;
+      font-size: 13px;
       color: #cbd5e1;
     }
     .fx-so-card .fx-so-dates {
-      margin: 12px 0 0;
-      font-size: clamp(26px, 2.8vw, 34px);
+      margin: 8px 0 0;
+      font-size: clamp(20px, 2.1vw, 26px);
       font-weight: 750;
       letter-spacing: -0.035em;
       color: #f8fafc;
@@ -4394,7 +4395,7 @@
       align-items: center;
       justify-content: center;
       width: 82%;
-      margin: 28px auto 0;
+      margin: 18px auto 0;
       position: relative;
     }
     .fx-so-track::before {
