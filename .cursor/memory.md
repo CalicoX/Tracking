@@ -47,7 +47,7 @@
 - Tracking info 按内容高度；USPS 行到 In Transit 16px，不要大段空白。
 - 承运商 logo 40px。
 - Last-mile 结束位贴在右栏下沿（logo 在底栏上方）；不要垂直居中导致「太高」。
-- 插图初始是躺下 isometric（rotateX/Z + 投影），滚动铺平。不改卡片高度、不用 scatter 位移；可用少量 translate 和 drop-shadow 塑形。手机 / reduced-motion 直接平铺。
+- 插图初始是缩小的平躺 isometric（rotateX ~56° / rotateZ ~-34° / scale ~0.74），落在右栏里不要裁切；滚动铺平到结束位。手机 / reduced-motion 直接平铺。
 - Split-order：主卡时间轴 + 右侧邮件/包裹状态浮卡（不要竖着叠三张卡）；主卡同样按内容高度居中。
 - Branded：Track 表单为主，推荐卡和色盘叠在右侧（不要 Figma 选区手柄）。
 
