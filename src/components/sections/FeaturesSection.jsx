@@ -127,7 +127,7 @@ export default function FeaturesSection() {
                   {/* 1 · Split-Order Management */}
                   <article className="feature-panel" data-feature="1" id="feature-panel-1" role="tabpanel" aria-labelledby="feature-tab-1">
                     <div className="feature-visual">
-                      <div className="feature-stage" data-theme="split" style={{ ['--fx-c']: 0 }}>
+                      <div className="feature-stage" data-theme="split" style={{ ['--fx-c']: 0, ['--fx-iso']: 1, ['--fx-spread']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
                             <div className="fx-glass fx-so-card">
@@ -161,7 +161,7 @@ export default function FeaturesSection() {
                   {/* 2 · Branded Tracking Experience */}
                   <article className="feature-panel" data-feature="2" id="feature-panel-2" role="tabpanel" aria-labelledby="feature-tab-2">
                     <div className="feature-visual">
-                      <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 0 }}>
+                      <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 0, ['--fx-iso']: 1, ['--fx-spread']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
                           <div className="fx-br-stage">

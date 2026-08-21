@@ -525,8 +525,21 @@ export function mount() {
               iso = 0;
             }
           } else {
-            iso = 1 - c;
-            spread = 1;
+            /* Entering split/branded: pack → fan → flatten as the panel centers. */
+            if (c < 0.35) {
+              var s2 = c / 0.35;
+              s2 = s2 * s2 * (3 - 2 * s2);
+              spread = s2;
+              iso = 1;
+            } else if (c < 0.88) {
+              spread = 1;
+              var f2 = (c - 0.35) / 0.53;
+              f2 = f2 * f2 * (3 - 2 * f2);
+              iso = 1 - f2;
+            } else {
+              spread = 1;
+              iso = 0;
+            }
           }
           var stage = panel.querySelector(".feature-stage");
           if (stage) {

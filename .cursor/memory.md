@@ -53,8 +53,9 @@
 - 承运商 logo 40px。
 - Last-mile 结束位贴在右栏下沿（logo 在底栏上方）；不要垂直居中导致「太高」。
 - 插图滚动：先 isometric 往中间聚拢（`--fx-spread: 0`），再散开层叠，最后铺平。整组比结束位更高。阴影大而淡。手机 / reduced-motion 直接平铺。
-- Split-order：主卡时间轴 + 右侧邮件/包裹状态浮卡（不要竖着叠三张卡）；主卡同样按内容高度居中。
-- Branded：Track 表单为主，推荐卡和色盘叠在右侧（不要 Figma 选区手柄）。
+- Split / Branded 跟 last-mile 同一套：平躺 isometric，先聚拢再散开再铺平；结束位中下部 padding-bottom 120px；卡片分开不重叠。
+- Split-order：主卡时间轴 + 右侧邮件/包裹状态浮卡（不要竖着叠三张卡）。
+- Branded：Track 表单 + 右侧推荐卡 + 色盘并排，结束态不叠压。
 
 ## 产品
 

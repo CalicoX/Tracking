@@ -4128,11 +4128,28 @@
         rotateZ(calc(-34deg * var(--fx-iso, 0)))
         scale(calc(1 - 0.26 * var(--fx-iso, 0)));
     }
+    .feature-stage[data-theme="split"] .feature-stage-art,
+    .feature-stage[data-theme="branded"] .feature-stage-art {
+      place-items: end stretch;
+      perspective: 1600px;
+      perspective-origin: 62% 70%;
+    }
     .feature-stage[data-theme="split"] .fx-mock,
     .feature-stage[data-theme="branded"] .fx-mock {
+      height: auto;
+      width: 100%;
+      align-items: flex-end;
+      justify-content: flex-start;
+      gap: 24px;
+      padding: 0 2% 120px 0;
       transform-origin: 50% 50%;
+      transform-style: preserve-3d;
       transform:
-        translate3d(0, calc(-40px * var(--fx-iso, 0)), 0)
+        translate3d(
+          calc(64px * var(--fx-iso, 0)),
+          calc(-148px * var(--fx-iso, 0)),
+          0
+        )
         rotateX(calc(56deg * var(--fx-iso, 0)))
         rotateZ(calc(-34deg * var(--fx-iso, 0)))
         scale(calc(1 - 0.26 * var(--fx-iso, 0)));
@@ -4149,30 +4166,25 @@
       position: relative;
       transform-style: preserve-3d;
     }
-    .feature-stage[data-theme="split"] .fx-mock {
-      height: 100%;
-      align-items: center;
-      gap: 20px;
-      padding: 4px 2%;
-    }
     .fx-so-side {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 16px;
       width: 200px;
       flex: 0 0 auto;
-      align-self: center;
-    }
-    .feature-stage[data-theme="branded"] .fx-mock {
-      width: 100%;
-      height: 100%;
-      padding: 8px 2%;
+      align-self: flex-end;
+      transform-style: preserve-3d;
     }
     .fx-br-stage {
       position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      gap: 20px;
       width: 100%;
       max-width: none;
-      height: 100%;
+      height: auto;
+      transform-style: preserve-3d;
     }
 
     /* Last-mile — light cards, no stage chrome */
@@ -4652,6 +4664,41 @@
     .fx-so-pkg.is-live span {
       color: #2563eb;
     }
+    .feature-stage[data-theme="split"] .fx-glass {
+      opacity: 1;
+      box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 calc(16px * var(--fx-iso, 0)) calc(36px * var(--fx-iso, 0))
+          rgba(15, 23, 42, calc(0.045 * var(--fx-iso, 0)));
+    }
+    .feature-stage[data-theme="split"] .fx-so-card {
+      transform: translate3d(
+        0,
+        0,
+        calc((12px + 18px * var(--fx-spread, 0)) * var(--fx-iso, 0))
+      );
+    }
+    .feature-stage[data-theme="split"] .fx-so-mail {
+      transform: translate3d(
+        calc((-28px + 36px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((18px - 30px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((16px + 72px * var(--fx-spread, 0)) * var(--fx-iso, 0))
+      );
+    }
+    .feature-stage[data-theme="split"] .fx-so-pkg.is-live {
+      transform: translate3d(
+        calc((-18px + 24px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        0,
+        calc((12px + 44px * var(--fx-spread, 0)) * var(--fx-iso, 0))
+      );
+    }
+    .feature-stage[data-theme="split"] .fx-so-pkg:not(.is-live) {
+      transform: translate3d(
+        calc((-14px + 18px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((8px - 6px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((8px + 28px * var(--fx-spread, 0)) * var(--fx-iso, 0))
+      );
+    }
 
     /* Branded — form is the main, recs + wheel overlap like last-mile phone */
     .fx-br-form,
@@ -4662,10 +4709,11 @@
       box-shadow: none;
     }
     .fx-br-form {
-      position: absolute;
-      left: 2%;
-      top: 10%;
-      width: 64%;
+      position: relative;
+      left: auto;
+      top: auto;
+      width: min(340px, 58%);
+      flex: 1 1 auto;
       padding: 22px 22px 20px;
       display: flex;
       flex-direction: column;
@@ -4710,10 +4758,11 @@
       box-shadow: none;
     }
     .fx-br-recs {
-      position: absolute;
-      right: 0;
-      top: 4%;
-      width: 46%;
+      position: relative;
+      right: auto;
+      top: auto;
+      width: 188px;
+      flex: 0 0 auto;
       padding: 14px 14px 16px;
       z-index: 4;
       --ox: 40px;
@@ -4741,12 +4790,14 @@
       display: block;
     }
     .fx-br-wheel {
-      position: absolute;
-      right: 4%;
-      bottom: 6%;
-      width: 88px;
-      height: 88px;
+      position: relative;
+      right: auto;
+      bottom: auto;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
+      flex: 0 0 auto;
+      align-self: flex-end;
       z-index: 6;
       background:
         radial-gradient(circle at 50% 50%, rgba(255,255,255,0.55) 0 14%, transparent 38%),
@@ -4754,17 +4805,38 @@
           from 0deg,
           #ef4444, #f97316, #eab308, #22c55e, #14b8a6, #3b82f6, #8b5cf6, #ec4899, #ef4444
         );
-      box-shadow: 0 0 0 6px #fff, 0 0 0 7px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 0 0 5px #fff, 0 0 0 6px rgba(15, 23, 42, 0.08);
       --ox: 28px;
       --oy: 36px;
-      transform:
-        translate3d(
-          calc(28px * (1 - var(--fx-c, 1))),
-          calc(36px * (1 - var(--fx-c, 1))),
-          0
-        )
-        scale(calc(0.86 + var(--fx-c, 1) * 0.14));
-      opacity: calc(0.4 + var(--fx-c, 1) * 0.6);
+    }
+    .feature-stage[data-theme="branded"] .fx-glass {
+      opacity: 1;
+      box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 calc(16px * var(--fx-iso, 0)) calc(36px * var(--fx-iso, 0))
+          rgba(15, 23, 42, calc(0.045 * var(--fx-iso, 0)));
+    }
+    .feature-stage[data-theme="branded"] .fx-br-form {
+      transform: translate3d(
+        0,
+        0,
+        calc((12px + 16px * var(--fx-spread, 0)) * var(--fx-iso, 0))
+      );
+    }
+    .feature-stage[data-theme="branded"] .fx-br-recs {
+      transform: translate3d(
+        calc((-22px + 30px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((14px - 22px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((20px + 64px * var(--fx-spread, 0)) * var(--fx-iso, 0))
+      );
+    }
+    .feature-stage[data-theme="branded"] .fx-br-wheel {
+      transform: translate3d(
+        calc((-8px + 14px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((8px - 12px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((28px + 80px * var(--fx-spread, 0)) * var(--fx-iso, 0))
+      );
+      opacity: 1;
     }
     .feature-stage-copy {
       min-width: 0;
@@ -4933,23 +5005,33 @@
         width: 160px;
       }
       .fx-br-stage {
-        width: 96%;
-        height: 320px;
+        width: 100%;
+        height: auto;
+        gap: 12px;
       }
       .fx-br-form {
-        width: 62%;
-        top: 8%;
+        width: auto;
+        flex: 1 1 auto;
+        top: auto;
+        left: auto;
         padding: 16px 14px 14px;
       }
       .fx-br-recs {
-        width: 44%;
-        top: 6%;
+        width: 140px;
+        top: auto;
+        right: auto;
       }
       .fx-br-wheel {
-        width: 56px;
-        height: 56px;
-        right: 2%;
-        bottom: 4%;
+        width: 48px;
+        height: 48px;
+        right: auto;
+        bottom: auto;
+      }
+      .feature-stage[data-theme="split"] .fx-mock,
+      .feature-stage[data-theme="branded"] .fx-mock {
+        height: auto;
+        align-items: flex-end;
+        padding: 4px 0;
       }
       .fx-lm-mail {
         width: 100%;
