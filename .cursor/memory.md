@@ -43,7 +43,7 @@
 - 桌面内容区（左列表 + 右插图）铺满标题下剩余 sticky 高度；mock 在舞台里居中，卡片本身不撑满。
 - 左右栏 column-gap **220px**（Park 按红框宽度定的）；≤980 仍单列 16px。
 - 三张插图同一套：浅色白卡、无外边框/舞台底。
-- Last-mile：邮件是叠在 Tracking info 上的小收件箱卡（17TRACK / to you / 时间 / 主题 / 正文），不要全宽另起一张。
+- Last-mile 结束态：邮件、追踪卡、logo、电话彼此分开，不要重叠。邮件在上、卡在中、logo 在下，电话在右侧。
 - 电话按钮外框 48px 不变，图标 26px，靠上浮在追踪卡上，弥散蓝投影。
 - 结束位 padding-bottom 68px，logo 贴底栏上方。
 - Tracking info 按内容高度；USPS 行到 In Transit 16px，不要大段空白。

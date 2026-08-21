@@ -4115,7 +4115,7 @@
       width: 100%;
       align-items: flex-end;
       justify-content: flex-start;
-      gap: 24px;
+      gap: 36px;
       padding: 0 2% 68px 0;
       transform-origin: 50% 50%;
       transform:
@@ -4140,7 +4140,7 @@
     .fx-lm-cluster {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 20px;
       width: auto;
       max-width: none;
       flex: 1 1 auto;
@@ -4190,8 +4190,8 @@
     .fx-lm-mail {
       padding: 0;
       overflow: hidden;
-      width: 86%;
-      margin: 0 0 -24px 10px;
+      width: 100%;
+      margin: 0;
       z-index: 4;
       --ox: -24px;
       --oy: -18px;
