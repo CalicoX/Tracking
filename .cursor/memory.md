@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-20
+最后更新：2026-08-21
 
 ## Hero 文案区
 
@@ -40,10 +40,11 @@
 - 官方产品页只有 3 块，落地页已对齐，去掉 Proactive notifications。
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
 - 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25（品牌蓝紫渐变），正文 15.5。正文不淡入淡出，标题不跟滚动缩放。
-- 桌面内容区（左列表 + 右插图）铺满标题下剩余 sticky 高度；mock 在舞台里居中。
+- 桌面内容区（左列表 + 右插图）铺满标题下剩余 sticky 高度；mock 在舞台里居中，卡片本身不撑满。
 - 三张插图同一套：浅色白卡、无外边框/舞台底。
 - Last-mile：邮件 + Tracking info（UPS→USPS）+ 电话 + 承运商 logo。
-- Split-order：主卡时间轴 + 右侧邮件/包裹状态浮卡（不要竖着叠三张卡）。
+- Tracking info 按内容高度；USPS 行到 In Transit 固定 56px（≤980 为 24px）。不要 min-height / `margin-top: auto` 把空隙撑开。
+- Split-order：主卡时间轴 + 右侧邮件/包裹状态浮卡（不要竖着叠三张卡）；主卡同样按内容高度居中。
 - Branded：Track 表单为主，推荐卡和色盘叠在右侧（不要 Figma 选区手柄）。
 
 ## 产品
@@ -58,3 +59,4 @@
 - 不要把手机 Hero 插图外框改成刘海手机壳（Park 否过，已回退）。
 - 不要动 `public/js/`。
 - 不要 force push、不要 `--no-verify`。
+- 不要用 flex 拉高 Tracking info / split 主卡来填满 Features 右栏（中间会出现空洞，Park 否过）。

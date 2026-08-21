@@ -4101,7 +4101,7 @@
     }
     .feature-stage[data-theme="lastmile"] .fx-mock {
       height: 100%;
-      align-items: stretch;
+      align-items: center;
       gap: 24px;
       padding: 4px 2% 4px 0;
     }
@@ -4112,12 +4112,12 @@
       width: auto;
       max-width: none;
       flex: 1 1 auto;
-      height: 100%;
+      height: auto;
       min-height: 0;
     }
     .feature-stage[data-theme="split"] .fx-mock {
       height: 100%;
-      align-items: stretch;
+      align-items: center;
       gap: 20px;
       padding: 4px 2%;
     }
@@ -4182,7 +4182,7 @@
     .fx-lm-card {
       height: auto;
       min-height: 0;
-      flex: 1 1 auto;
+      flex: 0 0 auto;
       display: flex;
       flex-direction: column;
       padding: 20px 20px 16px;
@@ -4277,7 +4277,7 @@
       display: grid;
       grid-template-columns: 92px 1fr;
       gap: 12px;
-      margin-top: auto;
+      margin-top: 56px;
       padding-top: 16px;
       border-top: 1px solid rgba(15, 23, 42, 0.08);
     }
@@ -4374,7 +4374,7 @@
       max-width: none;
       height: auto;
       min-height: 0;
-      flex: 1 1 auto;
+      flex: 0 0 auto;
       padding: 22px 20px 24px;
       display: flex;
       flex-direction: column;
@@ -4779,7 +4779,7 @@
       .feature-stage-art {
         --fx-c: 1;
         min-height: 340px;
-        max-height: 460px;
+        max-height: none;
       }
       .feature-stage .fx-glass,
       .feature-stage .fx-br-select,
@@ -4790,6 +4790,8 @@
       .fx-lm-cluster {
         width: auto;
         flex: 1 1 auto;
+        height: auto;
+        justify-content: flex-start;
       }
       .fx-so-card {
         width: auto;
@@ -4822,6 +4824,9 @@
         top: auto;
         width: 100%;
         padding: 14px 14px 12px;
+      }
+      .fx-lm-event {
+        margin-top: 24px;
       }
       .fx-lm-phone {
         width: 44px;
