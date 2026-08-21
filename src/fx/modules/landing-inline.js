@@ -387,11 +387,11 @@ export function mount() {
         }
 
         /*
-         * Travel = tiny start settle + (n-1) strides only.
-         * No long end hold — last panel centers, then page keeps scrolling.
+         * Travel = first-panel hold (iso gather/spread/flatten + dwell)
+         * + (n-1) strides. Last panel centers, then page keeps scrolling.
          */
         var stride = panelH + panelGap;
-        var holdStart = Math.round(stride * 0.06); /* brief first-panel settle */
+        var holdStart = Math.round(stride * 0.32);
         travelPx = Math.max(1, Math.round(holdStart + (n - 1) * stride));
         track.style.height = stickyH + travelPx + "px";
       }
@@ -401,7 +401,7 @@ export function mount() {
       }
 
       function holdStartPx() {
-        return Math.round(stridePx() * 0.06);
+        return Math.round(stridePx() * 0.32);
       }
 
       /** 0 = just pinned, 1 = last panel centered → sticky unsticks immediately after */
@@ -474,6 +474,9 @@ export function mount() {
         var stride = panelH + panelGap;
         var y = -continuous * stride;
         panelsRoot.style.transform = "translate3d(0, " + y.toFixed(2) + "px, 0)";
+        var yAbs = Math.max(0, Math.min(1, p)) * travelPx;
+        var hold = holdStartPx();
+        var holdProg = Math.min(1, yAbs / Math.max(1, hold));
 
         /*
          * Blur only when LEAVING the center band.
@@ -506,17 +509,20 @@ export function mount() {
           var iso;
           var spread;
           if (i === 0) {
-            var t = Math.min(1, Math.max(0, continuous / 0.26));
-            if (t < 0.4) {
-              var s = t / 0.4;
+            /* Hold clock: pack → fan → flatten → dwell, then the panel can slide. */
+            if (holdProg < 0.34) {
+              var s = holdProg / 0.34;
               s = s * s * (3 - 2 * s);
               spread = s;
               iso = 1;
-            } else {
+            } else if (holdProg < 0.7) {
               spread = 1;
-              var f = (t - 0.4) / 0.6;
+              var f = (holdProg - 0.34) / 0.36;
               f = f * f * (3 - 2 * f);
               iso = 1 - f;
+            } else {
+              spread = 1;
+              iso = 0;
             }
           } else {
             iso = 1 - c;

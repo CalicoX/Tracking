@@ -64,7 +64,7 @@ export default function FeaturesSection() {
                             <div className="fx-glass fx-lm-mail">
                               <div className="fx-lm-mail-head">
                                 <span className="fx-lm-mail-avatar" aria-hidden="true">
-                                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.2 6h15.6A1.8 1.8 0 0 1 21.6 7.8v8.4a1.8 1.8 0 0 1-1.8 1.8H4.2A1.8 1.8 0 0 1 2.4 16.2V7.8A1.8 1.8 0 0 1 4.2 6Zm.6 1.7 7.2 5.1 7.2-5.1H4.8Z"/></svg>
+                                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 6.5h15A1.5 1.5 0 0 1 21 8v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 16V8a1.5 1.5 0 0 1 1.5-1.5Zm.7 1.6 6.8 4.5 6.8-4.5H5.2Z"/></svg>
                                 </span>
                                 <div className="fx-lm-mail-from">
                                   <strong>17TRACK</strong>
@@ -109,6 +109,9 @@ export default function FeaturesSection() {
                                   <span>CLEVELAND OH DISTRIBUTION CENTER, Departed USPS Regional Facility</span>
                                 </div>
                               </div>
+                              <div className="fx-glass fx-lm-phone">
+                                <svg viewBox="0 0 24 24" fill="none"><path d="M7.1 3.6h2.6l1.3 3.2-1.8 1.2a13.2 13.2 0 0 0 7.2 7.2l1.2-1.8 3.2 1.3v2.6c0 .8-.7 1.5-1.5 1.5A15.4 15.4 0 0 1 5.6 5.1c0-.8.7-1.5 1.5-1.5Z" fill="currentColor"/></svg>
+                              </div>
                             </div>
                             <div className="fx-lm-carriers">
                               <img src="/assets/carriers/ups.svg?v=2" alt="" />
@@ -117,9 +120,6 @@ export default function FeaturesSection() {
                               <img src="/assets/carriers/dpd.svg?v=2" alt="" />
                               <img src="/assets/carriers/gls.svg?v=2" alt="" />
                             </div>
-                          </div>
-                          <div className="fx-glass fx-lm-phone">
-                            <svg viewBox="0 0 24 24" fill="none"><path d="M7.1 3.6h2.6l1.3 3.2-1.8 1.2a13.2 13.2 0 0 0 7.2 7.2l1.2-1.8 3.2 1.3v2.6c0 .8-.7 1.5-1.5 1.5A15.4 15.4 0 0 1 5.6 5.1c0-.8.7-1.5 1.5-1.5Z" fill="currentColor"/></svg>
                           </div>
                           </div>
                         </div>

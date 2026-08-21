@@ -44,7 +44,9 @@
 - 左右栏 column-gap **220px**（Park 按红框宽度定的）；≤980 仍单列 16px。
 - 三张插图同一套：浅色白卡、无外边框/舞台底。
 - Last-mile 结束态：邮件、追踪卡、logo、电话彼此分开，不要重叠。邮件在上、卡在中、logo 在下，电话在右侧。
-- 电话按钮外框 48px 不变，图标 26px，靠上浮在追踪卡上，弥散蓝投影。
+- 电话按钮叠在 Tracking info 卡片右上，外框 48px、图标 26px，弥散蓝投影。
+- 邮件头像是蓝底白信封。
+- Last-mile 铺平后在 hold（约 0.32 个 stride）里再停一下才滑走。
 - 结束位贴右栏最下沿（padding-bottom 12px）。宁可靠近底栏，不要再抬高。
 - Tracking info 按内容高度；USPS 行到 In Transit 16px，不要大段空白。
 - 承运商 logo 40px。
