@@ -46,7 +46,7 @@
 - Last-mile 结束态：邮件、追踪卡、logo、电话彼此分开，不要重叠。邮件在上、卡在中、logo 在下，电话在右侧。
 - 电话按钮叠在 Tracking info 卡片右上，外框 48px、图标 26px，弥散蓝投影。
 - 邮件头像用 17TRACK 应用图标，发件人 17TRACK / notify@17track.net。
-- 结束位 padding-bottom 64px，logo 在底栏上方。
+- 结束位 padding-bottom 120px，插图在右栏中下部，logo 离底栏约 60px。
 - Last-mile 铺平后在 hold（约 0.32 个 stride）里再停一下才滑走。
 - 结束位贴右栏最下沿（padding-bottom 12px）。宁可靠近底栏，不要再抬高。
 - Tracking info 按内容高度；USPS 行到 In Transit 16px，不要大段空白。
