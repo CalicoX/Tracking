@@ -41,6 +41,7 @@
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
 - 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25（品牌蓝紫渐变），正文 15.5。正文不淡入淡出，标题不跟滚动缩放。
 - 桌面内容区（左列表 + 右插图）铺满标题下剩余 sticky 高度；mock 在舞台里居中，卡片本身不撑满。
+- 左右栏 column-gap **220px**（Park 按红框宽度定的）；≤980 仍单列 16px。
 - 三张插图同一套：浅色白卡、无外边框/舞台底。
 - Last-mile：邮件 + Tracking info（UPS→USPS）+ 电话 + 承运商 logo。
 - Tracking info 按内容高度；USPS 行到 In Transit 固定 56px（≤980 为 24px）。不要 min-height / `margin-top: auto` 把空隙撑开。
