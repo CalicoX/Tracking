@@ -4140,7 +4140,7 @@
       width: 100%;
       align-items: flex-end;
       justify-content: flex-start;
-      gap: 12px;
+      gap: 0;
       padding: 0 2% 120px 0;
       transform-origin: 50% 50%;
       transform-style: preserve-3d;
@@ -4173,6 +4173,9 @@
       width: 180px;
       flex: 0 0 auto;
       align-self: flex-end;
+      margin-left: -28px;
+      position: relative;
+      z-index: 4;
       transform-style: preserve-3d;
     }
     .fx-br-stage {
@@ -4180,7 +4183,7 @@
       display: flex;
       align-items: flex-end;
       justify-content: flex-start;
-      gap: 12px;
+      gap: 0;
       width: 100%;
       max-width: none;
       height: auto;
@@ -4765,6 +4768,7 @@
       top: auto;
       width: 188px;
       flex: 0 0 auto;
+      margin-left: -24px;
       padding: 14px 14px 16px;
       z-index: 4;
       --ox: 40px;
@@ -4800,6 +4804,7 @@
       border-radius: 50%;
       flex: 0 0 auto;
       align-self: flex-end;
+      margin-left: -10px;
       z-index: 6;
       background:
         radial-gradient(circle at 50% 50%, rgba(255,255,255,0.55) 0 14%, transparent 38%),
@@ -5005,11 +5010,12 @@
       }
       .fx-so-side {
         width: 160px;
+        margin-left: 0;
       }
       .fx-br-stage {
         width: 100%;
         height: auto;
-        gap: 12px;
+        gap: 10px;
       }
       .fx-br-form {
         width: auto;
@@ -5022,12 +5028,14 @@
         width: 140px;
         top: auto;
         right: auto;
+        margin-left: 0;
       }
       .fx-br-wheel {
         width: 48px;
         height: 48px;
         right: auto;
         bottom: auto;
+        margin-left: 0;
       }
       .feature-stage[data-theme="split"] .fx-mock,
       .feature-stage[data-theme="branded"] .fx-mock {
