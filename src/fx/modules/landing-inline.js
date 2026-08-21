@@ -428,6 +428,7 @@ export function mount() {
           var stage = p.querySelector(".feature-stage");
           if (stage && mqMobile.matches) {
             stage.style.setProperty("--fx-c", i === idx ? "1" : "0");
+            stage.style.setProperty("--fx-iso", "0");
           }
         });
       }
@@ -495,9 +496,23 @@ export function mount() {
           /* 1 when centered, 0 when far — float pieces scatter/converge */
           var c = Math.max(0, 1 - leave);
           c = c * c * (3 - 2 * c); /* smoothstep */
+          /*
+           * --fx-iso: 1 = isometric, 0 = flat.
+           * Last-mile starts tilted and flattens as you scroll;
+           * later panels flatten as they settle in the center.
+           */
+          var iso;
+          if (i === 0) {
+            var settle = Math.min(1, Math.max(0, continuous / 0.18));
+            settle = settle * settle * (3 - 2 * settle);
+            iso = 1 - settle;
+          } else {
+            iso = 1 - c;
+          }
           var stage = panel.querySelector(".feature-stage");
           if (stage) {
             stage.style.setProperty("--fx-c", c.toFixed(3));
+            stage.style.setProperty("--fx-iso", iso.toFixed(3));
           }
         });
       }

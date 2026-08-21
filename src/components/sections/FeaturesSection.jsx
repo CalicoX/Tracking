@@ -57,14 +57,23 @@ export default function FeaturesSection() {
                   {/* 0 · Last-Mile Visibility */}
                   <article className="feature-panel is-active" data-feature="0" id="feature-panel-0" role="tabpanel" aria-labelledby="feature-tab-0">
                     <div className="feature-visual">
-                      <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 1 }}>
+                      <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 1, ['--fx-iso']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
                           <div className="fx-lm-cluster">
                             <div className="fx-glass fx-lm-mail">
-                              <span className="fx-lm-mail-kicker">Automated email</span>
-                              <strong>Out for delivery today · 2–4pm</strong>
-                              <span>USPS last-mile is live on this shipment. Tap to call the carrier if you need to redirect.</span>
+                              <div className="fx-lm-mail-head">
+                                <span className="fx-lm-mail-avatar" aria-hidden="true">
+                                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.2 6h15.6A1.8 1.8 0 0 1 21.6 7.8v8.4a1.8 1.8 0 0 1-1.8 1.8H4.2A1.8 1.8 0 0 1 2.4 16.2V7.8A1.8 1.8 0 0 1 4.2 6Zm.6 1.7 7.2 5.1 7.2-5.1H4.8Z"/></svg>
+                                </span>
+                                <div className="fx-lm-mail-from">
+                                  <strong>17TRACK</strong>
+                                  <span>to you · automated email</span>
+                                </div>
+                                <time>10:24 AM</time>
+                              </div>
+                              <p className="fx-lm-mail-subject">Out for delivery today · 2–4pm</p>
+                              <p className="fx-lm-mail-body">USPS last-mile is live on this shipment. Tap to call the carrier if you need to redirect.</p>
                             </div>
                             <div className="fx-glass fx-lm-card">
                               <h4>Tracking info</h4>

@@ -43,8 +43,10 @@
 - 桌面内容区（左列表 + 右插图）铺满标题下剩余 sticky 高度；mock 在舞台里居中，卡片本身不撑满。
 - 左右栏 column-gap **220px**（Park 按红框宽度定的）；≤980 仍单列 16px。
 - 三张插图同一套：浅色白卡、无外边框/舞台底。
-- Last-mile：邮件 + Tracking info（UPS→USPS）+ 电话 + 承运商 logo。
-- Tracking info 按内容高度；USPS 行到 In Transit 固定 56px（≤980 为 24px）。不要 min-height / `margin-top: auto` 把空隙撑开。
+- Last-mile：收件箱样式邮件（发件人 17TRACK / to you / 时间 / 主题 / 正文）+ Tracking info（UPS→USPS）+ 电话 + 承运商 logo。
+- Tracking info 按内容高度；USPS 行到 In Transit 16px，不要大段空白。
+- 承运商 logo 40px。
+- 插图初始 `--fx-iso: 1` isometric，随 Features 滚动铺平到 0；手机 / reduced-motion 直接平铺。
 - Split-order：主卡时间轴 + 右侧邮件/包裹状态浮卡（不要竖着叠三张卡）；主卡同样按内容高度居中。
 - Branded：Track 表单为主，推荐卡和色盘叠在右侧（不要 Figma 选区手柄）。
 
