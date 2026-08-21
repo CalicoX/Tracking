@@ -63,12 +63,10 @@ export default function FeaturesSection() {
                           <div className="fx-lm-cluster">
                             <div className="fx-glass fx-lm-mail">
                               <div className="fx-lm-mail-head">
-                                <span className="fx-lm-mail-avatar" aria-hidden="true">
-                                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 6.5h15A1.5 1.5 0 0 1 21 8v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 16V8a1.5 1.5 0 0 1 1.5-1.5Zm.7 1.6 6.8 4.5 6.8-4.5H5.2Z"/></svg>
-                                </span>
+                                <img className="fx-lm-mail-avatar" src="/assets/shopify-app-icon.png" alt="" />
                                 <div className="fx-lm-mail-from">
                                   <strong>17TRACK</strong>
-                                  <span>to you · automated email</span>
+                                  <span>notify@17track.net</span>
                                 </div>
                                 <time>10:24 AM</time>
                               </div>
