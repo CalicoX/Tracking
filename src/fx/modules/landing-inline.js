@@ -429,6 +429,7 @@ export function mount() {
           if (stage && mqMobile.matches) {
             stage.style.setProperty("--fx-c", i === idx ? "1" : "0");
             stage.style.setProperty("--fx-iso", "0");
+            stage.style.setProperty("--fx-spread", "0");
           }
         });
       }
@@ -497,22 +498,35 @@ export function mount() {
           var c = Math.max(0, 1 - leave);
           c = c * c * (3 - 2 * c); /* smoothstep */
           /*
-           * --fx-iso: 1 = isometric, 0 = flat.
-           * Last-mile starts tilted and flattens as you scroll;
-           * later panels flatten as they settle in the center.
+           * Last-mile: gather in the center (spread=0) → fan out (spread=1)
+           * while isometric, then flatten (iso=0).
+           * --fx-iso: 1 = lying isometric, 0 = flat.
+           * --fx-spread: 0 = packed to the tracking card, 1 = layered apart.
            */
           var iso;
+          var spread;
           if (i === 0) {
-            var settle = Math.min(1, Math.max(0, continuous / 0.18));
-            settle = settle * settle * (3 - 2 * settle);
-            iso = 1 - settle;
+            var t = Math.min(1, Math.max(0, continuous / 0.26));
+            if (t < 0.4) {
+              var s = t / 0.4;
+              s = s * s * (3 - 2 * s);
+              spread = s;
+              iso = 1;
+            } else {
+              spread = 1;
+              var f = (t - 0.4) / 0.6;
+              f = f * f * (3 - 2 * f);
+              iso = 1 - f;
+            }
           } else {
             iso = 1 - c;
+            spread = 1;
           }
           var stage = panel.querySelector(".feature-stage");
           if (stage) {
             stage.style.setProperty("--fx-c", c.toFixed(3));
             stage.style.setProperty("--fx-iso", iso.toFixed(3));
+            stage.style.setProperty("--fx-spread", spread.toFixed(3));
           }
         });
       }

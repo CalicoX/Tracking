@@ -57,7 +57,7 @@ export default function FeaturesSection() {
                   {/* 0 · Last-Mile Visibility */}
                   <article className="feature-panel is-active" data-feature="0" id="feature-panel-0" role="tabpanel" aria-labelledby="feature-tab-0">
                     <div className="feature-visual">
-                      <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 1, ['--fx-iso']: 1 }}>
+                      <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 1, ['--fx-iso']: 1, ['--fx-spread']: 0 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
                           <div className="fx-lm-cluster">

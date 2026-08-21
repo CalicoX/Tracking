@@ -3775,6 +3775,7 @@
     .feature-stage {
       --fx-c: 1; /* 1 = converged (active), 0 = scattered */
       --fx-iso: 0; /* 1 = isometric, 0 = flat */
+      --fx-spread: 0; /* 0 = packed to center, 1 = fanned layers */
       position: relative;
       height: 100%;
       min-height: 0;
@@ -4120,7 +4121,7 @@
       transform:
         translate3d(
           calc(64px * var(--fx-iso, 0)),
-          calc(-96px * var(--fx-iso, 0)),
+          calc(-148px * var(--fx-iso, 0)),
           0
         )
         rotateX(calc(56deg * var(--fx-iso, 0)))
@@ -4428,40 +4429,40 @@
       opacity: 1;
       box-shadow:
         0 1px 2px rgba(15, 23, 42, 0.04),
-        0 calc(4px * var(--fx-iso, 0)) calc(8px * var(--fx-iso, 0))
-          rgba(15, 23, 42, calc(0.06 * var(--fx-iso, 0)));
+        0 calc(16px * var(--fx-iso, 0)) calc(36px * var(--fx-iso, 0))
+          rgba(15, 23, 42, calc(0.045 * var(--fx-iso, 0)));
     }
     .feature-stage[data-theme="lastmile"] .fx-lm-mail {
       transform: translate3d(
         0,
-        calc(-10px * var(--fx-iso, 0)),
-        calc(92px * var(--fx-iso, 0))
+        calc((32px - 52px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((18px + 86px * var(--fx-spread, 0)) * var(--fx-iso, 0))
       );
     }
     .feature-stage[data-theme="lastmile"] .fx-lm-card {
       transform: translate3d(
         0,
         0,
-        calc(36px * var(--fx-iso, 0))
+        calc((14px + 22px * var(--fx-spread, 0)) * var(--fx-iso, 0))
       );
     }
     .feature-stage[data-theme="lastmile"] .fx-lm-carriers {
       transform: translate3d(
         0,
-        calc(6px * var(--fx-iso, 0)),
+        calc((-36px + 48px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
         0
       );
     }
     .feature-stage[data-theme="lastmile"] .fx-lm-phone {
       transform: translate3d(
-        calc(10px * var(--fx-iso, 0)),
-        calc(-28px * var(--fx-iso, 0)),
-        calc(64px * var(--fx-iso, 0))
+        calc((4px + 10px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((12px - 44px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((20px + 52px * var(--fx-spread, 0)) * var(--fx-iso, 0))
       );
       margin-bottom: 188px;
       box-shadow:
-        0 16px 36px rgba(37, 99, 235, 0.36),
-        0 4px 12px rgba(15, 23, 42, 0.1);
+        0 20px 48px rgba(37, 99, 235, 0.2),
+        0 6px 16px rgba(15, 23, 42, 0.06);
     }
     .fx-lm-phone {
       position: relative;
@@ -4912,6 +4913,7 @@
       .feature-stage-art {
         --fx-c: 1;
         --fx-iso: 0;
+        --fx-spread: 0;
         min-height: 340px;
         max-height: none;
       }
