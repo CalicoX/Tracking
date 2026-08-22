@@ -54,7 +54,7 @@
 - Last-mile 结束位贴在右栏下沿（logo 在底栏上方）；不要垂直居中导致「太高」。
 - 插图滚动：先 isometric 往中间聚拢（`--fx-spread: 0`），再散开层叠，最后铺平。整组比结束位更高。阴影大而淡。手机 / reduced-motion 直接平铺。
 - Split / Branded 跟 last-mile 同一套：平躺 isometric，先聚拢再散开再铺平；结束位中下部 padding-bottom 120px；卡片分开不重叠。
-- Split-order：主卡时间轴 `flex:1` 铺满右栏 + 右侧邮件/包裹浮卡 180px 叠在主卡右沿（margin-left -28px，跟 last-mile 电话同一套，不要中间留缝）。
+- Split-order：主卡铺满右栏；邮件/包裹浮卡在主卡内部右上（`position:absolute; right:-8px`，跟 last-mile 电话同一套），不要侧栏另开一列。≤980 浮卡改静态叠在主卡内容下面。
 - Branded：Track 表单 `flex:1` 铺满（不要 340px/58% 上限）+ 推荐卡叠表单右沿 -24px + 色盘 -10px。≤980 不叠。
 
 ## 产品

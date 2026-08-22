@@ -4169,12 +4169,12 @@
     .fx-so-side {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      width: 180px;
-      flex: 0 0 auto;
-      align-self: flex-end;
-      margin-left: -28px;
-      position: relative;
+      gap: 10px;
+      width: 168px;
+      position: absolute;
+      right: -8px;
+      top: 16px;
+      margin: 0;
       z-index: 4;
       transform-style: preserve-3d;
     }
@@ -4515,19 +4515,21 @@
     }
     .fx-so-card {
       position: relative;
-      width: auto;
+      width: 100%;
       max-width: none;
       height: auto;
       min-height: 0;
       min-width: 0;
       flex: 1 1 auto;
-      padding: 22px 20px 24px;
+      overflow: visible;
+      padding: 22px 184px 24px 22px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 4px;
       text-align: center;
+      transform-style: preserve-3d;
       --ox: -28px;
       --oy: 20px;
     }
@@ -5007,9 +5009,13 @@
       .fx-so-card {
         width: auto;
         flex: 1 1 auto;
+        padding: 14px 14px 16px;
       }
       .fx-so-side {
+        position: static;
         width: 160px;
+        right: auto;
+        top: auto;
         margin-left: 0;
       }
       .fx-br-stage {
