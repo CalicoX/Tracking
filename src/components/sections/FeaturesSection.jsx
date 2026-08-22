@@ -143,14 +143,14 @@ export default function FeaturesSection() {
                                 <i></i><i></i><i className="is-now"><svg viewBox="0 0 12 12"><path d="M2.4 6.2 4.7 8.5 9.6 3.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></i><i></i><i></i>
                               </div>
                               <p className="fx-so-status">In Transit</p>
-                              <div className="fx-so-side">
-                                <div className="fx-glass fx-so-mail">
+                              <div className="fx-glass fx-so-side">
+                                <div className="fx-so-mail">
                                   <span className="fx-lm-mail-kicker">Email</span>
                                   <strong>Split into 2 packages</strong>
                                   <span>#1 shipped today · #2 pending</span>
                                 </div>
-                                <div className="fx-glass fx-so-pkg is-live"><b>Package #1</b><span>In transit</span></div>
-                                <div className="fx-glass fx-so-pkg"><b>Package #2</b><span>Pending</span></div>
+                                <div className="fx-so-pkg is-live"><b>Package #1</b><span>In transit</span></div>
+                                <div className="fx-so-pkg"><b>Package #2</b><span>Pending</span></div>
                               </div>
                             </div>
                           </div>

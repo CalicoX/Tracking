@@ -4169,13 +4169,17 @@
     .fx-so-side {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 0;
       width: 168px;
       position: absolute;
       right: -8px;
       top: 16px;
       margin: 0;
+      padding: 4px 2px;
       z-index: 4;
+      color: #0f172a;
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
       transform-style: preserve-3d;
     }
     .fx-br-stage {
@@ -4538,7 +4542,11 @@
       right: auto;
       top: auto;
       width: 100%;
-      padding: 12px 14px 11px;
+      padding: 10px 12px 9px;
+      background: none;
+      border: 0;
+      box-shadow: none;
+      border-radius: 0;
       --ox: 36px;
       --oy: -22px;
       --or: 4deg;
@@ -4648,7 +4656,13 @@
       position: relative;
       left: auto;
       top: auto;
-      padding: 10px 12px;
+      margin: 0 6px;
+      padding: 8px 10px 9px;
+      background: none;
+      border: 0;
+      border-top: 1px solid rgba(15, 23, 42, 0.07);
+      box-shadow: none;
+      border-radius: 0;
       --ox: 28px;
       --oy: 18px;
     }
@@ -4683,26 +4697,17 @@
         calc((12px + 18px * var(--fx-spread, 0)) * var(--fx-iso, 0))
       );
     }
-    .feature-stage[data-theme="split"] .fx-so-mail {
+    .feature-stage[data-theme="split"] .fx-so-side {
       transform: translate3d(
-        calc((-28px + 36px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
-        calc((18px - 30px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
-        calc((16px + 72px * var(--fx-spread, 0)) * var(--fx-iso, 0))
+        calc((4px + 10px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((8px - 20px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
+        calc((28px + 40px * var(--fx-spread, 0)) * var(--fx-iso, 0))
       );
     }
-    .feature-stage[data-theme="split"] .fx-so-pkg.is-live {
-      transform: translate3d(
-        calc((-18px + 24px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
-        0,
-        calc((12px + 44px * var(--fx-spread, 0)) * var(--fx-iso, 0))
-      );
-    }
-    .feature-stage[data-theme="split"] .fx-so-pkg:not(.is-live) {
-      transform: translate3d(
-        calc((-14px + 18px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
-        calc((8px - 6px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
-        calc((8px + 28px * var(--fx-spread, 0)) * var(--fx-iso, 0))
-      );
+    .feature-stage[data-theme="split"] .fx-so-mail,
+    .feature-stage[data-theme="split"] .fx-so-pkg {
+      transform: none;
+      box-shadow: none;
     }
 
     /* Branded — form is the main, recs + wheel overlap like last-mile phone */
