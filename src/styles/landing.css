@@ -4522,13 +4522,13 @@
       min-width: 0;
       flex: 1 1 auto;
       overflow: visible;
-      padding: 22px 184px 24px 22px;
+      padding: 22px 172px 24px 22px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      align-items: stretch;
+      justify-content: flex-start;
       gap: 4px;
-      text-align: center;
+      text-align: left;
       transform-style: preserve-3d;
       --ox: -28px;
       --oy: 20px;
@@ -4558,10 +4558,9 @@
     .fx-so-tabs {
       display: flex;
       gap: 8px;
-      width: calc(100% + 28px);
+      width: auto;
+      max-width: 100%;
       overflow: hidden;
-      mask-image: linear-gradient(90deg, #000 78%, transparent 100%);
-      -webkit-mask-image: linear-gradient(90deg, #000 78%, transparent 100%);
     }
     .fx-so-tabs span {
       display: inline-flex;
@@ -4601,16 +4600,16 @@
     .fx-so-track {
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 82%;
-      margin: 18px auto 0;
+      justify-content: space-between;
+      width: 100%;
+      margin: 18px 0 0;
       position: relative;
     }
     .fx-so-track::before {
       content: "";
       position: absolute;
-      left: 8%;
-      right: 8%;
+      left: 8px;
+      right: 8px;
       height: 2px;
       background: #cbd5e1;
     }
@@ -4619,7 +4618,7 @@
       z-index: 1;
       width: 14px;
       height: 14px;
-      margin: 0 14px;
+      margin: 0;
       border-radius: 50%;
       border: 2px solid #94a3b8;
       background: #fff;
