@@ -4495,10 +4495,9 @@
       height: 26px;
     }
 
-    /* Split-order — one main card, floats overlapping (same language as last-mile phone) */
+    /* Split-order — mail above, tracking card below (same stack as last-mile) */
     .fx-so-mail,
-    .fx-so-card,
-    .fx-so-pkg {
+    .fx-so-card {
       color: #0f172a;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
@@ -4573,7 +4572,7 @@
       background: #eef4ff;
     }
     .fx-so-card .fx-so-kicker {
-      margin: 20px 0 0;
+      margin: 12px 0 0;
       font-size: 13px;
       color: #64748b;
     }
@@ -4637,46 +4636,6 @@
       font-weight: 650;
       color: #2563eb;
     }
-    .fx-so-pkgs {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      margin: 16px 0 0;
-      padding: 4px 0 0;
-      border-top: 1px solid rgba(15, 23, 42, 0.07);
-    }
-    .fx-so-pkg {
-      position: relative;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      left: auto;
-      top: auto;
-      margin: 0;
-      padding: 10px 0 2px;
-      background: none;
-      border: 0;
-      box-shadow: none;
-      border-radius: 0;
-    }
-    .fx-so-pkg b {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: #0f172a;
-    }
-    .fx-so-pkg span {
-      margin-top: 0;
-      font-size: 12px;
-      color: #64748b;
-    }
-    .fx-so-pkg.is-live {
-      border-color: rgba(37, 99, 235, 0.22);
-    }
-    .fx-so-pkg.is-live span {
-      color: #2563eb;
-    }
     .feature-stage[data-theme="split"] .fx-glass {
       opacity: 1;
       box-shadow:
@@ -4697,10 +4656,6 @@
         0,
         calc((14px + 22px * var(--fx-spread, 0)) * var(--fx-iso, 0))
       );
-    }
-    .feature-stage[data-theme="split"] .fx-so-pkg {
-      transform: none;
-      box-shadow: none;
     }
 
     /* Branded — form is the main, recs + wheel overlap like last-mile phone */
