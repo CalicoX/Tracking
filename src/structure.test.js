@@ -269,6 +269,9 @@ describe("React landing structure (gating)", () => {
     expect(inline).toMatch(/max-width: 480px/);
     expect(inline).toMatch(/Accordion/);
     expect(inline).toMatch(/reduce \|\| phone/);
+    expect(inline).not.toMatch(/setTilt/);
+    expect(css).toMatch(/returns-scene\.jpg/);
+    expect(css).toMatch(/backdrop-filter:\s*blur/);
   });
 
   it("responsive-fx is sync-mounted before async heavy FX in useLandingEffects", () => {
