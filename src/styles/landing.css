@@ -10643,6 +10643,7 @@
         grid-template-columns: 1fr 1fr;
         flex-direction: row;
         align-items: stretch;
+        justify-items: stretch;
         width: 100%;
         max-width: none;
         margin-left: 0;
@@ -10650,12 +10651,20 @@
         gap: 10px 12px;
       }
       .ai-pill {
-        width: auto;
+        width: 100%;
         min-width: 0;
+        box-sizing: border-box;
         justify-content: center;
         opacity: 1 !important;
         filter: none !important;
         transform: none !important;
+      }
+      .ai-pill-label {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+        text-align: center;
+        white-space: nowrap;
       }
       .ai-lab-work {
         height: auto !important;
@@ -11225,6 +11234,9 @@
       }
       .ai-pill {
         font-size: 13px;
+      }
+      .ai-pill-label {
+        white-space: normal;
       }
       .product-dock .tab {
         padding: 8px 12px;

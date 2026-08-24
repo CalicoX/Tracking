@@ -215,6 +215,8 @@ describe("React landing structure (gating)", () => {
       /@media\s*\(max-width:\s*768px\),\s*\(prefers-reduced-motion:\s*reduce\)/
     );
     expect(css).not.toMatch(/html\.is-reduce-fx\s+\.draw-overlay/);
+    expect(block768).toMatch(/grid-template-columns:\s*1fr\s+1fr/);
+    expect(block768).toMatch(/\.ai-pill-label/);
     expect(block768).toMatch(/\.ai-lab-intro/);
     expect(block768).toMatch(/position:\s*relative/);
     // mobile keeps earth + logo marquee + growth curve (Park)
