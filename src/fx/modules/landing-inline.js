@@ -525,15 +525,21 @@ export function mount() {
               iso = 0;
             }
           } else {
-            /* Entering split/branded: pack → fan → flatten as the panel centers. */
-            if (c < 0.35) {
-              var s2 = c / 0.35;
+            /*
+             * Split/branded wait until the panel is mostly centered,
+             * then pack → fan → flatten. Starting at c=0.35 made the
+             * sequence fire while the card was still sliding in.
+             */
+            var c0 = 0.52;
+            var cAnim = c <= c0 ? 0 : (c - c0) / (1 - c0);
+            if (cAnim < 0.4) {
+              var s2 = cAnim / 0.4;
               s2 = s2 * s2 * (3 - 2 * s2);
               spread = s2;
               iso = 1;
-            } else if (c < 0.88) {
+            } else if (cAnim < 0.9) {
               spread = 1;
-              var f2 = (c - 0.35) / 0.53;
+              var f2 = (cAnim - 0.4) / 0.5;
               f2 = f2 * f2 * (3 - 2 * f2);
               iso = 1 - f2;
             } else {
@@ -606,16 +612,16 @@ export function mount() {
          */
         if (clickUnlockTimer) clearTimeout(clickUnlockTimer);
         /* safety unlock — Lenis onComplete can miss */
-        clickUnlockTimer = setTimeout(finishClickAnim, 1200);
+        clickUnlockTimer = setTimeout(finishClickAnim, 1600);
 
         if (window.__lenis && typeof window.__lenis.scrollTo === "function") {
           window.__lenis.scrollTo(target, {
-            duration: 0.9,
+            duration: 1.25,
             onComplete: finishClickAnim,
           });
         } else {
           window.scrollTo({ top: target, behavior: "smooth" });
-          setTimeout(finishClickAnim, 950);
+          setTimeout(finishClickAnim, 1300);
         }
       }
 

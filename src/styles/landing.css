@@ -4130,7 +4130,7 @@
     }
     .feature-stage[data-theme="split"] .feature-stage-art,
     .feature-stage[data-theme="branded"] .feature-stage-art {
-      place-items: end stretch;
+      place-items: center stretch;
       perspective: 1600px;
       perspective-origin: 62% 70%;
     }
@@ -4138,10 +4138,10 @@
     .feature-stage[data-theme="branded"] .fx-mock {
       height: auto;
       width: 100%;
-      align-items: flex-end;
-      justify-content: flex-start;
+      align-items: center;
+      justify-content: flex-end;
       gap: 0;
-      padding: 0 2% 120px 0;
+      padding: 0 2% 0 0;
       transform-origin: 50% 50%;
       transform-style: preserve-3d;
       transform:
@@ -4178,7 +4178,8 @@
       justify-content: flex-start;
       gap: 0;
       width: 100%;
-      max-width: none;
+      max-width: 540px;
+      margin-left: auto;
       height: auto;
       transform-style: preserve-3d;
     }
