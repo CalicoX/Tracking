@@ -149,13 +149,17 @@ export default function FeaturesSection() {
                                   <span>Package #2</span>
                                   <span>Package #3</span>
                                 </div>
-                                <p className="fx-so-kicker">Your order is in transit</p>
-                                <p className="fx-so-dates">Mar 23 – Mar 30</p>
-                                <p className="fx-so-eta">Estimated time of arrival</p>
+                                <div className="fx-so-head">
+                                  <div>
+                                    <p className="fx-so-kicker">Your order is in transit</p>
+                                    <p className="fx-so-dates">Mar 23 – Mar 30</p>
+                                    <p className="fx-so-eta">Estimated time of arrival</p>
+                                  </div>
+                                  <p className="fx-so-status">In Transit</p>
+                                </div>
                                 <div className="fx-so-track">
                                   <i></i><i></i><i className="is-now"><svg viewBox="0 0 12 12"><path d="M2.4 6.2 4.7 8.5 9.6 3.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></i><i></i><i></i>
                                 </div>
-                                <p className="fx-so-status">In Transit</p>
                               </div>
                             </div>
                           </div>

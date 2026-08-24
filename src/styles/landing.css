@@ -4167,6 +4167,11 @@
       position: relative;
       transform-style: preserve-3d;
     }
+    .fx-so-cluster {
+      flex: 0 1 auto;
+      width: 100%;
+      max-width: 540px;
+    }
     .fx-br-stage {
       position: relative;
       display: flex;
@@ -4571,8 +4576,15 @@
       border-color: rgba(37, 99, 235, 0.28);
       background: #eef4ff;
     }
-    .fx-so-card .fx-so-kicker {
+    .fx-so-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
       margin: 12px 0 0;
+    }
+    .fx-so-card .fx-so-kicker {
+      margin: 0;
       font-size: 13px;
       color: #64748b;
     }
@@ -4631,9 +4643,10 @@
       height: 12px;
     }
     .fx-so-card .fx-so-status {
-      margin: 10px 0 0;
-      font-size: 13.5px;
-      font-weight: 650;
+      margin: 0 0 2px;
+      flex: 0 0 auto;
+      font-size: 15px;
+      font-weight: 700;
       color: #2563eb;
     }
     .feature-stage[data-theme="split"] .fx-glass {
@@ -4957,6 +4970,7 @@
         width: auto;
         flex: 1 1 auto;
         height: auto;
+        max-width: none;
         justify-content: flex-start;
       }
       .fx-so-card {
