@@ -228,6 +228,8 @@ describe("React landing structure (gating)", () => {
     expect(block768).not.toMatch(/hero-undertones/);
     expect(block768).not.toMatch(/\.logos-track/);
     expect(block768).toMatch(/\.impact-curve/);
+    expect(block768).toMatch(/\.site-footer-nav/);
+    expect(block768).toMatch(/repeat\(4,\s*minmax\(0,\s*1fr\)\)/);
     expect(block768).toMatch(/\.impact-band h2/);
     expect(block768).toMatch(/font-size:\s*var\(--fs-h2\)/);
     const i480 = css.indexOf("/* —— ≤480");

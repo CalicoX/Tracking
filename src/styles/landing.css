@@ -10985,6 +10985,11 @@
         width: auto;
         min-width: 0;
       }
+      .site-footer-nav {
+        width: 100%;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px 16px;
+      }
 
       /* Kill heavy / broken mid-animation states (logo marquee keeps scrolling) */
       .api-ascii-a,
