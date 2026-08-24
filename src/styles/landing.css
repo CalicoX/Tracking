@@ -1353,12 +1353,10 @@
       border-radius: 0 0 19px 19px;
       background: #f2f6fd;
       color: #12151c;
-      /* OGL is an editorial fashion brand — serif body, no sans (Park) */
-      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
     }
     .ogl-site {
       pointer-events: none;
-      --os-serif: "Playfair Display", Georgia, "Times New Roman", serif;
       /* brand blue family — matches 17TRACK gradients, livelier than navy */
       --os-brown: #2563eb;
       --os-ink: #12151c;
@@ -1397,7 +1395,7 @@
       padding: 14px 16px 16px;
     }
     .os-logo {
-      font-family: var(--os-serif);
+      font-family: inherit;
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.38em;
@@ -1412,7 +1410,7 @@
     }
     .os-hero-copy h2 {
       margin: 0;
-      font-family: var(--os-serif);
+      font-family: inherit;
       font-size: 28px;
       font-weight: 600;
       line-height: 1.08;
@@ -1485,7 +1483,7 @@
     }
     .os-status h3 {
       margin: 0 0 14px;
-      font-family: var(--os-serif);
+      font-family: inherit;
       font-size: 16px;
       font-weight: 600;
       letter-spacing: -0.02em;
@@ -1578,7 +1576,7 @@
     }
     .os-summary h4 {
       margin: 0 0 12px;
-      font-family: var(--os-serif);
+      font-family: inherit;
       font-size: 15px;
       font-weight: 600;
     }
@@ -1633,7 +1631,7 @@
     }
     .os-look h3 {
       margin: 0 0 12px;
-      font-family: var(--os-serif);
+      font-family: inherit;
       font-size: 18px;
       font-weight: 600;
       text-align: center;

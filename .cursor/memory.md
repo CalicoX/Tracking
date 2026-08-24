@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-24（768 AI Lab 定高+手机示例；Explore 加高+ASCII 底纹）
+最后更新：2026-08-24（Hero tracking mock 改回 Inter，不要衬线）
 
 ## Hero 文案区
 
@@ -12,7 +12,7 @@
 
 - 桌面：文案左、插图右。浏览器框 + 冷色海浪图。
 - OGL mock 配色（Park 定）：全部走品牌蓝紫家族，不要暖色/米色。`--os-brown: #2563eb`；Track 按钮 `linear-gradient(135deg,#2563eb,#4f46e5)`；进度线 `#38bdf8→#2563eb→#8b5cf6`；Delivered 节点 indigo 渐变+光晕；摘要卡 `#e6edfb`（原米色 #e9e0d4 否掉）；纸底 `#f2f6fd`；海图 saturate(1.08)。第一条 event（Delivered）绿色 #15803d。
-- OGL mock 字体：不要无衬线。`.hero-ogl` 正文 Georgia serif，标题仍 Playfair（--os-serif）；input 加 `font-family: inherit`。
+- OGL mock 字体：不要衬线。`.hero-ogl` 走 Inter / sans-serif（标题、logo、状态、摘要都 inherit）。Park：不要用衬线字体。
 - ≤768：插图 `order: -1` 提到文案上方，仍是桌面 OGL mock（浏览器框），绘制动画 + `.visual` 底部 mask 渐隐。不要改成手机页。Park 否过深色手机边框 / 刘海版本，不要再做。
 - ≤480：才改成手机页 mock（banner 叠字 + 表单压图下沿，状态/摘要单列，`os-look` 隐藏）；banner 168px，只留 1 条 event。底部 mask 仍在。
 - ≤768 文案整体居中：h1/lead/cta-note 居中，Shopify lockup 整体居中但内部左对齐（meta text-align:left）。CTA 两个按钮左右并排居中（≤480 flex:1、max-width 220px、nowrap），不要竖排。
@@ -73,6 +73,7 @@
 
 ## 不要再做
 
+- 不要给 Hero tracking mock 用 Georgia / Playfair 衬线（Park：不要衬线字体）。
 - 不要给 Hero 绘制动画做循环播放。
 - 不要用暖色丘陵 / 大地色服饰图。
 - 不要把 Branded 推荐图换成暖色瑜伽人像（用现有产品图）。

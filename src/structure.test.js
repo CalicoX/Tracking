@@ -194,6 +194,12 @@ describe("React landing structure (gating)", () => {
       expect(css).toMatch(new RegExp(`@media\\s*\\(max-width:\\s*${bp}\\)`));
     }
     expect(css).toMatch(/prefers-reduced-motion:\s*reduce/);
+    const iHeroOgl = css.indexOf(".hero-ogl {");
+    expect(iHeroOgl).toBeGreaterThan(-1);
+    const heroOgl = css.slice(iHeroOgl, iHeroOgl + 500);
+    expect(heroOgl).toMatch(/font-family:\s*Inter/);
+    expect(heroOgl).toMatch(/sans-serif/);
+    expect(heroOgl).not.toMatch(/Georgia|Playfair/);
     // desktop-only mock scale — never default on all widths
     expect(css).toMatch(/@media\s*\(min-width:\s*1025px\)/);
     expect(css).toMatch(/scale\(0\.92\)/);
