@@ -530,16 +530,16 @@ export function mount() {
              * then pack → fan → flatten. Starting at c=0.35 made the
              * sequence fire while the card was still sliding in.
              */
-            var c0 = 0.52;
+            var c0 = 0.7;
             var cAnim = c <= c0 ? 0 : (c - c0) / (1 - c0);
-            if (cAnim < 0.4) {
-              var s2 = cAnim / 0.4;
+            if (cAnim < 0.42) {
+              var s2 = cAnim / 0.42;
               s2 = s2 * s2 * (3 - 2 * s2);
               spread = s2;
               iso = 1;
-            } else if (cAnim < 0.9) {
+            } else if (cAnim < 0.92) {
               spread = 1;
-              var f2 = (cAnim - 0.4) / 0.5;
+              var f2 = (cAnim - 0.42) / 0.5;
               f2 = f2 * f2 * (3 - 2 * f2);
               iso = 1 - f2;
             } else {

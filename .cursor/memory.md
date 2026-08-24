@@ -53,7 +53,7 @@
 - 承运商 logo 40px。
 - Last-mile 结束位贴在右栏下沿（logo 在底栏上方）；不要垂直居中导致「太高」。
 - 插图滚动：先 isometric 往中间聚拢（`--fx-spread: 0`），再散开层叠，最后铺平。整组比结束位更高。阴影大而淡。手机 / reduced-motion 直接平铺。
-- Split / Branded 跟 last-mile 同一套：平躺 isometric，先聚拢再散开再铺平。图2/图3 落点垂直居中（不要 120px 贴底）。iso 等面板接近居中（c>0.52）再开始，不要一进场就铺平。点击切 tab 约 1.25s。
+- Split / Branded 跟 last-mile 同一套：平躺 isometric，先聚拢再散开再铺平。图2/图3 落点垂直居中（不要 120px 贴底）。iso 等面板很靠近居中（c>0.7）再开始，不要进场就播。点击切 tab 约 1.25s。
 - Last-mile / Split / Branded 插图整组 max-width **540px**，在右栏里水平居中（Park：居中。不要贴右沿）。不要撑满右栏。
 - Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
 - Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。推荐卡叠表单右沿 -24px + 色盘 -10px。≤980 不叠。
