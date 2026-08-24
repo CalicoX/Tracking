@@ -8296,8 +8296,8 @@
     /* stage = reverse parallax layer (same pattern as .explore-api-visual) */
     .explore-card-returns .returns-ui {
       background: #d8f3ea;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 10px 28px rgba(16, 100, 85, 0.14);
+      border: 0;
+      box-shadow: none;
       overflow: hidden;
       height: auto;
       min-height: 0;
@@ -8872,7 +8872,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 40%;
+      object-position: center 72%;
       z-index: 0;
       pointer-events: none;
       display: block;

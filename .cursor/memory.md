@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-24（Returns 插图按 Cursor 首页收：两扇窗口叠底图，少内容、多留白）
+最后更新：2026-08-24（Returns 舞台去掉描边；底图改开阔构图，产品放边角）
 
 ## Hero 文案区
 
@@ -93,6 +93,8 @@
 - 不要给 768 Features 文案加底色/描边（Park 否掉）。
 - 不要把 768 Branded 表单拉满右栏、推荐卡盖住 Track（Park：下面太宽，按钮被挡完）。
 - 不要把 768 Branded 表单卡收进 400px 上限导致 Track 卡过窄（Park：底层卡片宽度不够）。色盘仍要完整露出来。
+- 不要给 Returns 内舞台加描边（Park：这个描边不要了）。
+- 不要用居中特写当 Returns 底图（窗口会把产品挡完；产品放边角、中间留空）。
 - 不要在 Returns 浮卡祖先上留 preserve-3d / 入场 opacity 动画（会吃掉毛玻璃）。
 - 不要给 Return method 用手绘 $ / 怪叶子 path（Park：图标不对）。
 - 不要给 Explore 卡做 3D hover / board tilt（Park：去掉 3d hover）。
