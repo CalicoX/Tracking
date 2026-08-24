@@ -10499,9 +10499,15 @@
         gap: 24px 32px;
       }
       .fx-lm-cluster,
-      .fx-so-cluster,
-      .fx-br-stage {
+      .fx-so-cluster {
         max-width: 400px;
+      }
+      .fx-br-stage {
+        max-width: min(540px, 100%);
+      }
+      .fx-br-form {
+        min-width: min(280px, 100%);
+        flex: 1 1 auto;
       }
       .feature-stage[data-theme="lastmile"] .fx-mock,
       .feature-stage[data-theme="split"] .fx-mock,
