@@ -4171,6 +4171,10 @@
       flex: 0 1 auto;
       width: 100%;
       max-width: 540px;
+      margin-left: auto;
+    }
+    .feature-stage[data-theme="split"] .fx-mock {
+      justify-content: flex-end;
     }
     .fx-br-stage {
       position: relative;
@@ -4971,6 +4975,7 @@
         flex: 1 1 auto;
         height: auto;
         max-width: none;
+        margin-left: 0;
         justify-content: flex-start;
       }
       .fx-so-card {
