@@ -34,6 +34,8 @@
 
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完自动 commit + push。
+- `test` 本地和远端都已删（2026-08-24）。当前 HEAD `248ef77`，与 `origin/main` 一致。
+- Vite：`http://127.0.0.1:5174/` 只跑这份目录的 `main`。
 
 ## Features（3 块）
 
