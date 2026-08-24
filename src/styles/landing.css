@@ -10763,6 +10763,12 @@
         text-align: left;
       }
 
+      .impact-band h2,
+      .features-section .section-head h2 {
+        font-size: var(--fs-h2);
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+      }
       .impact-band {
         height: auto !important;
       }
@@ -11081,9 +11087,12 @@
         --sec-y: 48px;
         --sec-head-gap: 24px;
         --fs-display: clamp(24px, 7.5vw, 28px);
-        --fs-h2: clamp(20px, 6vw, 24px);
+        --fs-h2: clamp(24px, 6.4vw, 26px);
         --fs-lead: 14px;
         --fs-body: 14px;
+      }
+      .features-section > .section-inner {
+        padding-top: 88px;
       }
       .topbar-inner {
         padding: 10px var(--page-pad-x);

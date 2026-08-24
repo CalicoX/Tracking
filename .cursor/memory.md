@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-24（Hero tracking mock 改回 Inter，不要衬线）
+最后更新：2026-08-24（375：标题齐字号，Features 标题下移）
 
 ## Hero 文案区
 
@@ -65,7 +65,7 @@
 - 1200 仍是桌面双列 Features，column-gap 56px，插图 max-width 540px 在右栏居中。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
 - **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐（Park：保留动画以及渐隐）。不要改成手机页（手机布局只在 ≤480）。h1 用 nbsp 避免 brand 单字掉行。Impact 曲线拉满左右、数字两行间距加大、地球略上移。Features CTA 自适应宽度；三块**左右布局**（文案左、插图右），文案不要底色/描边/阴影，不对手风琴、不上图下文。AI 胶囊 2×2、四颗等宽（label 撑满外壳，不要露出拉长的 pill 底）。AI Lab 仍左右：高度固定 `calc(100vh - 100px)`、内容居中、不要随内容长高；右侧 390px 是**手机追踪页**（单列，不要挤桌面双栏）。Explore 卡内保持桌面双列，插图加高（returns stack 340 / API terminal 320），API ASCII 底纹要显示（不要 `display:none`）。Bottom CTA 按钮左对齐。
-- **≤480**：Features 改回上图下文（栏太窄），文案仍无卡底。
+- **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`（不要 34 vs 26）。Features 标题 `padding-top: 88px`，往下离开曲线空带（Park：把文字往下挪一点；不要靠收曲线高度填空）。
 
 ## 产品
 
@@ -73,6 +73,8 @@
 
 ## 不要再做
 
+- 不要让 375 Impact 标题比 Features 标题大一号。
+- 不要靠把 375 增长曲线砍矮来填空（Park：把 Features 文字往下挪）。
 - 不要给 Hero tracking mock 用 Georgia / Playfair 衬线（Park：不要衬线字体）。
 - 不要给 Hero 绘制动画做循环播放。
 - 不要用暖色丘陵 / 大地色服饰图。

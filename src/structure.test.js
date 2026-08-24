@@ -232,6 +232,13 @@ describe("React landing structure (gating)", () => {
     expect(block768).not.toMatch(/hero-undertones/);
     expect(block768).not.toMatch(/\.logos-track/);
     expect(block768).toMatch(/\.impact-curve/);
+    expect(block768).toMatch(/\.impact-band h2/);
+    expect(block768).toMatch(/font-size:\s*var\(--fs-h2\)/);
+    const i480 = css.indexOf("/* —— ≤480");
+    expect(i480).toBeGreaterThan(-1);
+    const block480 = css.slice(i480, i480 + 4000);
+    expect(block480).toMatch(/\.features-section > \.section-inner/);
+    expect(block480).toMatch(/padding-top:\s*88px/);
     // 900 hero stack (comment-marked block, not overflow-x helper)
     const i900 = css.indexOf("/* —— ≤900");
     expect(i900).toBeGreaterThan(-1);
