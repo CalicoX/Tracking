@@ -11044,6 +11044,13 @@
       .feature-list .feature.active h3 {
         font-size: 20px;
         margin: 0 0 8px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        background-image: linear-gradient(105deg, #1d4ed8 0%, #2563eb 48%, #4f46e5 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
       }
       .feature-visual {
         padding: 0;
@@ -11318,7 +11325,7 @@
       .feature-layout {
         grid-template-columns: 1fr;
         column-gap: 0;
-        row-gap: 20px;
+        row-gap: 16px;
         align-items: stretch;
       }
       .feature-list .feature[data-feature="0"] { grid-area: 2 / 1; }
@@ -11327,6 +11334,34 @@
       .feature-panel[data-feature="1"] .feature-visual { grid-area: 3 / 1; }
       .feature-list .feature[data-feature="2"] { grid-area: 6 / 1; }
       .feature-panel[data-feature="2"] .feature-visual { grid-area: 5 / 1; }
+      .feature-list .feature {
+        margin-bottom: 44px;
+      }
+      .feature-list .feature[data-feature="2"] {
+        margin-bottom: 0;
+      }
+      .fx-br-stage {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .fx-br-form {
+        width: 100%;
+        margin: 0;
+      }
+      .fx-br-recs {
+        width: 100%;
+        max-width: 240px;
+        margin: 0 auto;
+      }
+      .fx-br-wheel {
+        align-self: center;
+        margin: 0;
+      }
+      .explore-card {
+        grid-template-columns: 1fr !important;
+        gap: 18px;
+      }
       .ai-lab-work {
         height: auto !important;
       }
