@@ -4114,9 +4114,9 @@
       height: auto;
       width: 100%;
       align-items: flex-end;
-      justify-content: flex-end;
+      justify-content: center;
       gap: 36px;
-      padding: 0 2% 120px 0;
+      padding: 0 0 120px;
       transform-origin: 50% 50%;
       transform:
         translate3d(
@@ -4139,9 +4139,9 @@
       height: auto;
       width: 100%;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: center;
       gap: 0;
-      padding: 0 2% 0 0;
+      padding: 0;
       transform-origin: 50% 50%;
       transform-style: preserve-3d;
       transform:
@@ -4166,10 +4166,8 @@
       min-height: 0;
       position: relative;
       margin-left: auto;
+      margin-right: auto;
       transform-style: preserve-3d;
-    }
-    .feature-stage[data-theme="split"] .fx-mock {
-      justify-content: flex-end;
     }
     .fx-br-stage {
       position: relative;
@@ -4180,6 +4178,7 @@
       width: 100%;
       max-width: 540px;
       margin-left: auto;
+      margin-right: auto;
       height: auto;
       transform-style: preserve-3d;
     }
@@ -4972,6 +4971,7 @@
         height: auto;
         max-width: none;
         margin-left: 0;
+        margin-right: 0;
         justify-content: flex-start;
       }
       .fx-so-card {
