@@ -30,9 +30,9 @@ export default function ExploreMore() {
                   <span></span><span></span><span></span>
                 </div>
                 <div className="returns-ui-stack">
-                  {/* product picker card */}
                   <div className="returns-ui-card">
-                    <p className="returns-ui-brand">URBAN STANDARDS</p>
+                    <div className="returns-win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+                    <p className="returns-ui-brand">Urban Standards</p>
                     <div className="returns-ui-head">
                       <strong>Select an item to return</strong>
                       <span>You can add more items later.</span>
@@ -54,27 +54,10 @@ export default function ExploreMore() {
                           <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
                         </span>
                       </div>
-                      <div className="returns-ui-item" data-product="perfume">
-                        <div className="returns-ui-thumb">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M10 3h4v3h-4z"/>
-                            <path d="M11 6h2"/>
-                            <path d="M8 9h8l-1 11a2 2 0 01-2 2h-2a2 2 0 01-2-2L8 9z"/>
-                            <path d="M9.5 13h5"/>
-                          </svg>
-                        </div>
-                        <div className="returns-ui-meta">
-                          <span className="name">Perfume</span>
-                          <span className="sub"><em>OS</em><i>·</i><b>$165.00</b></span>
-                        </div>
-                        <span className="returns-ui-arrow" aria-hidden="true">
-                          <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                        </span>
-                      </div>
                     </div>
                   </div>
-                  {/* return method card — top/left positioned, backdrop-filter glass */}
                   <div className="returns-method">
+                    <div className="returns-win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
                     <p className="returns-method-title">Return method</p>
                     <div className="returns-method-list">
                       <div className="returns-method-opt" data-kind="refund">

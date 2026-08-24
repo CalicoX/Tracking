@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-24（Returns 毛玻璃修好；退货方式图标换成钞票/叶子/换货）
+最后更新：2026-08-24（Returns 插图按 Cursor 首页收：两扇窗口叠底图，少内容、多留白）
 
 ## Hero 文案区
 
@@ -63,7 +63,7 @@
 - 检查档位：**1200 → 1024 → 768 → <480**。Park 正在查 768。
 - 现有 CSS 主断点（没有 1200）：1100 收导航；1024 缩字号/Hero 仍双列；**980 Features 改手风琴单列**；900 Hero 叠成一列；768 手机；480 再收 padding/字号。
 - 1200 仍是桌面双列 Features，column-gap 56px，插图 max-width 540px 在右栏居中。
-- Explore 卡**不要 3D hover**。Returns 底图用独立 `<img class="returns-ui-photo">`（`returns-scene.jpg`），浮卡毛玻璃；父级不要 `preserve-3d` / opacity 动画，否则 backdrop-filter 无效。Return method 图标：钞票 / 叶子 / 双向箭头（不要手绘 $）。
+- Explore 卡**不要 3D hover**。Returns 插图学 Cursor 首页：底图当空气、两扇轻叠窗口（红黄绿顶栏、偏实心白、软投影），里面少内容；不要把窗口铺满舞台。底图 `<img class="returns-ui-photo">`。图标：钞票 / 叶子 / 双向箭头。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
 - **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴 + 插图滚动 iso**（Park：不要改成三块平铺）。landing-inline `mqMobile` 只到 480。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。481–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**。
 - **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`（不要 34 vs 26）。Features 标题 `padding-top: 88px`，往下离开曲线空带（Park：把文字往下挪一点；不要靠收曲线高度填空）。Features 三块标题都走同一蓝紫渐变（不要 idle 灰 / active 蓝混用）；块与块之间留空（copy 下 44px）。Branded 插图改成上表单、下推荐、色盘在下，不要桌面叠卡。Explore Returns/API 卡内上下布局（不要 768 的左右 `!important`）。正文和 CTA 之间 **20px**（Park：间距没了）。单列时不要靠 `margin-top: auto`，会塌成 0。

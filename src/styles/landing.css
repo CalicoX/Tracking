@@ -8862,7 +8862,7 @@
       user-select: none;
       display: grid;
       place-items: center;
-      padding: 18px 10px 36px;
+      padding: 28px 16px 32px;
       box-sizing: border-box;
       background: #d8f3ea;
     }
@@ -8884,34 +8884,51 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 340px;
-      height: 380px;
-      min-height: 380px;
+      max-width: 300px;
+      height: 400px;
+      min-height: 400px;
       transform: none;
       transform-style: flat;
     }
+    .returns-win-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 12px;
+      margin: 0 0 12px;
+    }
+    .returns-win-bar i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: block;
+      background: #d1d5db;
+    }
+    .returns-win-bar i:nth-child(1) { background: #ff5f57; }
+    .returns-win-bar i:nth-child(2) { background: #febc2e; }
+    .returns-win-bar i:nth-child(3) { background: #28c840; }
     .returns-ui-card {
       position: absolute;
-      top: 8px;
-      left: 0;
-      width: 84%;
+      top: 18px;
+      left: 8px;
+      width: 78%;
       z-index: 1;
-      border-radius: 18px;
-      padding: 16px 14px 14px;
+      border-radius: 14px;
+      padding: 12px 14px 16px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       color: #0f172a;
       -webkit-text-fill-color: #0f172a;
       isolation: isolate;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      background: rgba(255, 255, 255, 0.34);
-      -webkit-backdrop-filter: blur(28px) saturate(1.7);
-      backdrop-filter: blur(28px) saturate(1.7);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      background: rgba(255, 255, 255, 0.78);
+      -webkit-backdrop-filter: blur(28px) saturate(1.5);
+      backdrop-filter: blur(28px) saturate(1.5);
       box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.6) inset,
-        0 16px 40px -12px rgba(15, 23, 42, 0.18);
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 22px 50px -18px rgba(15, 23, 42, 0.28);
     }
     .returns-ui-card > * {
       position: relative;
@@ -8919,24 +8936,25 @@
     }
     .returns-method {
       position: absolute;
-      top: 196px;
-      left: 72px;
-      width: 78%;
+      top: 188px;
+      right: 0;
+      left: auto;
+      width: 72%;
       z-index: 2;
-      border-radius: 18px;
-      padding: 14px 12px 12px;
+      border-radius: 14px;
+      padding: 12px 14px 14px;
       box-sizing: border-box;
       font-family: Inter, system-ui, sans-serif;
       color: #0f172a;
       -webkit-text-fill-color: #0f172a;
       isolation: isolate;
-      border: 1px solid rgba(255, 255, 255, 0.72);
-      background: rgba(255, 255, 255, 0.32);
-      -webkit-backdrop-filter: blur(28px) saturate(1.7);
-      backdrop-filter: blur(28px) saturate(1.7);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.82);
+      -webkit-backdrop-filter: blur(28px) saturate(1.5);
+      backdrop-filter: blur(28px) saturate(1.5);
       box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.55) inset,
-        0 18px 44px -14px rgba(15, 23, 42, 0.2);
+        0 1px 0 rgba(255, 255, 255, 0.92) inset,
+        0 24px 56px -16px rgba(15, 23, 42, 0.3);
     }
     .returns-method > * {
       position: relative;
@@ -8947,18 +8965,18 @@
     }
     .returns-ui-brand {
       margin: 0;
-      text-align: center;
+      text-align: left;
       font-family: Inter, system-ui, sans-serif;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
       color: #0f172a;
       -webkit-text-fill-color: #0f172a;
       line-height: 1.2;
     }
     .returns-ui-head {
-      text-align: center;
-      padding: 0 4px;
+      text-align: left;
+      padding: 0;
     }
     .returns-ui-head strong {
       display: block;
@@ -8984,26 +9002,21 @@
     }
     .returns-ui-item {
       display: grid;
-      grid-template-columns: 40px minmax(0, 1fr) 18px;
+      grid-template-columns: 36px minmax(0, 1fr) 16px;
       gap: 10px;
       align-items: center;
-      padding: 9px 10px;
-      border: 1px solid rgba(15, 23, 42, 0.06);
-      border-radius: 14px;
-      background: #f8fafc;
-      box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.9) inset,
-        0 2px 8px rgba(15, 23, 42, 0.04);
+      padding: 8px 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
       color: #0f172a;
       -webkit-text-fill-color: #0f172a;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
     .returns-ui-item.is-active {
-      background: #fff;
-      border-color: rgba(32, 177, 149, 0.35);
-      box-shadow:
-        0 0 0 3px rgba(32, 177, 149, 0.1),
-        0 4px 12px rgba(15, 23, 42, 0.06);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
     }
     .returns-ui-thumb {
       width: 40px;
@@ -9106,16 +9119,16 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(15, 23, 42, 0.06);
-      background: rgba(255, 255, 255, 0.4);
-      font-size: 12px;
-      font-weight: 600;
+      padding: 7px 0;
+      border-radius: 0;
+      border: 0;
+      background: transparent;
+      font-size: 12.5px;
+      font-weight: 500;
       letter-spacing: -0.01em;
       color: #0f172a;
       -webkit-text-fill-color: #0f172a;
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55) inset;
+      box-shadow: none;
     }
     .returns-method-opt .rm-dot {
       width: 14px;
@@ -9128,15 +9141,9 @@
       position: relative;
     }
     .returns-method-opt.is-selected {
-      border-color: rgba(32, 177, 149, 0.45);
-      background: linear-gradient(
-        180deg,
-        rgba(236, 253, 245, 0.72),
-        rgba(209, 250, 229, 0.42)
-      );
-      box-shadow:
-        0 0 0 3px rgba(32, 177, 149, 0.1),
-        0 2px 8px rgba(15, 118, 90, 0.06);
+      border: 0;
+      background: transparent;
+      box-shadow: none;
     }
     .returns-method-opt.is-selected .rm-dot {
       border-color: #20b195;
