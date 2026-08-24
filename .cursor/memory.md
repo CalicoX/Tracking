@@ -17,7 +17,7 @@
 - ≤480：banner 168px，只留 1 条 event。
 - ≤768 文案整体居中：h1/lead/cta-note 居中，Shopify lockup 整体居中但内部左对齐（meta text-align:left）。CTA 两个按钮左右并排居中（≤480 flex:1、max-width 220px、nowrap），不要竖排。
 - AI Make 镭射贴纸贴在浏览器顶栏右上：先框选稍大的贴纸，再落下；贴上扫光。只播一遍。
-- Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.3`（越大越慢）。768 仍播绘制；只在 prefers-reduced-motion 时跳过。≤480 才用手机页 mock。
+- Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.3`（越大越慢）。768 仍播绘制，并保留 `.visual` 底部 mask 渐隐。只在 prefers-reduced-motion 时跳过绘制。≤480 才用手机页 mock。
 
 ## 移动端特效（Park 要求保留）
 
@@ -64,7 +64,7 @@
 - 现有 CSS 主断点（没有 1200）：1100 收导航；1024 缩字号/Hero 仍双列；**980 Features 改手风琴单列**；900 Hero 叠成一列；768 手机；480 再收 padding/字号。
 - 1200 仍是桌面双列 Features，column-gap 56px，插图 max-width 540px 在右栏居中。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
-- **≤768**：Hero 保留桌面 OGL mock + 绘制动画（不要改成手机页，mask/手机布局挪到 ≤480）。h1 用 nbsp 避免 brand 单字掉行。Impact 曲线拉满左右、数字两行间距加大、地球略上移。Features CTA 自适应宽度；三块图+文平铺、不对手风琴。AI 胶囊 2×2；AI Lab 仍左右、右侧示例 390px。Explore 卡内保持桌面双列。Bottom CTA 按钮左对齐。
+- **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐（Park：保留动画以及渐隐）。不要改成手机页（手机布局只在 ≤480）。h1 用 nbsp 避免 brand 单字掉行。Impact 曲线拉满左右、数字两行间距加大、地球略上移。Features CTA 自适应宽度；三块图+文平铺、不对手风琴。AI 胶囊 2×2；AI Lab 仍左右、右侧示例 390px。Explore 卡内保持桌面双列。Bottom CTA 按钮左对齐。
 
 ## 产品
 
