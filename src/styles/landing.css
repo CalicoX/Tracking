@@ -11364,6 +11364,10 @@
         grid-template-columns: 1fr !important;
         gap: 18px;
       }
+      /* Stacked copy is content-sized, so margin-top:auto collapses to 0. */
+      .explore-card .explore-link {
+        margin-top: 20px;
+      }
       .ai-lab-work {
         height: auto !important;
       }

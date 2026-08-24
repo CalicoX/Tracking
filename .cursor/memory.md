@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-24（768 Explore API 底纹/打字机）
+最后更新：2026-08-24（375 Explore CTA 间距）
 
 ## Hero 文案区
 
@@ -65,7 +65,7 @@
 - 1200 仍是桌面双列 Features，column-gap 56px，插图 max-width 540px 在右栏居中。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
 - **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴 + 插图滚动 iso**（Park：不要改成三块平铺）。landing-inline `mqMobile` 只到 480。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。481–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**。
-- **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`（不要 34 vs 26）。Features 标题 `padding-top: 88px`，往下离开曲线空带（Park：把文字往下挪一点；不要靠收曲线高度填空）。Features 三块标题都走同一蓝紫渐变（不要 idle 灰 / active 蓝混用）；块与块之间留空（copy 下 44px）。Branded 插图改成上表单、下推荐、色盘在下，不要桌面叠卡。Explore Returns/API 卡内上下布局（不要 768 的左右 `!important`）。
+- **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`（不要 34 vs 26）。Features 标题 `padding-top: 88px`，往下离开曲线空带（Park：把文字往下挪一点；不要靠收曲线高度填空）。Features 三块标题都走同一蓝紫渐变（不要 idle 灰 / active 蓝混用）；块与块之间留空（copy 下 44px）。Branded 插图改成上表单、下推荐、色盘在下，不要桌面叠卡。Explore Returns/API 卡内上下布局（不要 768 的左右 `!important`）。正文和 CTA 之间 **20px**（Park：间距没了）。单列时不要靠 `margin-top: auto`，会塌成 0。
 
 ## 产品
 
@@ -76,6 +76,7 @@
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 把 Branded 表单和推荐卡左右叠在一起（Park：插图绘制错误）。
 - 不要在 375 把 Explore Returns 排成左右栏（Park：上下布局）。
+- 不要在 375 让 Explore CTA 贴着正文（`margin-top:auto` 在单列会变成 0；Park：间距没了）。
 - 不要让 375 Impact 标题比 Features 标题大一号。
 - 不要靠把 375 增长曲线砍矮来填空（Park：把 Features 文字往下挪）。
 - 不要给 Hero tracking mock 用 Georgia / Playfair 衬线（Park：不要衬线字体）。

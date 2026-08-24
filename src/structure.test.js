@@ -249,6 +249,8 @@ describe("React landing structure (gating)", () => {
     expect(block480).toMatch(/flex-direction:\s*column/);
     expect(block480).toMatch(/grid-template-columns:\s*1fr\s*!important/);
     expect(block480).toMatch(/display:\s*contents/);
+    expect(block480).toMatch(/\.explore-card \.explore-link/);
+    expect(block480).toMatch(/margin-top:\s*20px/);
     // 900 hero stack (comment-marked block, not overflow-x helper)
     const i900 = css.indexOf("/* —— ≤900");
     expect(i900).toBeGreaterThan(-1);
