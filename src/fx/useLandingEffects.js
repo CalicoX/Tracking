@@ -127,22 +127,23 @@ export function useLandingEffects() {
     }
 
     // —— Features / explore deferred ——
+    // Watch both: resizing to 768 while parked on Explore leaves Features off-screen,
+    // so a Features-only IO never mounts ASCII / typewriter.
     const features = document.getElementById("key-features");
     const explore = document.querySelector(".explore-grid");
-    const featuresOrExplore = features || explore;
-    if (featuresOrExplore) {
+    const inlineTargets = [features, explore].filter(Boolean);
+    if (inlineTargets.length) {
       let loaded = false;
-      disposers.push(
-        observeVisibility(
-          featuresOrExplore,
-          (vis) => {
-            if (!vis || loaded) return;
-            loaded = true;
-            mountNamed("landingInline");
-          },
-          { rootMargin: "120px" }
-        )
-      );
+      const loadInline = (vis) => {
+        if (!vis || loaded) return;
+        loaded = true;
+        mountNamed("landingInline");
+      };
+      inlineTargets.forEach((el) => {
+        disposers.push(
+          observeVisibility(el, loadInline, { rootMargin: "120px" })
+        );
+      });
     }
 
     // —— AI Lab deferred ——

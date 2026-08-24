@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-24（768 Branded 表单不要拉满）
+最后更新：2026-08-24（768 Explore API 底纹/打字机）
 
 ## Hero 文案区
 
@@ -64,7 +64,7 @@
 - 现有 CSS 主断点（没有 1200）：1100 收导航；1024 缩字号/Hero 仍双列；**980 Features 改手风琴单列**；900 Hero 叠成一列；768 手机；480 再收 padding/字号。
 - 1200 仍是桌面双列 Features，column-gap 56px，插图 max-width 540px 在右栏居中。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
-- **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴 + 插图滚动 iso**（Park：不要改成三块平铺）。landing-inline `mqMobile` 只到 480。481–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**。
+- **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴 + 插图滚动 iso**（Park：不要改成三块平铺）。landing-inline `mqMobile` 只到 480。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。481–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**。
 - **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`（不要 34 vs 26）。Features 标题 `padding-top: 88px`，往下离开曲线空带（Park：把文字往下挪一点；不要靠收曲线高度填空）。Features 三块标题都走同一蓝紫渐变（不要 idle 灰 / active 蓝混用）；块与块之间留空（copy 下 44px）。Branded 插图改成上表单、下推荐、色盘在下，不要桌面叠卡。Explore Returns/API 卡内上下布局（不要 768 的左右 `!important`）。
 
 ## 产品
@@ -85,7 +85,8 @@
 - 不要把手机 Hero 插图外框改成刘海手机壳（Park 否过，已回退）。
 - 不要在 768 把 AI Lab 高度设成 auto（Park：100vh-100px，不要变化高度）。
 - 不要在 768 把 AI Lab 右侧示例挤成桌面双栏追踪页（Park：改成移动端）。
-- 不要在 768 隐藏 `.api-ascii`（Park：API 底纹没了）。
+- 不要在 768 隐藏 `.api-ascii`，也不要用 `animation: none` 停掉 `.api-ascii-a/b`（Park：动画、底纹都没了）。
+- 不要只对 `#key-features` 挂 `landing-inline`（768 停在 Explore 时 Features 不在视口，打字机和底纹都不会挂）。
 - 不要让 768 AI 胶囊外壳拉满格、标签还按文字收缩（Park 标过那截底）。
 - 不要给 768 Features 文案加底色/描边（Park 否掉）。
 - 不要把 768 Branded 表单拉满右栏、推荐卡盖住 Track（Park：下面太宽，按钮被挡完）。

@@ -11030,9 +11030,8 @@
         gap: 24px 16px;
       }
 
-      /* Kill heavy / broken mid-animation states (logo marquee keeps scrolling) */
-      .api-ascii-a,
-      .api-ascii-b,
+      /* Kill heavy / broken mid-animation states (logo marquee keeps scrolling).
+         Keep .api-ascii drift at 768 — Park: 底纹不能没。 */
       .ai-stream-layer-a,
       .ai-stream-layer-b {
         animation: none !important;

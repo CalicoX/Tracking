@@ -75,9 +75,9 @@ export function mount() {
       var reduce =
         window.matchMedia &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var mobile =
-        !!window.__isMobileLayout ||
-        !!(window.matchMedia && window.matchMedia("(max-width: 768px)").matches);
+      /* 768 keeps ASCII drift + twinkle (Park). Static fill only at 480 / reduced-motion. */
+      var phone =
+        !!(window.matchMedia && window.matchMedia("(max-width: 480px)").matches);
       var glyphs = "+*#=-.|:";
       var rows = 36;
       var cols = 64;
@@ -126,7 +126,7 @@ export function mount() {
         filled = false;
       }
 
-      if (reduce || mobile) {
+      if (reduce || phone) {
         ensureFilled();
         return;
       }
