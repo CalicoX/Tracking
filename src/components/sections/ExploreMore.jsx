@@ -25,6 +25,7 @@ export default function ExploreMore() {
                 </span>
               </div>
               <div className="returns-ui" aria-hidden="true">
+                <img className="returns-ui-photo" src="/assets/returns-scene.jpg" alt="" />
                 <div className="returns-ui-blobs" aria-hidden="true">
                   <span></span><span></span><span></span>
                 </div>
@@ -79,14 +80,14 @@ export default function ExploreMore() {
                       <div className="returns-method-opt" data-kind="refund">
                         <span className="rm-dot"></span>
                         <span className="rm-ico" aria-hidden="true">
-                          <svg viewBox="0 0 16 16" fill="none"><path d="M8 2v12M5.5 5.2c.5-1 1.5-1.6 2.7-1.6 1.6 0 2.8 1 2.8 2.4S9.8 8.4 8 8.4 5.2 9.4 5.2 10.8c0 1.4 1.2 2.4 2.9 2.4 1.2 0 2.2-.6 2.7-1.6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.4"/><path d="M6 12h.01M18 12h.01"/></svg>
                         </span>
                         <span className="rm-label">Refund</span>
                       </div>
                       <div className="returns-method-opt is-selected" data-kind="green">
                         <span className="rm-dot"></span>
                         <span className="rm-ico" aria-hidden="true">
-                          <svg viewBox="0 0 16 16" fill="none"><path d="M4 9.5c0 2.2 1.8 3.5 4 3.5s4-1.3 4-3.5c0-2.8-4-3-4-5.5 0-1.2.9-2 2-2 1.3 0 2 .9 2.2 1.8" stroke="currentColor" strokeWidth="1.45" strokeLinecap="round"/><path d="M3.5 8.2c.6-1.6 1.8-2.6 3.3-2.6" stroke="currentColor" strokeWidth="1.45" strokeLinecap="round"/></svg>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
                         </span>
                         <span className="rm-label">Green return</span>
                         <span className="rm-tag">ECO</span>
@@ -94,7 +95,7 @@ export default function ExploreMore() {
                       <div className="returns-method-opt" data-kind="exchange">
                         <span className="rm-dot"></span>
                         <span className="rm-ico" aria-hidden="true">
-                          <svg viewBox="0 0 16 16" fill="none"><path d="M3 5.5h8.5M9 3l2.5 2.5L9 8M13 10.5H4.5M7 8l-2.5 2.5L7 13" stroke="currentColor" strokeWidth="1.45" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
                         </span>
                         <span className="rm-label">Exchange</span>
                       </div>

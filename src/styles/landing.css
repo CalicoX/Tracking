@@ -8295,9 +8295,7 @@
     }
     /* stage = reverse parallax layer (same pattern as .explore-api-visual) */
     .explore-card-returns .returns-ui {
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(16, 100, 85, 0.14) 100%),
-        url("/assets/returns-scene.jpg") center 40% / cover no-repeat;
+      background: #d8f3ea;
       border: 1px solid rgba(255, 255, 255, 0.4);
       box-shadow: 0 10px 28px rgba(16, 100, 85, 0.14);
       overflow: hidden;
@@ -8866,9 +8864,18 @@
       place-items: center;
       padding: 18px 10px 36px;
       box-sizing: border-box;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(16, 100, 85, 0.12) 100%),
-        url("/assets/returns-scene.jpg") center 40% / cover no-repeat;
+      background: #d8f3ea;
+    }
+    .returns-ui-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      z-index: 0;
+      pointer-events: none;
+      display: block;
     }
     .returns-ui-blobs {
       display: none;
@@ -8880,12 +8887,8 @@
       max-width: 340px;
       height: 380px;
       min-height: 380px;
-      transform-style: preserve-3d;
-      animation: returns-ui-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-    @keyframes returns-ui-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      transform: none;
+      transform-style: flat;
     }
     .returns-ui-card {
       position: absolute;
@@ -8901,12 +8904,13 @@
       gap: 12px;
       color: #0f172a;
       -webkit-text-fill-color: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.62);
-      background: rgba(255, 255, 255, 0.5);
-      -webkit-backdrop-filter: blur(22px) saturate(1.4);
-      backdrop-filter: blur(22px) saturate(1.4);
+      isolation: isolate;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.34);
+      -webkit-backdrop-filter: blur(28px) saturate(1.7);
+      backdrop-filter: blur(28px) saturate(1.7);
       box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.55) inset,
+        0 1px 0 rgba(255, 255, 255, 0.6) inset,
         0 16px 40px -12px rgba(15, 23, 42, 0.18);
     }
     .returns-ui-card > * {
@@ -8925,12 +8929,13 @@
       font-family: Inter, system-ui, sans-serif;
       color: #0f172a;
       -webkit-text-fill-color: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.66);
-      background: rgba(255, 255, 255, 0.48);
-      -webkit-backdrop-filter: blur(22px) saturate(1.4);
-      backdrop-filter: blur(22px) saturate(1.4);
+      isolation: isolate;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.32);
+      -webkit-backdrop-filter: blur(28px) saturate(1.7);
+      backdrop-filter: blur(28px) saturate(1.7);
       box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.5) inset,
+        0 1px 0 rgba(255, 255, 255, 0.55) inset,
         0 18px 44px -14px rgba(15, 23, 42, 0.2);
     }
     .returns-method > * {
@@ -9170,8 +9175,8 @@
       opacity: 0.9;
     }
     .returns-method-opt .rm-ico svg {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       display: block;
     }
     .returns-method-opt[data-kind="refund"] .rm-ico { color: #2563eb; }
