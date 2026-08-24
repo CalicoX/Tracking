@@ -205,6 +205,10 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/display:\s*none/);
     expect(block768).toMatch(/order:\s*-1/);
     expect(block768).toMatch(/display:\s*contents/);
+    expect(block768).toMatch(
+      /grid-template-columns:\s*minmax\(0,\s*0\.9fr\)\s+minmax\(0,\s*1\.15fr\)/
+    );
+    expect(block768).toMatch(/background:\s*transparent/);
     expect(block768).toMatch(/mask-image:\s*linear-gradient/);
     // 768 keeps Hero draw; do not hide overlay via the 768 media query
     expect(css).not.toMatch(
