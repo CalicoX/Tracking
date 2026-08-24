@@ -232,12 +232,12 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/repeat\(4,\s*minmax\(0,\s*1fr\)\)/);
     const i1024feat = css.indexOf("/* 481–1024 two-column Features");
     expect(i1024feat).toBeGreaterThan(-1);
-    const block1024feat = css.slice(i1024feat, i1024feat + 1400);
+    const block1024feat = css.slice(i1024feat, i1024feat + 900);
     expect(block1024feat).toMatch(/\.fx-br-form/);
     expect(block1024feat).toMatch(/min-width:\s*min\(280px/);
-    expect(block1024feat).toMatch(/\.fx-br-recs/);
-    expect(block1024feat).toMatch(/position:\s*absolute/);
-    expect(block1024feat).toMatch(/\.fx-br-wheel/);
+    expect(block768).toMatch(/\.fx-br-form/);
+    expect(block768).toMatch(/width:\s*264px/);
+    expect(block768).toMatch(/margin-left:\s*-24px/);
     expect(block768).toMatch(/\.impact-band h2/);
     expect(block768).toMatch(/font-size:\s*var\(--fs-h2\)/);
     const i480 = css.indexOf("/* —— ≤480");

@@ -10503,31 +10503,11 @@
         max-width: 400px;
       }
       .fx-br-stage {
-        position: relative;
         max-width: min(540px, 100%);
-        width: 100%;
-        box-sizing: border-box;
       }
       .fx-br-form {
         min-width: min(280px, 100%);
         flex: 1 1 auto;
-        width: 100%;
-      }
-      /* Recs + color wheel overlay the form so they cannot overflow the column */
-      .fx-br-recs {
-        position: absolute;
-        right: 48px;
-        bottom: 14px;
-        width: 168px;
-        margin-left: 0;
-      }
-      .fx-br-wheel {
-        position: absolute;
-        right: 8px;
-        bottom: 8px;
-        width: 52px;
-        height: 52px;
-        margin-left: 0;
       }
       .feature-stage[data-theme="lastmile"] .fx-mock,
       .feature-stage[data-theme="split"] .fx-mock,
@@ -11011,6 +10991,39 @@
         width: auto;
         min-width: 0;
       }
+
+      /* Branded: keep desktop side-overlap, but don't stretch the form.
+         Track CTA stays readable; color wheel stays inside the column. */
+      .fx-br-stage {
+        width: max-content;
+        max-width: 100%;
+        padding-right: 8px;
+        box-sizing: border-box;
+      }
+      .fx-br-form {
+        flex: 0 0 auto;
+        width: 264px;
+        min-width: 0;
+        max-width: none;
+      }
+      .fx-br-recs {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 144px;
+        flex: 0 0 144px;
+        margin-left: -24px;
+      }
+      .fx-br-wheel {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+        margin-left: -10px;
+      }
+
       .site-footer-nav {
         width: 100%;
         grid-template-columns: repeat(4, minmax(0, 1fr));
