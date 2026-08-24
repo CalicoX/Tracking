@@ -219,6 +219,9 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/\.ai-pill-label/);
     expect(block768).toMatch(/\.ai-lab-intro/);
     expect(block768).toMatch(/position:\s*relative/);
+    expect(block768).toMatch(/calc\(100vh - 100px\)/);
+    expect(block768).toMatch(/\.ai-case-art \.ogl-status/);
+    expect(block768).not.toMatch(/\.api-ascii \{\s*display:\s*none/);
     // mobile keeps earth + logo marquee + growth curve (Park)
     expect(block768).not.toMatch(/hero-undertones/);
     expect(block768).not.toMatch(/\.logos-track/);
@@ -239,6 +242,7 @@ describe("React landing structure (gating)", () => {
     const inline = read("fx/modules/landing-inline.js");
     expect(inline).toMatch(/mqMobile\.matches/);
     expect(inline).toMatch(/Accordion/);
+    expect(inline).toMatch(/reduce \|\| mobile/);
   });
 
   it("responsive-fx is sync-mounted before async heavy FX in useLandingEffects", () => {

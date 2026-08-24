@@ -75,6 +75,9 @@ export function mount() {
       var reduce =
         window.matchMedia &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var mobile =
+        !!window.__isMobileLayout ||
+        !!(window.matchMedia && window.matchMedia("(max-width: 768px)").matches);
       var glyphs = "+*#=-.|:";
       var rows = 36;
       var cols = 64;
@@ -123,7 +126,7 @@ export function mount() {
         filled = false;
       }
 
-      if (reduce) {
+      if (reduce || mobile) {
         ensureFilled();
         return;
       }
