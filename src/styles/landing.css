@@ -1224,7 +1224,8 @@
       width: 10px;
       height: 10px;
     }
-    @media (max-width: 768px), (prefers-reduced-motion: reduce) {
+    /* Skip draw only for reduced-motion; 768 still plays (Park) */
+    @media (prefers-reduced-motion: reduce) {
       .visual-asm.is-drawing [data-draw] {
         opacity: 1 !important;
         visibility: visible !important;
@@ -1239,20 +1240,6 @@
       .draw-overlay {
         display: none !important;
       }
-    }
-    html.is-reduce-fx .visual-asm.is-drawing [data-draw] {
-      opacity: 1 !important;
-      visibility: visible !important;
-      animation: none !important;
-    }
-    html.is-reduce-fx .visual-asm.is-drawing .os-hero::after {
-      opacity: 1;
-    }
-    html.is-reduce-fx .visual-asm.is-drawing .os-board {
-      background: var(--os-paper);
-    }
-    html.is-reduce-fx .draw-overlay {
-      display: none !important;
     }
     .visual .browser {
       max-width: 780px;

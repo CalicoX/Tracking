@@ -1,7 +1,6 @@
 import {
   clamp,
   prefersReducedMotion,
-  shouldReduceFx,
   shouldRunContinuousFx,
 } from "../utils.js";
 
@@ -46,7 +45,7 @@ export function mount() {
   const root = document.querySelector(".visual-asm");
   if (!root) return () => {};
 
-  if (shouldReduceFx() || prefersReducedMotion()) {
+  if (prefersReducedMotion()) {
     root.classList.remove("is-drawing");
     root.querySelectorAll("[data-draw]").forEach((n) => n.classList.add("is-placed"));
     return () => {};
@@ -204,6 +203,7 @@ export function mount() {
       if (isStale(gen)) return;
       const el = root.querySelector(sel);
       if (!el) continue;
+      if (getComputedStyle(el).display === "none") continue;
       const r = relRect(el, root);
       const start = { x: r.x, y: r.y };
       const end = { x: r.x + r.w, y: r.y + r.h };

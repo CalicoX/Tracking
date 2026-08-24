@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-24
+最后更新：2026-08-24（768 Hero：绘制 + 底部渐隐）
 
 ## Hero 文案区
 
@@ -13,11 +13,11 @@
 - 桌面：文案左、插图右。浏览器框 + 冷色海浪图。
 - OGL mock 配色（Park 定）：全部走品牌蓝紫家族，不要暖色/米色。`--os-brown: #2563eb`；Track 按钮 `linear-gradient(135deg,#2563eb,#4f46e5)`；进度线 `#38bdf8→#2563eb→#8b5cf6`；Delivered 节点 indigo 渐变+光晕；摘要卡 `#e6edfb`（原米色 #e9e0d4 否掉）；纸底 `#f2f6fd`；海图 saturate(1.08)。第一条 event（Delivered）绿色 #15803d。
 - OGL mock 字体：不要无衬线。`.hero-ogl` 正文 Georgia serif，标题仍 Playfair（--os-serif）；input 加 `font-family: inherit`。
-- ≤768 手机：插图 `order: -1` 提到文案上方。内部改成手机页：banner 叠字 + 表单压在图下沿，状态/摘要单列。`os-look` 隐藏。整块 `.visual` 用 `mask-image` 底部渐变溶进 Hero 背景。外框仍是浏览器框（红黄绿 + 地址栏）。Park 否过深色手机边框 / 刘海版本，不要再做。
-- ≤480：banner 168px，只留 1 条 event。
+- ≤768：插图 `order: -1` 提到文案上方，仍是桌面 OGL mock（浏览器框），绘制动画 + `.visual` 底部 mask 渐隐。不要改成手机页。Park 否过深色手机边框 / 刘海版本，不要再做。
+- ≤480：才改成手机页 mock（banner 叠字 + 表单压图下沿，状态/摘要单列，`os-look` 隐藏）；banner 168px，只留 1 条 event。底部 mask 仍在。
 - ≤768 文案整体居中：h1/lead/cta-note 居中，Shopify lockup 整体居中但内部左对齐（meta text-align:left）。CTA 两个按钮左右并排居中（≤480 flex:1、max-width 220px、nowrap），不要竖排。
 - AI Make 镭射贴纸贴在浏览器顶栏右上：先框选稍大的贴纸，再落下；贴上扫光。只播一遍。
-- Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.3`（越大越慢）。768 仍播绘制，并保留 `.visual` 底部 mask 渐隐。只在 prefers-reduced-motion 时跳过绘制。≤480 才用手机页 mock。
+- Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.3`（越大越慢）。768 仍播绘制，并保留 `.visual` 底部 mask 渐隐。只在 prefers-reduced-motion 时跳过绘制（不要用 `shouldReduceFx` / `window.__reduceFx` / `html.is-reduce-fx` / `max-width: 768px` 关掉 overlay）。≤480 才用手机页 mock。
 
 ## 移动端特效（Park 要求保留）
 
@@ -76,6 +76,7 @@
 - 不要用暖色丘陵 / 大地色服饰图。
 - 不要把 Branded 推荐图换成暖色瑜伽人像（用现有产品图）。
 - 不要把手机 Hero 插图外框改成刘海手机壳（Park 否过，已回退）。
+- 不要用 `@media (max-width: 768px)` 或 `html.is-reduce-fx` 关掉 Hero 绘制 overlay（Park：768 保留动画以及渐隐）。
 - 不要动 `public/js/`。
 - 不要 force push、不要 `--no-verify`。
 - 不要用 flex 拉高 Tracking info / split 主卡来填满 Features 右栏（中间会出现空洞，Park 否过）。

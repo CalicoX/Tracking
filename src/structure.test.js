@@ -97,6 +97,11 @@ describe("React landing structure (gating)", () => {
     expect(fx).toMatch(/aiLab|ai-lab/);
     expect(fx).toMatch(/bottomCta|bottom-cta/);
     expect(fx).toMatch(/shouldReduceFx|prefersReducedMotion|whenIdle/);
+    expect(fx).toMatch(/if \(visual && !prefersReducedMotion\(\)\)/);
+    expect(fx).toMatch(/mountNamed\("heroDraw"\)/);
+    const draw = read("fx/modules/hero-draw.js");
+    expect(draw).toMatch(/if \(prefersReducedMotion\(\)\)/);
+    expect(draw).not.toMatch(/shouldReduceFx/);
     // no page-level rAF monkey-patch (main-thread waste)
     expect(fx).not.toMatch(/window\.requestAnimationFrame\s*=/);
     // hover particles idle-deferred after aiLab
@@ -201,6 +206,11 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/order:\s*-1/);
     expect(block768).toMatch(/display:\s*contents/);
     expect(block768).toMatch(/mask-image:\s*linear-gradient/);
+    // 768 keeps Hero draw; do not hide overlay via the 768 media query
+    expect(css).not.toMatch(
+      /@media\s*\(max-width:\s*768px\),\s*\(prefers-reduced-motion:\s*reduce\)/
+    );
+    expect(css).not.toMatch(/html\.is-reduce-fx\s+\.draw-overlay/);
     expect(block768).toMatch(/\.ai-lab-intro/);
     expect(block768).toMatch(/position:\s*relative/);
     // mobile keeps earth + logo marquee + growth curve (Park)

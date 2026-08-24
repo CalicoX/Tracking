@@ -80,7 +80,7 @@ export function useLandingEffects() {
 
       const visual = document.querySelector(".visual-asm");
       /* 768 keeps the desktop mock + draw (Park). Skip only reduced-motion. */
-      if (visual && !prefersReducedMotion() && !window.__reduceFx) {
+      if (visual && !prefersReducedMotion()) {
         mountNamed("heroDraw");
       }
 
