@@ -54,7 +54,8 @@
 - Last-mile 结束位贴在右栏下沿（logo 在底栏上方）；不要垂直居中导致「太高」。
 - 插图滚动：先 isometric 往中间聚拢（`--fx-spread: 0`），再散开层叠，最后铺平。整组比结束位更高。阴影大而淡。手机 / reduced-motion 直接平铺。
 - Split / Branded 跟 last-mile 同一套：平躺 isometric，先聚拢再散开再铺平；结束位中下部 padding-bottom 120px；卡片分开不重叠。
-- Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。整组 max-width 540px，靠右栏右沿（Park：往右边移动）。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
+- Last-mile / Split 插图整组 max-width **540px**，靠右栏右沿（Park 图1 收窄到红框；图2 往右移）。不要撑满右栏。
+- Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
 - Branded：Track 表单 `flex:1` 铺满（不要 340px/58% 上限）+ 推荐卡叠表单右沿 -24px + 色盘 -10px。≤980 不叠。
 
 ## 产品
@@ -76,3 +77,4 @@
 - 不要在图2 追踪卡右侧再叠邮件/包裹浮卡（Park 连续黄框圈这一组，已改成上邮件下主卡）。
 - 不要在图2 追踪卡底部再用 space-between 拉两行 Package（中间会空一截，Park 黄框圈过）。
 - 不要把图2 追踪卡撑满右栏：短文案左对齐会在右侧留出一块空（Park 黄框圈过）。
+- 不要把 last-mile 插图撑满右栏（Park 红框收窄到 540px 靠右）。
