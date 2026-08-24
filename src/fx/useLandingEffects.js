@@ -79,7 +79,8 @@ export function useLandingEffects() {
       await beamP;
 
       const visual = document.querySelector(".visual-asm");
-      if (visual && !shouldReduceFx()) {
+      /* 768 keeps the desktop mock + draw (Park). Skip only reduced-motion. */
+      if (visual && !prefersReducedMotion() && !window.__reduceFx) {
         mountNamed("heroDraw");
       }
 
@@ -115,7 +116,7 @@ export function useLandingEffects() {
           loaded = true;
           // Metrics first (scroll-driven counters); bg shader idle-deferred (same section)
           mountNamed("impactMetrics");
-          if (!shouldReduceFx()) {
+          if (!prefersReducedMotion() && !window.__reduceFx) {
             const stop = whenIdle(() => {
               if (!cancelled) mountNamed("impactBg");
             }, 400);
