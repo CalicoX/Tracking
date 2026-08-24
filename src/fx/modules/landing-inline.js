@@ -315,7 +315,7 @@ export function mount() {
       var n = panels.length;
       var current = -1;
       var clickUnlockTimer = 0;
-      var mqMobile = window.matchMedia("(max-width: 980px)");
+      var mqMobile = window.matchMedia("(max-width: 480px)");
       var panelGap = 28;
       var panelH = 0;
       var travelPx = 1;

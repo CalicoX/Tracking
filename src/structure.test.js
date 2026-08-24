@@ -210,10 +210,6 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/\.float-card/);
     expect(block768).toMatch(/display:\s*none/);
     expect(block768).toMatch(/order:\s*-1/);
-    expect(block768).toMatch(/display:\s*contents/);
-    expect(block768).toMatch(
-      /grid-template-columns:\s*minmax\(0,\s*0\.9fr\)\s+minmax\(0,\s*1\.15fr\)/
-    );
     expect(block768).toMatch(/background:\s*transparent/);
     expect(block768).toMatch(/mask-image:\s*linear-gradient/);
     // 768 keeps Hero draw; do not hide overlay via the 768 media query
@@ -241,13 +237,14 @@ describe("React landing structure (gating)", () => {
     expect(block480).toMatch(/padding-top:\s*88px/);
     expect(block480).toMatch(/flex-direction:\s*column/);
     expect(block480).toMatch(/grid-template-columns:\s*1fr\s*!important/);
+    expect(block480).toMatch(/display:\s*contents/);
     // 900 hero stack (comment-marked block, not overflow-x helper)
     const i900 = css.indexOf("/* —— ≤900");
     expect(i900).toBeGreaterThan(-1);
     const block900 = css.slice(i900, i900 + 2000);
     expect(block900).toMatch(/\.hero-inner/);
     expect(block900).toMatch(/grid-template-columns:\s*1fr/);
-    // Features mobile accordion (≤980): hide non-active panels
+    // Features phone tiles (≤480): hide-non-active still in CSS, then contents shows all
     const i980 = css.indexOf("@media (max-width: 980px)");
     expect(i980).toBeGreaterThan(-1);
     // find the block that contains feature-scroll auto height
@@ -256,6 +253,7 @@ describe("React landing structure (gating)", () => {
     expect(featMobile).toBe(true);
     const inline = read("fx/modules/landing-inline.js");
     expect(inline).toMatch(/mqMobile\.matches/);
+    expect(inline).toMatch(/max-width: 480px/);
     expect(inline).toMatch(/Accordion/);
     expect(inline).toMatch(/reduce \|\| mobile/);
   });
