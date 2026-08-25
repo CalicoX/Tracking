@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-25（≤480 叠层 / 按钮左右排）
+最后更新：2026-08-25（≤480 Returns 拉开；Branded 叠回 PC；曲线 200px）
 
 ## Hero 文案区
 
@@ -23,7 +23,7 @@
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
 - logo 跑马灯手机继续滚（≤768 kill 列表里不放 `.logos-track`）。
-- 增长曲线手机/平板显示，但高度必须用 px 不用 vh（vh 在平板会爬进文字）：≤980 190px / ≤768 280px / ≤480 **120px**。≤480 sticky `overflow:hidden` + padding-bottom 128px，stats `z-index:4`，曲线 `z-index:1`（280px 曲线会盖住 2.8x）。
+- 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
 ## 人
@@ -58,7 +58,7 @@
 - Split / Branded 跟 last-mile 同一套：平躺 isometric，先聚拢再散开再铺平。图2/图3 落点垂直居中（不要 120px 贴底）。iso 等面板很靠近居中（c>0.7）再开始，不要进场就播。点击切 tab 约 1.25s。
 - Last-mile / Split / Branded 插图整组 max-width **540px**，在右栏里水平居中（Park：居中。不要贴右沿）。不要撑满右栏。
 - Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
-- Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。桌面推荐卡叠表单右沿 -24px + 色盘 -10px。768 仍是这条叠法，只把三件缩小到塞进右栏；不要把表单拉满、不要把推荐卡盖住 Track。≤480 改成上表单、下推荐，不要左右叠。
+- Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。桌面推荐卡叠表单右沿 -24px + 色盘 -10px。768 仍是这条叠法，只把三件缩小到塞进右栏；不要把表单拉满、不要把推荐卡盖住 Track。≤480 **也要左右叠**（Park：跟 PC 一致）：表单 208px、推荐卡 128px `margin-left:-22px`、色盘 40px `-8px`。不要改成上表单下推荐。3D 仍关掉，避免盖住下面标题。
 
 ## 响应式（Park 逐步查）
 
@@ -70,7 +70,7 @@
 - API 终端是毛玻璃（半透明 + `backdrop-filter`）。祖先不要 `preserve-3d` / `filter: drop-shadow`，否则玻璃失效。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
 - **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴 + 插图滚动 iso**（Park：不要改成三块平铺）。landing-inline `mqMobile` 只到 480。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。481–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**。
-- **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`（不要 34 vs 26）。Features 标题 `padding-top: 72px`（曲线已收到 120px）。插图必须 `transform: none !important` 铺平——React inline `--fx-iso:1` 会盖掉 CSS 变量。不要给 `.feature-stage` 留 320/340 min-height（卡和 logo 中间会空一截，logo 还会盖住标题）。Branded 上表单、下推荐、色盘在下，不要负 margin 叠到正文。Hero / Features / AI Lab / Bottom CTA 按钮左右并排；768 的 `flex: 0 0 auto` 会压过靠前的 480 规则，最后一段 480 必须再写回 `flex: 1 1 0`。Bottom CTA 不要 `flex-direction: column`。Returns 舞台 280px，method 贴底，Exchange 不要被切。Features 三块标题同一蓝紫渐变；块与块之间留空（copy 下 28px）。Explore Returns/API 卡内上下布局。正文和 CTA 之间不要靠 `margin-top: auto`。
+- **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`。Features 标题 `padding-top: 72px`。插图 `transform: none !important` 铺平。不要给 `.feature-stage` 留 320/340 min-height。Branded **左右叠**（208 / 128 / -22），不要上下拆开。Hero / Features / AI Lab / Bottom CTA 按钮左右并排。Returns 舞台 **360px**，method `top:178px`，两扇窗上下拉开但仍轻叠；Exchange 不要被切。曲线 200px / z-index 2。Features 三块标题同一蓝紫渐变。Explore Returns/API 卡内上下布局。
 
 ## 产品
 
@@ -79,7 +79,7 @@
 ## 不要再做
 
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
-- 不要在 375 把 Branded 表单和推荐卡左右叠在一起（Park：插图绘制错误）。
+- 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
 - 不要在 375 把 Explore Returns 排成左右栏（Park：上下布局）。
 - 不要在 375 让 Explore CTA 贴着正文（`margin-top:auto` 在单列会变成 0；Park：间距没了）。
 - 不要让 375 Impact 标题比 Features 标题大一号。
@@ -130,3 +130,6 @@
 - 不要在 ≤480 把 Bottom CTA / Features CTA 收成竖排（Park：按钮左右）。
 - 不要在 768 的 `flex: 0 0 auto` 之后不再写一遍 480 的 `flex: 1 1 0`（Features 按钮会各 220px 溢出）。
 - 不要在 ≤480 把增长曲线留在 768 的 280px（会盖住 2.8x / Loyalty lift）。
+- 不要在 ≤480 把曲线收到 120px 且 z-index:1（会沉到地板 veil 下面，完全看不见）。
+- 不要在 ≤480 把 Branded 改成上表单、下推荐（Park：跟 PC 不一致，要叠在一起）。
+- 不要在 ≤480 把 Returns 两扇窗贴死叠满（Park：里面的卡片上下分开一些）。
