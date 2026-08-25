@@ -96,9 +96,8 @@ export default function ExploreMore() {
               <div className="explore-card-copy">
                 <span className="explore-title-ico explore-title-ico-api" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round">
-                    <path className="ico-a-left" d="M8 7l-4 5 4 5"/>
-                    <path className="ico-a-slash" d="M13 5l-2 14"/>
-                    <path className="ico-a-right" d="M16 7l4 5-4 5"/>
+                    <path className="ico-a-brace-l" d="M9 5H8a2 2 0 0 0-2 2v3.5a2 2 0 0 1-2 2 2 2 0 0 1 2 2V17a2 2 0 0 0 2 2h1"/>
+                    <path className="ico-a-brace-r" d="M15 19h1a2 2 0 0 0 2-2v-3.5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V7a2 2 0 0 0-2-2h-1"/>
                   </svg>
                 </span>
                 <h3>Tracking API</h3>
