@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-25（Explore 去 3D transform；终端毛玻璃）
+最后更新：2026-08-25（≤480 叠层 / 按钮左右排）
 
 ## Hero 文案区
 
@@ -14,8 +14,8 @@
 - OGL mock 配色（Park 定）：全部走品牌蓝紫家族，不要暖色/米色。`--os-brown: #2563eb`；Track 按钮 `linear-gradient(135deg,#2563eb,#4f46e5)`；进度线 `#38bdf8→#2563eb→#8b5cf6`；Delivered 节点 indigo 渐变+光晕；摘要卡 `#e6edfb`（原米色 #e9e0d4 否掉）；纸底 `#f2f6fd`；海图 saturate(1.08)。第一条 event（Delivered）绿色 #15803d。
 - OGL mock 字体：不要衬线。`.hero-ogl` 走 Inter / sans-serif（标题、logo、状态、摘要都 inherit）。Park：不要用衬线字体。
 - ≤768：插图 `order: -1` 提到文案上方，仍是桌面 OGL mock（浏览器框），绘制动画 + `.visual` 底部 mask 渐隐。不要改成手机页。Park 否过深色手机边框 / 刘海版本，不要再做。
-- ≤480：才改成手机页 mock（banner 叠字 + 表单压图下沿，状态/摘要单列，`os-look` 隐藏）；banner 168px，只留 1 条 event。底部 mask 仍在。
-- ≤768 文案整体居中：h1/lead/cta-note 居中，Shopify lockup 整体居中但内部左对齐（meta text-align:left）。CTA 两个按钮左右并排居中（≤480 flex:1、max-width 220px、nowrap），不要竖排。
+- ≤480：才改成手机页 mock（banner 叠字 + 表单压图下沿，状态/摘要单列，`os-look` 隐藏）；banner 168px，只留 1 条 event。`.visual` / `.hero-ogl` max-height 340px，mask 从 72% 起渐隐（56% 会空一大截）。
+- ≤768 文案整体居中：h1/lead/cta-note 居中，Shopify lockup 整体居中但内部左对齐（meta text-align:left）。CTA 两个按钮左右并排居中（≤480 flex:1、max-width 220px、nowrap、`min-width:0` 覆盖 `.btn-switch` 的 188px），不要竖排。
 - AI Make 镭射贴纸贴在浏览器顶栏右上：先框选稍大的贴纸，再落下；贴上扫光。只播一遍。
 - Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.3`（越大越慢）。768 仍播绘制，并保留 `.visual` 底部 mask 渐隐。只在 prefers-reduced-motion 时跳过绘制（不要用 `shouldReduceFx` / `window.__reduceFx` / `html.is-reduce-fx` / `max-width: 768px` 关掉 overlay）。≤480 才用手机页 mock。
 
@@ -23,7 +23,7 @@
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
 - logo 跑马灯手机继续滚（≤768 kill 列表里不放 `.logos-track`）。
-- 增长曲线手机/平板显示，但高度必须用 px 不用 vh（vh 在平板会爬进文字）：≤980 190px / ≤768 150px，sticky 底部 padding 预留曲线带（≤980 170px / ≤768 sec-y+110px）。impact-metrics 对非 sticky 布局有进度 fallback。
+- 增长曲线手机/平板显示，但高度必须用 px 不用 vh（vh 在平板会爬进文字）：≤980 190px / ≤768 280px / ≤480 **120px**。≤480 sticky `overflow:hidden` + padding-bottom 128px，stats `z-index:4`，曲线 `z-index:1`（280px 曲线会盖住 2.8x）。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
 ## 人
@@ -34,7 +34,7 @@
 
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完自动 commit + push。
-- `test` 本地和远端都已删（2026-08-24）。当前 HEAD `e58eb1d`，与 `origin/main` 一致。
+- `test` 本地和远端都已删（2026-08-24）。当前 HEAD `0b08f28`，与 `origin/main` 一致。
 - Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。不要抢 5174：那是 Returns 的 `[::1]:5174`；浏览器开 `localhost:5174` 会进 Returns。API 在 5173。
 
 ## Features（3 块）
@@ -62,7 +62,7 @@
 
 ## 响应式（Park 逐步查）
 
-- 检查档位：**1200 → 1024 → 768 → <480**。Park 正在查 768。
+- 检查档位：**1200 → 1024 → 768 → <480**。Park 正在查 **<480**。
 - 现有 CSS 主断点（没有 1200）：1100 收导航；1024 缩字号/Hero 仍双列；**980 Features 改手风琴单列**；900 Hero 叠成一列；768 手机；480 再收 padding/字号。
 - 1200 仍是桌面双列 Features，column-gap 56px，插图 max-width 540px 在右栏居中。
 - Explore 卡**不要 3D hover / 3D transform**（Park：3d transform）。不要 `rotateX/Y`、`translate3d`、`preserve-3d`、`--rx/--ry/--tz`。只留跟手 spotlight。Returns 插图学 Cursor 首页：底图当空气、两扇轻叠窗口（红黄绿顶栏、偏实心白、软投影），里面少内容；不要把窗口铺满舞台。底图 `<img class="returns-ui-photo">`。图标：钞票 / 叶子 / 双向箭头。
@@ -70,7 +70,7 @@
 - API 终端是毛玻璃（半透明 + `backdrop-filter`）。祖先不要 `preserve-3d` / `filter: drop-shadow`，否则玻璃失效。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
 - **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴 + 插图滚动 iso**（Park：不要改成三块平铺）。landing-inline `mqMobile` 只到 480。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。481–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**。
-- **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`（不要 34 vs 26）。Features 标题 `padding-top: 88px`，往下离开曲线空带（Park：把文字往下挪一点；不要靠收曲线高度填空）。Features 三块标题都走同一蓝紫渐变（不要 idle 灰 / active 蓝混用）；块与块之间留空（copy 下 44px）。Branded 插图改成上表单、下推荐、色盘在下，不要桌面叠卡。Explore Returns/API 卡内上下布局（不要 768 的左右 `!important`）。正文和 CTA 之间 **20px**（Park：间距没了）。单列时不要靠 `margin-top: auto`，会塌成 0。
+- **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`（不要 34 vs 26）。Features 标题 `padding-top: 72px`（曲线已收到 120px）。插图必须 `transform: none !important` 铺平——React inline `--fx-iso:1` 会盖掉 CSS 变量。不要给 `.feature-stage` 留 320/340 min-height（卡和 logo 中间会空一截，logo 还会盖住标题）。Branded 上表单、下推荐、色盘在下，不要负 margin 叠到正文。Hero / Features / AI Lab / Bottom CTA 按钮左右并排；768 的 `flex: 0 0 auto` 会压过靠前的 480 规则，最后一段 480 必须再写回 `flex: 1 1 0`。Bottom CTA 不要 `flex-direction: column`。Returns 舞台 280px，method 贴底，Exchange 不要被切。Features 三块标题同一蓝紫渐变；块与块之间留空（copy 下 28px）。Explore Returns/API 卡内上下布局。正文和 CTA 之间不要靠 `margin-top: auto`。
 
 ## 产品
 
@@ -125,3 +125,8 @@
 - 不要把 last-mile 插图撑满右栏（Park 红框收窄到 540px）。
 - 不要把 540px 插图贴在右栏右沿（Park：居中）。
 - 不要在 1024 把 Explore 排成两列（Park：上下布局）。
+- 不要在 ≤480 给 `.feature-stage` 留 320/340 min-height（卡和 logo 中间会空，logo 会盖住标题）。
+- 不要只靠 CSS `--fx-iso:0` 铺平 480 插图（React inline `--fx-iso:1` 会赢；必须 `transform: none !important`）。
+- 不要在 ≤480 把 Bottom CTA / Features CTA 收成竖排（Park：按钮左右）。
+- 不要在 768 的 `flex: 0 0 auto` 之后不再写一遍 480 的 `flex: 1 1 0`（Features 按钮会各 220px 溢出）。
+- 不要在 ≤480 把增长曲线留在 768 的 280px（会盖住 2.8x / Loyalty lift）。
