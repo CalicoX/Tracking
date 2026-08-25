@@ -8709,8 +8709,7 @@
       display: block;
       overflow: visible;
     }
-    .explore-title-ico svg path,
-    .explore-title-ico svg line {
+    .explore-title-ico-returns svg path {
       vector-effect: non-scaling-stroke;
     }
 
@@ -8749,35 +8748,33 @@
       100% { stroke-dashoffset: 0;  opacity: 1; }
     }
 
-    /* —— API </>：斜杠收进括号高度，不要顶出；hover 描一次 —— */
+    /* —— API </>：Lucide code-xml；斜杠比括号高；静止实线，不要 dash 打断 —— */
     .explore-title-ico-api .ico-a-left,
-    .explore-title-ico-api .ico-a-right {
-      stroke-dasharray: 14;
-      stroke-dashoffset: 0;
-    }
+    .explore-title-ico-api .ico-a-right,
     .explore-title-ico-api .ico-a-slash {
-      stroke-dasharray: 10;
+      stroke-dasharray: none;
       stroke-dashoffset: 0;
     }
     .explore-card-api:hover .explore-title-ico-api .ico-a-left,
     .explore-card-api.is-tilting .explore-title-ico-api .ico-a-left,
     .explore-card-api:hover .explore-title-ico-api .ico-a-right,
     .explore-card-api.is-tilting .explore-title-ico-api .ico-a-right {
+      stroke-dasharray: 16;
       animation: ico-api-chevron 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 forwards;
     }
     .explore-card-api:hover .explore-title-ico-api .ico-a-slash,
     .explore-card-api.is-tilting .explore-title-ico-api .ico-a-slash {
+      stroke-dasharray: 22;
       animation: ico-api-slash 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 0.06s forwards;
     }
     @keyframes ico-api-chevron {
-      0%   { stroke-dashoffset: 14; opacity: 0.4; }
+      0%   { stroke-dashoffset: 16; opacity: 0.4; }
       36%  { stroke-dashoffset: 0;  opacity: 1; }
       100% { stroke-dashoffset: 0;  opacity: 1; }
     }
     @keyframes ico-api-slash {
-      0%   { stroke-dashoffset: 10; opacity: 0; }
-      28%  { stroke-dashoffset: 10; opacity: 0; }
-      56%  { stroke-dashoffset: 0;  opacity: 1; }
+      0%   { stroke-dashoffset: 22; opacity: 0.35; }
+      40%  { stroke-dashoffset: 0;  opacity: 1; }
       100% { stroke-dashoffset: 0;  opacity: 1; }
     }
 
