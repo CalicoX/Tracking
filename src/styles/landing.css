@@ -8749,23 +8749,35 @@
       100% { stroke-dashoffset: 0;  opacity: 1; }
     }
 
-    /* —— API { }：花括号，不是 HTML </>；hover 描一次 —— */
-    .explore-title-ico-api .ico-a-brace-l,
-    .explore-title-ico-api .ico-a-brace-r {
-      stroke-dasharray: 32;
+    /* —— API </>：斜杠收进括号高度，不要顶出；hover 描一次 —— */
+    .explore-title-ico-api .ico-a-left,
+    .explore-title-ico-api .ico-a-right {
+      stroke-dasharray: 14;
       stroke-dashoffset: 0;
     }
-    .explore-card-api:hover .explore-title-ico-api .ico-a-brace-l,
-    .explore-card-api.is-tilting .explore-title-ico-api .ico-a-brace-l {
-      animation: ico-api-brace 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 forwards;
+    .explore-title-ico-api .ico-a-slash {
+      stroke-dasharray: 10;
+      stroke-dashoffset: 0;
     }
-    .explore-card-api:hover .explore-title-ico-api .ico-a-brace-r,
-    .explore-card-api.is-tilting .explore-title-ico-api .ico-a-brace-r {
-      animation: ico-api-brace 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 0.08s forwards;
+    .explore-card-api:hover .explore-title-ico-api .ico-a-left,
+    .explore-card-api.is-tilting .explore-title-ico-api .ico-a-left,
+    .explore-card-api:hover .explore-title-ico-api .ico-a-right,
+    .explore-card-api.is-tilting .explore-title-ico-api .ico-a-right {
+      animation: ico-api-chevron 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 forwards;
     }
-    @keyframes ico-api-brace {
-      0%   { stroke-dashoffset: 32; opacity: 0.4; }
+    .explore-card-api:hover .explore-title-ico-api .ico-a-slash,
+    .explore-card-api.is-tilting .explore-title-ico-api .ico-a-slash {
+      animation: ico-api-slash 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 0.06s forwards;
+    }
+    @keyframes ico-api-chevron {
+      0%   { stroke-dashoffset: 14; opacity: 0.4; }
       36%  { stroke-dashoffset: 0;  opacity: 1; }
+      100% { stroke-dashoffset: 0;  opacity: 1; }
+    }
+    @keyframes ico-api-slash {
+      0%   { stroke-dashoffset: 10; opacity: 0; }
+      28%  { stroke-dashoffset: 10; opacity: 0; }
+      56%  { stroke-dashoffset: 0;  opacity: 1; }
       100% { stroke-dashoffset: 0;  opacity: 1; }
     }
 

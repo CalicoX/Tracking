@@ -66,7 +66,7 @@
 - 现有 CSS 主断点（没有 1200）：1100 收导航；1024 缩字号/Hero 仍双列；**980 Features 改手风琴单列**；900 Hero 叠成一列；768 手机；480 再收 padding/字号。
 - 1200 仍是桌面双列 Features，column-gap 56px，插图 max-width 540px 在右栏居中。
 - Explore 卡**不要 3D hover / 3D transform**（Park：3d transform）。不要 `rotateX/Y`、`translate3d`、`preserve-3d`、`--rx/--ry/--tz`。只留跟手 spotlight。Returns 插图学 Cursor 首页：底图当空气、两扇轻叠窗口（红黄绿顶栏、偏实心白、软投影），里面少内容；不要把窗口铺满舞台。底图 `<img class="returns-ui-photo">`。图标：钞票 / 叶子 / 双向箭头。
-- Explore 标题圆标：Returns 用**循环双箭头**（不是 U-turn / 返回）。API 用**花括号 `{ }`**（不是 HTML `</>`；斜杠在小圆里会顶出括号）。hover 描边只播一次就停，不要无限回绕、不要左右平移、不要 translateZ。
+- Explore 标题圆标：Returns 用**循环双箭头**（不是 U-turn / 返回）。API 就是 `</>`（Park：这个是对的）。中间斜杠要收进两边括号高度里，不要 `M13 5l-2 14` 那种几乎竖着顶出的线。hover 描边只播一次就停，不要无限回绕、不要左右平移、不要 translateZ。不要改成花括号。
 - API 终端是毛玻璃（半透明 + `backdrop-filter`）。祖先不要 `preserve-3d` / `filter: drop-shadow`，否则玻璃失效。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
 - **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴 + 插图滚动 iso**（Park：不要改成三块平铺）。landing-inline `mqMobile` 只到 480。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。481–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**。
@@ -103,7 +103,8 @@
 - 不要给 Return method 用手绘 $ / 怪叶子 path（Park：图标不对）。
 - 不要给 Explore 卡做 3D hover / 3D transform / board tilt（Park：3d transform）。ASCII 用 `translateY`，不要 `translate3d`。
 - 不要给 Explore Returns 标题圆标用 U-turn / 返回箭头（Park：图标错了；用循环双箭头）。
-- 不要给 Explore API 标题圆标用 `</>`（Park：这个也有问题；斜杠顶出括号。改花括号 `{ }`）。
+- 不要把 Explore API 的 `</>` 改成花括号（Park：`</>` 是对的，只修中间斜杠）。
+- 不要给 API `</>` 中间斜杠用贯穿整格的长线（会顶出括号）。
 - 不要给 Explore 标题圆标做无限回绕或左右平移（hover 描一次就停）。
 - 不要给 API 终端用实心底 + `filter: drop-shadow`（Park：毛玻璃；drop-shadow / preserve-3d 会让玻璃失效）。
 - 不要在 768 把 footer 导航收成 2 列（Park：4 个块平铺）。
