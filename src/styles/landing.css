@@ -8708,9 +8708,7 @@
       height: 20px;
       display: block;
       overflow: visible;
-    }
-    .explore-title-ico-returns svg path {
-      vector-effect: non-scaling-stroke;
+      stroke-width: 2;
     }
 
     /* —— Returns: cycle arrows draw once (not a back/U-turn) —— */

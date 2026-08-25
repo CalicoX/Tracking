@@ -11,7 +11,7 @@ export default function ExploreMore() {
             <a className="explore-card explore-card-returns" href="#">
               <div className="explore-card-copy">
                 <span className="explore-title-ico explore-title-ico-returns" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path className="ico-r-arc-a" d="M20.5 12A8.5 8.5 0 0 0 6.2 5.8L4 8"/>
                     <path className="ico-r-head-a" d="M4 3.2V8h4.8"/>
                     <path className="ico-r-arc-b" d="M3.5 12A8.5 8.5 0 0 0 17.8 18.2L20 16"/>
