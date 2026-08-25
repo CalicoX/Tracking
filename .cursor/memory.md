@@ -34,7 +34,7 @@
 
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完自动 commit + push。
-- `test` 本地和远端都已删（2026-08-24）。当前 HEAD `0b08f28`，与 `origin/main` 一致。
+- `test` 本地和远端都已删（2026-08-24）。当前 HEAD `ee8b8f4`，与 `origin/main` 一致。
 - Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。不要抢 5174：那是 Returns 的 `[::1]:5174`；浏览器开 `localhost:5174` 会进 Returns。API 在 5173。
 
 ## Features（3 块）
