@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-24（Returns 舞台去掉描边；底图改开阔构图，产品放边角）
+最后更新：2026-08-25（Vite 固定 5175；5174 是 Returns）
 
 ## Hero 文案区
 
@@ -35,7 +35,7 @@
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完自动 commit + push。
 - `test` 本地和远端都已删（2026-08-24）。当前 HEAD `248ef77`，与 `origin/main` 一致。
-- Vite：`http://127.0.0.1:5174/` 只跑这份目录的 `main`。
+- Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。不要抢 5174：那是 Returns 的 `[::1]:5174`；浏览器开 `localhost:5174` 会进 Returns。API 在 5173。
 
 ## Features（3 块）
 
@@ -104,6 +104,7 @@
 - 不要在 768 把 Features 改成三块平铺 / display:contents（Park：保留滚动插图动画和左边 sticky 手风琴）。
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。
 - 不要用 `@media (max-width: 768px)` 或 `html.is-reduce-fx` 关掉 Hero 绘制 overlay（Park：768 保留动画以及渐隐）。
+- 不要把 Tracking Vite 绑到 5174（那是 Returns；`localhost:5174` 会进 Returns）。
 - 不要动 `public/js/`。
 - 不要 force push、不要 `--no-verify`。
 - 不要用 flex 拉高 Tracking info / split 主卡来填满 Features 右栏（中间会出现空洞，Park 否过）。
