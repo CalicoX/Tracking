@@ -12,9 +12,10 @@ export default function ExploreMore() {
               <div className="explore-card-copy">
                 <span className="explore-title-ico explore-title-ico-returns" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round">
-                    <path className="ico-r-path" d="M4 9h11a5 5 0 010 10h-3"/>
-                    <path className="ico-r-arrow" d="M9 14L4 9l5-5"/>
-                    <circle className="ico-r-dot" cx="0" cy="0" r="1.15" fill="currentColor" stroke="none"/>
+                    <path className="ico-r-arc-a" d="M20.5 12A8.5 8.5 0 0 0 6.2 5.8L4 8"/>
+                    <path className="ico-r-head-a" d="M4 3.2V8h4.8"/>
+                    <path className="ico-r-arc-b" d="M3.5 12A8.5 8.5 0 0 0 17.8 18.2L20 16"/>
+                    <path className="ico-r-head-b" d="M20 20.8V16h-4.8"/>
                   </svg>
                 </span>
                 <h3>17 Returns</h3>

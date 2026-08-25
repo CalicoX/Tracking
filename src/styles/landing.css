@@ -7947,7 +7947,7 @@
       .brands-track.is-right { animation-duration: 44s; }
     }
 
-    /* Explore — solid green / blue cards + mouse-inverse 3D tilt */
+    /* Explore — flat cards + pointer spotlight (no 3D transform) */
     .explore-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -7966,9 +7966,6 @@
       --r-outer: 24px;
       --r-inner: 12px; /* = r_outer - 12px effective nested gap */
       --r-nested: 10px; /* glass cards inside returns stage */
-      --rx: 0deg;
-      --ry: 0deg;
-      --tz: 0px;
       --spot-x: 50%;
       --spot-y: 35%;
       --spot-opacity: 0;
@@ -7983,7 +7980,6 @@
       grid-template-columns: minmax(0, 0.88fr) minmax(280px, 1.2fr);
       gap: 16px 20px;
       align-items: stretch;
-      /* glass removed — visible so 3D/parallax mock is not edge-clipped */
       overflow: visible;
       outline: none;
       text-decoration: none;
@@ -8006,9 +8002,7 @@
       transition: box-shadow 0.4s ease, border-color 0.35s ease;
     }
     .explore-card.is-leaving {
-      transition:
-        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.45s ease;
+      transition: box-shadow 0.45s ease, border-color 0.35s ease;
     }
     /* Mouse spotlight + soft top sheen */
     .explore-card::before {
@@ -8378,7 +8372,7 @@
       pointer-events: none;
       overflow: hidden;
       border-radius: inherit;
-      opacity: 0.1;
+      opacity: 0.16;
       transition: opacity 0.45s ease;
       -webkit-mask-image: radial-gradient(
         ellipse 95% 88% at 50% 45%,
@@ -8393,13 +8387,17 @@
     }
     .explore-card-api:hover .api-ascii,
     .explore-card-api.is-tilting .api-ascii {
-      opacity: 0.14;
+      opacity: 0.22;
     }
-    /* keep copy + terminal above the matrix */
-    .explore-card-api > .explore-card-copy,
-    .explore-card-api > .explore-api-visual {
+    /* copy above the matrix; visual stays z-index:auto so terminal glass can blur ASCII */
+    .explore-card-api > .explore-card-copy {
       position: relative;
       z-index: 1;
+    }
+    .explore-card-api > .explore-api-visual {
+      position: relative;
+      z-index: auto;
+      isolation: auto;
     }
     .api-ascii-layer {
       position: absolute;
@@ -8414,8 +8412,6 @@
       white-space: pre;
       color: rgba(226, 232, 240, 0.48);
       user-select: none;
-      will-change: transform;
-      backface-visibility: hidden;
     }
     /* doubled content → -50% is seamless loop */
     .api-ascii-a {
@@ -8429,12 +8425,12 @@
       animation: api-ascii-drift-rev 52s linear infinite;
     }
     @keyframes api-ascii-drift {
-      from { transform: translate3d(0, 0, 0); }
-      to   { transform: translate3d(0, -50%, 0); }
+      from { transform: translateY(0); }
+      to   { transform: translateY(-50%); }
     }
     @keyframes api-ascii-drift-rev {
-      from { transform: translate3d(0, -50%, 0); }
-      to   { transform: translate3d(0, 0, 0); }
+      from { transform: translateY(-50%); }
+      to   { transform: translateY(0); }
     }
     @media (prefers-reduced-motion: reduce) {
       .api-ascii-a,
@@ -8462,9 +8458,9 @@
     .explore-card-api .code-window {
       position: relative;
       z-index: 2; /* above line hub tuck under bottom edge */
-      /* terminal: darker than card, but brighter than pure black */
-      --cw-bg: #1e2430;
-      --cw-panel: #262d3c;
+      /* frosted glass — drop-shadow/transform would kill backdrop-filter */
+      --cw-bg: rgba(18, 22, 32, 0.28);
+      --cw-panel: rgba(38, 45, 60, 0.32);
       --cw-text: #f1f3f7;
       --cw-muted: #a8b0bd;
       --cw-green: #4ade80;
@@ -8474,10 +8470,13 @@
       --cw-del: rgba(248, 113, 113, 0.2);
       --cw-del-text: #fecaca;
       border-radius: var(--r-inner);
-      background: var(--cw-bg);
+      background: rgba(18, 22, 32, 0.28);
+      -webkit-backdrop-filter: blur(22px) saturate(1.45);
+      backdrop-filter: blur(22px) saturate(1.45);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow:
-        0 16px 36px rgba(0, 0, 0, 0.35),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+        0 16px 36px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(255, 255, 255, 0.08);
       /* fixed shell — typing scrolls inside, never grows the card */
       width: 100%;
       max-width: 100%;
@@ -8487,11 +8486,11 @@
       min-height: 288px;
       max-height: 288px;
       overflow: hidden;
-      /* reverse to board: opposite XY of outer tilt (mild Z so edges stay inside) */
       --layer-x: 0px;
       --layer-y: 0px;
-      transform: none;
-      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.32));
+      transform: none !important;
+      filter: none;
+      will-change: auto;
     }
     .explore-card-api .code-window-body {
       flex: 1 1 auto;
@@ -8513,8 +8512,16 @@
       /* scroll container for typewriter lines */
     }
     .explore-card-api .code-window-chrome {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(180deg, #2a3140 0%, #222836 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.03) 100%
+      );
+    }
+    .explore-card-api .code-window-foot {
+      background: rgba(16, 20, 30, 0.32);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
     .explore-card-api .api-carriers {
       transform: none;
@@ -8542,7 +8549,8 @@
       height: auto;
       min-height: 0;
       overflow: visible;
-      transform-style: preserve-3d;
+      transform: none;
+      transform-style: flat;
     }
     .api-carriers {
       position: relative;
@@ -8693,7 +8701,7 @@
     }
     .explore-card.is-tilting .explore-title-ico,
     .explore-card:hover .explore-title-ico {
-      transform: translateZ(22px) scale(1.08);
+      transform: none;
     }
     .explore-title-ico svg {
       width: 20px;
@@ -8706,56 +8714,42 @@
       vector-effect: non-scaling-stroke;
     }
 
-    /* —— Returns: reverse-arrow draws + flow on hover (like LordIcon play) —— */
-    .explore-title-ico-returns .ico-r-path {
-      stroke-dasharray: 36;
+    /* —— Returns: cycle arrows draw once (not a back/U-turn) —— */
+    .explore-title-ico-returns .ico-r-arc-a,
+    .explore-title-ico-returns .ico-r-arc-b {
+      stroke-dasharray: 28;
       stroke-dashoffset: 0;
     }
-    .explore-title-ico-returns .ico-r-arrow {
-      stroke-dasharray: 14;
+    .explore-title-ico-returns .ico-r-head-a,
+    .explore-title-ico-returns .ico-r-head-b {
+      stroke-dasharray: 12;
       stroke-dashoffset: 0;
-      transform-origin: 6.5px 9px;
     }
-    .explore-title-ico-returns .ico-r-dot {
-      opacity: 0;
-      transform-origin: center;
+    .explore-card-returns:hover .explore-title-ico-returns .ico-r-arc-a,
+    .explore-card-returns.is-tilting .explore-title-ico-returns .ico-r-arc-a,
+    .explore-card-returns:hover .explore-title-ico-returns .ico-r-arc-b,
+    .explore-card-returns.is-tilting .explore-title-ico-returns .ico-r-arc-b {
+      animation: ico-returns-arc 1.15s cubic-bezier(0.45, 0, 0.2, 1) 1 forwards;
     }
-    .explore-card-returns:hover .explore-title-ico-returns .ico-r-path,
-    .explore-card-returns.is-tilting .explore-title-ico-returns .ico-r-path {
-      animation: ico-returns-path 1.35s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+    .explore-card-returns:hover .explore-title-ico-returns .ico-r-head-a,
+    .explore-card-returns.is-tilting .explore-title-ico-returns .ico-r-head-a,
+    .explore-card-returns:hover .explore-title-ico-returns .ico-r-head-b,
+    .explore-card-returns.is-tilting .explore-title-ico-returns .ico-r-head-b {
+      animation: ico-returns-head 1.15s cubic-bezier(0.45, 0, 0.2, 1) 1 forwards;
     }
-    .explore-card-returns:hover .explore-title-ico-returns .ico-r-arrow,
-    .explore-card-returns.is-tilting .explore-title-ico-returns .ico-r-arrow {
-      animation: ico-returns-arrow 1.35s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+    @keyframes ico-returns-arc {
+      0%   { stroke-dashoffset: 28; opacity: 0.35; }
+      32%  { stroke-dashoffset: 0;  opacity: 1; }
+      100% { stroke-dashoffset: 0;  opacity: 1; }
     }
-    .explore-card-returns:hover .explore-title-ico-returns .ico-r-dot,
-    .explore-card-returns.is-tilting .explore-title-ico-returns .ico-r-dot {
-      animation: ico-returns-dot 1.35s cubic-bezier(0.45, 0, 0.2, 1) infinite;
-    }
-    @keyframes ico-returns-path {
-      0%   { stroke-dashoffset: 36; opacity: 0.35; }
-      18%  { stroke-dashoffset: 0;  opacity: 1; }
-      70%  { stroke-dashoffset: 0;  opacity: 1; }
-      88%  { stroke-dashoffset: -8; opacity: 0.55; }
-      100% { stroke-dashoffset: 36; opacity: 0.35; }
-    }
-    @keyframes ico-returns-arrow {
-      0%   { stroke-dashoffset: 14; opacity: 0; transform: translateX(3px); }
-      12%  { stroke-dashoffset: 14; opacity: 0; transform: translateX(3px); }
-      32%  { stroke-dashoffset: 0;  opacity: 1; transform: translateX(0); }
-      55%  { stroke-dashoffset: 0;  opacity: 1; transform: translateX(-1px); }
-      72%  { stroke-dashoffset: 0;  opacity: 1; transform: translateX(0); }
-      90%  { stroke-dashoffset: -4; opacity: 0.4; transform: translateX(-2px); }
-      100% { stroke-dashoffset: 14; opacity: 0; transform: translateX(3px); }
-    }
-    @keyframes ico-returns-dot {
-      0%, 28% { opacity: 0; transform: translate(12px, 14px) scale(0.4); }
-      40%     { opacity: 0.95; transform: translate(12px, 14px) scale(1); }
-      62%     { opacity: 0.7; transform: translate(8px, 14px) scale(0.85); }
-      82%, 100% { opacity: 0; transform: translate(4px, 14px) scale(0.3); }
+    @keyframes ico-returns-head {
+      0%   { stroke-dashoffset: 12; opacity: 0; }
+      22%  { stroke-dashoffset: 12; opacity: 0; }
+      48%  { stroke-dashoffset: 0;  opacity: 1; }
+      100% { stroke-dashoffset: 0;  opacity: 1; }
     }
 
-    /* —— API: brackets open + slash draw + pulse —— */
+    /* —— API </>：只描边，不要左右平移；hover 播一次 —— */
     .explore-title-ico-api .ico-a-left,
     .explore-title-ico-api .ico-a-right,
     .explore-title-ico-api .ico-a-slash {
@@ -8776,44 +8770,36 @@
     }
     .explore-card-api:hover .explore-title-ico-api .ico-a-left,
     .explore-card-api.is-tilting .explore-title-ico-api .ico-a-left {
-      animation: ico-api-left 1.25s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+      animation: ico-api-left-flat 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 forwards;
     }
     .explore-card-api:hover .explore-title-ico-api .ico-a-right,
     .explore-card-api.is-tilting .explore-title-ico-api .ico-a-right {
-      animation: ico-api-right 1.25s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+      animation: ico-api-right-flat 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 forwards;
     }
     .explore-card-api:hover .explore-title-ico-api .ico-a-slash,
     .explore-card-api.is-tilting .explore-title-ico-api .ico-a-slash {
-      animation: ico-api-slash 1.25s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+      animation: ico-api-slash-flat 1.1s cubic-bezier(0.45, 0, 0.2, 1) 1 forwards;
     }
-    @keyframes ico-api-left {
-      0%   { stroke-dashoffset: 18; opacity: 0.4; transform: translateX(2px); }
-      22%  { stroke-dashoffset: 0;  opacity: 1;   transform: translateX(0); }
-      48%  { stroke-dashoffset: 0;  opacity: 1;   transform: translateX(-1.5px); }
-      72%  { stroke-dashoffset: 0;  opacity: 1;   transform: translateX(0); }
-      100% { stroke-dashoffset: 18; opacity: 0.4; transform: translateX(2px); }
+    @keyframes ico-api-left-flat {
+      0%   { stroke-dashoffset: 18; opacity: 0.4; }
+      32%  { stroke-dashoffset: 0;  opacity: 1; }
+      100% { stroke-dashoffset: 0;  opacity: 1; }
     }
-    @keyframes ico-api-right {
-      0%   { stroke-dashoffset: 18; opacity: 0.4; transform: translateX(-2px); }
-      22%  { stroke-dashoffset: 0;  opacity: 1;   transform: translateX(0); }
-      48%  { stroke-dashoffset: 0;  opacity: 1;   transform: translateX(1.5px); }
-      72%  { stroke-dashoffset: 0;  opacity: 1;   transform: translateX(0); }
-      100% { stroke-dashoffset: 18; opacity: 0.4; transform: translateX(-2px); }
+    @keyframes ico-api-right-flat {
+      0%   { stroke-dashoffset: 18; opacity: 0.4; }
+      32%  { stroke-dashoffset: 0;  opacity: 1; }
+      100% { stroke-dashoffset: 0;  opacity: 1; }
     }
-    @keyframes ico-api-slash {
+    @keyframes ico-api-slash-flat {
       0%   { stroke-dashoffset: 16; opacity: 0; }
       18%  { stroke-dashoffset: 16; opacity: 0; }
-      40%  { stroke-dashoffset: 0;  opacity: 1; }
-      70%  { stroke-dashoffset: 0;  opacity: 1; }
-      88%  { stroke-dashoffset: -4; opacity: 0.45; }
-      100% { stroke-dashoffset: 16; opacity: 0; }
+      48%  { stroke-dashoffset: 0;  opacity: 1; }
+      100% { stroke-dashoffset: 0;  opacity: 1; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       .explore-card-returns:hover .explore-title-ico-returns path,
       .explore-card-returns.is-tilting .explore-title-ico-returns path,
-      .explore-card-returns:hover .explore-title-ico-returns circle,
-      .explore-card-returns.is-tilting .explore-title-ico-returns circle,
       .explore-card-api:hover .explore-title-ico-api path,
       .explore-card-api.is-tilting .explore-title-ico-api path {
         animation: none !important;

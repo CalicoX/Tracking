@@ -174,10 +174,60 @@ export function mount() {
       }
     })();
 
-    /* Explore 3D board tilt removed (Park). */
+    /* Explore cards — pointer spotlight only (Park: no 3D transform) */
+    (function () {
+      var cards = document.querySelectorAll(".explore-card");
+      if (!cards.length) return;
 
-    
-// stripped
+      function setSpot(card, xPct, yPct, on) {
+        card.style.setProperty("--spot-x", xPct.toFixed(2) + "%");
+        card.style.setProperty("--spot-y", yPct.toFixed(2) + "%");
+        card.style.setProperty("--spot-opacity", on ? "1" : "0");
+      }
+
+      Array.prototype.forEach.call(cards, function (card) {
+        var raf = 0;
+        var latest = null;
+
+        function applyLatest() {
+          raf = 0;
+          if (!latest) return;
+          var e = latest;
+          latest = null;
+          var r = card.getBoundingClientRect();
+          var x = e.clientX - r.left;
+          var y = e.clientY - r.top;
+          var xPct = (x / Math.max(r.width, 1)) * 100;
+          var yPct = (y / Math.max(r.height, 1)) * 100;
+          setSpot(card, xPct, yPct, true);
+        }
+
+        card.addEventListener("pointerenter", function () {
+          card.classList.remove("is-leaving");
+          card.classList.add("is-tilting");
+          card.style.setProperty("--spot-opacity", "1");
+        });
+
+        card.addEventListener("pointermove", function (e) {
+          latest = e;
+          if (!raf) raf = requestAnimationFrame(applyLatest);
+        });
+
+        card.addEventListener("pointerleave", function () {
+          if (raf) {
+            cancelAnimationFrame(raf);
+            raf = 0;
+          }
+          latest = null;
+          card.classList.remove("is-tilting");
+          card.classList.add("is-leaving");
+          setSpot(card, 50, 35, false);
+          window.setTimeout(function () {
+            card.classList.remove("is-leaving");
+          }, 560);
+        });
+      });
+    })();
 
 
     /*
