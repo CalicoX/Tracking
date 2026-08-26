@@ -2413,11 +2413,17 @@ export function mount() {
       var pin =
         document.getElementById("ai-lab-intro-track") || work;
       var rect = pin.getBoundingClientRect();
-      var total = Math.max(pin.offsetHeight - window.innerHeight, 1);
+      var vh = window.innerHeight;
+      var total = Math.max(pin.offsetHeight - vh, 1);
       var scrolled = clamp(-rect.top, 0, total);
-      var pAll = scrolled / total;
-      var zoomEnd = 0.42;
-      var p = pAll <= zoomEnd ? 0 : (pAll - zoomEnd) / Math.max(1 - zoomEnd, 0.01);
+      /* Same pin-hold + zoom window as ai-letter-zoom.js (do not start stack during hold). */
+      var holdPx = Math.min(vh * 1.05, total * 0.42);
+      var zoomPx = Math.min(vh * 1.1, total * 0.4);
+      var zoomEndPx = holdPx + zoomPx;
+      var p =
+        scrolled <= zoomEndPx
+          ? 0
+          : (scrolled - zoomEndPx) / Math.max(total - zoomEndPx, 1);
       var n = cards.length;
       var stageH = stage.clientHeight || 480;
       var active = p * (n - 1);

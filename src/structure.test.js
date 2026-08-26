@@ -192,6 +192,16 @@ describe("React landing structure (gating)", () => {
     }
   });
 
+  it("AI letter zoom holds ~1 extra viewport after pin before scaling", () => {
+    const zoom = read("fx/modules/ai-letter-zoom.js");
+    expect(zoom).toMatch(/AI_HOLD_VH\s*=\s*1\.05/);
+    expect(zoom).toMatch(/scrolled <= holdPx/);
+    expect(zoom).not.toMatch(/AI_HOLD_END\s*=\s*0\.16/);
+    const css = read("styles/landing.css");
+    expect(css).toMatch(/--ai-veil:\s*0/);
+    expect(css).toMatch(/--ai-zoom:\s*1/);
+  });
+
   it("responsive CSS parity: major breakpoints + mobile layout outcomes", () => {
     const css = read("styles/landing.css");
     for (const bp of ["1024px", "900px", "768px", "480px"]) {

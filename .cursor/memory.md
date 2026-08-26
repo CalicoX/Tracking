@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（AI 标题二字缩放揭开示例模块；去掉胶囊动画）
+最后更新：2026-08-26（AI 钉住后先停约 1 屏再缩放标题二字）
 
 ## Hero 文案区
 
@@ -29,7 +29,7 @@
 ## AI 二字遮罩
 
 - 缩放的是标题里那两个 **AI**（`.ai-word-ai`），从标题位置量尺寸再放大。胶囊动画去掉。
-- 这一屏滚动钉住后先 **停一段**（track 前 16%），不要一进场就缩放。然后 AI 做遮罩揭开示例模块。之后直接是该模块叠卡。
+- 这一屏滚动钉住后先 **停约 1 屏**（`AI_HOLD_VH = 1.05`，按视口算，不是 track 百分比），不要一进场就缩放。遮罩默认 `--ai-veil:0`。然后 AI 做遮罩揭开示例模块。之后直接是该模块叠卡（`ai-lab.js` 用同一套 holdPx+zoomPx）。
 - reduced-motion / ≤480：无遮罩，intro 后接示例。
 
 ## BrandsSay
@@ -47,7 +47,7 @@
 
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完自动 commit + push。
-- `test` 本地和远端都已删（2026-08-24）。当前 HEAD `6759689`，与 `origin/main` 一致。
+- `test` 本地和远端都已删（2026-08-24）。HEAD 随 push 更新。
 - Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。不要抢 5174：那是 Returns 的 `[::1]:5174`；浏览器开 `localhost:5174` 会进 Returns。API 在 5173。
 - Vite 8 生产压缩用 lightningcss：成对的 `backdrop-filter` / `-webkit-backdrop-filter` 只留最后一个。`-webkit-` 写在后面时，Chrome 上毛玻璃全没（dev 不压缩所以正常）。必须 `-webkit-` 在前、标准属性在后。`build.cssTarget: ['chrome87','safari14']`。不要再加 esbuild minify（Vite 8 不自带 esbuild）。
 
@@ -124,6 +124,7 @@
 - 不要给 API 终端用实心底 + `filter: drop-shadow`（Park：毛玻璃；drop-shadow / preserve-3d 会让玻璃失效）。
 - 不要把 `-webkit-backdrop-filter` 写在 `backdrop-filter` 后面（Vite 8 生产构建会丢掉标准属性，Vercel/Chrome 毛玻璃全没）。
 - 不要在 768 把 footer 导航收成 2 列（Park：4 个块平铺）。
+- 不要钉住后立刻缩放标题 AI（Park：这一页滚动到位后停一下再缩放；hold ≈ 1.05 屏）。
 - 不要给 Features 插图做 isometric 聚拢/散开/铺平（Park：去掉这个动画，直接平铺）。
 - 不要在 768 把 Features 改成三块平铺 / display:contents（Park：保留左边 sticky 手风琴）。
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。

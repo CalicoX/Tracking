@@ -1,8 +1,16 @@
 import { clamp, prefersReducedMotion } from "../utils.js";
 
-/** Pin progress: hold the title, then zoom the title's AI, then the example stack. */
-export const AI_HOLD_END = 0.16;
-export const AI_ZOOM_END = 0.42;
+/**
+ * After the intro screen pins, extra viewports of scroll before zoom starts.
+ * ~1 extra screen so it settles first — do not zoom on arrival.
+ */
+export const AI_HOLD_VH = 1.05;
+/** Viewports spent scaling the title "AI". */
+export const AI_ZOOM_VH = 1.1;
+
+/** Fraction fallbacks (520vh track ≈ 420vh travel). Stack uses the same end. */
+export const AI_HOLD_END = 0.30;
+export const AI_ZOOM_END = 0.54;
 
 /**
  * Scale the heading's "AI" as a knockout over the example module.
@@ -94,22 +102,24 @@ export function mount() {
   }
 
   function apply() {
+    const vh = window.innerHeight;
     const r = track.getBoundingClientRect();
-    const travel = Math.max(1, r.height - window.innerHeight);
-    const pAll = clamp(-r.top / travel, 0, 1);
+    const travel = Math.max(1, r.height - vh);
+    const scrolled = clamp(-r.top, 0, travel);
+    const holdPx = Math.min(vh * AI_HOLD_VH, travel * 0.42);
+    const zoomPx = Math.min(vh * AI_ZOOM_VH, travel * 0.4);
 
-    if (pAll <= AI_HOLD_END) {
+    /* Page in place (pinned) + extra screen of rest. Overlay stays off. */
+    if (scrolled <= holdPx) {
       captureOrigin();
       setZoom(1, 1, 1, 0);
+      if (sticky) sticky.classList.remove("is-ai-zooming");
       return;
     }
 
     if (!origin) captureOrigin();
-    const p = clamp(
-      (pAll - AI_HOLD_END) / Math.max(AI_ZOOM_END - AI_HOLD_END, 0.01),
-      0,
-      1
-    );
+    const p = clamp((scrolled - holdPx) / Math.max(zoomPx, 1), 0, 1);
+    if (sticky) sticky.classList.add("is-ai-zooming");
     const restOp = p < 0.14 ? 1 - p / 0.14 : 0;
     const aiOp = p < 0.08 ? 1 - p / 0.08 : 0;
     const cutOp =
@@ -132,6 +142,7 @@ export function mount() {
   return function dispose() {
     window.removeEventListener("scroll", apply);
     window.removeEventListener("resize", apply);
+    sticky.classList.remove("is-ai-zooming");
     if (window.__updateAiScroll === onAiScroll) {
       window.__updateAiScroll = prev;
     }

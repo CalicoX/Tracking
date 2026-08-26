@@ -5825,8 +5825,8 @@
       background: #0a0514;
     }
     .ai-letter-sticky {
-      --ai-zoom: 0.2;
-      --ai-veil: 1;
+      --ai-zoom: 1;
+      --ai-veil: 0;
       position: sticky;
       top: 0;
       z-index: 14;
@@ -5859,8 +5859,11 @@
     .ai-letter-sticky .ai-lab-intro .ai-word:not(.ai-word-ai) {
       opacity: var(--intro-rest-op, 1);
     }
+    /* Keep title stagger; only drive AI opacity once zoom starts. */
     .ai-letter-sticky .ai-word-ai {
       display: inline-block;
+    }
+    .ai-letter-sticky.is-ai-zooming .ai-lab-intro h2.is-words-in .ai-word-ai {
       opacity: var(--intro-ai-op, 1);
     }
     .ai-letter-cut {
@@ -5870,7 +5873,7 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      opacity: var(--ai-veil, 1);
+      opacity: 0;
     }
     @media (prefers-reduced-motion: reduce) {
       .ai-letter-track {
@@ -10857,6 +10860,9 @@
         opacity: var(--intro-rest-op, 1) !important;
       }
       .ai-letter-sticky .ai-word-ai {
+        display: inline-block;
+      }
+      .ai-letter-sticky.is-ai-zooming .ai-lab-intro h2.is-words-in .ai-word-ai {
         opacity: var(--intro-ai-op, 1) !important;
       }
       .ai-letter-sticky .ai-lab-work {
