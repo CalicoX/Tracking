@@ -2938,24 +2938,32 @@
       font-size: 14px;
       line-height: 1.5;
     }
-    /* Logo strip — static, slightly smaller, centered (no marquee) */
+    /* Logo strip — static two rows of six, centered */
     .logos-marquee {
       overflow: visible;
       width: 100%;
     }
     .logos-track {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      gap: 18px;
+      width: min(1080px, 100%);
+      margin-inline: auto;
+    }
+    .logos-row {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      align-items: center;
+      justify-items: center;
+      gap: 12px 20px;
       width: 100%;
-      gap: 20px 32px;
     }
     .logo-tile {
       flex: 0 0 auto;
-      width: auto;
+      width: 100%;
       min-width: 0;
-      height: 40px;
+      height: 44px;
       padding: 0;
       display: grid;
       place-items: center;
@@ -2967,9 +2975,9 @@
     }
     .logo-tile img {
       display: block;
-      height: 24px;
+      height: 28px;
       width: auto;
-      max-width: 96px;
+      max-width: 100%;
       object-fit: contain;
       object-position: center;
       filter: none;
@@ -10306,8 +10314,9 @@
       }
       .tp-head-title { font-size: 15px; }
       .logo-tile { height: 36px; }
-      .logo-tile img { height: 22px; max-width: 88px; }
-      .logos-track { gap: 16px 24px; }
+      .logo-tile img { height: 22px; }
+      .logos-track { gap: 14px; }
+      .logos-row { gap: 10px 12px; }
       .float-card {
         position: static;
         width: auto;

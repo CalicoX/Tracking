@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（TrustBand 文案+logo 都居中）
+最后更新：2026-08-26（TrustBand logo 对齐 17TRACK 官网 12 家，静态两排）
 
 ## Hero 文案区
 
@@ -22,7 +22,7 @@
 ## 移动端特效（Park 要求保留）
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
-- TrustBand：不要跑马灯。8 个静态 logo 略缩小（高 24 / max 96），整块居中（`.trust` `align-items:center` + `text-align:center`，logo `justify-content:center` + wrap）。Park：标题贴左不算居中。≤768 自然两排。
+- TrustBand：不要跑马灯。文案+logo 整块居中。品牌列表对齐 https://www.17track.com/zh-cn（12 家，静态两排各 6）：AliExpress / Baleaf / Cainiao / Anker / COOFANDY / eufy / XGIMI / SHARGE / totwoo / Vaporesso / GOELIA / Plaud。Shopify / SHEIN / Temu 不在官网上，已去掉。logo 从各品牌官网抓（Cainiao 官网 GIF、XGIMI 官网 SVG、SHARGE 官网 header、AliExpress 2024、Plaud/Baleaf/COOFANDY/Vaporesso/totwoo 官网文件）。
 - 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
@@ -122,6 +122,8 @@
 - 不要把 BrandsSay 改成静态 3+2 网格（Park：整错了；要改的是 TrustBand logo）。
 - 不要给 TrustBand logo 做横向跑马灯 / 复制一组循环（老板：不要滚动，缩小一点，居中）。
 - 不要只把 TrustBand logo 居中、标题仍贴左（Park：没有居中对齐）。
+- 不要在 TrustBand 放 Shopify / SHEIN / Temu（17TRACK 官网客户条没有）。
+- 不要用 17TRACK CDN 那批 112px 白底反色 webp 当浅底 logo（糊、而且是深色页用的反色）。
 - 不要把 Tracking Vite 绑到 5174（那是 Returns；`localhost:5174` 会进 Returns）。
 - 不要动 `public/js/`。
 - 不要 force push、不要 `--no-verify`。
