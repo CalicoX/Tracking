@@ -24,7 +24,6 @@ function LogoTile({ logo }) {
       <img
         src={logo.src}
         alt={logo.alt}
-        height="28"
         loading="lazy"
         decoding="async"
       />
