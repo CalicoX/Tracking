@@ -6,7 +6,7 @@ import { clamp, prefersReducedMotion } from "../utils.js";
  */
 export const AI_HOLD_VH = 0.36;
 /** Viewports spent scaling the title "AI". */
-export const AI_ZOOM_VH = 1.1;
+export const AI_ZOOM_VH = 0.48;
 
 /** Fraction fallbacks (520vh track ≈ 420vh travel). Stack uses the same end. */
 export const AI_HOLD_END = 0.30;
@@ -161,10 +161,10 @@ export function mount() {
     }
     const p = clamp((scrolled - holdPx) / Math.max(zoomPx, 1), 0, 1);
     if (sticky) sticky.classList.add("is-ai-zooming");
-    const restOp = p < 0.12 ? 1 - p / 0.12 : 0;
+    const restOp = p < 0.08 ? 1 - p / 0.08 : 0;
     const aiOp = 0;
-    /* Ease-in so frame 0 stays on the title AI; then grow off-screen. Never scale back. */
-    let zoom = 1 + p * p * p * 240;
+    /* Start on the title, then snap-scale off-screen. No extra downward travel. */
+    let zoom = 1 + p * p * 360;
     if (zoom < peakZoom) zoom = peakZoom;
     else peakZoom = zoom;
     setZoom(zoom, restOp, aiOp, 1);
