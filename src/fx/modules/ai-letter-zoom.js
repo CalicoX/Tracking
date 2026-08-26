@@ -154,11 +154,12 @@ export function mount() {
     }
     const p = clamp((scrolled - holdPx) / Math.max(zoomPx, 1), 0, 1);
     if (sticky) sticky.classList.add("is-ai-zooming");
-    const restOp = p < 0.16 ? 1 - p / 0.16 : 0;
+    const restOp = p < 0.12 ? 1 - p / 0.12 : 0;
     /* Title "AI" is CSS-hidden on .is-ai-zooming — never crossfade with the overlay. */
     const aiOp = 0;
-    const cutOp = p < 0.86 ? 1 : Math.max(0, 1 - (p - 0.86) / 0.14);
-    const zoom = 1 + p * 22;
+    /* Scale through the viewport; no veil fade. Snap off only after letters have left. */
+    const zoom = 1 + p * 96;
+    const cutOp = p < 1 ? 1 : 0;
     setZoom(zoom, restOp, aiOp, cutOp);
   }
 

@@ -211,6 +211,8 @@ describe("React landing structure (gating)", () => {
     expect(zoom).not.toMatch(/wr\.height \* 0\.86/);
     expect(zoom).toMatch(/origin\.baseline/);
     expect(zoom).toMatch(/style\.transform = "none"/);
+    expect(zoom).toMatch(/p \* 96/);
+    expect(zoom).not.toMatch(/p - 0\.86/);
     const css = read("styles/landing.css");
     expect(css).toMatch(
       /\.is-ai-zooming \.ai-word-ai[\s\S]{0,120}opacity:\s*0\s*!important/
