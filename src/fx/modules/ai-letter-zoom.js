@@ -58,6 +58,7 @@ export function mount() {
     range.detach();
     if (tr.width < 4 || tr.height < 4) return;
     const cs = window.getComputedStyle(word);
+    const fs = parseFloat(cs.fontSize) || tr.height;
     const cx = tr.left + tr.width / 2;
     const cy = tr.top + tr.height / 2;
     origin = {
@@ -66,15 +67,13 @@ export function mount() {
       cx: cx,
       cy: cy,
       x: cx,
-      baseline: tr.bottom,
-      fs: parseFloat(cs.fontSize) || tr.height,
+      baseline: tr.top + fs * 0.8,
+      fs: fs,
       fw: cs.fontWeight || "700",
       ff: cs.fontFamily || "Inter, system-ui, sans-serif",
       ls: cs.letterSpacing || "0px",
     };
     snapGlyphToInk();
-    origin.cx = cx;
-    origin.cy = cy;
   }
 
   function snapGlyphToInk() {
@@ -84,10 +83,16 @@ export function mount() {
     const text = layer && layer.querySelector(".ai-zoom-text");
     if (!text) return;
     try {
-      const b = text.getBBox();
+      let b = text.getBBox();
       if (b.width < 2 || b.height < 2) return;
       origin.x += origin.cx - (b.x + b.width / 2);
       origin.baseline += origin.cy - (b.y + b.height / 2);
+      applyLetter(1, 1);
+      b = text.getBBox();
+      origin.cx = b.x + b.width / 2;
+      /* Cap-center sits lower than the em-box center; using the box center
+         makes the letters walk down as zoom grows. */
+      origin.cy = origin.baseline - origin.fs * 0.3;
     } catch (e) {
       /* ignore */
     }
@@ -174,7 +179,7 @@ export function mount() {
     /* Page in place (pinned) + extra screen of rest. Overlay stays off. */
     if (scrolled <= holdPx) {
       zooming = false;
-      captureOrigin();
+      origin = null;
       setZoom(1, 1, 1, 0);
       if (sticky) sticky.classList.remove("is-ai-zooming");
       return;
