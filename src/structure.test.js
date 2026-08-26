@@ -204,7 +204,7 @@ describe("React landing structure (gating)", () => {
 
   it("AI letter zoom holds ~1 extra viewport after pin before scaling", () => {
     const zoom = read("fx/modules/ai-letter-zoom.js");
-    expect(zoom).toMatch(/AI_HOLD_VH\s*=\s*1\.05/);
+    expect(zoom).toMatch(/AI_HOLD_VH\s*=\s*0\.36/);
     expect(zoom).toMatch(/scrolled <= holdPx/);
     expect(zoom).not.toMatch(/AI_HOLD_END\s*=\s*0\.16/);
     expect(zoom).toMatch(/wr\.height \/ 2/);

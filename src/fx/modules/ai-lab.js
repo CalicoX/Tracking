@@ -2417,7 +2417,7 @@ export function mount() {
       var total = Math.max(pin.offsetHeight - vh, 1);
       var scrolled = clamp(-rect.top, 0, total);
       /* Same pin-hold + zoom window as ai-letter-zoom.js (do not start stack during hold). */
-      var holdPx = Math.min(vh * 1.05, total * 0.42);
+      var holdPx = Math.min(vh * 0.36, total * 0.42);
       var zoomPx = Math.min(vh * 1.1, total * 0.4);
       var zoomEndPx = holdPx + zoomPx;
       var p =

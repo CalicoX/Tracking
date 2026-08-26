@@ -4,7 +4,7 @@ import { clamp, prefersReducedMotion } from "../utils.js";
  * After the intro screen pins, extra viewports of scroll before zoom starts.
  * ~1 extra screen so it settles first — do not zoom on arrival.
  */
-export const AI_HOLD_VH = 1.05;
+export const AI_HOLD_VH = 0.36;
 /** Viewports spent scaling the title "AI". */
 export const AI_ZOOM_VH = 1.1;
 
