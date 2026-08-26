@@ -208,19 +208,16 @@ describe("React landing structure (gating)", () => {
     expect(zoom).toMatch(/scrolled <= holdPx/);
     expect(zoom).not.toMatch(/AI_HOLD_END\s*=\s*0\.16/);
     expect(zoom).not.toMatch(/wr\.height \* 0\.86/);
-    expect(zoom).toMatch(/origin\.baseline/);
     expect(zoom).toMatch(/selectNodeContents/);
     expect(zoom).toMatch(/AI_ZOOM_VH\s*=\s*0\.48/);
     expect(zoom).toMatch(/p \* p \* 900/);
-    expect(zoom).toMatch(/pairCx/);
-    expect(zoom).toMatch(/innerWidth/);
-    const cssZoom = read("styles/landing.css");
-    expect(cssZoom).toMatch(
-      /\.is-ai-zooming \.ai-letter-cut[\s\S]{0,120}position:\s*fixed/
-    );
-    expect(zoom).not.toMatch(/setStart\(tn, 1\)/);
+    expect(zoom).toMatch(/ai-zoom-layer/);
+    expect(zoom).toMatch(/zooming = true/);
     expect(zoom).not.toMatch(/peakZoom/);
     expect(zoom).toMatch(/cutOp = p < 1 \? 1 : 0/);
+    const cssZoom = read("styles/landing.css");
+    expect(cssZoom).toMatch(/#ai-zoom-layer/);
+    expect(cssZoom).toMatch(/mix-blend-mode:\s*destination-out/);
     expect(zoom).not.toMatch(/p - 0\.86/);
     const css = read("styles/landing.css");
     expect(css).toMatch(

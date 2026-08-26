@@ -24,14 +24,23 @@ export function mount() {
   const sticky = document.getElementById("ai-letter-sticky");
   const intro = document.getElementById("ai-lab-intro");
   const svg = sticky && sticky.querySelector(".ai-letter-cut");
-  const letterG = sticky && sticky.querySelector(".ai-letter-g");
-  const letterText = sticky && sticky.querySelector(".ai-letter-text");
-  const maskBg = sticky && sticky.querySelector(".ai-letter-mask-bg");
-  const fill = sticky && sticky.querySelector(".ai-letter-fill");
   const word = document.querySelector(".ai-word-ai");
   if (!track || !sticky) return () => {};
 
   let origin = null;
+  let zooming = false;
+
+  function ensureLayer() {
+    let layer = document.getElementById("ai-zoom-layer");
+    if (layer) return layer;
+    layer = document.createElement("div");
+    layer.id = "ai-zoom-layer";
+    layer.setAttribute("aria-hidden", "true");
+    layer.innerHTML =
+      '<div class="ai-zoom-veil"></div><div class="ai-zoom-word">AI</div>';
+    document.body.appendChild(layer);
+    return layer;
+  }
 
   function captureOrigin() {
     if (!word) return;
@@ -41,78 +50,40 @@ export function mount() {
     range.detach();
     if (tr.width < 4 || tr.height < 4) return;
     const cs = window.getComputedStyle(word);
-    const fs = parseFloat(cs.fontSize) || tr.height;
-    const pairCx = tr.left + tr.width / 2;
-    const pairCy = tr.top + tr.height / 2;
     origin = {
-      w: window.innerWidth,
-      h: window.innerHeight,
-      cx: pairCx,
-      cy: pairCy,
-      pairCx: pairCx,
-      pairCy: pairCy,
-      x: pairCx,
-      y: pairCy,
-      baseline: tr.bottom,
-      fs: fs,
+      left: tr.left,
+      top: tr.top,
+      width: tr.width,
+      height: tr.height,
+      fs: parseFloat(cs.fontSize) || tr.height,
       fw: cs.fontWeight || "700",
       ff: cs.fontFamily || "Inter, system-ui, sans-serif",
       ls: cs.letterSpacing || "0px",
     };
-    snapGlyphToInk();
-    origin.cx = origin.pairCx;
-    origin.cy = origin.pairCy;
   }
 
-  function snapGlyphToInk() {
-    if (!origin || !letterText) return;
-    applyLetter(1);
-    try {
-      const b = letterText.getBBox();
-      if (b.width < 2 || b.height < 2) return;
-      origin.x += origin.pairCx - (b.x + b.width / 2);
-      origin.baseline += origin.pairCy - (b.y + b.height / 2);
-    } catch (e) {
-      /* mask text may not expose bbox */
+  function applyLetter(zoom, cutOp) {
+    const layer = ensureLayer();
+    const clone = layer.querySelector(".ai-zoom-word");
+    if (!clone || !origin) {
+      layer.classList.remove("is-on");
+      return;
     }
-  }
-
-  function applyLetter(zoom) {
-    if (!origin || !svg || !letterText || !letterG) return;
-    svg.setAttribute("viewBox", "0 0 " + origin.w + " " + origin.h);
-    if (maskBg) {
-      maskBg.setAttribute("width", String(origin.w));
-      maskBg.setAttribute("height", String(origin.h));
+    if (cutOp <= 0) {
+      layer.classList.remove("is-on");
+      clone.style.transform = "scale(1)";
+      return;
     }
-    if (fill) {
-      fill.setAttribute("width", String(origin.w));
-      fill.setAttribute("height", String(origin.h));
-    }
-    /* Sit on the title baseline; scale around the "AI" glyph center. */
-    letterText.setAttribute("x", origin.x.toFixed(2));
-    letterText.setAttribute("y", origin.baseline.toFixed(2));
-    letterText.setAttribute("font-size", origin.fs.toFixed(2));
-    letterText.setAttribute("font-weight", origin.fw);
-    letterText.setAttribute("font-family", origin.ff);
-    letterText.setAttribute("letter-spacing", origin.ls);
-    letterText.setAttribute("text-anchor", "middle");
-    letterText.removeAttribute("dominant-baseline");
-    letterText.removeAttribute("alignment-baseline");
-
-    letterG.setAttribute(
-      "transform",
-      "translate(" +
-        origin.cx.toFixed(2) +
-        " " +
-        origin.cy.toFixed(2) +
-        ") scale(" +
-        Number(zoom).toFixed(4) +
-        ") translate(" +
-        (-origin.cx).toFixed(2) +
-        " " +
-        (-origin.cy).toFixed(2) +
-        ")"
-    );
+    clone.style.left = origin.left + "px";
+    clone.style.top = origin.top + "px";
+    clone.style.width = origin.width + "px";
+    clone.style.height = origin.height + "px";
+    clone.style.fontSize = origin.fs + "px";
+    clone.style.fontWeight = origin.fw;
+    clone.style.fontFamily = origin.ff;
+    clone.style.letterSpacing = origin.ls;
+    clone.style.transform = "scale(" + Number(zoom).toFixed(4) + ")";
+    layer.classList.add("is-on");
   }
 
   function setZoom(zoom, restOp, aiOp, cutOp) {
@@ -122,9 +93,8 @@ export function mount() {
       intro.style.setProperty("--intro-rest-op", String(restOp));
       intro.style.setProperty("--intro-ai-op", String(aiOp));
     }
-    const cut = sticky.querySelector(".ai-letter-cut");
-    if (cut) cut.style.opacity = String(cutOp);
-    applyLetter(zoom);
+    if (svg) svg.style.opacity = "0";
+    applyLetter(zoom, cutOp);
   }
 
   function applyFull() {
@@ -149,15 +119,17 @@ export function mount() {
 
     /* Page in place (pinned) + extra screen of rest. Overlay stays off. */
     if (scrolled <= holdPx) {
+      zooming = false;
       captureOrigin();
       setZoom(1, 1, 1, 0);
       if (sticky) sticky.classList.remove("is-ai-zooming");
       return;
     }
 
-    /* Lock origin on the first zoom frame so enter-animation offset is gone. */
-    if (!origin || !sticky.classList.contains("is-ai-zooming")) {
+    /* Lock the title-AI box once; never recapture while zooming (prevents downward drift). */
+    if (!zooming) {
       captureOrigin();
+      zooming = true;
     }
     const p = clamp((scrolled - holdPx) / Math.max(zoomPx, 1), 0, 1);
     if (sticky) sticky.classList.add("is-ai-zooming");
@@ -184,6 +156,8 @@ export function mount() {
     window.removeEventListener("scroll", apply);
     window.removeEventListener("resize", apply);
     sticky.classList.remove("is-ai-zooming");
+    const layer = document.getElementById("ai-zoom-layer");
+    if (layer && layer.parentNode) layer.parentNode.removeChild(layer);
     if (window.__updateAiScroll === onAiScroll) {
       window.__updateAiScroll = prev;
     }

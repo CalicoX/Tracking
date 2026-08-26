@@ -5888,16 +5888,36 @@
       opacity: 0;
       transition: none;
     }
-    /* Pin the letters to the viewport so they only scale, never ride the scroll. */
-    .ai-letter-sticky.is-ai-zooming {
-      overflow: visible;
-    }
-    .ai-letter-sticky.is-ai-zooming .ai-letter-cut {
+    #ai-zoom-layer {
       position: fixed;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 20;
+      z-index: 40;
+      pointer-events: none;
+      isolation: isolate;
+      display: none;
+    }
+    #ai-zoom-layer.is-on {
+      display: block;
+    }
+    #ai-zoom-layer .ai-zoom-veil {
+      position: absolute;
+      inset: 0;
+      background: #0a0514;
+    }
+    #ai-zoom-layer .ai-zoom-word {
+      position: absolute;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      line-height: 1;
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+      mix-blend-mode: destination-out;
+      transform-origin: 50% 50%;
+      will-change: transform;
     }
     @media (prefers-reduced-motion: reduce) {
       .ai-letter-track {
@@ -5905,6 +5925,9 @@
       }
       .ai-letter-cut {
         opacity: 0;
+      }
+      #ai-zoom-layer {
+        display: none !important;
       }
     }
     /* 竖线：从 intro 标签模块下沿一直连到案例区顶（JS 设 top/height） */
@@ -11720,6 +11743,9 @@
         overflow: visible;
       }
       .ai-letter-cut {
+        display: none !important;
+      }
+      #ai-zoom-layer {
         display: none !important;
       }
       .ai-letter-sticky .ai-lab-intro {
