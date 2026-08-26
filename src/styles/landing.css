@@ -2986,7 +2986,7 @@
       object-position: center;
       /* gray without brightness(0) — that filter turns leftover opaque pixels into solid bars */
       filter: grayscale(1);
-      opacity: 0.5;
+      opacity: 0.62;
       transition: opacity 0.18s;
     }
     .logo-tile:hover {
@@ -2995,12 +2995,18 @@
       box-shadow: none;
     }
     .logo-tile:hover img {
-      opacity: 0.72;
+      opacity: 0.82;
     }
-    /* short / stacked marks sit smaller at the same cap-height — bump them */
+    /* short / stacked / padded marks sit smaller at the same cap-height */
     .logo-tile img[alt="eufy"],
     .logo-tile img[alt="Cainiao"] {
       height: 26px;
+    }
+    .logo-tile img[alt="SHARGE"],
+    .logo-tile img[alt="totwoo"],
+    .logo-tile img[alt="Vaporesso"],
+    .logo-tile img[alt="GOELIA"] {
+      height: 28px;
     }
 
     /* ——— Sections ——— */

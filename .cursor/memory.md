@@ -22,7 +22,7 @@
 ## 移动端特效（Park 要求保留）
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
-- TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6。logo **固定 height: 22px** + `object-fit: contain`（不要 max-height 让宽标把高度压扁）。灰色只用 `grayscale(1)` + opacity 0.5。**禁止 `brightness(0)`**，会把 SHARGE/totwoo 变成实心灰条。eufy / Cainiao 短标 `height: 26px`。
+- TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6。logo 固定 height 22px + contain。灰色 `grayscale(1)` opacity **0.62**（Park：再加重一点点）。**禁止 `brightness(0)`**。eufy/Cainiao 26px；SHARGE/totwoo/Vaporesso/GOELIA 28px（Park 红框：这四个视觉上太小）。
 - 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
