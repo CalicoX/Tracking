@@ -46,26 +46,11 @@ export function mount() {
     const fs = parseFloat(cs.fontSize) || tr.height;
     const pairCx = tr.left - sr.left + tr.width / 2;
     const pairCy = tr.top - sr.top + tr.height / 2;
-    /* Draw full "AI"; scale around the I stem so ink fills the viewport. */
-    let cx = pairCx;
-    let cy = pairCy;
-    const tn = word.firstChild;
-    if (tn && tn.nodeType === 3 && (tn.textContent || "").length >= 2) {
-      const ir = document.createRange();
-      ir.setStart(tn, 1);
-      ir.setEnd(tn, 2);
-      const ig = ir.getBoundingClientRect();
-      ir.detach();
-      if (ig.width > 1 && ig.height > 1) {
-        cx = ig.left - sr.left + ig.width / 2;
-        cy = ig.top - sr.top + ig.height / 2;
-      }
-    }
     origin = {
       w: sticky.clientWidth || sr.width,
       h: sticky.clientHeight || sr.height,
-      cx: cx,
-      cy: cy,
+      cx: pairCx,
+      cy: pairCy,
       pairCx: pairCx,
       pairCy: pairCy,
       x: pairCx,
@@ -87,6 +72,10 @@ export function mount() {
       if (b.width < 2 || b.height < 2) return;
       origin.x += origin.pairCx - (b.x + b.width / 2);
       origin.baseline += origin.pairCy - (b.y + b.height / 2);
+      applyLetter(1);
+      const b2 = letterText.getBBox();
+      origin.cx = b2.x + b2.width / 2;
+      origin.cy = b2.y + b2.height / 2;
     } catch (e) {
       /* mask text may not expose bbox */
     }
@@ -103,7 +92,7 @@ export function mount() {
       fill.setAttribute("width", String(origin.w));
       fill.setAttribute("height", String(origin.h));
     }
-    /* Sit on the title's alphabetic baseline; scale around the word-box center. */
+    /* Sit on the title baseline; scale around the "AI" glyph center. */
     letterText.setAttribute("x", origin.x.toFixed(2));
     letterText.setAttribute("y", origin.baseline.toFixed(2));
     letterText.setAttribute("font-size", origin.fs.toFixed(2));
@@ -178,9 +167,10 @@ export function mount() {
     if (sticky) sticky.classList.add("is-ai-zooming");
     const restOp = p < 0.08 ? 1 - p / 0.08 : 0;
     const aiOp = 0;
-    /* Follow scroll both ways. Scale the I stem until ink covers the viewport. */
+    /* Follow scroll both ways. Center-scale the pair; hide at full size when done. */
     const zoom = 1 + p * p * 900;
-    setZoom(zoom, restOp, aiOp, 1);
+    const cutOp = p < 1 ? 1 : 0;
+    setZoom(zoom, restOp, aiOp, cutOp);
   }
 
   const prev = window.__updateAiScroll;
