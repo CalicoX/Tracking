@@ -5888,6 +5888,17 @@
       opacity: 0;
       transition: none;
     }
+    /* Pin the letters to the viewport so they only scale, never ride the scroll. */
+    .ai-letter-sticky.is-ai-zooming {
+      overflow: visible;
+    }
+    .ai-letter-sticky.is-ai-zooming .ai-letter-cut {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+    }
     @media (prefers-reduced-motion: reduce) {
       .ai-letter-track {
         height: 100vh;

@@ -34,9 +34,7 @@ export function mount() {
   let origin = null;
 
   function captureOrigin() {
-    if (!word || !sticky) return;
-    const sr = sticky.getBoundingClientRect();
-    if (sr.width < 8) return;
+    if (!word) return;
     const range = document.createRange();
     range.selectNodeContents(word);
     const tr = range.getBoundingClientRect();
@@ -44,24 +42,26 @@ export function mount() {
     if (tr.width < 4 || tr.height < 4) return;
     const cs = window.getComputedStyle(word);
     const fs = parseFloat(cs.fontSize) || tr.height;
-    const pairCx = tr.left - sr.left + tr.width / 2;
-    const pairCy = tr.top - sr.top + tr.height / 2;
+    const pairCx = tr.left + tr.width / 2;
+    const pairCy = tr.top + tr.height / 2;
     origin = {
-      w: sticky.clientWidth || sr.width,
-      h: sticky.clientHeight || sr.height,
+      w: window.innerWidth,
+      h: window.innerHeight,
       cx: pairCx,
       cy: pairCy,
       pairCx: pairCx,
       pairCy: pairCy,
       x: pairCx,
       y: pairCy,
-      baseline: tr.bottom - sr.top,
+      baseline: tr.bottom,
       fs: fs,
       fw: cs.fontWeight || "700",
       ff: cs.fontFamily || "Inter, system-ui, sans-serif",
       ls: cs.letterSpacing || "0px",
     };
     snapGlyphToInk();
+    origin.cx = origin.pairCx;
+    origin.cy = origin.pairCy;
   }
 
   function snapGlyphToInk() {
@@ -72,10 +72,6 @@ export function mount() {
       if (b.width < 2 || b.height < 2) return;
       origin.x += origin.pairCx - (b.x + b.width / 2);
       origin.baseline += origin.pairCy - (b.y + b.height / 2);
-      applyLetter(1);
-      const b2 = letterText.getBBox();
-      origin.cx = b2.x + b2.width / 2;
-      origin.cy = b2.y + b2.height / 2;
     } catch (e) {
       /* mask text may not expose bbox */
     }
