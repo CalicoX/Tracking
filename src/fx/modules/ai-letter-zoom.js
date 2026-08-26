@@ -36,39 +36,44 @@ export function mount() {
 
   function captureOrigin() {
     if (!word || !sticky) return;
-    const prevTx = word.style.transform;
-    word.style.transform = "none";
-    const wr = word.getBoundingClientRect();
     const sr = sticky.getBoundingClientRect();
-    word.style.transform = prevTx;
-    if (wr.width < 8 || wr.height < 8 || sr.width < 8) return;
+    if (sr.width < 8) return;
+    const range = document.createRange();
+    range.selectNodeContents(word);
+    const tr = range.getBoundingClientRect();
+    range.detach();
+    if (tr.width < 4 || tr.height < 4) return;
     const cs = window.getComputedStyle(word);
-    const fs = parseFloat(cs.fontSize) || wr.height;
-    let baseline = wr.top - sr.top + wr.height * 0.8;
-    try {
-      const ctx = document.createElement("canvas").getContext("2d");
-      if (ctx) {
-        ctx.font = cs.font;
-        const m = ctx.measureText(word.textContent || "AI");
-        const ascent = m.fontBoundingBoxAscent || m.actualBoundingBoxAscent || fs * 0.8;
-        const descent = m.fontBoundingBoxDescent || m.actualBoundingBoxDescent || fs * 0.2;
-        const lead = Math.max(0, (wr.height - (ascent + descent)) / 2);
-        baseline = wr.top - sr.top + lead + ascent;
-      }
-    } catch (e) {
-      /* canvas metrics unavailable */
-    }
+    const fs = parseFloat(cs.fontSize) || tr.height;
+    const cx = tr.left - sr.left + tr.width / 2;
+    const cy = tr.top - sr.top + tr.height / 2;
     origin = {
-      w: sr.width,
-      h: sr.height,
-      x: wr.left - sr.left + wr.width / 2,
-      y: wr.top - sr.top + wr.height / 2,
-      baseline: baseline,
+      w: sticky.clientWidth || sr.width,
+      h: sticky.clientHeight || sr.height,
+      cx: cx,
+      cy: cy,
+      x: cx,
+      y: cy,
+      baseline: tr.bottom - sr.top,
       fs: fs,
       fw: cs.fontWeight || "700",
       ff: cs.fontFamily || "Inter, system-ui, sans-serif",
       ls: cs.letterSpacing || "0px",
     };
+    snapGlyphToInk();
+  }
+
+  function snapGlyphToInk() {
+    if (!origin || !letterText) return;
+    applyLetter(1);
+    try {
+      const b = letterText.getBBox();
+      if (b.width < 2 || b.height < 2) return;
+      origin.x += origin.cx - (b.x + b.width / 2);
+      origin.baseline += origin.cy - (b.y + b.height / 2);
+    } catch (e) {
+      /* mask text may not expose bbox */
+    }
   }
 
   function applyLetter(zoom) {
@@ -96,15 +101,15 @@ export function mount() {
     letterG.setAttribute(
       "transform",
       "translate(" +
-        origin.x.toFixed(2) +
+        origin.cx.toFixed(2) +
         " " +
-        origin.y.toFixed(2) +
+        origin.cy.toFixed(2) +
         ") scale(" +
         Number(zoom).toFixed(4) +
         ") translate(" +
-        (-origin.x).toFixed(2) +
+        (-origin.cx).toFixed(2) +
         " " +
-        (-origin.y).toFixed(2) +
+        (-origin.cy).toFixed(2) +
         ")"
     );
   }
@@ -158,8 +163,8 @@ export function mount() {
     if (sticky) sticky.classList.add("is-ai-zooming");
     const restOp = p < 0.12 ? 1 - p / 0.12 : 0;
     const aiOp = 0;
-    /* Keep growing off-screen. Never fade, snap, or scale back at the end. */
-    let zoom = 1 + Math.pow(p, 1.2) * 240;
+    /* Ease-in so frame 0 stays on the title AI; then grow off-screen. Never scale back. */
+    let zoom = 1 + p * p * p * 240;
     if (zoom < peakZoom) zoom = peakZoom;
     else peakZoom = zoom;
     setZoom(zoom, restOp, aiOp, 1);
