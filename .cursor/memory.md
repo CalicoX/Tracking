@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（TrustBand logo 缩小、列距 48px）
+最后更新：2026-08-26（TrustBand：AliExpress/baleaf/Cainiao/eufy 加大，列距 72px，eufy 压暗）
 
 ## Hero 文案区
 
@@ -22,7 +22,7 @@
 ## 移动端特效（Park 要求保留）
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
-- TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6。logo 略缩小：默认 18px，eufy/Cainiao 22px，SHARGE/totwoo/Vaporesso/GOELIA 24px。行距 28px，列距 **48px**（Park：整体缩小、间距拉开）。灰色 grayscale + opacity 0.62。禁止 brightness(0)。
+- TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6。默认 18px；AliExpress/Baleaf **22px**；Cainiao/eufy **26px**；SHARGE/totwoo/Vaporesso/GOELIA 24px。行距 36px，列距 **72px**（Park：圈出的几个偏小，48px 间距还不够）。灰色 grayscale + opacity 0.62。eufy 源是中蓝，0.62 会洗白，单独 **opacity 0.88**。禁止 brightness(0)。
 - 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
@@ -120,6 +120,8 @@
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。
 - 不要用 `@media (max-width: 768px)` 或 `html.is-reduce-fx` 关掉 Hero 绘制 overlay（Park：768 保留动画以及渐隐）。
 - 不要把 BrandsSay 改成静态 3+2 网格（Park：整错了；要改的是 TrustBand logo）。
+- 不要把 TrustBand 列距收回 48px（Park：还不够，现 72）。
+- 不要给 eufy 用和其他标一样的 opacity 0.62（蓝标灰化会洗白；现 0.88）。
 - 不要给 TrustBand logo 做横向跑马灯 / 复制一组循环（老板：不要滚动，缩小一点，居中）。
 - 不要只把 TrustBand logo 居中、标题仍贴左（Park：没有居中对齐）。
 - 不要在 TrustBand 放 Shopify / SHEIN / Temu（17TRACK 官网客户条没有）。

@@ -2947,8 +2947,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 28px;
-      width: min(1120px, 100%);
+      gap: 36px;
+      width: min(1280px, 100%);
       margin-inline: auto;
       overflow: visible;
     }
@@ -2957,7 +2957,7 @@
       grid-template-columns: repeat(6, minmax(0, 1fr));
       align-items: center;
       justify-items: center;
-      gap: 20px 48px;
+      gap: 24px 72px;
       width: 100%;
       overflow: visible;
     }
@@ -2965,7 +2965,7 @@
       flex: 0 0 auto;
       width: 100%;
       min-width: 0;
-      height: 32px;
+      height: 36px;
       padding: 0;
       display: grid;
       place-items: center;
@@ -2997,10 +2997,20 @@
     .logo-tile:hover img {
       opacity: 0.82;
     }
-    /* short / stacked / padded marks sit smaller at the same cap-height */
-    .logo-tile img[alt="eufy"],
-    .logo-tile img[alt="Cainiao"] {
+    .logo-tile img[alt="AliExpress"],
+    .logo-tile img[alt="Baleaf"] {
       height: 22px;
+    }
+    .logo-tile img[alt="Cainiao"] {
+      height: 26px;
+    }
+    /* eufy is mid-blue; grayscale+0.62 reads washed vs black marks */
+    .logo-tile img[alt="eufy"] {
+      height: 26px;
+      opacity: 0.88;
+    }
+    .logo-tile:hover img[alt="eufy"] {
+      opacity: 1;
     }
     .logo-tile img[alt="SHARGE"],
     .logo-tile img[alt="totwoo"],
@@ -10276,6 +10286,8 @@
         width: 200px;
       }
       .trust { gap: 22px; padding-top: 36px; padding-bottom: 40px; }
+      .logos-track { gap: 28px; }
+      .logos-row { gap: 16px 40px; }
       .impact-band { height: auto; }
       .impact-band-sticky {
         position: relative;
@@ -10328,16 +10340,18 @@
         overflow: hidden;
       }
       .tp-head-title { font-size: 15px; }
-      .logo-tile { height: 28px; }
+      .logo-tile { height: 32px; }
       .logo-tile img { height: 16px; }
-      .logo-tile img[alt="eufy"],
-      .logo-tile img[alt="Cainiao"] { height: 18px; }
+      .logo-tile img[alt="AliExpress"],
+      .logo-tile img[alt="Baleaf"] { height: 18px; }
+      .logo-tile img[alt="Cainiao"] { height: 22px; }
+      .logo-tile img[alt="eufy"] { height: 22px; opacity: 0.88; }
       .logo-tile img[alt="SHARGE"],
       .logo-tile img[alt="totwoo"],
       .logo-tile img[alt="Vaporesso"],
       .logo-tile img[alt="GOELIA"] { height: 20px; }
-      .logos-track { gap: 18px; }
-      .logos-row { gap: 12px 20px; }
+      .logos-track { gap: 22px; }
+      .logos-row { gap: 12px 24px; }
       .float-card {
         position: static;
         width: auto;
