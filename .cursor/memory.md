@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（BrandsSay 改成静态 3+2，不要跑马灯）
+最后更新：2026-08-26（Vercel 毛玻璃：Vite 8 lightningcss 丢掉 backdrop-filter）
 
 ## Hero 文案区
 
@@ -25,12 +25,6 @@
 - logo 跑马灯手机继续滚（≤768 kill 列表里不放 `.logos-track`）。
 - 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
-
-## BrandsSay（What Top Brands Say）
-
-- 老板：不要滚动，静态 2 排。上 3 张（AliExpress / COOFANDY / eufy）下 2 张（Vaporesso / baleaf），下排同宽居中。
-- 5 张卡各一份，不要复制、不要 mask、不要 `brands-track` 动画。
-- ≤480 单列竖排；`.brand-card` 必须 `flex: none`，否则 `flex: 1 1 0` 在 column 里高度塌成边框。
 
 ## 人
 
@@ -120,8 +114,6 @@
 - 不要在 768 把 Features 改成三块平铺 / display:contents（Park：保留滚动插图动画和左边 sticky 手风琴）。
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。
 - 不要用 `@media (max-width: 768px)` 或 `html.is-reduce-fx` 关掉 Hero 绘制 overlay（Park：768 保留动画以及渐隐）。
-- 不要把 BrandsSay 做成双排跑马灯 / 复制卡片无缝循环（老板：静态 2 排）。
-- 不要在 ≤480 给 `.brands-say .brand-card` 留 `flex: 1 1 0`（竖排会把高度压成 2px）。
 - 不要把 Tracking Vite 绑到 5174（那是 Returns；`localhost:5174` 会进 Returns）。
 - 不要动 `public/js/`。
 - 不要 force push、不要 `--no-verify`。
