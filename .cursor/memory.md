@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（BrandsSay 静态 3+2 已回退，仍是双排跑马灯）
+最后更新：2026-08-26（TrustBand logo 静态居中，不要跑马灯）
 
 ## Hero 文案区
 
@@ -22,14 +22,14 @@
 ## 移动端特效（Park 要求保留）
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
-- logo 跑马灯手机继续滚（≤768 kill 列表里不放 `.logos-track`）。
+- TrustBand logo 不要跑马灯：8 个静态、略缩小（高 24 / max 96）、`justify-content:center` + wrap。≤768 自然两排。Park/老板否掉横向滚动。
 - 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
 ## BrandsSay
 
 - 仍是双排反向跑马灯（复制卡片 + mask + `brands-track` 动画）。
-- 静态 3+2 网格已回退（Park：整错了）。
+- 静态 3+2 网格已回退（Park：整错了；老板要改的是 TrustBand logo，不是评价卡）。
 
 ## 人
 
@@ -39,7 +39,7 @@
 
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完自动 commit + push。
-- `test` 本地和远端都已删（2026-08-24）。当前 HEAD `e739da7`，与 `origin/main` 一致。
+- `test` 本地和远端都已删（2026-08-24）。当前 HEAD 待 commit。
 - Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。不要抢 5174：那是 Returns 的 `[::1]:5174`；浏览器开 `localhost:5174` 会进 Returns。API 在 5173。
 - Vite 8 生产压缩用 lightningcss：成对的 `backdrop-filter` / `-webkit-backdrop-filter` 只留最后一个。`-webkit-` 写在后面时，Chrome 上毛玻璃全没（dev 不压缩所以正常）。必须 `-webkit-` 在前、标准属性在后。`build.cssTarget: ['chrome87','safari14']`。不要再加 esbuild minify（Vite 8 不自带 esbuild）。
 
@@ -119,7 +119,8 @@
 - 不要在 768 把 Features 改成三块平铺 / display:contents（Park：保留滚动插图动画和左边 sticky 手风琴）。
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。
 - 不要用 `@media (max-width: 768px)` 或 `html.is-reduce-fx` 关掉 Hero 绘制 overlay（Park：768 保留动画以及渐隐）。
-- 不要把 BrandsSay 改成静态 3+2 网格（Park：整错了，已回退到双排跑马灯）。
+- 不要把 BrandsSay 改成静态 3+2 网格（Park：整错了；要改的是 TrustBand logo）。
+- 不要给 TrustBand logo 做横向跑马灯 / 复制一组循环（老板：不要滚动，缩小一点，居中）。
 - 不要把 Tracking Vite 绑到 5174（那是 Returns；`localhost:5174` 会进 Returns）。
 - 不要动 `public/js/`。
 - 不要 force push、不要 `--no-verify`。
