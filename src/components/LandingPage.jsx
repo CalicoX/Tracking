@@ -33,8 +33,8 @@ export default function LandingPage() {
           <ImpactBand />
           <FeaturesSection />
           <AiLab />
-          <ExploreMore />
           <Credentials />
+          <ExploreMore />
           <BottomCta />
         </main>
         <Footer />

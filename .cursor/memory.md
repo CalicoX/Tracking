@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（AI 示例模块在顶栏下垂直居中）
+最后更新：2026-08-26（ExploreMore 放到 Credentials 后面）
 
 ## Hero 文案区
 
@@ -39,6 +39,10 @@
 - 仍是双排反向跑马灯（复制卡片 + mask + `brands-track` 动画）。卡片照片叠层、白字不动。logo opacity **0.7**（不要 invert 后 0.98 纯白），引用 `rgba(255,255,255,.95)`、署名 `.82`。
 - 不要挪回 ExploreMore 后，不要深色底。
 - 静态 3+2 网格已回退（Park：整错了；老板要改的是 TrustBand logo，不是评价卡）。
+
+## ExploreMore
+
+- 在 **Credentials 后面**、BottomCta 前面。不要放回 AI Lab 后。白底 Returns/API 两卡不变。
 
 ## 人
 
@@ -131,6 +135,7 @@
 - 不要在 768 把 Features 改成三块平铺 / display:contents（Park：保留左边 sticky 手风琴）。
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。
 - 不要用 `@media (max-width: 768px)` 或 `html.is-reduce-fx` 关掉 Hero 绘制 overlay（Park：768 保留动画以及渐隐）。
+- 不要把 ExploreMore 放回 Credentials 前面（Park：放到 credential 后面；顺序 AiLab → Credentials → ExploreMore → BottomCta）。
 - 不要把 BrandsSay 放回 ExploreMore 后面，也不要深色底（Park：TrustBand 下、白底，对齐 Returns）。
 - 不要把 BrandsSay 改成静态 3+2 网格（Park：整错了；要改的是 TrustBand logo）。
 - 不要把 TrustBand 列距收回 48px（Park：还不够，现 72）。
