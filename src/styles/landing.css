@@ -2965,8 +2965,8 @@
       flex: 0 0 auto;
       width: 100%;
       min-width: 0;
-      height: 40px;
-      padding: 0 4px;
+      height: 36px;
+      padding: 0 6px;
       display: grid;
       place-items: center;
       overflow: visible;
@@ -2978,15 +2978,15 @@
     }
     .logo-tile img {
       display: block;
-      height: auto;
+      /* same cap-height for every mark; never cover/crop */
+      height: 22px;
       width: auto;
-      max-height: 28px;
       max-width: 100%;
       object-fit: contain;
       object-position: center;
-      /* flatten every mark to the same mid gray (color logos would otherwise stay paler) */
-      filter: grayscale(1) brightness(0);
-      opacity: 0.38;
+      /* gray without brightness(0) — that filter turns leftover opaque pixels into solid bars */
+      filter: grayscale(1);
+      opacity: 0.5;
       transition: opacity 0.18s;
     }
     .logo-tile:hover {
@@ -2995,7 +2995,12 @@
       box-shadow: none;
     }
     .logo-tile:hover img {
-      opacity: 0.55;
+      opacity: 0.72;
+    }
+    /* short / stacked marks sit smaller at the same cap-height — bump them */
+    .logo-tile img[alt="eufy"],
+    .logo-tile img[alt="Cainiao"] {
+      height: 26px;
     }
 
     /* ——— Sections ——— */
@@ -10317,8 +10322,8 @@
         overflow: hidden;
       }
       .tp-head-title { font-size: 15px; }
-      .logo-tile { height: 36px; }
-      .logo-tile img { max-height: 24px; }
+      .logo-tile { height: 32px; }
+      .logo-tile img { height: 18px; }
       .logos-track { gap: 14px; }
       .logos-row { gap: 10px 12px; }
       .float-card {

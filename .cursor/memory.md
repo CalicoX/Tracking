@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（TrustBand logo 统一高度、灰色、禁止裁切）
+最后更新：2026-08-26（TrustBand 去掉 brightness(0) 灰条，logo 固定 22px 高）
 
 ## Hero 文案区
 
@@ -22,7 +22,7 @@
 ## 移动端特效（Park 要求保留）
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
-- TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6。logo 统一 `max-height: 28px` + `object-fit: contain`，灰色 `grayscale(1) brightness(0)` + opacity 0.38。禁止裁切：`overflow: visible`，totwoo 用完整字标（不要 crop 到笔画）。SHARGE/totwoo 必须抠掉不透明白底，否则 brightness(0) 会变成灰条。
+- TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6。logo **固定 height: 22px** + `object-fit: contain`（不要 max-height 让宽标把高度压扁）。灰色只用 `grayscale(1)` + opacity 0.5。**禁止 `brightness(0)`**，会把 SHARGE/totwoo 变成实心灰条。eufy / Cainiao 短标 `height: 26px`。
 - 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
@@ -125,7 +125,7 @@
 - 不要在 TrustBand 放 Shopify / SHEIN / Temu（17TRACK 官网客户条没有）。
 - 不要用 17TRACK CDN 那批 112px 白底反色 webp 当浅底 logo（糊、而且是深色页用的反色）。
 - 不要把 totwoo 字标裁到笔画（斜体 t/o/w 会缺角）。
-- 不要对带不透明白底的 logo 用 `brightness(0)`（SHARGE/totwoo 会变成实心灰条）。
+- 不要对 logo 用 `filter: brightness(0)`（SHARGE/totwoo 会变成实心灰条；Park 截图标过）。
 - 不要把 Tracking Vite 绑到 5174（那是 Returns；`localhost:5174` 会进 Returns）。
 - 不要动 `public/js/`。
 - 不要 force push、不要 `--no-verify`。
