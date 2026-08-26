@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-25（≤480 Returns 拉开；Branded 叠回 PC；曲线 200px）
+最后更新：2026-08-26（Vercel 毛玻璃：Vite 8 lightningcss 丢掉 backdrop-filter）
 
 ## Hero 文案区
 
@@ -34,8 +34,9 @@
 
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完自动 commit + push。
-- `test` 本地和远端都已删（2026-08-24）。当前 HEAD `ee8b8f4`，与 `origin/main` 一致。
+- `test` 本地和远端都已删（2026-08-24）。默认跟 `origin/main`。
 - Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。不要抢 5174：那是 Returns 的 `[::1]:5174`；浏览器开 `localhost:5174` 会进 Returns。API 在 5173。
+- Vite 8 生产压缩用 lightningcss：成对的 `backdrop-filter` / `-webkit-backdrop-filter` 只留最后一个。`-webkit-` 写在后面时，Chrome 上毛玻璃全没（dev 不压缩所以正常）。必须 `-webkit-` 在前、标准属性在后。`build.cssTarget: ['chrome87','safari14']`。不要再加 esbuild minify（Vite 8 不自带 esbuild）。
 
 ## Features（3 块）
 
@@ -108,6 +109,7 @@
 - 不要把 API 斜杠收进括号高度（Park 参考图：斜杠比括号高）。静止不要 dasharray（斜杠会断）。
 - 不要给 Explore 标题圆标做无限回绕或左右平移（hover 描一次就停）。
 - 不要给 API 终端用实心底 + `filter: drop-shadow`（Park：毛玻璃；drop-shadow / preserve-3d 会让玻璃失效）。
+- 不要把 `-webkit-backdrop-filter` 写在 `backdrop-filter` 后面（Vite 8 生产构建会丢掉标准属性，Vercel/Chrome 毛玻璃全没）。
 - 不要在 768 把 footer 导航收成 2 列（Park：4 个块平铺）。
 - 不要在 768 把 Features 改成三块平铺 / display:contents（Park：保留滚动插图动画和左边 sticky 手风琴）。
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。

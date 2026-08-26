@@ -272,6 +272,9 @@ describe("React landing structure (gating)", () => {
     expect(inline).not.toMatch(/setTilt/);
     expect(css).toMatch(/returns-ui-photo/);
     expect(css).toMatch(/backdrop-filter:\s*blur/);
+    // Vite 8 lightningcss keeps the last of the pair; -webkit- after standard
+    // drops the unprefixed property and Chrome loses glass on Vercel.
+    expect(css).not.toMatch(/backdrop-filter:[^;]+;\s*-webkit-backdrop-filter:/);
     const explore = read("components/sections/ExploreMore.jsx");
     expect(explore).toMatch(/returns-ui-photo/);
     expect(explore).toMatch(/returns-scene\.jpg/);
