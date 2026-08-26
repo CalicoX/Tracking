@@ -29,11 +29,11 @@ export default function LandingPage() {
         <main>
           <Hero />
           <TrustBand />
+          <BrandsSay />
           <ImpactBand />
           <FeaturesSection />
           <AiLab />
           <ExploreMore />
-          <BrandsSay />
           <Credentials />
           <BottomCta />
         </main>

@@ -2903,7 +2903,7 @@
     /* ——— Trust ——— */
     .trust-band {
       background: #fff;
-      border-bottom: 1px solid var(--border-default);
+      border-bottom: 0;
       overflow: visible;
     }
     .trust {
@@ -7745,15 +7745,14 @@
       font-size: 12px;
     }
 
-    /* ——— Brands say — dual-row reverse marquee testimonials ——— */
+    /* ——— Brands say — TrustBand 下白底，双排反向跑马灯 ——— */
     .brands-say {
-      --bs-bg: #0f172a;
-      --bs-card: #1e293b;
+      --bs-bg: #fff;
+      --bs-card: #fff;
       position: relative;
-      /* clean slate — no purple glow */
-      background: var(--bs-bg);
-      color: #fff;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: #fff;
+      color: #0f172a;
+      border-bottom: 0;
       overflow: hidden;
     }
     .brands-say .section-inner {
@@ -7775,19 +7774,19 @@
     }
     .brands-say-head h2 {
       margin: 0;
-      font-size: clamp(28px, 3.6vw, 44px);
+      font-size: clamp(28px, 3.2vw, 40px);
       font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      color: #fff;
+      letter-spacing: var(--track-title);
+      line-height: 1.15;
+      color: #0f172a;
       text-wrap: balance;
     }
     .brands-say-head .lead {
       margin: 14px auto 0;
       max-width: 480px;
-      color: rgba(226, 232, 240, 0.72);
-      font-size: 15px;
-      line-height: 1.55;
+      color: var(--text-secondary);
+      font-size: 17px;
+      line-height: 1.65;
     }
     .brands-say-rows {
       display: flex;
@@ -7856,17 +7855,16 @@
       gap: 12px;
       margin-top: clamp(36px, 4vw, 48px);
     }
-    /* reuse site-wide CTA; light outline for Book a demo on dark band */
     .brands-say-cta .btn-demo {
-      border-color: rgba(255, 255, 255, 0.28);
-      color: #fff;
-      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(0, 58, 155, 0.22);
+      color: var(--brand-primary);
+      background: #fff;
     }
     .brands-say-cta .btn-demo:hover,
     .brands-say-cta .btn-demo:focus-visible {
-      border-color: rgba(255, 255, 255, 0.5);
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
+      background: var(--brand-primary-soft);
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
     }
     .brand-card {
       position: relative;
@@ -7876,8 +7874,8 @@
       border-radius: 18px;
       overflow: hidden;
       isolation: isolate;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 12px 32px -16px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 12px 32px -16px rgba(15, 23, 42, 0.28);
       background: var(--bs-card);
       text-decoration: none;
       color: inherit;
@@ -7937,7 +7935,7 @@
       object-fit: contain;
       object-position: left center;
       filter: brightness(0) invert(1);
-      opacity: 0.98;
+      opacity: 0.7;
       margin: 0 0 14px;
       display: block;
       flex-shrink: 0;
@@ -7951,7 +7949,7 @@
       flex: 1 1 auto;
       font-size: 13.5px;
       line-height: 1.5;
-      color: rgba(226, 232, 240, 0.72);
+      color: rgba(255, 255, 255, 0.95);
       display: -webkit-box;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
@@ -7967,7 +7965,7 @@
     .brand-card-author {
       font-size: 12.5px;
       font-weight: 600;
-      color: rgba(203, 213, 225, 0.62);
+      color: rgba(255, 255, 255, 0.82);
       letter-spacing: 0.01em;
     }
     @media (max-width: 720px) {

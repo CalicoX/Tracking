@@ -39,6 +39,7 @@ describe("React landing structure (gating)", () => {
           : `components/sections/${name}.jsx`;
       expect(existsSync(join(root, sectionPath))).toBe(true);
     }
+    expect(lp).toMatch(/<TrustBand \/>\s*<BrandsSay \/>\s*<ImpactBand \/>/);
   });
 
   it("useLandingEffects is the primary FX path (no SCRIPT_CHAIN inject)", () => {

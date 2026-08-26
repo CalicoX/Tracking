@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（TrustBand：AliExpress/baleaf/Cainiao/eufy 加大，列距 72px，eufy 压暗）
+最后更新：2026-08-26（BrandsSay 挪到 TrustBand 下，白底对齐 Returns）
 
 ## Hero 文案区
 
@@ -28,7 +28,9 @@
 
 ## BrandsSay
 
-- 仍是双排反向跑马灯（复制卡片 + mask + `brands-track` 动画）。
+- 紧跟 TrustBand，**白底**（对齐 Returns）。标题 `#0f172a`、副标 `--text-secondary` 17px。CTA 不要 `on-dark`。
+- 仍是双排反向跑马灯（复制卡片 + mask + `brands-track` 动画）。卡片照片叠层、白字不动。logo opacity **0.7**（不要 invert 后 0.98 纯白），引用 `rgba(255,255,255,.95)`、署名 `.82`。
+- 不要挪回 ExploreMore 后，不要深色底。
 - 静态 3+2 网格已回退（Park：整错了；老板要改的是 TrustBand logo，不是评价卡）。
 
 ## 人
@@ -119,6 +121,7 @@
 - 不要在 768 把 Features 改成三块平铺 / display:contents（Park：保留滚动插图动画和左边 sticky 手风琴）。
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。
 - 不要用 `@media (max-width: 768px)` 或 `html.is-reduce-fx` 关掉 Hero 绘制 overlay（Park：768 保留动画以及渐隐）。
+- 不要把 BrandsSay 放回 ExploreMore 后面，也不要深色底（Park：TrustBand 下、白底，对齐 Returns）。
 - 不要把 BrandsSay 改成静态 3+2 网格（Park：整错了；要改的是 TrustBand logo）。
 - 不要把 TrustBand 列距收回 48px（Park：还不够，现 72）。
 - 不要给 eufy 用和其他标一样的 opacity 0.62（蓝标灰化会洗白；现 0.88）。
