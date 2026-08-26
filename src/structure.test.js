@@ -192,6 +192,13 @@ describe("React landing structure (gating)", () => {
     }
   });
 
+  it("AI example module is vertically centered below the topbar", () => {
+    const css = read("styles/landing.css");
+    expect(css).toMatch(
+      /\.ai-letter-sticky \.ai-lab-sticky[\s\S]{0,400}padding-top:\s*var\(--topbar-h/
+    );
+  });
+
   it("AI letter zoom holds ~1 extra viewport after pin before scaling", () => {
     const zoom = read("fx/modules/ai-letter-zoom.js");
     expect(zoom).toMatch(/AI_HOLD_VH\s*=\s*1\.05/);
