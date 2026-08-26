@@ -175,15 +175,30 @@ export default function FeaturesSection() {
                           <div className="fx-mock">
                           <div className="fx-br-stage">
                             <div className="fx-glass fx-br-form">
+                              <div className="fx-br-accent" />
+                              <div className="fx-br-brand">
+                                <span className="fx-br-mark">A</span>
+                                <span className="fx-br-shop">AURA</span>
+                                <span className="fx-br-dots" aria-hidden="true">
+                                  <i /><i /><i />
+                                </span>
+                              </div>
                               <h4>Track your order</h4>
                               <span className="fx-br-label">Order number</span>
                               <div className="fx-br-field" />
                               <span className="fx-br-label">Email</span>
                               <div className="fx-br-field" />
                               <span className="fx-br-cta">Track</span>
+                              <div className="fx-br-status">
+                                <i />
+                                <span>On the way · Thu 4–6pm</span>
+                                <em>Live</em>
+                              </div>
+                              <div className="fx-br-store">Visit store</div>
                             </div>
                             <div className="fx-glass fx-br-recs">
                               <strong>You may also like</strong>
+                              <span className="fx-br-recs-sub">From this order</span>
                               <div className="fx-br-grid">
                                 <img src="/assets/products/earbuds.jpg" alt="" />
                                 <img src="/assets/products/case.jpg" alt="" />

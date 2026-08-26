@@ -134,6 +134,8 @@ describe("React landing structure (gating)", () => {
     expect(features).toMatch(/Last-mile Carrier/);
     expect(features).toMatch(/Package #1/);
     expect(features).toMatch(/You may also like/);
+    expect(features).toMatch(/Visit store/);
+    expect(features).toMatch(/fx-br-brand/);
     const impact = read("components/sections/ImpactBand.jsx");
     expect(impact).toMatch(/business-impact|data-impact/);
     const dock = read("components/layout/ProductDock.jsx");
