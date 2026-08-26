@@ -4,8 +4,8 @@ import {
   shouldRunContinuousFx,
 } from "../utils.js";
 
-/** Higher = slower. Park: a bit too fast at 1. */
-const PACE = 1.3;
+/** Higher = slower. Park: 1 too fast, 1.3 a bit slow. */
+const PACE = 1.1;
 const dur = (ms) => Math.round(ms * PACE);
 
 const STEPS = [

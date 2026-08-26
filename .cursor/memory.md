@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（BrandsSay 挪到 TrustBand 下，白底对齐 Returns）
+最后更新：2026-08-26（Hero 绘制 PACE 1.3→1.1）
 
 ## Hero 文案区
 
@@ -17,7 +17,7 @@
 - ≤480：才改成手机页 mock（banner 叠字 + 表单压图下沿，状态/摘要单列，`os-look` 隐藏）；banner 168px，只留 1 条 event。`.visual` / `.hero-ogl` max-height 340px，mask 从 72% 起渐隐（56% 会空一大截）。
 - ≤768 文案整体居中：h1/lead/cta-note 居中，Shopify lockup 整体居中但内部左对齐（meta text-align:left）。CTA 两个按钮左右并排居中（≤480 flex:1、max-width 220px、nowrap、`min-width:0` 覆盖 `.btn-switch` 的 188px），不要竖排。
 - AI Make 镭射贴纸贴在浏览器顶栏右上：先框选稍大的贴纸，再落下；贴上扫光。只播一遍。
-- Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.3`（越大越慢）。768 仍播绘制，并保留 `.visual` 底部 mask 渐隐。只在 prefers-reduced-motion 时跳过绘制（不要用 `shouldReduceFx` / `window.__reduceFx` / `html.is-reduce-fx` / `max-width: 768px` 关掉 overlay）。≤480 才用手机页 mock。
+- Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.1`（越大越慢；1 太快、1.3 偏慢）。768 仍播绘制，并保留 `.visual` 底部 mask 渐隐。只在 prefers-reduced-motion 时跳过绘制（不要用 `shouldReduceFx` / `window.__reduceFx` / `html.is-reduce-fx` / `max-width: 768px` 关掉 overlay）。≤480 才用手机页 mock。
 
 ## 移动端特效（Park 要求保留）
 
