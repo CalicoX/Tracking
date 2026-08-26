@@ -6,7 +6,8 @@ const AI_INTRO_WORDS = AI_INTRO_TITLE.split(" ");
 export default function AiLab() {
   return (
 <section className="ai-lab" id="ai-lab">
-        <div className="ai-lab-intro-track" id="ai-lab-intro-track">
+        <div className="ai-letter-track" id="ai-lab-intro-track">
+          <div className="ai-letter-sticky" id="ai-letter-sticky">
           <div className="ai-lab-intro" id="ai-lab-intro">
             {/* CSS/SVG streams only — no canvas RAF (was janky) */}
             <div className="ai-intro-bg" aria-hidden="true">
@@ -49,7 +50,7 @@ export default function AiLab() {
                     <span key={i}>
                       {i > 0 ? " " : null}
                       <span
-                        className="ai-word"
+                        className={w === "AI" ? "ai-word ai-word-ai" : "ai-word"}
                         style={{
                           ["--i"]: String(i),
                           ["--ri"]: String(AI_INTRO_WORDS.length - 1 - i),
@@ -62,53 +63,31 @@ export default function AiLab() {
                 </h2>
                 <p className="lead ai-reveal delay-2">Use real brand case studies when available. Without approval, ship industry-template scenarios first — never present mockups as customer outcomes.</p>
               </div>
-              <div className="ai-pills" id="ai-pills">
-                <span className="ai-pill"><span className="ai-pill-label">AI content personalization</span></span>
-                <span className="ai-pill"><span className="ai-pill-label">Shipment-status aware</span></span>
-                <span className="ai-pill"><span className="ai-pill-label">Risk-based messaging</span></span>
-                <span className="ai-pill"><span className="ai-pill-label">Smart product recommendation</span></span>
-              </div>
             </div>
           </div>
-        </div>
 
-        <div className="ai-letter-track" id="ai-letter-track">
-          <div className="ai-letter-sticky" id="ai-letter-sticky">
-            <div className="ai-letter-page" data-ogl-page="" data-ogl-i="0" />
-            <svg className="ai-letter-cut" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <svg className="ai-letter-cut" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <mask id="ai-letter-mask" maskUnits="userSpaceOnUse">
-                  <rect width="1440" height="900" fill="#fff" />
+                  <rect className="ai-letter-mask-bg" width="1440" height="900" fill="#fff" />
                   <g className="ai-letter-g">
                     <text
+                      className="ai-letter-text"
                       x="720"
-                      y="560"
+                      y="480"
                       textAnchor="middle"
                       fill="#000"
-                      fontFamily="Inter, Arial Black, sans-serif"
+                      fontFamily="Inter, system-ui, sans-serif"
                       fontWeight="800"
-                      fontSize="520"
-                      letterSpacing="-36"
+                      fontSize="72"
                     >
                       AI
                     </text>
                   </g>
                 </mask>
               </defs>
-              <rect width="1440" height="900" fill="#0a0514" mask="url(#ai-letter-mask)" />
+              <rect className="ai-letter-fill" width="1440" height="900" fill="#0a0514" mask="url(#ai-letter-mask)" />
             </svg>
-          </div>
-        </div>
-
-        {/* 竖线：从 intro 标签模块延伸到案例区（绝对定位在 .ai-lab 内） */}
-        <div className="ai-intro-rail" id="ai-intro-rail" aria-hidden="true">
-          <div className="ai-intro-rail-track"></div>
-          <div className="ai-intro-rail-fill" id="ai-intro-rail-fill"></div>
-          <div className="ai-intro-rail-dot" id="ai-intro-rail-dot"></div>
-        </div>
-
-        {/* 连接桥：高度占位，背景与案例区衔接 */}
-        <div className="ai-intro-bridge" id="ai-intro-bridge" aria-hidden="true"></div>
 
         <div className="ai-lab-work" id="ai-lab-work">
           <div className="ai-lab-sticky">
@@ -260,6 +239,8 @@ export default function AiLab() {
               </div>
 
             </div>
+          </div>
+        </div>
           </div>
         </div>
       </section>

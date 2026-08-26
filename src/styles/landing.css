@@ -5816,16 +5816,16 @@
       margin-top: 0;
       padding-top: 0;
     }
-    /* AI 二字遮罩：tracking page 从字母内部随滚动放大露出 */
+    /* AI 二字遮罩：示例模块在字母内部，放大后直接落在该模块 */
     .ai-letter-track {
       position: relative;
-      height: 240vh;
+      height: 520vh;
       margin: 0;
       padding: 0;
       background: #0a0514;
     }
     .ai-letter-sticky {
-      --ai-zoom: 1;
+      --ai-zoom: 0.2;
       --ai-veil: 1;
       position: sticky;
       top: 0;
@@ -5835,19 +5835,33 @@
       isolation: isolate;
       background: #0a0514;
     }
-    .ai-letter-page {
+    .ai-letter-sticky .ai-lab-work {
       position: absolute;
       inset: 0;
       z-index: 0;
-      overflow: hidden;
-      background: #f4f2ef;
+      height: 100% !important;
     }
-    .ai-letter-page .ogl-page {
-      width: 100%;
-      min-height: 100%;
-      height: auto;
+    .ai-letter-sticky .ai-lab-sticky {
+      position: relative;
+      top: 0;
+      height: 100%;
+    }
+    .ai-letter-sticky .ai-lab-intro {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      height: 100%;
+      min-height: 0;
+      max-height: none;
       pointer-events: none;
-      background: #f4f2ef;
+      opacity: var(--intro-rest-op, 1);
+    }
+    .ai-letter-sticky .ai-lab-intro .ai-word:not(.ai-word-ai) {
+      opacity: var(--intro-rest-op, 1);
+    }
+    .ai-letter-sticky .ai-word-ai {
+      display: inline-block;
+      opacity: var(--intro-ai-op, 1);
     }
     .ai-letter-cut {
       position: absolute;
@@ -5857,10 +5871,6 @@
       height: 100%;
       pointer-events: none;
       opacity: var(--ai-veil, 1);
-    }
-    .ai-letter-g {
-      transform-origin: 720px 480px;
-      transform: scale(var(--ai-zoom, 1));
     }
     @media (prefers-reduced-motion: reduce) {
       .ai-letter-track {
@@ -10827,6 +10837,38 @@
         text-align: center;
         white-space: nowrap;
       }
+      .ai-letter-track {
+        height: 440vh !important;
+        background: #0a0514 !important;
+      }
+      .ai-letter-sticky {
+        position: sticky !important;
+        height: 100vh !important;
+        overflow: hidden;
+      }
+      .ai-letter-sticky .ai-lab-intro {
+        position: absolute !important;
+        inset: 0 !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        max-height: none !important;
+      }
+      .ai-letter-sticky .ai-word:not(.ai-word-ai) {
+        opacity: var(--intro-rest-op, 1) !important;
+      }
+      .ai-letter-sticky .ai-word-ai {
+        opacity: var(--intro-ai-op, 1) !important;
+      }
+      .ai-letter-sticky .ai-lab-work {
+        position: absolute !important;
+        inset: 0 !important;
+        height: 100% !important;
+      }
+      .ai-letter-sticky .ai-lab-sticky {
+        position: relative !important;
+        top: 0 !important;
+        height: 100% !important;
+      }
       .ai-lab-work {
         height: calc(100vh - 100px) !important;
       }
@@ -11622,6 +11664,27 @@
       /* Stacked copy is content-sized, so margin-top:auto collapses to 0. */
       .explore-card .explore-link {
         margin-top: 20px;
+      }
+      .ai-letter-track {
+        height: auto !important;
+      }
+      .ai-letter-sticky {
+        position: relative !important;
+        height: auto !important;
+        overflow: visible;
+      }
+      .ai-letter-cut {
+        display: none !important;
+      }
+      .ai-letter-sticky .ai-lab-intro {
+        position: relative !important;
+        height: auto !important;
+        opacity: 1 !important;
+      }
+      .ai-letter-sticky .ai-lab-work {
+        position: relative !important;
+        height: auto !important;
+        inset: auto;
       }
       .ai-lab-work {
         height: auto !important;

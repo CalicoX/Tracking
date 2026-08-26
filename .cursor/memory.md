@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（Features 插图去 iso 平铺；AI 二字遮罩滚动放大）
+最后更新：2026-08-26（AI 标题二字缩放揭开示例模块；去掉胶囊动画）
 
 ## Hero 文案区
 
@@ -28,9 +28,9 @@
 
 ## AI 二字遮罩
 
-- Intro 和案例区之间：`#ai-letter-track` sticky。`AI` 是遮罩（mix-blend destination-out），里面是 OGL tracking page（data-ogl-i=0）。
-- 滚动放大 `--ai-zoom` 1→16，末段 veil 淡出。reduced-motion 直接揭开。
-- 不要把 tracking 示例只放在下面案例叠卡里、字和页分开。
+- 缩放的是标题里那两个 **AI**（`.ai-word-ai`），从标题位置量尺寸再放大。胶囊动画去掉。
+- 这一屏滚动钉住后先 **停一段**（track 前 16%），不要一进场就缩放。然后 AI 做遮罩揭开示例模块。之后直接是该模块叠卡。
+- reduced-motion / ≤480：无遮罩，intro 后接示例。
 
 ## BrandsSay
 

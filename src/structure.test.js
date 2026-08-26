@@ -210,7 +210,7 @@ describe("React landing structure (gating)", () => {
     // 768 outcomes (main mobile layout block)
     const i768 = css.indexOf("/* —— ≤768");
     expect(i768).toBeGreaterThan(-1);
-    const block768 = css.slice(i768, i768 + 12000);
+    const block768 = css.slice(i768, i768 + 18000);
     expect(block768).toMatch(/\.float-card/);
     expect(block768).toMatch(/display:\s*none/);
     expect(block768).toMatch(/order:\s*-1/);

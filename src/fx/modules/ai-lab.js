@@ -2410,10 +2410,14 @@ export function mount() {
     }
 
     function update() {
-      var rect = work.getBoundingClientRect();
-      var total = Math.max(work.offsetHeight - window.innerHeight, 1);
+      var pin =
+        document.getElementById("ai-lab-intro-track") || work;
+      var rect = pin.getBoundingClientRect();
+      var total = Math.max(pin.offsetHeight - window.innerHeight, 1);
       var scrolled = clamp(-rect.top, 0, total);
-      var p = scrolled / total;
+      var pAll = scrolled / total;
+      var zoomEnd = 0.42;
+      var p = pAll <= zoomEnd ? 0 : (pAll - zoomEnd) / Math.max(1 - zoomEnd, 0.01);
       var n = cards.length;
       var stageH = stage.clientHeight || 480;
       var active = p * (n - 1);
