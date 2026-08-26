@@ -7734,7 +7734,7 @@
       font-size: 12px;
     }
 
-    /* ——— Brands say — dual-row reverse marquee testimonials ——— */
+    /* ——— Brands say — static two-row testimonials (3 + 2) ——— */
     .brands-say {
       --bs-bg: #0f172a;
       --bs-card: #1e293b;
@@ -7781,61 +7781,22 @@
     .brands-say-rows {
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      /* stay inside content shell (1440 - 48) */
+      gap: 16px;
       margin: 0;
       width: 100%;
       max-width: 100%;
     }
-    .brands-marquee {
-      overflow: hidden;
-      width: 100%;
-      -webkit-mask-image: linear-gradient(
-        90deg,
-        transparent,
-        #000 5%,
-        #000 95%,
-        transparent
-      );
-      mask-image: linear-gradient(
-        90deg,
-        transparent,
-        #000 5%,
-        #000 95%,
-        transparent
-      );
-    }
-    .brands-track {
+    .brands-say-row {
       display: flex;
-      width: max-content;
+      justify-content: center;
       gap: 16px;
-      will-change: transform;
-      padding: 4px 0;
-      animation-play-state: running;
+      width: 100%;
     }
-    .brands-track.is-left {
-      animation: brands-scroll-left 48s linear infinite;
-    }
-    .brands-track.is-right {
-      animation: brands-scroll-right 52s linear infinite;
-    }
-    /* only the hovered row pauses — sibling row keeps running */
-    .brands-marquee:hover > .brands-track {
-      animation-play-state: paused;
-    }
-    @keyframes brands-scroll-left {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-    @keyframes brands-scroll-right {
-      from { transform: translateX(-50%); }
-      to { transform: translateX(0); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .brands-track.is-left,
-      .brands-track.is-right {
-        animation: none;
-      }
+    .brands-say .brand-card {
+      flex: 1 1 0;
+      min-width: 0;
+      width: 100%;
+      max-width: calc((100% - 32px) / 3);
     }
     .brands-say-cta {
       display: flex;
@@ -7859,8 +7820,6 @@
     }
     .brand-card {
       position: relative;
-      flex: 0 0 auto;
-      width: min(340px, 78vw);
       height: 220px;
       border-radius: 18px;
       overflow: hidden;
@@ -7961,7 +7920,6 @@
     }
     @media (max-width: 720px) {
       .brand-card {
-        width: min(300px, 86vw);
         height: 210px;
       }
       .brand-card-logo {
@@ -7972,8 +7930,6 @@
         -webkit-line-clamp: 3;
         font-size: 13px;
       }
-      .brands-track.is-left { animation-duration: 40s; }
-      .brands-track.is-right { animation-duration: 44s; }
     }
 
     /* Explore — flat cards + pointer spotlight (no 3D transform) */
@@ -11043,6 +10999,18 @@
         max-width: 360px;
         margin-left: auto;
         margin-right: auto;
+      }
+      .brands-say-rows {
+        gap: 12px;
+      }
+      .brands-say-row {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .brands-say .brand-card {
+        flex: none;
+        max-width: none;
+        height: 200px;
       }
       .impact-band-sticky {
         padding: 32px 0 188px !important;

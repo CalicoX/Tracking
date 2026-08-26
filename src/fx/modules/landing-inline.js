@@ -620,22 +620,6 @@ export function mount() {
       });
     })();
 
-    /* Brands marquee — pause only the hovered row */
-    (function () {
-      var rows = document.querySelectorAll(".brands-say .brands-marquee");
-      if (!rows.length) return;
-      Array.prototype.forEach.call(rows, function (row) {
-        var track = row.querySelector(":scope > .brands-track") || row.querySelector(".brands-track");
-        if (!track) return;
-        row.addEventListener("pointerenter", function () {
-          track.style.animationPlayState = "paused";
-        });
-        row.addEventListener("pointerleave", function () {
-          track.style.animationPlayState = "running";
-        });
-      });
-    })();
-
     /* Credentials — stagger cards in on scroll */
     (function () {
       var section = document.getElementById("credentials");
