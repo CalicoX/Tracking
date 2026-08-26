@@ -181,6 +181,7 @@ describe("React landing structure (gating)", () => {
       "ai-title-particles.js",
       "border-beam.js",
       "ai-lab.js",
+      "ai-letter-zoom.js",
       "hero-draw.js",
     ]) {
       const mod = read(`fx/modules/${name}`);
@@ -248,7 +249,7 @@ describe("React landing structure (gating)", () => {
     expect(i480).toBeGreaterThan(-1);
     const block480 = css.slice(i480, i480 + 14000);
     expect(block480).toMatch(/\.features-section > \.section-inner/);
-    expect(block480).toMatch(/padding-top:\s*88px/);
+    expect(block480).toMatch(/padding-top:\s*72px/);
     expect(block480).toMatch(/flex-direction:\s*column/);
     expect(block480).toMatch(/grid-template-columns:\s*1fr\s*!important/);
     expect(block480).toMatch(/display:\s*contents/);

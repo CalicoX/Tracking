@@ -414,9 +414,6 @@ export function mount() {
         var stride = panelH + panelGap;
         var y = -continuous * stride;
         panelsRoot.style.transform = "translate3d(0, " + y.toFixed(2) + "px, 0)";
-        var yAbs = Math.max(0, Math.min(1, p)) * travelPx;
-        var hold = holdStartPx();
-        var holdProg = Math.min(1, yAbs / Math.max(1, hold));
 
         /*
          * Blur only when LEAVING the center band.
@@ -437,61 +434,14 @@ export function mount() {
           panel.style.setProperty("--fp-blur", blurPx.toFixed(2) + "px");
           panel.style.setProperty("--fp-op", Math.max(0.35, op).toFixed(3));
 
-          /* 1 when centered, 0 when far — float pieces scatter/converge */
+          /* 1 when centered, 0 when far — panel blur only. Illustrations stay flat. */
           var c = Math.max(0, 1 - leave);
           c = c * c * (3 - 2 * c); /* smoothstep */
-          /*
-           * Last-mile: gather in the center (spread=0) → fan out (spread=1)
-           * while isometric, then flatten (iso=0).
-           * --fx-iso: 1 = lying isometric, 0 = flat.
-           * --fx-spread: 0 = packed to the tracking card, 1 = layered apart.
-           */
-          var iso;
-          var spread;
-          if (i === 0) {
-            /* Hold clock: pack → fan → flatten → dwell, then the panel can slide. */
-            if (holdProg < 0.34) {
-              var s = holdProg / 0.34;
-              s = s * s * (3 - 2 * s);
-              spread = s;
-              iso = 1;
-            } else if (holdProg < 0.7) {
-              spread = 1;
-              var f = (holdProg - 0.34) / 0.36;
-              f = f * f * (3 - 2 * f);
-              iso = 1 - f;
-            } else {
-              spread = 1;
-              iso = 0;
-            }
-          } else {
-            /*
-             * Split/branded wait until the panel is mostly centered,
-             * then pack → fan → flatten. Starting at c=0.35 made the
-             * sequence fire while the card was still sliding in.
-             */
-            var c0 = 0.7;
-            var cAnim = c <= c0 ? 0 : (c - c0) / (1 - c0);
-            if (cAnim < 0.42) {
-              var s2 = cAnim / 0.42;
-              s2 = s2 * s2 * (3 - 2 * s2);
-              spread = s2;
-              iso = 1;
-            } else if (cAnim < 0.92) {
-              spread = 1;
-              var f2 = (cAnim - 0.42) / 0.5;
-              f2 = f2 * f2 * (3 - 2 * f2);
-              iso = 1 - f2;
-            } else {
-              spread = 1;
-              iso = 0;
-            }
-          }
           var stage = panel.querySelector(".feature-stage");
           if (stage) {
             stage.style.setProperty("--fx-c", c.toFixed(3));
-            stage.style.setProperty("--fx-iso", iso.toFixed(3));
-            stage.style.setProperty("--fx-spread", spread.toFixed(3));
+            stage.style.setProperty("--fx-iso", "0");
+            stage.style.setProperty("--fx-spread", "1");
           }
         });
       }

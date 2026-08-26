@@ -4113,7 +4113,7 @@
       align-items: flex-end;
       justify-content: center;
       gap: 36px;
-      padding: 0 0 120px;
+      padding: 0 0 12px;
       transform-origin: 50% 50%;
       transform:
         translate3d(
@@ -5815,6 +5815,60 @@
     .ai-lab-work {
       margin-top: 0;
       padding-top: 0;
+    }
+    /* AI 二字遮罩：tracking page 从字母内部随滚动放大露出 */
+    .ai-letter-track {
+      position: relative;
+      height: 240vh;
+      margin: 0;
+      padding: 0;
+      background: #0a0514;
+    }
+    .ai-letter-sticky {
+      --ai-zoom: 1;
+      --ai-veil: 1;
+      position: sticky;
+      top: 0;
+      z-index: 14;
+      height: 100vh;
+      overflow: hidden;
+      isolation: isolate;
+      background: #0a0514;
+    }
+    .ai-letter-page {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: #f4f2ef;
+    }
+    .ai-letter-page .ogl-page {
+      width: 100%;
+      min-height: 100%;
+      height: auto;
+      pointer-events: none;
+      background: #f4f2ef;
+    }
+    .ai-letter-cut {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: var(--ai-veil, 1);
+    }
+    .ai-letter-g {
+      transform-origin: 720px 480px;
+      transform: scale(var(--ai-zoom, 1));
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ai-letter-track {
+        height: 100vh;
+      }
+      .ai-letter-cut {
+        opacity: 0;
+      }
     }
     /* 竖线：从 intro 标签模块下沿一直连到案例区顶（JS 设 top/height） */
     .ai-intro-rail {

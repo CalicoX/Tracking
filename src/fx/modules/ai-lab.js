@@ -2382,8 +2382,12 @@ export function mount() {
 
     Array.prototype.forEach.call(mounts, function (el, i) {
       var card = el.closest(".ai-case");
-      var idx = card ? parseInt(card.getAttribute("data-i"), 10) : i;
-      if (isNaN(idx)) idx = i;
+      var attr = el.getAttribute("data-ogl-i");
+      var idx;
+      if (attr != null && attr !== "") idx = parseInt(attr, 10);
+      else if (card) idx = parseInt(card.getAttribute("data-i"), 10);
+      else idx = i;
+      if (isNaN(idx)) idx = 0;
       el.innerHTML = buildCaseHtml(CASES[idx % CASES.length]);
     });
   })();

@@ -23,6 +23,7 @@ const FX_LOADERS = {
   landingInline: () => import("./modules/landing-inline.js"),
   thinkingOrb: () => import("./modules/thinking-orb.js"),
   aiLab: () => import("./modules/ai-lab.js"),
+  aiLetterZoom: () => import("./modules/ai-letter-zoom.js"),
   aiTitleParticles: () => import("./modules/ai-title-particles.js"),
   bottomCta: () => import("./modules/bottom-cta-shader.js"),
 };
@@ -162,6 +163,7 @@ export function useLandingEffects() {
               await mountNamed("thinkingOrb");
               await mountNamed("aiLab");
               if (cancelled) return;
+              mountNamed("aiLetterZoom");
               // Kick scroll bus so wantIn → setIn runs while intro is in view
               try {
                 window.dispatchEvent(new Event("scroll"));

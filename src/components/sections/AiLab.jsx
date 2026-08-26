@@ -72,6 +72,34 @@ export default function AiLab() {
           </div>
         </div>
 
+        <div className="ai-letter-track" id="ai-letter-track">
+          <div className="ai-letter-sticky" id="ai-letter-sticky">
+            <div className="ai-letter-page" data-ogl-page="" data-ogl-i="0" />
+            <svg className="ai-letter-cut" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <mask id="ai-letter-mask" maskUnits="userSpaceOnUse">
+                  <rect width="1440" height="900" fill="#fff" />
+                  <g className="ai-letter-g">
+                    <text
+                      x="720"
+                      y="560"
+                      textAnchor="middle"
+                      fill="#000"
+                      fontFamily="Inter, Arial Black, sans-serif"
+                      fontWeight="800"
+                      fontSize="520"
+                      letterSpacing="-36"
+                    >
+                      AI
+                    </text>
+                  </g>
+                </mask>
+              </defs>
+              <rect width="1440" height="900" fill="#0a0514" mask="url(#ai-letter-mask)" />
+            </svg>
+          </div>
+        </div>
+
         {/* 竖线：从 intro 标签模块延伸到案例区（绝对定位在 .ai-lab 内） */}
         <div className="ai-intro-rail" id="ai-intro-rail" aria-hidden="true">
           <div className="ai-intro-rail-track"></div>
