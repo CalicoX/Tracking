@@ -154,10 +154,10 @@ export function mount() {
     }
     const p = clamp((scrolled - holdPx) / Math.max(zoomPx, 1), 0, 1);
     if (sticky) sticky.classList.add("is-ai-zooming");
-    const restOp = p < 0.14 ? 1 - p / 0.14 : 0;
-    const aiOp = p < 0.08 ? 1 - p / 0.08 : 0;
-    const cutOp =
-      p < 0.04 ? p / 0.04 : p < 0.84 ? 1 : Math.max(0, 1 - (p - 0.84) / 0.16);
+    const restOp = p < 0.16 ? 1 - p / 0.16 : 0;
+    /* Title "AI" is CSS-hidden on .is-ai-zooming — never crossfade with the overlay. */
+    const aiOp = 0;
+    const cutOp = p < 0.86 ? 1 : Math.max(0, 1 - (p - 0.86) / 0.14);
     const zoom = 1 + p * 22;
     setZoom(zoom, restOp, aiOp, cutOp);
   }

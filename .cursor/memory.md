@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（AI 二字从标题字盒中心缩放）
+最后更新：2026-08-26（AI 缩放去掉标题字与遮罩重影）
 
 ## Hero 文案区
 
@@ -30,6 +30,7 @@
 
 - 缩放的是标题里那两个 **AI**（`.ai-word-ai`），从标题位置量尺寸再放大。胶囊动画去掉。
 - 缩放原点是标题 AI **字盒中心**（`wr.height / 2`），不是基线。量尺寸时去掉进场 `translateY`，开始缩放那一帧再锁一次 origin。SVG 字坐在 alphabetic baseline 上，字号跟 computed font 走。
+- 一开始缩放就藏掉标题里的 `.ai-word-ai`（`visibility:hidden`，不要 0.9s opacity 交叉淡入），只留遮罩那一层，避免重影。
 - 这一屏滚动钉住后先 **停约 1 屏**（`AI_HOLD_VH = 1.05`，按视口算，不是 track 百分比），不要一进场就缩放。遮罩默认 `--ai-veil:0`。然后 AI 做遮罩揭开示例模块。之后直接是该模块叠卡（`ai-lab.js` 用同一套 holdPx+zoomPx）。
 - 揭开后的示例模块（左 agent + 右追踪页）在顶栏下的可视区域 **垂直居中**。`.ai-letter-sticky .ai-lab-sticky` 用 `padding-top: var(--topbar-h)`，不要 inset 0 铺满 100vh（会贴顶，上下 8px vs 93px）。
 - reduced-motion / ≤480：无遮罩，intro 后接示例。
@@ -130,6 +131,7 @@
 - 不要给 API 终端用实心底 + `filter: drop-shadow`（Park：毛玻璃；drop-shadow / preserve-3d 会让玻璃失效）。
 - 不要把 `-webkit-backdrop-filter` 写在 `backdrop-filter` 后面（Vite 8 生产构建会丢掉标准属性，Vercel/Chrome 毛玻璃全没）。
 - 不要在 768 把 footer 导航收成 2 列（Park：4 个块平铺）。
+- 不要让标题 AI 和 SVG 遮罩交叉淡入（Park：重影；一开始缩放就藏 HTML 字）。
 - 不要按基线 / `height*0.86` / getBBox 当缩放原点（Park：缩放没有从中心缩放；会往上长）。
 - 不要把 letter-sticky 里的示例模块 inset 0 铺满 100vh（Park：这一块没居中；贴顶栏）。
 - 不要钉住后立刻缩放标题 AI（Park：这一页滚动到位后停一下再缩放；hold ≈ 1.05 屏）。
