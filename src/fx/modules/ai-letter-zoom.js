@@ -35,15 +35,38 @@ export function mount() {
 
   function captureOrigin() {
     if (!word || !sticky) return;
+    const prevTx = word.style.transform;
+    word.style.transform = "none";
     const wr = word.getBoundingClientRect();
     const sr = sticky.getBoundingClientRect();
+    word.style.transform = prevTx;
     if (wr.width < 8 || wr.height < 8 || sr.width < 8) return;
+    const cs = window.getComputedStyle(word);
+    const fs = parseFloat(cs.fontSize) || wr.height;
+    let baseline = wr.top - sr.top + wr.height * 0.8;
+    try {
+      const ctx = document.createElement("canvas").getContext("2d");
+      if (ctx) {
+        ctx.font = cs.font;
+        const m = ctx.measureText(word.textContent || "AI");
+        const ascent = m.fontBoundingBoxAscent || m.actualBoundingBoxAscent || fs * 0.8;
+        const descent = m.fontBoundingBoxDescent || m.actualBoundingBoxDescent || fs * 0.2;
+        const lead = Math.max(0, (wr.height - (ascent + descent)) / 2);
+        baseline = wr.top - sr.top + lead + ascent;
+      }
+    } catch (e) {
+      /* canvas metrics unavailable */
+    }
     origin = {
       w: sr.width,
       h: sr.height,
       x: wr.left - sr.left + wr.width / 2,
-      y: wr.top - sr.top + wr.height * 0.86,
-      fs: wr.height * 1.12,
+      y: wr.top - sr.top + wr.height / 2,
+      baseline: baseline,
+      fs: fs,
+      fw: cs.fontWeight || "700",
+      ff: cs.fontFamily || "Inter, system-ui, sans-serif",
+      ls: cs.letterSpacing || "0px",
     };
   }
 
@@ -58,9 +81,17 @@ export function mount() {
       fill.setAttribute("width", String(origin.w));
       fill.setAttribute("height", String(origin.h));
     }
+    /* Sit on the title's alphabetic baseline; scale around the word-box center. */
     letterText.setAttribute("x", origin.x.toFixed(2));
-    letterText.setAttribute("y", origin.y.toFixed(2));
+    letterText.setAttribute("y", origin.baseline.toFixed(2));
     letterText.setAttribute("font-size", origin.fs.toFixed(2));
+    letterText.setAttribute("font-weight", origin.fw);
+    letterText.setAttribute("font-family", origin.ff);
+    letterText.setAttribute("letter-spacing", origin.ls);
+    letterText.setAttribute("text-anchor", "middle");
+    letterText.removeAttribute("dominant-baseline");
+    letterText.removeAttribute("alignment-baseline");
+
     letterG.setAttribute(
       "transform",
       "translate(" +
@@ -117,7 +148,10 @@ export function mount() {
       return;
     }
 
-    if (!origin) captureOrigin();
+    /* Lock origin on the first zoom frame so enter-animation offset is gone. */
+    if (!origin || !sticky.classList.contains("is-ai-zooming")) {
+      captureOrigin();
+    }
     const p = clamp((scrolled - holdPx) / Math.max(zoomPx, 1), 0, 1);
     if (sticky) sticky.classList.add("is-ai-zooming");
     const restOp = p < 0.14 ? 1 - p / 0.14 : 0;

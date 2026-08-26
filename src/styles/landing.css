@@ -5870,6 +5870,7 @@
     /* Keep title stagger; only drive AI opacity once zoom starts. */
     .ai-letter-sticky .ai-word-ai {
       display: inline-block;
+      transform-origin: 50% 50%;
     }
     .ai-letter-sticky.is-ai-zooming .ai-lab-intro h2.is-words-in .ai-word-ai {
       opacity: var(--intro-ai-op, 1);

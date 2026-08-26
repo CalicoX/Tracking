@@ -78,8 +78,8 @@ export default function AiLab() {
                       textAnchor="middle"
                       fill="#000"
                       fontFamily="Inter, system-ui, sans-serif"
-                      fontWeight="800"
-                      fontSize="72"
+                      fontWeight="700"
+                      fontSize="56"
                     >
                       AI
                     </text>
