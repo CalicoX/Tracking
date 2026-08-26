@@ -32,6 +32,7 @@ export function mount() {
   if (!track || !sticky) return () => {};
 
   let origin = null;
+  let peakZoom = 1;
 
   function captureOrigin() {
     if (!word || !sticky) return;
@@ -142,6 +143,7 @@ export function mount() {
 
     /* Page in place (pinned) + extra screen of rest. Overlay stays off. */
     if (scrolled <= holdPx) {
+      peakZoom = 1;
       captureOrigin();
       setZoom(1, 1, 1, 0);
       if (sticky) sticky.classList.remove("is-ai-zooming");
@@ -155,12 +157,12 @@ export function mount() {
     const p = clamp((scrolled - holdPx) / Math.max(zoomPx, 1), 0, 1);
     if (sticky) sticky.classList.add("is-ai-zooming");
     const restOp = p < 0.12 ? 1 - p / 0.12 : 0;
-    /* Title "AI" is CSS-hidden on .is-ai-zooming — never crossfade with the overlay. */
     const aiOp = 0;
-    /* Scale through the viewport; no veil fade. Snap off only after letters have left. */
-    const zoom = 1 + p * 96;
-    const cutOp = p < 1 ? 1 : 0;
-    setZoom(zoom, restOp, aiOp, cutOp);
+    /* Keep growing off-screen. Never fade, snap, or scale back at the end. */
+    let zoom = 1 + Math.pow(p, 1.2) * 240;
+    if (zoom < peakZoom) zoom = peakZoom;
+    else peakZoom = zoom;
+    setZoom(zoom, restOp, aiOp, 1);
   }
 
   const prev = window.__updateAiScroll;

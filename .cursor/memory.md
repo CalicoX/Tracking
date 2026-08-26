@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（AI 放大到视口外，不渐隐）
+最后更新：2026-08-26（AI 放大出视口，结尾不回缩、不瞬间关掉）
 
 ## Hero 文案区
 
@@ -31,7 +31,7 @@
 - 缩放的是标题里那两个 **AI**（`.ai-word-ai`），从标题位置量尺寸再放大。胶囊动画去掉。
 - 缩放原点是标题 AI **字盒中心**（`wr.height / 2`），不是基线。量尺寸时去掉进场 `translateY`，开始缩放那一帧再锁一次 origin。SVG 字坐在 alphabetic baseline 上，字号跟 computed font 走。
 - 一开始缩放就藏掉标题里的 `.ai-word-ai`（`visibility:hidden`，不要 0.9s opacity 交叉淡入），只留遮罩那一层，避免重影。
-- 遮罩字 **不要渐隐**：`zoom = 1+p*96` 放到视口外，`cutOp` 保持 1，字母飞出后再瞬间关掉。不要在 0.86 后把 veil 淡到 0。
+- 遮罩字放大到视口外：`zoom = 1+p^1.2*240`，`cutOp` 一直为 1。用 `peakZoom` 只升不降。滚到最后不要回缩、不要瞬间把 overlay 设成 0。只在滚回 hold 时重置。
 - 这一屏滚动钉住后先 **停约 0.36 屏**（`AI_HOLD_VH = 0.36`），再缩放。1.05 屏 Park 说太长。不要一进场就缩放，也不要再加回一整屏。遮罩默认 `--ai-veil:0`。然后 AI 做遮罩揭开示例模块。之后直接是该模块叠卡（`ai-lab.js` 用同一套 holdPx+zoomPx）。
 - 揭开后的示例模块（左 agent + 右追踪页）在顶栏下的可视区域 **垂直居中**。`.ai-letter-sticky .ai-lab-sticky` 用 `padding-top: var(--topbar-h)`，不要 inset 0 铺满 100vh（会贴顶，上下 8px vs 93px）。
 - reduced-motion / ≤480：无遮罩，intro 后接示例。
@@ -132,6 +132,7 @@
 - 不要给 API 终端用实心底 + `filter: drop-shadow`（Park：毛玻璃；drop-shadow / preserve-3d 会让玻璃失效）。
 - 不要把 `-webkit-backdrop-filter` 写在 `backdrop-filter` 后面（Vite 8 生产构建会丢掉标准属性，Vercel/Chrome 毛玻璃全没）。
 - 不要在 768 把 footer 导航收成 2 列（Park：4 个块平铺）。
+- 不要在缩放结束把 overlay 透明度打成 0 或把 zoom 收回 1（Park：滚到最后会突然缩小然后突然消失）。
 - 不要把放大中的 AI 遮罩渐隐掉（Park：不要渐隐消失，直接放到最大、视口之外去）。
 - 不要让标题 AI 和 SVG 遮罩交叉淡入（Park：重影；一开始缩放就藏 HTML 字）。
 - 不要按基线 / `height*0.86` / getBBox 当缩放原点（Park：缩放没有从中心缩放；会往上长）。
