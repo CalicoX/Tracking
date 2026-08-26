@@ -2914,11 +2914,15 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
+      align-items: center;
+      text-align: center;
       gap: var(--sec-head-gap);
     }
     .trust-copy {
-      max-width: 560px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
     }
     .trust strong {
       display: block;
