@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（AI 遮罩改成 body 上的 fixed 层，位置锁死只缩放）
+最后更新：2026-08-26（AI 遮罩用 SVG 矢量字放大，不要 CSS scale 位图）
 
 ## Hero 文案区
 
@@ -30,7 +30,7 @@
 
 - 缩放的是标题里那两个 **AI**（`.ai-word-ai`），从标题位置量尺寸再放大。胶囊动画去掉。
 - 缩放从标题 AI **墨水框**开始：`Range.selectNodeContents` 量字形，原点是墨水中心；caps 基线用 `tr.bottom`。`getBBox` 再对齐一次。不要用行盒 `height/2` 或 canvas ascent（初始会偏）。
-- AI 遮罩是 `body` 上的 `#ai-zoom-layer`（fixed + `destination-out`）。起手把标题 AI 的矩形锁死，之后只 `scale`，不再重新量位置（Park：遮罩还是往下面跑）。`1+p²*900`，正反 scrub，`p>=1` 消失。
+- AI 遮罩是 `body` 上的 `#ai-zoom-layer` + **SVG `<text>`** 矢量放大（`g` transform scale）。不要用 HTML/CSS `transform:scale`（Park：怎么不是矢量的，会糊）。位置锁死在标题 AI 中心，`1+p²*900`，正反 scrub，`p>=1` 消失。
 - **缩放完了消失**：`p>=1` 时 `cutOp=0`，zoom 仍停在最大，不要先缩回去再关。回滚 `p<1` 再从最大倒放。
 - 一开始缩放就藏掉标题里的 `.ai-word-ai`（`visibility:hidden`，不要 0.9s opacity 交叉淡入），只留遮罩那一层，避免重影。
 - 遮罩 `cutOp` 在缩放过程中保持 1。滚回 hold 才关掉 overlay、显示标题。
@@ -134,6 +134,7 @@
 - 不要给 API 终端用实心底 + `filter: drop-shadow`（Park：毛玻璃；drop-shadow / preserve-3d 会让玻璃失效）。
 - 不要把 `-webkit-backdrop-filter` 写在 `backdrop-filter` 后面（Vite 8 生产构建会丢掉标准属性，Vercel/Chrome 毛玻璃全没）。
 - 不要在 768 把 footer 导航收成 2 列（Park：4 个块平铺）。
+- 不要用 CSS `transform:scale` 放大 AI 字（Park：怎么不是矢量的；必须 SVG text）。
 - 不要把 AI 遮罩放在 sticky 里跟着滚（Park：遮罩还是往下面跑；必须挂到 body，位置只锁一次）。
 - 不要绕 I 字干放大（Park：还是没有中心缩放；必须绕 AI 二字中心）。
 - 不要用 `peakZoom` 锁死放大（Park：没办法倒放回去）。

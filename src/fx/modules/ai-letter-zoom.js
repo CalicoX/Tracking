@@ -37,7 +37,15 @@ export function mount() {
     layer.id = "ai-zoom-layer";
     layer.setAttribute("aria-hidden", "true");
     layer.innerHTML =
-      '<div class="ai-zoom-veil"></div><div class="ai-zoom-word">AI</div>';
+      '<svg class="ai-zoom-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">' +
+      "<defs>" +
+      '<mask id="ai-zoom-mask" maskUnits="userSpaceOnUse">' +
+      '<rect class="ai-zoom-mask-bg" fill="#fff"/>' +
+      '<g class="ai-zoom-g">' +
+      '<text class="ai-zoom-text" fill="#000" text-anchor="middle">AI</text>' +
+      "</g></mask></defs>" +
+      '<rect class="ai-zoom-fill" fill="#0a0514" mask="url(#ai-zoom-mask)"/>' +
+      "</svg>";
     document.body.appendChild(layer);
     return layer;
   }
@@ -50,39 +58,85 @@ export function mount() {
     range.detach();
     if (tr.width < 4 || tr.height < 4) return;
     const cs = window.getComputedStyle(word);
+    const cx = tr.left + tr.width / 2;
+    const cy = tr.top + tr.height / 2;
     origin = {
-      left: tr.left,
-      top: tr.top,
-      width: tr.width,
-      height: tr.height,
+      w: window.innerWidth,
+      h: window.innerHeight,
+      cx: cx,
+      cy: cy,
+      x: cx,
+      baseline: tr.bottom,
       fs: parseFloat(cs.fontSize) || tr.height,
       fw: cs.fontWeight || "700",
       ff: cs.fontFamily || "Inter, system-ui, sans-serif",
       ls: cs.letterSpacing || "0px",
     };
+    snapGlyphToInk();
+    origin.cx = cx;
+    origin.cy = cy;
+  }
+
+  function snapGlyphToInk() {
+    if (!origin) return;
+    applyLetter(1, 1);
+    const layer = document.getElementById("ai-zoom-layer");
+    const text = layer && layer.querySelector(".ai-zoom-text");
+    if (!text) return;
+    try {
+      const b = text.getBBox();
+      if (b.width < 2 || b.height < 2) return;
+      origin.x += origin.cx - (b.x + b.width / 2);
+      origin.baseline += origin.cy - (b.y + b.height / 2);
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   function applyLetter(zoom, cutOp) {
     const layer = ensureLayer();
-    const clone = layer.querySelector(".ai-zoom-word");
-    if (!clone || !origin) {
+    const svgEl = layer.querySelector(".ai-zoom-svg");
+    const text = layer.querySelector(".ai-zoom-text");
+    const g = layer.querySelector(".ai-zoom-g");
+    const maskBg = layer.querySelector(".ai-zoom-mask-bg");
+    const fill = layer.querySelector(".ai-zoom-fill");
+    if (!svgEl || !text || !g || !origin) {
       layer.classList.remove("is-on");
       return;
     }
     if (cutOp <= 0) {
       layer.classList.remove("is-on");
-      clone.style.transform = "scale(1)";
       return;
     }
-    clone.style.left = origin.left + "px";
-    clone.style.top = origin.top + "px";
-    clone.style.width = origin.width + "px";
-    clone.style.height = origin.height + "px";
-    clone.style.fontSize = origin.fs + "px";
-    clone.style.fontWeight = origin.fw;
-    clone.style.fontFamily = origin.ff;
-    clone.style.letterSpacing = origin.ls;
-    clone.style.transform = "scale(" + Number(zoom).toFixed(4) + ")";
+    svgEl.setAttribute("viewBox", "0 0 " + origin.w + " " + origin.h);
+    if (maskBg) {
+      maskBg.setAttribute("width", String(origin.w));
+      maskBg.setAttribute("height", String(origin.h));
+    }
+    if (fill) {
+      fill.setAttribute("width", String(origin.w));
+      fill.setAttribute("height", String(origin.h));
+    }
+    text.setAttribute("x", origin.x.toFixed(2));
+    text.setAttribute("y", origin.baseline.toFixed(2));
+    text.setAttribute("font-size", origin.fs.toFixed(2));
+    text.setAttribute("font-weight", origin.fw);
+    text.setAttribute("font-family", origin.ff);
+    text.setAttribute("letter-spacing", origin.ls);
+    g.setAttribute(
+      "transform",
+      "translate(" +
+        origin.cx.toFixed(2) +
+        " " +
+        origin.cy.toFixed(2) +
+        ") scale(" +
+        Number(zoom).toFixed(4) +
+        ") translate(" +
+        (-origin.cx).toFixed(2) +
+        " " +
+        (-origin.cy).toFixed(2) +
+        ")"
+    );
     layer.classList.add("is-on");
   }
 

@@ -5893,31 +5893,15 @@
       inset: 0;
       z-index: 40;
       pointer-events: none;
-      isolation: isolate;
       display: none;
     }
     #ai-zoom-layer.is-on {
       display: block;
     }
-    #ai-zoom-layer .ai-zoom-veil {
-      position: absolute;
-      inset: 0;
-      background: #0a0514;
-    }
-    #ai-zoom-layer .ai-zoom-word {
-      position: absolute;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      line-height: 1;
-      color: #fff;
-      -webkit-text-fill-color: #fff;
-      mix-blend-mode: destination-out;
-      transform-origin: 50% 50%;
-      will-change: transform;
+    #ai-zoom-layer .ai-zoom-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
     @media (prefers-reduced-motion: reduce) {
       .ai-letter-track {
