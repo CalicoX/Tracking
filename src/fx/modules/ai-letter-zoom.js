@@ -32,7 +32,6 @@ export function mount() {
   if (!track || !sticky) return () => {};
 
   let origin = null;
-  let peakZoom = 1;
 
   function captureOrigin() {
     if (!word || !sticky) return;
@@ -45,15 +44,32 @@ export function mount() {
     if (tr.width < 4 || tr.height < 4) return;
     const cs = window.getComputedStyle(word);
     const fs = parseFloat(cs.fontSize) || tr.height;
-    const cx = tr.left - sr.left + tr.width / 2;
-    const cy = tr.top - sr.top + tr.height / 2;
+    const pairCx = tr.left - sr.left + tr.width / 2;
+    const pairCy = tr.top - sr.top + tr.height / 2;
+    /* Draw full "AI"; scale around the I stem so ink fills the viewport. */
+    let cx = pairCx;
+    let cy = pairCy;
+    const tn = word.firstChild;
+    if (tn && tn.nodeType === 3 && (tn.textContent || "").length >= 2) {
+      const ir = document.createRange();
+      ir.setStart(tn, 1);
+      ir.setEnd(tn, 2);
+      const ig = ir.getBoundingClientRect();
+      ir.detach();
+      if (ig.width > 1 && ig.height > 1) {
+        cx = ig.left - sr.left + ig.width / 2;
+        cy = ig.top - sr.top + ig.height / 2;
+      }
+    }
     origin = {
       w: sticky.clientWidth || sr.width,
       h: sticky.clientHeight || sr.height,
       cx: cx,
       cy: cy,
-      x: cx,
-      y: cy,
+      pairCx: pairCx,
+      pairCy: pairCy,
+      x: pairCx,
+      y: pairCy,
       baseline: tr.bottom - sr.top,
       fs: fs,
       fw: cs.fontWeight || "700",
@@ -69,8 +85,8 @@ export function mount() {
     try {
       const b = letterText.getBBox();
       if (b.width < 2 || b.height < 2) return;
-      origin.x += origin.cx - (b.x + b.width / 2);
-      origin.baseline += origin.cy - (b.y + b.height / 2);
+      origin.x += origin.pairCx - (b.x + b.width / 2);
+      origin.baseline += origin.pairCy - (b.y + b.height / 2);
     } catch (e) {
       /* mask text may not expose bbox */
     }
@@ -148,7 +164,6 @@ export function mount() {
 
     /* Page in place (pinned) + extra screen of rest. Overlay stays off. */
     if (scrolled <= holdPx) {
-      peakZoom = 1;
       captureOrigin();
       setZoom(1, 1, 1, 0);
       if (sticky) sticky.classList.remove("is-ai-zooming");
@@ -163,10 +178,8 @@ export function mount() {
     if (sticky) sticky.classList.add("is-ai-zooming");
     const restOp = p < 0.08 ? 1 - p / 0.08 : 0;
     const aiOp = 0;
-    /* Start on the title, then snap-scale off-screen. No extra downward travel. */
-    let zoom = 1 + p * p * 360;
-    if (zoom < peakZoom) zoom = peakZoom;
-    else peakZoom = zoom;
+    /* Follow scroll both ways. Scale the I stem until ink covers the viewport. */
+    const zoom = 1 + p * p * 900;
     setZoom(zoom, restOp, aiOp, 1);
   }
 
