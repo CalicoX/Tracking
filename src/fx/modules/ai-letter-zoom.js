@@ -59,19 +59,16 @@ export function mount() {
     if (tr.width < 4 || tr.height < 4) return;
     const cs = window.getComputedStyle(word);
     const fs = parseFloat(cs.fontSize) || tr.height;
-    const cx = tr.left + tr.width / 2;
-    const cy = tr.top + tr.height / 2;
+    const lsPx = parseFloat(cs.letterSpacing) || 0;
     origin = {
       w: window.innerWidth,
       h: window.innerHeight,
-      cx: cx,
-      cy: cy,
-      x: cx,
-      baseline: tr.top + fs * 0.8,
+      x: tr.left + tr.width / 2,
+      y: tr.top + tr.height / 2,
       fs: fs,
+      lsEm: fs ? lsPx / fs : 0,
       fw: cs.fontWeight || "700",
       ff: cs.fontFamily || "Inter, system-ui, sans-serif",
-      ls: cs.letterSpacing || "0px",
     };
     snapGlyphToInk();
   }
@@ -83,16 +80,10 @@ export function mount() {
     const text = layer && layer.querySelector(".ai-zoom-text");
     if (!text) return;
     try {
-      let b = text.getBBox();
+      const b = text.getBBox();
       if (b.width < 2 || b.height < 2) return;
-      origin.x += origin.cx - (b.x + b.width / 2);
-      origin.baseline += origin.cy - (b.y + b.height / 2);
-      applyLetter(1, 1);
-      b = text.getBBox();
-      origin.cx = b.x + b.width / 2;
-      /* Cap-center sits lower than the em-box center; using the box center
-         makes the letters walk down as zoom grows. */
-      origin.cy = origin.baseline - origin.fs * 0.3;
+      origin.x += origin.x - (b.x + b.width / 2);
+      origin.y += origin.y - (b.y + b.height / 2);
     } catch (e) {
       /* ignore */
     }
@@ -105,7 +96,7 @@ export function mount() {
     const g = layer.querySelector(".ai-zoom-g");
     const maskBg = layer.querySelector(".ai-zoom-mask-bg");
     const fill = layer.querySelector(".ai-zoom-fill");
-    if (!svgEl || !text || !g || !origin) {
+    if (!svgEl || !text || !origin) {
       layer.classList.remove("is-on");
       return;
     }
@@ -122,26 +113,16 @@ export function mount() {
       fill.setAttribute("width", String(origin.w));
       fill.setAttribute("height", String(origin.h));
     }
+    /* Grow font-size around a locked central anchor — no group scale (that walks down). */
+    if (g) g.removeAttribute("transform");
     text.setAttribute("x", origin.x.toFixed(2));
-    text.setAttribute("y", origin.baseline.toFixed(2));
-    text.setAttribute("font-size", origin.fs.toFixed(2));
+    text.setAttribute("y", origin.y.toFixed(2));
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("dominant-baseline", "central");
+    text.setAttribute("font-size", (origin.fs * zoom).toFixed(2));
     text.setAttribute("font-weight", origin.fw);
     text.setAttribute("font-family", origin.ff);
-    text.setAttribute("letter-spacing", origin.ls);
-    g.setAttribute(
-      "transform",
-      "translate(" +
-        origin.cx.toFixed(2) +
-        " " +
-        origin.cy.toFixed(2) +
-        ") scale(" +
-        Number(zoom).toFixed(4) +
-        ") translate(" +
-        (-origin.cx).toFixed(2) +
-        " " +
-        (-origin.cy).toFixed(2) +
-        ")"
-    );
+    text.setAttribute("letter-spacing", origin.lsEm.toFixed(4) + "em");
     layer.classList.add("is-on");
   }
 
@@ -192,7 +173,7 @@ export function mount() {
     }
     const p = clamp((scrolled - holdPx) / Math.max(zoomPx, 1), 0, 1);
     if (sticky) sticky.classList.add("is-ai-zooming");
-    const restOp = p < 0.08 ? 1 - p / 0.08 : 0;
+    const restOp = p < 0.22 ? 1 - p / 0.22 : 0;
     const aiOp = 0;
     /* Follow scroll both ways. Center-scale the pair; hide at full size when done. */
     const zoom = 1 + p * p * 900;

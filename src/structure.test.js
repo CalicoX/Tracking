@@ -213,6 +213,7 @@ describe("React landing structure (gating)", () => {
     expect(zoom).toMatch(/p \* p \* 900/);
     expect(zoom).toMatch(/ai-zoom-layer/);
     expect(zoom).toMatch(/ai-zoom-svg/);
+    expect(zoom).toMatch(/dominant-baseline/);
     expect(zoom).toMatch(/zooming = true/);
     expect(zoom).not.toMatch(/peakZoom/);
     expect(zoom).toMatch(/cutOp = p < 1 \? 1 : 0/);
