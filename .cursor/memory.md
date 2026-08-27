@@ -34,7 +34,7 @@
 - **缩放完了消失**：`p>=1` 时 `cutOp=0`，zoom 仍停在最大，不要先缩回去再关。回滚 `p<1` 再从最大倒放。
 - 一开始缩放就藏掉标题里的 `.ai-word-ai`（`visibility:hidden`，不要 0.9s opacity 交叉淡入），只留遮罩那一层，避免重影。
 - 遮罩 `cutOp` 在缩放过程中保持 1。滚回 hold 才关掉 overlay、显示标题。
-- **缩放收尾靠 mask 里加圆洞，不靠把字号撑爆**（2026-08-27，两次系数方案都失败后定稿）。原因：字形外接框盖住屏幕 ≠ 能无缝摘层——A/I 的空隙和三角 counter 永远留遮罩残条（Park 截图标过「没滚完就消失」）；而把字号撑到 2 万 px 盖笔画又会把渲染卡死（IAB 里 wheel 直接超时）。现方案：字号只放大到 `zoomEnd = (diag*1.25)/fs`（约 34 倍封顶），mask 里加 `<circle class="ai-zoom-hole">`，p≥0.72 起 smoothstep 扩到 `diag*1.05`，圆心锁 origin（钉住屏上 AI 中心离视口中心 <50px），p=1 必盖满四角、摘层无缝。`structure.test.js` 断言这三个表达式。**IAB 测这屏的坑**：Lenis + `#ai-lab` 锚点会把 scrollTop 锁死在锚点位置，wheel/dom_cua.scroll 全部 30s 超时、locator 读到的 trackTop 全是假坐标——别再用浏览器硬滚验证这屏，几何用公式推，视觉让 Park 真滚。
+- **缩放收尾靠 mask 里的软边光晕，不靠把字号撑爆**（2026-08-27 定稿）。原因：字形外接框盖住屏幕 ≠ 能无缝摘层——A/I 空隙和 counter 永远留残条（Park 截图标过「没滚完就消失」）；撑到 2 万 px 盖笔画渲染卡死；硬边圆洞 Park 当场否了（「为什么最后突然有个圆形出来」→ f155d7f）。现方案：字号封顶 `zoomEnd=(diag*1.25)/fs`；mask 加 `<circle class="ai-zoom-hole">` 填 `ai-hole-grad` 径向渐变（0→0.62 全黑、边缘羽化到白），p≥0.5 起 smoothstep 扩到 `diag*1.05`，实心核心仍必盖四角，读感是「遮罩向外消融」。断言校验 grad、起点 0.5、半径式。**IAB 测这屏的坑**：Lenis + `#ai-lab` 锚点把 scrollTop 锁死，wheel/dom_cua.scroll 全 30s 超时、trackTop 读数全假——别用浏览器硬滚验证，几何用公式推，视觉让 Park 真滚。
 - 这一屏滚动钉住后先 **停约 0.36 屏**（`AI_HOLD_VH = 0.36`），再缩放。1.05 屏 Park 说太长。不要一进场就缩放，也不要再加回一整屏。遮罩默认 `--ai-veil:0`。然后 AI 做遮罩揭开示例模块。之后直接是该模块叠卡（`ai-lab.js` 用同一套 holdPx+zoomPx）。
 - 揭开后的示例模块（左 agent + 右追踪页）在顶栏下的可视区域 **垂直居中**。`.ai-letter-sticky .ai-lab-sticky` 用 `padding-top: var(--topbar-h)`，不要 inset 0 铺满 100vh（会贴顶，上下 8px vs 93px）。
 - reduced-motion / ≤480：无遮罩，intro 后接示例。
