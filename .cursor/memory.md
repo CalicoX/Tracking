@@ -30,11 +30,10 @@
 
 - 缩放的是标题里那两个 **AI**（`.ai-word-ai`），从标题位置量尺寸再放大。胶囊动画去掉。
 - 缩放从标题 AI **墨水框**开始：`Range.selectNodeContents` 量字形，原点是墨水中心；caps 基线用 `tr.bottom`。`getBBox` 再对齐一次。不要用行盒 `height/2` 或 canvas ascent（初始会偏）。
-- AI 遮罩是 `body` 上的 `#ai-zoom-layer` + **SVG `<text>`** 矢量放大（`g` transform scale）。不要用 HTML/CSS `transform:scale`（Park：怎么不是矢量的，会糊）。位置锁死在标题 AI 中心，`1+p²*900`，正反 scrub，`p>=1` 消失。
+- AI 遮罩是 `body` 上的 `#ai-zoom-layer` + **SVG `<text>`** 矢量放大（靠字号长，不用 g transform scale）。不要用 HTML/CSS `transform:scale`（Park：怎么不是矢量的，会糊）。位置锁死在标题 AI 中心，正反 scrub。
 - **缩放完了消失**：`p>=1` 时 `cutOp=0`，zoom 仍停在最大，不要先缩回去再关。回滚 `p<1` 再从最大倒放。
 - 一开始缩放就藏掉标题里的 `.ai-word-ai`（`visibility:hidden`，不要 0.9s opacity 交叉淡入），只留遮罩那一层，避免重影。
-- 遮罩 `cutOp` 在缩放过程中保持 1。滚回 hold 才关掉 overlay、显示标题。
-- **缩放序列 2026-08-27 定稿（843ff29）**：① mask 抠洞 + **painted twin**——HTML AI 一开始就藏掉，洞里透出的是空槽，所以 SVG 里要再画一份同字形、取标题渐变色（解析 `.ai-word-ai` 的 backgroundImage stops，兜底 color→#c3cdfd）的可见字符盖在洞上，否则读感是「凭空冒出的黑块/不是那两个字」。② 暗幕 `rampIn = clamp(p/0.35)` 渐入——旧版第一帧就全屏黑幕，等于标题瞬间消失（Park 连报「直接消失」「不是那两个字符」的根因）。③ 字号 cubic ease-in（`eased=p*p*p`），封顶 `(diag*1.25)/fs`≈34 倍。④ 收尾：`FADE_FROM=0.55` 起遮罩和 intro 副本同随滚动渐隐（tail 同乘），**旧版 restOp 前 22% 全淡掉的写法别回来**（会剩孤零零 AI）。⑤ `#ai-zoom-layer.is-on` 必须 `pointer-events:auto`，否则点穿到落地页（Park 报过）。⑥ 字形墨水只有 ~0.72em、A/I 有空隙，「外接框盖屏」≠ 摘层无缝；撑爆字号渲染卡死、硬边圆洞被否过。断言跟着这套走。
+- **缩放序列 2026-08-27 二稿（Park 拍板：纯镂空 + 周边渐隐）**：① mask 抠洞，**洞上不许画任何填充**——painted twin（同字形渐变字符盖洞）当天即被否：「镂空遮罩没了」；发光圆孔/羽化 bloom 也否过，都别回来。② 暗幕 `rampIn = clamp(p/0.18)` 快速渐入，透明度真刷在 `layer.style.opacity` 上（旧版只切 is-on，进出全是硬跳）。③ 字号 cubic ease-in（`eased=p*p*p`），封顶 `(diag*1.25)/fs`≈34 倍。④ 周围文字随缩放**逐渐消失**：`restOp = clamp(1 - p/0.45)`，半程前淡完——别用 `1-tail` 只在尾段动（读感像不消失），也别回「前 22% 全淡掉」。⑤ 收尾 `FADE_FROM=0.55` 起遮罩随滚动渐隐。⑥ `#ai-zoom-layer.is-on` 必须 `pointer-events:auto`，否则点穿落地页（Park 报过）。⑦ 断言已锁纯镂空（not.toMatch ai-zoom-glyph / ai-glyph-grad）。
 - **IAB 测这屏的坑**：Lenis + 锚点会把 scrollTop 锁死，wheel/dom_cua.scroll 常 30s 超时；可走 body.click+PageDown+ArrowDown 键盘路径并按 trackTop 收敛，截图常一次失败要重试。几何用公式推，最终视觉让 Park 真滚，且提醒 ⌘⇧R 硬刷——fx 模块 HMR 经常不生效，他看到的很可能是旧代码。
 - 这一屏滚动钉住后先 **停约 0.36 屏**（`AI_HOLD_VH = 0.36`），再缩放。1.05 屏 Park 说太长。不要一进场就缩放，也不要再加回一整屏。遮罩默认 `--ai-veil:0`。然后 AI 做遮罩揭开示例模块。之后直接是该模块叠卡（`ai-lab.js` 用同一套 holdPx+zoomPx）。
 - 揭开后的示例模块（左 agent + 右追踪页）在顶栏下的可视区域 **垂直居中**。`.ai-letter-sticky .ai-lab-sticky` 用 `padding-top: var(--topbar-h)`，不要 inset 0 铺满 100vh（会贴顶，上下 8px vs 93px）。
