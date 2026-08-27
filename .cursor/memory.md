@@ -34,7 +34,7 @@
 - **缩放完了消失**：`p>=1` 时 `cutOp=0`，zoom 仍停在最大，不要先缩回去再关。回滚 `p<1` 再从最大倒放。
 - 一开始缩放就藏掉标题里的 `.ai-word-ai`（`visibility:hidden`，不要 0.9s opacity 交叉淡入），只留遮罩那一层，避免重影。
 - 遮罩 `cutOp` 在缩放过程中保持 1。滚回 hold 才关掉 overlay、显示标题。
-- **缩放曲线不用固定 900 倍**（2026-08-27 Park：滚一下突然糊满、缩放没完成）。现用 smoothstep `p²(3-2p)` 插值，终点倍数按视口对角线算：`zoomEnd = max(2, diag*1.25 / origin.fs)`，p=1 时字形洞刚好盖满视口，摘层无缝。`structure.test.js` 断言已跟着改成校验这条曲线，别改回 `/p \* p \* 900/`。
+- **缩放曲线不用固定 900 倍**（2026-08-27 Park：滚一下突然糊满、缩放没完成）。现用 smoothstep `p²(3-2p)` 插值，终点倍数按视口对角线 + 字形墨水高度算：`zoomEnd = max(2, diag / (fs * 0.34))`——墨水只有约 0.72em 高，系数给小了 p=1 时边角还没被字形洞盖住，遮罩会提前消失（Park 报过「没有滚完就消失了」）。p=1 时摘层无缝。`structure.test.js` 断言跟着这条曲线走，别改回 `/p \* p \* 900/`。
 - 这一屏滚动钉住后先 **停约 0.36 屏**（`AI_HOLD_VH = 0.36`），再缩放。1.05 屏 Park 说太长。不要一进场就缩放，也不要再加回一整屏。遮罩默认 `--ai-veil:0`。然后 AI 做遮罩揭开示例模块。之后直接是该模块叠卡（`ai-lab.js` 用同一套 holdPx+zoomPx）。
 - 揭开后的示例模块（左 agent + 右追踪页）在顶栏下的可视区域 **垂直居中**。`.ai-letter-sticky .ai-lab-sticky` 用 `padding-top: var(--topbar-h)`，不要 inset 0 铺满 100vh（会贴顶，上下 8px vs 93px）。
 - reduced-motion / ≤480：无遮罩，intro 后接示例。
