@@ -44,9 +44,14 @@ export function mount() {
       '<g class="ai-zoom-g">' +
       '<text class="ai-zoom-text" fill="#000" text-anchor="middle">AI</text>' +
       "</g>" +
-      /* final sweep hole: deterministically swallows the last veil slivers
-       * (letter counters / inter-letter gaps never fully cover a viewport) */
-      '<circle class="ai-zoom-hole" fill="#000" cx="0" cy="0" r="0"/>' +
+      /* final sweep: soft-edged bloom, not a crisp circle — reads as the
+       * veil dissolving outward while the pair blows past the camera */
+      '<radialGradient class="ai-hole-grad">' +
+      '<stop offset="0" stop-color="#000"/>' +
+      '<stop offset="0.62" stop-color="#000"/>' +
+      '<stop offset="1" stop-color="#fff"/>' +
+      "</radialGradient>" +
+      '<circle class="ai-zoom-hole" fill="url(#ai-hole-grad)" cx="0" cy="0" r="0"/>' +
       "</mask></defs>" +
       '<rect class="ai-zoom-fill" fill="#0a0514" mask="url(#ai-zoom-mask)"/>' +
       "</svg>";
@@ -192,8 +197,9 @@ export function mount() {
     const zoomEnd = Math.max(2, (diag * 1.25) / origin.fs);
     const eased = p * p * (3 - 2 * p); /* smoothstep: ease-in + ease-out */
     const zoom = 1 + eased * (zoomEnd - 1);
-    /* Circle starts at 72% and covers every corner by p=1 → drop is seamless. */
-    const q = clamp((p - 0.72) / 0.28, 0, 1);
+    /* Soft bloom starts at half the window and is fully clear by p=1; the
+     * gradient's solid core (0.62R) still swallows every corner. */
+    const q = clamp((p - 0.5) / 0.5, 0, 1);
     const holeR = q * q * (3 - 2 * q) * diag * 1.05;
     /* At p=1 the holes cover the viewport, so dropping the layer is seamless. */
     const cutOp = p < 1 ? 1 : 0;

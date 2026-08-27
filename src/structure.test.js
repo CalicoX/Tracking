@@ -214,6 +214,8 @@ describe("React landing structure (gating)", () => {
     expect(zoom).toMatch(/smoothstep|p \* p \* \(3 - 2 \* p\)/);
     expect(zoom).toMatch(/zoomEnd = Math\.max\(2, \(diag \* 1\.25\) \/ origin\.fs\)/);
     expect(zoom).toMatch(/ai-zoom-hole/);
+    expect(zoom).toMatch(/ai-hole-grad/);
+    expect(zoom).toMatch(/q = clamp\(\(p - 0\.5\) \/ 0\.5, 0, 1\)/);
     expect(zoom).toMatch(/holeR = q \* q \* \(3 - 2 \* q\) \* diag \* 1\.05/);
     expect(zoom).toMatch(/ai-zoom-layer/);
     expect(zoom).toMatch(/ai-zoom-svg/);
