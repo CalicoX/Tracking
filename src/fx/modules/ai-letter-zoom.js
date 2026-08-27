@@ -176,10 +176,11 @@ export function mount() {
     const restOp = p < 0.22 ? 1 - p / 0.22 : 0;
     const aiOp = 0;
     /* Grow the pair smoothly across the whole window and finish just past
-     * full-screen coverage — fixed huge factors saturate within the first
-     * few ticks and read as a jump. */
+     * full-screen coverage. Cap ink is ~0.72em tall (half-extent 0.36em), and
+     * the hole must swallow the viewport's farthest corner (diagonal away)
+     * before the layer drops — a short reach pops the veil mid-zoom. */
     const diag = Math.hypot(window.innerWidth, window.innerHeight);
-    const zoomEnd = Math.max(2, (diag * 1.25) / origin.fs);
+    const zoomEnd = Math.max(2, diag / (origin.fs * 0.34));
     const eased = p * p * (3 - 2 * p); /* smoothstep: ease-in + ease-out */
     const zoom = 1 + eased * (zoomEnd - 1);
     /* At p=1 the glyph holes cover the viewport, so dropping the layer is seamless. */
