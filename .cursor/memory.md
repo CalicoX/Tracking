@@ -62,7 +62,7 @@
 ## 人
 
 - Park，设计师。直接改代码，回复简体中文。
-- Git 工作流（2026-08-27）：**默认只 commit 本地，不 push**；push 听 Park 明确指挥（main 连 Vercel，push 即部署）。攒批提交。三仓规则一致。
+- Git 工作流（2026-08-27 两次收紧）：**默认只 commit 到本地，不 push；Park 说「push」才推**。main 连 Vercel，push 即部署。攒批提交，不做无谓的小 commit；不要 --no-verify、不要 force push。三仓规则一致。
 
 ## 仓库
 
