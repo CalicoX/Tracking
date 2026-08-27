@@ -44,14 +44,8 @@ export function mount() {
       '<g class="ai-zoom-g">' +
       '<text class="ai-zoom-text" fill="#000" text-anchor="middle" dominant-baseline="central">AI</text>' +
       "</g></mask></defs>" +
-      /* Painted twin: the HTML AI is hidden to avoid ghosting, so without this
-       * the knockout holes expose an empty slot and the zoom reads as some
-       * foreign blob. Same geometry, heading gradient on top of the veil. */
-      '<defs><linearGradient id="ai-glyph-grad" x1="0" y1="0" x2="1" y2="0">' +
-      '<stop class="ai-glyph-s1" offset="0"/>' +
-      '<stop class="ai-glyph-s2" offset="1"/>' +
-      "</linearGradient></defs>" +
-      '<text class="ai-zoom-glyph" fill="url(#ai-glyph-grad)" text-anchor="middle" dominant-baseline="central">AI</text>' +
+      /* Pure knockout: veil everywhere except letter-shaped holes. Nothing
+       * painted on top — the page itself shows through the glyph shapes. */
       '<rect class="ai-zoom-fill" fill="#0a0514" mask="url(#ai-zoom-mask)"/>' +
       "</svg>";
     document.body.appendChild(layer);
@@ -68,18 +62,6 @@ export function mount() {
     const cs = window.getComputedStyle(word);
     const fs = parseFloat(cs.fontSize) || tr.height;
     const lsPx = parseFloat(cs.letterSpacing) || 0;
-    /* Heading colors come from a clipped background-image on the span; pull
-     * its stops so the flying pair matches the title it grew out of. */
-    let g1 = null;
-    let g2 = null;
-    const bg = cs.backgroundImage || "";
-    const stops = bg.match(/(#[0-9a-f]{3,8}|rgba?\([^)]*\))/gi);
-    if (stops && stops.length >= 2) {
-      g1 = stops[0];
-      g2 = stops[stops.length - 1];
-    } else if (cs.color && cs.color !== "rgba(0, 0, 0, 0)") {
-      g1 = g2 = cs.color;
-    }
     origin = {
       w: window.innerWidth,
       h: window.innerHeight,
@@ -89,8 +71,6 @@ export function mount() {
       lsEm: fs ? lsPx / fs : 0,
       fw: cs.fontWeight || "700",
       ff: cs.fontFamily || "Inter, system-ui, sans-serif",
-      g1: g1,
-      g2: g2,
     };
     snapGlyphToInk();
   }
@@ -115,7 +95,6 @@ export function mount() {
     const layer = ensureLayer();
     const svgEl = layer.querySelector(".ai-zoom-svg");
     const text = layer.querySelector(".ai-zoom-text");
-    const glyph = layer.querySelector(".ai-zoom-glyph");
     const g = layer.querySelector(".ai-zoom-g");
     const maskBg = layer.querySelector(".ai-zoom-mask-bg");
     const fill = layer.querySelector(".ai-zoom-fill");
@@ -124,6 +103,7 @@ export function mount() {
       return;
     }
     if (cutOp <= 0) {
+      layer.style.opacity = "";
       layer.classList.remove("is-on");
       return;
     }
@@ -139,20 +119,15 @@ export function mount() {
     /* Grow font-size around a locked central anchor — no group scale (that walks down). */
     if (g) g.removeAttribute("transform");
     const fsNow = (origin.fs * zoom).toFixed(2);
-    for (const t of [text, glyph]) {
-      if (!t) continue;
-      t.setAttribute("x", origin.x.toFixed(2));
-      t.setAttribute("y", origin.y.toFixed(2));
-      t.setAttribute("font-size", fsNow);
-      t.setAttribute("font-weight", origin.fw);
-      t.setAttribute("font-family", origin.ff);
-      t.setAttribute("letter-spacing", origin.lsEm.toFixed(4) + "em");
-    }
-    if (glyph) glyph.textContent = "AI";
-    const s1 = layer.querySelector(".ai-glyph-s1");
-    const s2 = layer.querySelector(".ai-glyph-s2");
-    if (s1 && origin.g1) s1.setAttribute("stop-color", origin.g1);
-    if (s2 && origin.g2) s2.setAttribute("stop-color", origin.g2);
+    text.setAttribute("x", origin.x.toFixed(2));
+    text.setAttribute("y", origin.y.toFixed(2));
+    text.setAttribute("font-size", fsNow);
+    text.setAttribute("font-weight", origin.fw);
+    text.setAttribute("font-family", origin.ff);
+    text.setAttribute("letter-spacing", origin.lsEm.toFixed(4) + "em");
+    /* Scrub the whole layer's opacity so entry/exit stay continuous instead
+     * of popping between hidden and full-strength veil. */
+    layer.style.opacity = String(Number(clamp(cutOp, 0, 1).toFixed(3)));
     layer.classList.add("is-on");
   }
 
@@ -209,15 +184,16 @@ export function mount() {
     const zoomEnd = Math.max(2, (diag * 1.25) / origin.fs);
     const eased = p * p * p; /* cubic ease-in */
     const zoom = 1 + eased * (zoomEnd - 1);
-    /* Back half: veil AND the intro copy dissolve together, scrubbed by
-     * scroll. The veil also RAMPS IN over the first third — it used to slam
-     * to full darkness on the first tick, which read as the title vanishing
-     * and a foreign blob floating on black. */
+    /* Surrounding copy washes out gradually across the first stretch of the
+     * zoom (fully gone just before halfway, so growing letter holes reveal a
+     * clean background instead of half-faded neighbours). */
+    const restOp = clamp(1 - p / 0.45, 0, 1);
+    /* Veil ramps in fast so it never slams to full darkness on the first
+     * tick, holds solid while zooming, then dissolves over the back stretch. */
     const FADE_FROM = 0.55;
     const tail = p <= FADE_FROM ? 0 : clamp((p - FADE_FROM) / (1 - FADE_FROM), 0, 1);
-    const rampIn = clamp(p / 0.35, 0, 1);
+    const rampIn = clamp(p / 0.18, 0, 1);
     const cutOp = (1 - tail) * rampIn;
-    const restOp = 1 - tail;
     const aiOp = 0;
     setZoom(zoom, restOp, aiOp, cutOp);
   }

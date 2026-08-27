@@ -215,16 +215,15 @@ describe("React landing structure (gating)", () => {
     expect(zoom).toMatch(/zoomEnd = Math\.max\(2, \(diag \* 1\.25\) \/ origin\.fs\)/);
     /* ending is a long scroll-scrubbed veil fade (hard drop read as a pop) */
     expect(zoom).toMatch(/FADE_FROM = 0\.55/);
-    /* intro copy rides the same fade as the veil (no lone AI on a blank veil) */
     expect(zoom).toMatch(/const cutOp = \(1 - tail\) \* rampIn;/);
-    expect(zoom).toMatch(/const restOp = 1 - tail;/);
-    expect(zoom).toMatch(/const rampIn = clamp\(p \/ 0\.35, 0, 1\)/);
+    expect(zoom).toMatch(/const rampIn = clamp\(p \/ 0\.18, 0, 1\)/);
+    /* surrounding copy washes out gradually across the first stretch of zoom */
+    expect(zoom).toMatch(/restOp = clamp\(1 - p \/ 0\.45, 0, 1\)/);
     expect(zoom).not.toMatch(/restOp = p < 0\.22/);
-    expect(zoom).toMatch(/ai-zoom-layer/);
-    expect(zoom).toMatch(/ai-zoom-svg/);
-    /* painted twin: knockout holes would otherwise expose an empty AI slot */
-    expect(zoom).toMatch(/ai-zoom-glyph/);
-    expect(zoom).toMatch(/ai-glyph-grad/);
+    /* pure knockout: nothing painted over the mask holes — page shows through */
+    expect(zoom).not.toMatch(/ai-zoom-glyph/);
+    expect(zoom).not.toMatch(/ai-glyph-grad/);
+    expect(zoom).toMatch(/layer\.style\.opacity = String\(/);
     expect(zoom).toMatch(/dominant-baseline/);
     expect(zoom).toMatch(/zooming = true/);
     expect(zoom).not.toMatch(/peakZoom/);
