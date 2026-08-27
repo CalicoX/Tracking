@@ -44,6 +44,7 @@
 - 仍是双排反向跑马灯（复制卡片 + mask + `brands-track` 动画）。卡片照片叠层、白字不动。logo opacity **0.7**（不要 invert 后 0.98 纯白），引用 `rgba(255,255,255,.95)`、署名 `.82`。
 - 不要挪回 ExploreMore 后，不要深色底。
 - 静态 3+2 网格已回退（Park：整错了；老板要改的是 TrustBand logo，不是评价卡）。
+- **单排跑马灯**（2026-08-27 Park「去掉一行」= BrandsSay，不是 TrustBand）：只剩 is-left 一排，is-right 已删。卡片加高 220→260px（≤720 是 240px），引文 clamp 4→5 行（≤720 是 4 行）。不要给这排单独留 hover pause 以外的逻辑改动。
 
 ## 流体字号（2026-08-27 Park「移动端字有点大」）
 
