@@ -175,8 +175,14 @@ export function mount() {
     if (sticky) sticky.classList.add("is-ai-zooming");
     const restOp = p < 0.22 ? 1 - p / 0.22 : 0;
     const aiOp = 0;
-    /* Follow scroll both ways. Center-scale the pair; hide at full size when done. */
-    const zoom = 1 + p * p * 900;
+    /* Grow the pair smoothly across the whole window and finish just past
+     * full-screen coverage — fixed huge factors saturate within the first
+     * few ticks and read as a jump. */
+    const diag = Math.hypot(window.innerWidth, window.innerHeight);
+    const zoomEnd = Math.max(2, (diag * 1.25) / origin.fs);
+    const eased = p * p * (3 - 2 * p); /* smoothstep: ease-in + ease-out */
+    const zoom = 1 + eased * (zoomEnd - 1);
+    /* At p=1 the glyph holes cover the viewport, so dropping the layer is seamless. */
     const cutOp = p < 1 ? 1 : 0;
     setZoom(zoom, restOp, aiOp, cutOp);
   }
