@@ -210,20 +210,28 @@ describe("React landing structure (gating)", () => {
     expect(zoom).not.toMatch(/wr\.height \* 0\.86/);
     expect(zoom).toMatch(/selectNodeContents/);
     expect(zoom).toMatch(/AI_ZOOM_VH\s*=\s*0\.48/);
-    /* smoothstep curve, sized from the viewport diagonal — not a fixed huge factor (reads as a jump) */
-    expect(zoom).toMatch(/smoothstep|p \* p \* \(3 - 2 \* p\)/);
+    /* cubic ease-in keeps the pair legible early; end scale from the viewport diagonal */
+    expect(zoom).toMatch(/const eased = p \* p \* p/);
     expect(zoom).toMatch(/zoomEnd = Math\.max\(2, \(diag \* 1\.25\) \/ origin\.fs\)/);
-    expect(zoom).toMatch(/ai-zoom-hole/);
-    expect(zoom).toMatch(/ai-hole-grad/);
-    expect(zoom).toMatch(/q = clamp\(\(p - 0\.5\) \/ 0\.5, 0, 1\)/);
-    expect(zoom).toMatch(/holeR = q \* q \* \(3 - 2 \* q\) \* diag \* 1\.05/);
+    /* ending is a long scroll-scrubbed veil fade (hard drop read as a pop) */
+    expect(zoom).toMatch(/FADE_FROM = 0\.55/);
+    /* intro copy rides the same fade as the veil (no lone AI on a blank veil) */
+    expect(zoom).toMatch(/const cutOp = \(1 - tail\) \* rampIn;/);
+    expect(zoom).toMatch(/const restOp = 1 - tail;/);
+    expect(zoom).toMatch(/const rampIn = clamp\(p \/ 0\.35, 0, 1\)/);
+    expect(zoom).not.toMatch(/restOp = p < 0\.22/);
     expect(zoom).toMatch(/ai-zoom-layer/);
     expect(zoom).toMatch(/ai-zoom-svg/);
+    /* painted twin: knockout holes would otherwise expose an empty AI slot */
+    expect(zoom).toMatch(/ai-zoom-glyph/);
+    expect(zoom).toMatch(/ai-glyph-grad/);
     expect(zoom).toMatch(/dominant-baseline/);
     expect(zoom).toMatch(/zooming = true/);
     expect(zoom).not.toMatch(/peakZoom/);
-    expect(zoom).toMatch(/cutOp = p < 1 \? 1 : 0/);
     const cssZoom = read("styles/landing.css");
+    /* veil up must block clicks — otherwise they punch through to the page below */
+    const cssLayer = cssZoom.match(/#ai-zoom-layer\.is-on\s*{[^}]*}/);
+    expect(cssLayer && /pointer-events:\s*auto/.test(cssLayer[0])).toBe(true);
     expect(cssZoom).toMatch(/#ai-zoom-layer/);
     expect(cssZoom).not.toMatch(/mix-blend-mode:\s*destination-out/);
     expect(zoom).not.toMatch(/p - 0\.86/);

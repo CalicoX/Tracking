@@ -5897,6 +5897,8 @@
     }
     #ai-zoom-layer.is-on {
       display: block;
+      /* veil up = block clicks; otherwise they land on the pinned page below */
+      pointer-events: auto;
     }
     #ai-zoom-layer .ai-zoom-svg {
       display: block;

@@ -6,7 +6,7 @@
 
 1. 先读 `.cursor/memory.md`，按里面的最新事实工作。
 2. 改完后更新 memory：记决策、当前位置、不要再踩的坑。只写事实，不写过程流水。
-3. 有未提交改动就 **commit + push 到 `origin`**。不要 `--no-verify`，不要 force push。
+3. 有未提交改动就 **commit 到本地（默认不 push）**。push 只在 Park 明确说「push / 推上去 / 部署」时执行（`git push -u origin HEAD`；main 连着 Vercel，push 即部署）。攒批提交，不要一笔一小提交。不要 `--no-verify`，不要 force push。
 
 ## 技术
 
