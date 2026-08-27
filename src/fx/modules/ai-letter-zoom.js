@@ -43,7 +43,11 @@ export function mount() {
       '<rect class="ai-zoom-mask-bg" fill="#fff"/>' +
       '<g class="ai-zoom-g">' +
       '<text class="ai-zoom-text" fill="#000" text-anchor="middle">AI</text>' +
-      "</g></mask></defs>" +
+      "</g>" +
+      /* final sweep hole: deterministically swallows the last veil slivers
+       * (letter counters / inter-letter gaps never fully cover a viewport) */
+      '<circle class="ai-zoom-hole" fill="#000" cx="0" cy="0" r="0"/>' +
+      "</mask></defs>" +
       '<rect class="ai-zoom-fill" fill="#0a0514" mask="url(#ai-zoom-mask)"/>' +
       "</svg>";
     document.body.appendChild(layer);
@@ -89,13 +93,14 @@ export function mount() {
     }
   }
 
-  function applyLetter(zoom, cutOp) {
+  function applyLetter(zoom, cutOp, holeR) {
     const layer = ensureLayer();
     const svgEl = layer.querySelector(".ai-zoom-svg");
     const text = layer.querySelector(".ai-zoom-text");
     const g = layer.querySelector(".ai-zoom-g");
     const maskBg = layer.querySelector(".ai-zoom-mask-bg");
     const fill = layer.querySelector(".ai-zoom-fill");
+    const hole = layer.querySelector(".ai-zoom-hole");
     if (!svgEl || !text || !origin) {
       layer.classList.remove("is-on");
       return;
@@ -123,10 +128,15 @@ export function mount() {
     text.setAttribute("font-weight", origin.fw);
     text.setAttribute("font-family", origin.ff);
     text.setAttribute("letter-spacing", origin.lsEm.toFixed(4) + "em");
+    if (hole) {
+      hole.setAttribute("cx", origin.x.toFixed(2));
+      hole.setAttribute("cy", origin.y.toFixed(2));
+      hole.setAttribute("r", Math.max(0, holeR || 0).toFixed(2));
+    }
     layer.classList.add("is-on");
   }
 
-  function setZoom(zoom, restOp, aiOp, cutOp) {
+  function setZoom(zoom, restOp, aiOp, cutOp, holeR) {
     sticky.style.setProperty("--ai-zoom", String(zoom));
     sticky.style.setProperty("--ai-veil", String(cutOp));
     if (intro) {
@@ -134,7 +144,7 @@ export function mount() {
       intro.style.setProperty("--intro-ai-op", String(aiOp));
     }
     if (svg) svg.style.opacity = "0";
-    applyLetter(zoom, cutOp);
+    applyLetter(zoom, cutOp, holeR);
   }
 
   function applyFull() {
@@ -175,17 +185,19 @@ export function mount() {
     if (sticky) sticky.classList.add("is-ai-zooming");
     const restOp = p < 0.22 ? 1 - p / 0.22 : 0;
     const aiOp = 0;
-    /* Grow the pair smoothly across the whole window and finish just past
-     * full-screen coverage. Cap ink is ~0.72em tall and "AI" leaves gaps
-     * between the two letters, so corners only clear once the pair is well
-     * past the viewport diagonal — an undersized factor pops the veil early. */
+    /* Letters grow smoothly across the whole window; the final sweep is done
+     * by the expanding mask circle, not by font size — glyph counters and
+     * inter-letter gaps never cover a full viewport on their own. */
     const diag = Math.hypot(window.innerWidth, window.innerHeight);
-    const zoomEnd = Math.max(2, diag / (origin.fs * 0.29));
+    const zoomEnd = Math.max(2, (diag * 1.25) / origin.fs);
     const eased = p * p * (3 - 2 * p); /* smoothstep: ease-in + ease-out */
     const zoom = 1 + eased * (zoomEnd - 1);
-    /* At p=1 the glyph holes cover the viewport, so dropping the layer is seamless. */
+    /* Circle starts at 72% and covers every corner by p=1 → drop is seamless. */
+    const q = clamp((p - 0.72) / 0.28, 0, 1);
+    const holeR = q * q * (3 - 2 * q) * diag * 1.05;
+    /* At p=1 the holes cover the viewport, so dropping the layer is seamless. */
     const cutOp = p < 1 ? 1 : 0;
-    setZoom(zoom, restOp, aiOp, cutOp);
+    setZoom(zoom, restOp, aiOp, cutOp, holeR);
   }
 
   const prev = window.__updateAiScroll;

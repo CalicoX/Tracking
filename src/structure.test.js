@@ -212,7 +212,9 @@ describe("React landing structure (gating)", () => {
     expect(zoom).toMatch(/AI_ZOOM_VH\s*=\s*0\.48/);
     /* smoothstep curve, sized from the viewport diagonal — not a fixed huge factor (reads as a jump) */
     expect(zoom).toMatch(/smoothstep|p \* p \* \(3 - 2 \* p\)/);
-    expect(zoom).toMatch(/zoomEnd = Math\.max\(2, diag \/ \(origin\.fs \* 0\.29\)\)/);
+    expect(zoom).toMatch(/zoomEnd = Math\.max\(2, \(diag \* 1\.25\) \/ origin\.fs\)/);
+    expect(zoom).toMatch(/ai-zoom-hole/);
+    expect(zoom).toMatch(/holeR = q \* q \* \(3 - 2 \* q\) \* diag \* 1\.05/);
     expect(zoom).toMatch(/ai-zoom-layer/);
     expect(zoom).toMatch(/ai-zoom-svg/);
     expect(zoom).toMatch(/dominant-baseline/);
