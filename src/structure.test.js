@@ -281,7 +281,10 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/width:\s*264px/);
     expect(block768).toMatch(/margin-left:\s*-24px/);
     expect(block768).toMatch(/\.impact-band h2/);
-    expect(block768).toMatch(/font-size:\s*var\(--fs-h2\)/);
+    // 根 token 已曲线化（fluid type），≤768 不再需要 font-size 覆盖
+    expect(css).toMatch(/--fs-h2:\s*clamp\(24px,\s*calc\(18\.24px \+ 1\.6vw\),\s*40px\)/);
+    const rootBlock = css.slice(0, css.indexOf("}"));
+    expect(rootBlock).not.toMatch(/font-size:\s*var\(--fs-h2\)/);
     const i480 = css.indexOf("/* —— ≤480");
     expect(i480).toBeGreaterThan(-1);
     const block480 = css.slice(i480, i480 + 14000);

@@ -45,6 +45,13 @@
 - 不要挪回 ExploreMore 后，不要深色底。
 - 静态 3+2 网格已回退（Park：整错了；老板要改的是 TrustBand logo，不是评价卡）。
 
+## 流体字号（2026-08-27 Park「移动端字有点大」）
+
+- **全站页面文字随视宽连续缩小、触底 12px；API / tracking-react / returns 三站同参**。公式 `clamp(M, calc(A + B·vw), D)`：锚点 1360→桌面现值 D 不变、360→M=`max(12, min(原最深媒体覆盖@360, 0.82×D))`。
+- 根 token `--fs-display/-h2/-h3/-lead/-body` 全部曲线化（如 `--fs-display: clamp(27px, calc(18px + 2.5vw), 52px)`），var 引用处自动生效；≤1024/768/480 里的字号硬切覆盖已删——含 ≤480 hero CTA 按钮 13px 那条（现在走根曲线）。
+- `structure.test.js` responsive parity 的 `font-size: var(--fs-h2)` 断言已改成校验根 token 曲线，别改回去。
+- **不动**：插图/mock 内部小字（`.mock-/.ogl-/.hero-ogl/.os-*/.cw-/.fb-/` 井内 UI 碎片；手机页 mock `.os-hero-copy h2`=28/20、`.os-status h3`=16/15 固定值已刻意保留）、相对单位 em、本来就 <12px 的真实小注（12.5px 及以下 KEEP）。以后新增文字直接用 `var(--fs-*)`，**别再往媒体查询里写 font-size 覆盖**（会回到跳变）。坑：按「末段标签 h2/h3」批量匹配会误伤 mock 标题，必须整串前缀 + 页面壳剥壳（.api-page / .returns-page）双层判断。
+
 ## ExploreMore
 
 - 在 **Credentials 后面**、BottomCta 前面。不要放回 AI Lab 后。白底 Returns/API 两卡不变。
