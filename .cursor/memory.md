@@ -102,6 +102,7 @@
 - **插图 = PC 设计稿原样整组等比缩放**（Park 拍板，重排版方案已回退，别再做 360 竖排）：PC 布局是 620 stage + flow 左悬出 56 = **676** 设计宽；`.rt-hero-visual` `container-type: inline-size` + `margin-inline: calc(8px - var(--rt-gutter))` 破壳到每边 8px + `overflow: clip`（裁掉 stage 布局盒未缩放的横向溢出）；`DomHeroReturns.fit()` 按 `min(1, 容器宽/676)` 写 `--rt-s`；`.rt-glass-stage` 固定 620 宽、**`margin-left: calc(56px * var(--rt-s))`（右对齐，左边留悬出）**、桌面 padding、`scale: var(--rt-s)`、`transform-origin: top left`；scene 高 CSS `calc(572px * var(--rt-s))`，**JS 只写 --rt-s、不动 height**（两边各算会打架，卡就叠了）。reason/method/flow 的桌面规则全部保留，别覆盖。
 - **≤480 块里曾有旧的小卡布局**（stage `min(100%,400px)`、photo 380、flow/method 8px 小位）——已删，它会盖掉 768 的整组缩放（stage 被压回 400 就「全挤在一起」）。以后 ≤480 别再给 `.rt-glass-*` 写布局。
 - CSS `tan(atan2())` 算缩放不解析，别用；fit() 里 leave `scene.style.height = ""`。
+- **演示光标 ≤768 也要有**（Park：「鼠标呢？」）：`play()` 的 reduce 分支原来直接跳到结果不演鼠标——已改成照常 `clickTarget`（slow=true，悬停 900ms）；reduce 媒体块里 `.rt-glass-mouse { display:none }` 已改回 block。**`pointAt` 的 `--mx/--my` 是 stage 未缩放坐标系**，rect 差值必须除回 `--rt-s`，否则光标飘到插图右下外（Park 报过「位置错了」）。
 - **HMR 常不生效**：改完必须整页 reload 再验证（Park 看到的旧布局多半是这个）。
 
 
