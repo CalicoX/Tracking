@@ -96,7 +96,13 @@
 - Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
 - Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。桌面推荐卡叠表单右沿 -24px + 色盘 -10px。表单按左边三条补内容：顶品牌条 AURA（身份）+ 色点；Track 下「On the way」自助状态（减客服）；「Visit store」（回访）；推荐卡副标 Second look。不要再只剩空表单。768 仍是叠法，只把三件缩小；不要把表单拉满、不要把推荐卡盖住 Track。≤480 **也要左右叠**：表单 208px、推荐卡 128px `margin-left:-22px`、色盘 40px `-8px`。不要改成上表单下推荐。3D 仍关掉。
 
-## 响应式（Park 逐步查）
+## Returns Hero（移动端）
+
+- **≤768**：`.rt-hero-copy` 用 `display: contents` 拆开、h1/lead/cta 用 `order` 重排——h1、lead 居中；CTA（Free Trial + Book a Demo）**并排**挪到**插图下方**（`.rt-hero-cta` `order:4`，visual `order:3`）。DOM 不动。
+- **插图整体缩放**：`.rt-hero-visual` `container-type: inline-size` + `margin-inline: calc(8px - var(--rt-gutter))` 破壳到每边 8px；`DomHeroReturns.fit()`（JS）按 `min(1, 容器宽/360)` 写 `--rt-s`，`.rt-glass-stage` 固定 360×自然高、`scale: var(--rt-s)`、`transform-origin: top left`。scene 高 = items.offsetHeight + 24 + method.offsetHeight + 12（**别用 flow.offsetTop**——方法卡 margin 会让它等于 flow 自身高；**先直再缩**，容器静态、无 resize loop）。reason 卡（`rt-glass-reason`）≤768 `display:none`（method 竖排时压不住）。photo 高 560、flow 全宽满 12px 内边距。
+- 不再用 CSS `tan(atan2())` 算缩放（不解析）。
+
+
 
 - 检查档位：**1200 → 1024 → 768 → <480**。Park 正在查 **<480**。
 - 现有 CSS 主断点（没有 1200）：1100 收导航；1024 缩字号/Hero 仍双列；**980 Features 改手风琴单列**；900 Hero 叠成一列；768 手机；480 再收 padding/字号。
