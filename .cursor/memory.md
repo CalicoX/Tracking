@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-28（TrustBand 移动端 ≤680 改 3 行 × 4，三站同步）
+最后更新：2026-08-28（TrustBand 移动端 3 行 × 4 三站；BrandsSay 移动端撑满 + 同步进 API）
 
 ## Hero 文案区
 
@@ -42,10 +42,11 @@
 ## BrandsSay
 
 - 紧跟 TrustBand，**白底**（对齐 Returns）。标题 `#0f172a`、副标 `--text-secondary` 17px。CTA 不要 `on-dark`。
-- 仍是双排反向跑马灯（复制卡片 + mask + `brands-track` 动画）。卡片照片叠层、白字不动。logo opacity **0.7**（不要 invert 后 0.98 纯白），引用 `rgba(255,255,255,.95)`、署名 `.82`。
+- **tracking + API 两站都挂了**（2026-08-28 Park「同步加入到 API」）：API 的 LandingPage 顺序 Hero → TrustBand → **BrandsSay** → UseCases；API 组件/CSS 段已整体换成 tracking 新版（旧深色双排 + on-dark 已删）。API structure.test 原来禁止 BrandsSay，已改成顺序断言 TrustBand < BrandsSay < UseCases。
+- **移动端 ≤720 卡片两端撑满**：`.brand-card` 宽 `100vw`，`.brands-say-rows` 负 margin 破出 section-inner 的 pad，`.brands-marquee` mask 去掉（`-webkit-` 在前）。tracking 与 API 同规则。returns 若以后要同步，注意它有 `.returns-page` 壳（returns-page.css ~4487），壳里也得再写一遍。
+- 仍是双排反向跑马灯改后的**单排**（复制卡片 + mask + `brands-track` 动画，仅 is-left）。桌面卡 340×260，≤720 高 240、引文 clamp 4。logo opacity **0.7**（不要 invert 后 0.98 纯白），引用 `rgba(255,255,255,.95)`、署名 `.82`。
 - 不要挪回 ExploreMore 后，不要深色底。
 - 静态 3+2 网格已回退（Park：整错了；老板要改的是 TrustBand logo，不是评价卡）。
-- **单排跑马灯**（2026-08-27 Park「去掉一行」= BrandsSay，不是 TrustBand）：只剩 is-left 一排，is-right 已删。卡片加高 220→260px（≤720 是 240px），引文 clamp 4→5 行（≤720 是 4 行）。不要给这排单独留 hover pause 以外的逻辑改动。
 
 ## 流体字号（2026-08-27 Park「移动端字有点大」）
 

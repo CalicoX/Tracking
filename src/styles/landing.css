@@ -8195,6 +8195,18 @@
       }
       .brands-track.is-left { animation-duration: 40s; }
       .brands-track.is-right { animation-duration: 44s; }
+      /* mobile: cards bleed edge-to-edge — rows break out of the shell, no mask fade */
+      .brands-say-rows {
+        margin: 0 calc(-1 * var(--page-pad-x));
+        width: auto;
+      }
+      .brands-marquee {
+        -webkit-mask-image: none;
+        mask-image: none;
+      }
+      .brand-card {
+        width: 100vw;
+      }
     }
 
     /* Explore — flat cards + pointer spotlight (no 3D transform) */
