@@ -8013,6 +8013,8 @@
     .brands-marquee {
       overflow: hidden;
       width: 100%;
+      /* 容器：≤720 卡宽用 100cqw，随 marquee 实宽撑满（100vw 在缩放/异形视口会过冲） */
+      container-type: inline-size;
       -webkit-mask-image: linear-gradient(
         90deg,
         transparent,
@@ -8207,7 +8209,7 @@
         mask-image: none;
       }
       .brand-card {
-        width: 100vw;
+        width: 100cqw;
       }
     }
 
