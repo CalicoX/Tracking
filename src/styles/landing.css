@@ -10557,8 +10557,14 @@
       .logo-tile img[alt="totwoo"],
       .logo-tile img[alt="Vaporesso"],
       .logo-tile img[alt="GOELIA"] { height: 20px; }
-      .logos-track { gap: 22px; }
-      .logos-row { gap: 12px 24px; }
+      /* mobile: flatten to one 4-col grid → 3 rows of 4 */
+      .logos-track {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 22px 24px;
+        width: 100%;
+      }
+      .logos-row { display: contents; }
       .float-card {
         position: static;
         width: auto;

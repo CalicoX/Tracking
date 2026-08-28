@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-26（AI 用字号放大、central 锚点，录屏里不再往下掉）
+最后更新：2026-08-28（TrustBand 移动端 ≤680 改 3 行 × 4，三站同步）
 
 ## Hero 文案区
 
@@ -22,7 +22,7 @@
 ## 移动端特效（Park 要求保留）
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
-- TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6。默认 18px；AliExpress/Baleaf **22px**；Cainiao/eufy **26px**；SHARGE/totwoo/Vaporesso/GOELIA 24px。行距 36px，列距 **72px**（Park：圈出的几个偏小，48px 间距还不够）。灰色 grayscale + opacity 0.62。eufy 源是中蓝，0.62 会洗白，单独 **opacity 0.88**。禁止 brightness(0)。
+- TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6（桌面）。**≤680 改 3 行 × 4（2026-08-28 Park）**：`.logos-track` 变 `repeat(4,1fr)` grid、`.logos-row` display:contents，DOM 不动。不能放 ≤768 块（structure.test 断言 block768 无 `.logos-track`）。**returns 的 `returns-page.css` 有 `.returns-page .logos-row` 壳，特异性更高，≤680 必须在壳里再写一遍**，否则 landing.css 的改动不生效。三站已同步。默认 18px；AliExpress/Baleaf **22px**；Cainiao/eufy **26px**；SHARGE/totwoo/Vaporesso/GOELIA 24px。行距 36px，列距 **72px**（Park：圈出的几个偏小，48px 间距还不够）。灰色 grayscale + opacity 0.62。eufy 源是中蓝，0.62 会洗白，单独 **opacity 0.88**。禁止 brightness(0)。
 - 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
@@ -68,7 +68,7 @@
 - GitHub：https://github.com/CalicoX/Tracking.git（私有）
 - 默认分支 `main`。改完 commit 本地；push 听 Park 指挥。
 - `test` 本地和远端都已删（2026-08-24）。当前 HEAD `07bfde1`，与 `origin/main` 一致。
-- Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。不要抢 5174：那是 Returns 的 `[::1]:5174`；浏览器开 `localhost:5174` 会进 Returns。API 在 5173。
+- Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。**端口 5173/5174 实测会对调**（2026-08-28：5173=returns、5174=API；谁先起谁占）。验证时按页面内容（副标文案 / `.returns-page` 壳）确认是哪站，别只看端口。
 - Vite 8 生产压缩用 lightningcss：成对的 `backdrop-filter` / `-webkit-backdrop-filter` 只留最后一个。`-webkit-` 写在后面时，Chrome 上毛玻璃全没（dev 不压缩所以正常）。必须 `-webkit-` 在前、标准属性在后。`build.cssTarget: ['chrome87','safari14']`。不要再加 esbuild minify（Vite 8 不自带 esbuild）。
 
 ## Features（3 块）
