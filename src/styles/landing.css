@@ -8199,6 +8199,8 @@
       .brands-say-rows {
         margin: 0 calc(-1 * var(--page-pad-x));
         width: auto;
+        /* 桌面的 max-width:100% 会把破壳宽度钳回 343，右侧空 32px */
+        max-width: none;
       }
       .brands-marquee {
         -webkit-mask-image: none;
