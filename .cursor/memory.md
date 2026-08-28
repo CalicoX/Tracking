@@ -42,8 +42,9 @@
 ## BrandsSay
 
 - 紧跟 TrustBand，**白底**（对齐 Returns）。标题 `#0f172a`、副标 `--text-secondary` 17px。CTA 不要 `on-dark`。
-- **tracking + API 两站都挂了**（2026-08-28 Park「同步加入到 API」）：API 的 LandingPage 顺序 Hero → TrustBand → **BrandsSay** → UseCases；API 组件/CSS 段已整体换成 tracking 新版（旧深色双排 + on-dark 已删）。API structure.test 原来禁止 BrandsSay，已改成顺序断言 TrustBand < BrandsSay < UseCases。
-- **移动端 ≤720 卡片两端撑满**：`.brand-card` 宽 `100vw`，`.brands-say-rows` 负 margin 破出 section-inner 的 pad，`.brands-marquee` mask 去掉（`-webkit-` 在前）。tracking 与 API 同规则。returns 若以后要同步，注意它有 `.returns-page` 壳（returns-page.css ~4487），壳里也得再写一遍。
+- **三站都挂了**（2026-08-28 Park「同步加入到 API」+「其他的两个都同步了吗」）：tracking / returns / API 顺序均为 TrustBand → BrandsSay。API 的 LandingPage 是 Hero → TrustBand → BrandsSay → UseCases；API structure.test 原禁止 BrandsSay，已改成顺序断言 TrustBand < BrandsSay < UseCases。
+- **移动端 ≤720 卡片两端撑满**：`.brands-marquee` 加 `container-type: inline-size`，`.brand-card` 宽 **`100cqw`**（不要用 100vw——IAB/缩放视口下会过冲裁边）；`.brands-say-rows` 负 margin 破 section-inner 壳 + **`max-width: none`**（桌面 max-width:100% 会把破壳宽度钳回，右侧空 32px）；`.brands-marquee` mask 去掉（`-webkit-` 在前）。tracking/API 改 landing.css；**returns 必须同时改 returns-page.css 壳**（`.returns-page .brands-say-rows / .brands-marquee / .brands-say .brand-card`，壳特异性高）。三站 375 验证过。
+- **returns 的 BrandsSay 组件/CSS 已对齐 tracking 新版**（jsx 直接 cp；landing.css brands-say 整段替换；壳里只留白底主题色 CTA / 卡 260px 等差异项）。
 - 仍是双排反向跑马灯改后的**单排**（复制卡片 + mask + `brands-track` 动画，仅 is-left）。桌面卡 340×260，≤720 高 240、引文 clamp 4。logo opacity **0.7**（不要 invert 后 0.98 纯白），引用 `rgba(255,255,255,.95)`、署名 `.82`。
 - 不要挪回 ExploreMore 后，不要深色底。
 - 静态 3+2 网格已回退（Park：整错了；老板要改的是 TrustBand logo，不是评价卡）。
