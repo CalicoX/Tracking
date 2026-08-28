@@ -103,6 +103,7 @@
 - **≤480 块里曾有旧的小卡布局**（stage `min(100%,400px)`、photo 380、flow/method 8px 小位）——已删，它会盖掉 768 的整组缩放（stage 被压回 400 就「全挤在一起」）。以后 ≤480 别再给 `.rt-glass-*` 写布局。
 - CSS `tan(atan2())` 算缩放不解析，别用；fit() 里 leave `scene.style.height = ""`。
 - **演示光标 ≤768 也要有**（Park：「鼠标呢？」）：`play()` 的 reduce 分支原来直接跳到结果不演鼠标——已改成照常 `clickTarget`（slow=true，悬停 900ms）；reduce 媒体块里 `.rt-glass-mouse { display:none }` 已改回 block。**`pointAt` 的 `--mx/--my` 是 stage 未缩放坐标系**，rect 差值必须除回 `--rt-s`，否则光标飘到插图右下外（Park 报过「位置错了」）。
+- **动画卡死大坑（2026-08-28）**：`pointAt` 在第二个 effect 里引用了第一个 effect 的局部变量 `scene`——ReferenceError 把 promise 链打断，循环永久停在 step1（只剩 items 卡，Park：「面板看不到了/动画没了」）。**该 effect 里没有 scene，要用 `stage.parentElement`**。reduce 分支必须三步全演（item→reason→method），跳步会让 reason/method 永不入场。终态（三卡齐亮）停留 4.2s 是主要画面，别 1.9s 一闪而过。
 - **HMR 常不生效**：改完必须整页 reload 再验证（Park 看到的旧布局多半是这个）。
 
 
