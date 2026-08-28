@@ -99,8 +99,9 @@
 ## Returns Hero（移动端）
 
 - **≤768**：`.rt-hero-copy` 用 `display: contents` 拆开、h1/lead/cta 用 `order` 重排——h1、lead 居中；CTA（Free Trial + Book a Demo）**并排**挪到**插图下方**（`.rt-hero-cta` `order:4`，visual `order:3`）。DOM 不动。
-- **插图整体缩放**：`.rt-hero-visual` `container-type: inline-size` + `margin-inline: calc(8px - var(--rt-gutter))` 破壳到每边 8px；`DomHeroReturns.fit()`（JS）按 `min(1, 容器宽/360)` 写 `--rt-s`，`.rt-glass-stage` 固定 360×自然高、`scale: var(--rt-s)`、`transform-origin: top left`。scene 高 = items.offsetHeight + 24 + method.offsetHeight + 12（**别用 flow.offsetTop**——方法卡 margin 会让它等于 flow 自身高；**先直再缩**，容器静态、无 resize loop）。reason 卡（`rt-glass-reason`）≤768 `display:none`（method 竖排时压不住）。photo 高 560、flow 全宽满 12px 内边距。
-- 不再用 CSS `tan(atan2())` 算缩放（不解析）。
+- **插图 = PC 设计稿原样整组等比缩放**（Park 拍板，重排版方案已回退，别再做 360 竖排）：PC 布局是 620 stage + flow 左悬出 56 = **676** 设计宽；`.rt-hero-visual` `container-type: inline-size` + `margin-inline: calc(8px - var(--rt-gutter))` 破壳到每边 8px；`DomHeroReturns.fit()` 按 `min(1, 容器宽/676)` 写 `--rt-s`；`.rt-glass-stage` 固定 620 宽、桌面 padding、`scale: var(--rt-s)`、`transform-origin: top left`；scene 高 CSS `calc(572px * var(--rt-s))`，**JS 只写 --rt-s、不动 height**（两边各算会打架，卡就叠了）。reason/method/flow 的桌面规则全部保留，别覆盖。
+- CSS `tan(atan2())` 算缩放不解析，别用；fit() 里 leave `scene.style.height = ""`。
+- **HMR 常不生效**：改完必须整页 reload 再验证（Park 看到的旧布局多半是这个）。
 
 
 
