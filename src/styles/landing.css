@@ -11778,3 +11778,68 @@
       }
     }
   
+/* =========================================================
+   Footer responsive — synced from API project (2026-08-31 Park)
+   分档语义同 API：>640 保持 brand 左 + nav 右（≤1024 nav 2×2）；
+   ≤640 才上下堆叠 + 链接两列均分（右列起点在行中线）。
+   放文件末尾，按源顺序覆盖上方 ≤560 块里的旧 footer 规则。
+   ========================================================= */
+@media (max-width: 1024px) {
+  .site-footer-main {
+    /* 桌面式左右布局保持（API Park：1024 不该变上下堆叠） */
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .site-footer-brand {
+    max-width: 480px;
+    min-width: min(320px, 100%);
+  }
+
+  .site-footer-nav {
+    padding-top: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+
+  .site-footer-bottom-left {
+    gap: 24px;
+  }
+
+  .site-footer-copy {
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer-main {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .site-footer-brand {
+    max-width: none;
+    min-width: 0;
+  }
+
+  .site-footer-inner {
+    padding: 48px var(--page-pad-x) 0;
+    gap: 40px;
+  }
+
+  .site-footer-nav {
+    /* 两列均分：Products/Partners 横排贴左，Company/Support 起点在行中线；
+       width:100% 必须——nav 的 flex:1 1 0 在列方向 main 里宽度收缩到内容 */
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+  }
+
+  .site-footer-bottom-left {
+    gap: 16px;
+  }
+
+  .site-footer-legal {
+    gap: 16px;
+  }
+}
