@@ -10827,7 +10827,8 @@
       .ai-lab-intro h2#ai-intro-title .ai-word,
       .ai-lab-intro h2 .ai-word {
         white-space: normal !important;
-        font-size: inherit;
+        /* 不再 font-size:inherit —— 会把标题压回 body 14px（Park：768 字太小），
+           让桌面连续曲线 clamp(34px,26.08px+2.2vw,56px) 自然流下来 */
         filter: none !important;
         opacity: 1 !important;
         transform: none !important;
