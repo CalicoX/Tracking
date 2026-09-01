@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-08-28（TrustBand 移动端 3 行 × 4 三站；BrandsSay 移动端撑满 + 同步进 API）
+最后更新：2026-09-01（补记 08-31 footer/BrandsSay 同步 API 决策；CTA 与 returns 09-01 回退核对一致）
 
 ## Hero 文案区
 
@@ -46,6 +46,7 @@
 - **移动端 ≤720 卡片两端撑满**：`.brands-marquee` 加 `container-type: inline-size`，`.brand-card` 宽 **`100cqw`**（不要用 100vw——IAB/缩放视口下会过冲裁边）；`.brands-say-rows` 负 margin 破 section-inner 壳 + **`max-width: none`**（桌面 max-width:100% 会把破壳宽度钳回，右侧空 32px）；`.brands-marquee` mask 去掉（`-webkit-` 在前）。tracking/API 改 landing.css；**returns 必须同时改 returns-page.css 壳**（`.returns-page .brands-say-rows / .brands-marquee / .brands-say .brand-card`，壳特异性高）。三站 375 验证过。
 - **returns 的 BrandsSay 组件/CSS 已对齐 tracking 新版**（jsx 直接 cp；landing.css brands-say 整段替换；壳里只留白底主题色 CTA / 卡 260px 等差异项）。
 - 仍是双排反向跑马灯改后的**单排**（复制卡片 + mask + `brands-track` 动画，仅 is-left）。桌面卡 340×260，≤720 高 240、引文 clamp 4。logo opacity **0.7**（不要 invert 后 0.98 纯白），引用 `rgba(255,255,255,.95)`、署名 `.82`。
+- **08-31 全档档位（sync API）**：`.brand-card` 全档 `max-width: 320px`（桌面 340 声明被钳到 320）；100cqw 全宽卡从 ≤720 **挪到 ≤640**（768 平板吃 720 块的 min(300px,86vw)=300px 卡，Park「768 巨宽卡太夸张」）；≤640 块在文件末尾按源顺序覆盖 720 同名规则（撑满负 margin + 去 mask 都要重写一遍）。
 - 不要挪回 ExploreMore 后，不要深色底。
 - 静态 3+2 网格已回退（Park：整错了；老板要改的是 TrustBand logo，不是评价卡）。
 
@@ -124,6 +125,8 @@
 
 ## 不要再做
 
+- **footer 同步 API 版（08-31，landing.css 末尾）**：>640 保持 brand 左 + nav 右（≤1024 nav 2×2、brand max-width 480）；≤640 才上下堆叠 + 链接两列均分（右列起点在行中线，`.site-footer-nav` 必须 `width:100%`，否则列方向 main 里 flex:1 1 0 收缩到内容宽）。规则放文件末尾按源顺序覆盖旧 ≤560 块。
+- **CTA 并排是全站决策（09-01 核对）**：returns 把手机 CTA 从 640 全宽堆叠撤回并排（两颗各吃一半 `flex:1 1 0`），tracking-react 本就并排（≤480 块 `max-width:220`、无 640 堆叠），无需跟进。不要再做 CTA 全宽/竖排。
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
 - 不要在 375 把 Explore Returns 排成左右栏（Park：上下布局）。
