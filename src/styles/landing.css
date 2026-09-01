@@ -111,7 +111,7 @@
     /* overflow-x:clip breaks position:sticky descendants on desktop — keep open */
     .page { min-height: 100vh; overflow-x: visible; padding-bottom: 0; }
     /* Phone/tablet: clip residual float-card / mock bleed without killing sticky on desktop */
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
       html,
       body {
         overflow-x: clip;
@@ -3368,7 +3368,7 @@
       display: inline-block;
       white-space: nowrap;
     }
-    @media (max-width: 520px) {
+    @media (max-width: 640px) {
       .impact-band h2 .impact-h2-l1 {
         white-space: normal;
       }
@@ -5037,7 +5037,7 @@
       padding: 2px;
       border: 1px solid rgba(15, 23, 42, 0.06);
     }
-    @media (max-width: 480px) {
+    @media (max-width: 640px) {
       .feature-stage {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -7447,7 +7447,7 @@
       padding-left: 0;
       padding-right: 0;
     }
-    @media (max-width: 720px) {
+    @media (max-width: 640px) {
       .ogl-trail-grid {
         grid-template-columns: 1fr;
       }
@@ -8185,7 +8185,7 @@
       color: rgba(255, 255, 255, 0.82);
       letter-spacing: 0.01em;
     }
-    @media (max-width: 720px) {
+    @media (max-width: 768px) {
       .brand-card {
         width: min(300px, 86vw);
         height: 240px;
@@ -9860,7 +9860,7 @@
       margin-left: auto;
       margin-right: auto;
     }
-    @media (max-width: 980px) {
+    @media (max-width: 1024px) {
       .credentials-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px;
@@ -9869,7 +9869,7 @@
         margin-bottom: 32px;
       }
     }
-    @media (max-width: 560px) {
+    @media (max-width: 640px) {
       .credentials-grid {
         grid-template-columns: 1fr;
         max-width: 360px;
@@ -10242,7 +10242,7 @@
       text-align: right;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 640px) {
       .site-footer-main {
         flex-direction: column;
         gap: 48px;
@@ -10259,7 +10259,7 @@
       .site-footer-bottom-left { gap: 24px; }
       .site-footer-copy { text-align: left; }
     }
-    @media (max-width: 560px) {
+    @media (max-width: 640px) {
       .site-footer-inner { padding: 48px var(--page-pad-x) 0; gap: 40px; }
       .site-footer-nav { grid-template-columns: 1fr 1fr; }
       .site-footer-bottom-left { gap: 16px; }
@@ -10286,12 +10286,12 @@
       border-radius: 99px;
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1024px) {
       .nav-links .nav-group:last-child,
       .nav-divider { display: none; }
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1024px) {
       .topbar-inner { padding: 12px var(--page-pad-x); }
       .nav-left { gap: 16px; }
       .nav-links { display: none; }
@@ -10307,7 +10307,7 @@
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 640px) {
       .feature-scroll {
         height: auto !important;
         min-height: 0 !important;
@@ -10455,7 +10455,7 @@
       }
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1024px) {
       .hero-inner {
         min-height: 0;
         padding-top: 56px;
@@ -10549,7 +10549,8 @@
       }
     }
 
-    @media (max-width: 680px) {
+    /* —— ≤640: nav/dock/TrustBand/Explore 手机密度（原 ≤680 → 640，2026-09-01 断点并档）—— */
+    @media (max-width: 640px) {
       .nav-actions .btn-text { display: none; }
       .btn-split.primary .main span.full { display: none; }
       .hero {
@@ -10707,8 +10708,9 @@
       }
     }
 
-    /* 481–1024 two-column Features — shrink mocks so iso doesn't clip */
-    @media (max-width: 1024px) and (min-width: 481px) {
+    /* 769–1024 two-column Features — shrink mocks so iso doesn't clip
+       （2026-09-01 断点并档：下限 481→769，≤768 手机特化归 ≤640/≤768 块） */
+    @media (max-width: 1024px) and (min-width: 769px) {
       .feature-layout {
         grid-template-columns: minmax(260px, 36%) minmax(0, 1fr);
         gap: 24px 32px;
@@ -10742,8 +10744,8 @@
       }
     }
 
-    /* —— ≤900: hero stacks when 2-col is too tight —— */
-    @media (max-width: 900px) {
+    /* —— ≤900 → 768: hero stacks when 2-col is too tight（2026-09-01 断点并档）—— */
+    @media (max-width: 768px) {
       .hero {
         min-height: 0;
         align-items: center;
@@ -10800,11 +10802,6 @@
         --sec-title-desc: 12px;
         --sec-cta-gap: 20px;
         --page-pad-x: 16px;
-      }
-
-      .bottom-cta-shader,
-      .ai-intro-rail {
-        display: none !important;
       }
 
       /* AI intro: static, no sticky pin wall */
@@ -11301,8 +11298,9 @@
       }
     }
 
-    /* —— ≤480 phone —— */
-    @media (max-width: 480px) {
+    /* —— ≤640 phone（原 ≤480 → 640，2026-09-01 断点并档；块在 ≤768 块后，
+          同名规则按源顺序覆盖宽档）—— */
+    @media (max-width: 640px) {
       :root {
         --page-pad-x: 16px;
         --sec-y: 40px;
@@ -11310,6 +11308,13 @@
         --sec-title-desc: 10px;
         --sec-cta-gap: 16px;
       }
+
+      /* FX 降级线 = 640（2026-09-01 断点并档对齐 API：768 平板吃完整桌面 FX） */
+      .bottom-cta-shader,
+      .ai-intro-rail {
+        display: none !important;
+      }
+
       .features-section > .section-inner {
         padding-top: 72px;
       }

@@ -75,9 +75,9 @@ export function mount() {
       var reduce =
         window.matchMedia &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      /* 768 keeps ASCII drift + twinkle (Park). Static fill only at 480 / reduced-motion. */
+      /* 768 keeps ASCII drift + twinkle (Park). Static fill only at 640 / reduced-motion. */
       var phone =
-        !!(window.matchMedia && window.matchMedia("(max-width: 480px)").matches);
+        !!(window.matchMedia && window.matchMedia("(max-width: 640px)").matches);
       var glyphs = "+*#=-.|:";
       var rows = 36;
       var cols = 64;
@@ -252,7 +252,7 @@ export function mount() {
       var n = panels.length;
       var current = -1;
       var clickUnlockTimer = 0;
-      var mqMobile = window.matchMedia("(max-width: 480px)");
+      var mqMobile = window.matchMedia("(max-width: 640px)");
       var panelGap = 28;
       var panelH = 0;
       var travelPx = 1;

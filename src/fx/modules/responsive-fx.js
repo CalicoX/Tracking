@@ -11,7 +11,8 @@ export function mount() {
 
   var mq1024 = window.matchMedia("(max-width: 1024px)");
   var mq768 = window.matchMedia("(max-width: 768px)");
-  var mq480 = window.matchMedia("(max-width: 480px)");
+  /* FX 降级线跟手机档 640（2026-09-01 断点并档对齐 API：768 平板竖屏吃完整桌面 FX） */
+  var mq480 = window.matchMedia("(max-width: 640px)");
   var mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
   var mqCoarse = window.matchMedia("(pointer: coarse)");
 
@@ -20,7 +21,7 @@ export function mount() {
     var t = mq1024.matches;
     var m = mq768.matches;
     var s = mq480.matches;
-    var reduce = mqReduce.matches || m;
+    var reduce = mqReduce.matches || s;
     root.classList.toggle("is-bp-1024", t);
     root.classList.toggle("is-bp-768", m);
     root.classList.toggle("is-bp-480", s);
@@ -28,7 +29,7 @@ export function mount() {
     root.classList.toggle("is-touch", mqCoarse.matches);
     /* Global flag for shaders / AI lab */
     window.__reduceFx = reduce;
-    window.__isMobileLayout = m;
+    window.__isMobileLayout = s;
   }
 
   apply();

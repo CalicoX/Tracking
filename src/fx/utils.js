@@ -13,7 +13,7 @@ export function isMobileLayout() {
   return !!(
     typeof window !== "undefined" &&
     window.matchMedia &&
-    window.matchMedia("(max-width: 768px)").matches
+    window.matchMedia("(max-width: 640px)").matches
   );
 }
 

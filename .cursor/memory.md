@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-01（AI intro 标题 768 font-size:inherit 压字 bug 三站修复；补记 08-31 footer/BrandsSay 同步决策）
+最后更新：2026-09-01（全站断点并档 640/768/1024 对齐 API 仓；AI intro 标题 768 压字 bug 三站修复）
 
 ## Hero 文案区
 
@@ -109,15 +109,16 @@
 
 
 
-- 检查档位：**1200 → 1024 → 768 → <480**。Park 正在查 **<480**。
-- 现有 CSS 主断点（没有 1200）：1100 收导航；1024 缩字号/Hero 仍双列；**980 Features 改手风琴单列**；900 Hero 叠成一列；768 手机；480 再收 padding/字号。
+- **断点已并档 640/768/1024（2026-09-01 Park 定案，对齐 API 仓）**：全站 max-width 只用三档（+640 内 360 窄机子档）。映射：480/520/560→640；680/720→768 或 640（按语义）；900→768；980/1100→1024；范围块 `(max-1024)+(min-481)`→`(min-769)`。**Park 拍板**：旧 ≤980 大块（hero rebalance + bottom-cta/ai-lab/impact 单列）**整块归 1024**；Explore 卡/phone-wrap 单列降 ≤640；feature-scroll/sticky 定位规则归 ≤640；BrandsSay 卡宽维持 768=min(300px,86vw)、640=100cqw。**FX 降级线=640**：responsive-fx `reduce = mqReduce || mq640`（`is-bp-480` 类名保留但挂 mq640，`__isMobileLayout` 跟 640）；`bottom-cta-shader`/`ai-intro-rail` 的 display:none 从 768 块挪进 640 块；`landing-inline` mqMobile、`bottom-cta-shader`/`impact-bg-shader`/`undertones` DPR/`ai-lab` isMobileLayout 全部 640；`utils.isMobileLayout` 也 640。**768 平板竖屏吃完整桌面 FX**（旧行为 768 关 FX 已废止）。验证过六档（1440/1280/1024/768/640/390）：桌面零变化、零溢出、768 FX 全开、640/390 单列+FX 关。`structure.test.js` 锁三档 + 禁旧断点回归；`responsive-fx.test.js` 改成 768 不降 FX / 640 降。**别再往 CSS 写 640/768/1024 以外的 max-width，别在 JS 写新断点。**
+- 检查档位：**1280 → 1024 → 768 → 640 → 390**（并档后六档；1440/1280 桌面必须零变化）。
+- 三档语义：≤640 手机特化（单列/横滑/1px 描边/全宽卡）；≤768 平板竖屏**保持桌面式双栏**，只藏噪音件；≤1024 两/三列 rebalance；>1024 桌面全量。主断点块顺序（landing.css）：640 小块散布 → 1024 → (769-1024 范围) → 768 hero-stack → 768 mobile big → 640 phone big（文件末尾，原 480 块）→ footer/BrandsSay 640。
 - 1200 仍是桌面双列 Features，column-gap 56px，插图 max-width 540px 在右栏居中。
 - Explore 卡**不要 3D hover / 3D transform**（Park：3d transform）。不要 `rotateX/Y`、`translate3d`、`preserve-3d`、`--rx/--ry/--tz`。只留跟手 spotlight。Returns 插图学 Cursor 首页：底图当空气、两扇轻叠窗口（红黄绿顶栏、偏实心白、软投影），里面少内容；不要把窗口铺满舞台。底图 `<img class="returns-ui-photo">`。图标：钞票 / 叶子 / 双向箭头。
 - Explore 标题圆标：Returns 用**循环双箭头**（不是 U-turn / 返回）。API 就是 Lucide `code-xml` 的 `</>`（Park：这个是对的）。斜杠 `m14.5 4-5 16`，**比括号更高**；圆角端点。静止不要 `stroke-dasharray`（会把斜杠断成两截）。两枚圆标描边统一 **2**，不要 `non-scaling-stroke`（粗细会对不齐）。不要改成花括号，也不要把斜杠收进括号高度。
 - API 终端是毛玻璃（半透明 + `backdrop-filter`）。祖先不要 `preserve-3d` / `filter: drop-shadow`，否则玻璃失效。
-- **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。981–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
-- **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴**（Park：不要改成三块平铺）；插图本身平铺、无 iso。landing-inline `mqMobile` 只到 480。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。481–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**。
-- **≤480 / 375**：Impact h2 与 Features h2 同一 `--fs-h2`。Features 标题 `padding-top: 72px`。插图 `transform: none !important` 铺平。不要给 `.feature-stage` 留 320/340 min-height。Branded **左右叠**（208 / 128 / -22），不要上下拆开。Hero / Features / AI Lab / Bottom CTA 按钮左右并排。Returns 舞台 **360px**，method `top:178px`，两扇窗上下拉开但仍轻叠；Exchange 不要被切。曲线 200px / z-index 2。Features 三块标题同一蓝紫渐变。Explore Returns/API 卡内上下布局。
+- **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。769–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
+- **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴**（Park：不要改成三块平铺）；插图本身平铺、无 iso。landing-inline `mqMobile` 只到 640。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。769–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**（≤1024 块里 2×2，末尾 640 块才两列均分）。
+- **≤640 / 390**：Impact h2 与 Features h2 同一 `--fs-h2`。Features 标题 `padding-top: 72px`。插图 `transform: none !important` 铺平。不要给 `.feature-stage` 留 320/340 min-height。Branded **左右叠**（208 / 128 / -22），不要上下拆开。Hero / Features / AI Lab / Bottom CTA 按钮左右并排。Returns 舞台 **360px**，method `top:178px`，两扇窗上下拉开但仍轻叠；Exchange 不要被切。曲线 200px / z-index 2。Features 三块标题同一蓝紫渐变。Explore Returns/API 卡内上下布局。
 - **AI intro 标题 768 字太小（2026-09-01 Park）**：根因是 ≤768 块里 `#ai-intro-title` 组选择器上的 `font-size: inherit`——把标题打回 body ≈14px，比 lead（15.2px）还小、层级反了。已删（三站同步），让桌面连续曲线 `clamp(34px, calc(26.08px + 2.2vw), 56px)` 自然流下来：768≈43px、375≈34.3px。这条桌面曲线是 `.ai-lab-intro h2` 顶层规则（landing.css），别再往媒体查询里写覆盖。**API 站 LandingPage 没挂 AiLab**（只有 LegacyLanding 旧版有），API 的这条规则是死代码、仍保持同步即可。
 
 ## 产品

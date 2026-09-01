@@ -371,7 +371,7 @@ export function mount() {
     lastCssH = cssH;
     /* phones: cap DPR lower — 3x panels burn GPU on a decorative globe */
     var isPhone =
-      window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+      window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
     dpr = Math.min(window.devicePixelRatio || 1, isPhone ? 1.5 : 2);
     var w = Math.max(1, Math.round(cssW * dpr));
     var h = Math.max(1, Math.round(cssH * dpr));

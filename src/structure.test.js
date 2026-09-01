@@ -244,8 +244,13 @@ describe("React landing structure (gating)", () => {
 
   it("responsive CSS parity: major breakpoints + mobile layout outcomes", () => {
     const css = read("styles/landing.css");
-    for (const bp of ["1024px", "900px", "768px", "480px"]) {
+    // 2026-09-01 断点并档（对齐 API 仓，Park 定案）：全站只用 640/768/1024 三档
+    for (const bp of ["1024px", "768px", "640px"]) {
       expect(css).toMatch(new RegExp(`@media\\s*\\(max-width:\\s*${bp}\\)`));
+    }
+    // 旧化石断点不允许回来
+    for (const bp of ["480px", "520px", "560px", "680px", "720px", "900px", "980px", "1100px"]) {
+      expect(css).not.toMatch(new RegExp(`@media\\s*\\(max-width:\\s*${bp}\\)`));
     }
     expect(css).toMatch(/prefers-reduced-motion:\s*reduce/);
     const iHeroOgl = css.indexOf(".hero-ogl {");
@@ -285,7 +290,7 @@ describe("React landing structure (gating)", () => {
     expect(block768).toMatch(/\.impact-curve/);
     expect(block768).toMatch(/\.site-footer-nav/);
     expect(block768).toMatch(/repeat\(4,\s*minmax\(0,\s*1fr\)\)/);
-    const i1024feat = css.indexOf("/* 481–1024 two-column Features");
+    const i1024feat = css.indexOf("/* 769–1024 two-column Features");
     expect(i1024feat).toBeGreaterThan(-1);
     const block1024feat = css.slice(i1024feat, i1024feat + 900);
     expect(block1024feat).toMatch(/\.fx-br-form/);
@@ -298,9 +303,9 @@ describe("React landing structure (gating)", () => {
     expect(css).toMatch(/--fs-h2:\s*clamp\(24px,\s*calc\(18\.24px \+ 1\.6vw\),\s*40px\)/);
     const rootBlock = css.slice(0, css.indexOf("}"));
     expect(rootBlock).not.toMatch(/font-size:\s*var\(--fs-h2\)/);
-    const i480 = css.indexOf("/* —— ≤480");
-    expect(i480).toBeGreaterThan(-1);
-    const block480 = css.slice(i480, i480 + 14000);
+    const i640 = css.indexOf("/* —— ≤640 phone");
+    expect(i640).toBeGreaterThan(-1);
+    const block480 = css.slice(i640, i640 + 14000);
     expect(block480).toMatch(/\.features-section > \.section-inner/);
     expect(block480).toMatch(/padding-top:\s*72px/);
     expect(block480).toMatch(/flex-direction:\s*column/);
@@ -308,22 +313,22 @@ describe("React landing structure (gating)", () => {
     expect(block480).toMatch(/display:\s*contents/);
     expect(block480).toMatch(/\.explore-card \.explore-link/);
     expect(block480).toMatch(/margin-top:\s*20px/);
-    // 900 hero stack (comment-marked block, not overflow-x helper)
-    const i900 = css.indexOf("/* —— ≤900");
-    expect(i900).toBeGreaterThan(-1);
-    const block900 = css.slice(i900, i900 + 2000);
+    // 768 hero stack（原 ≤900 并档；comment-marked block, not overflow-x helper）
+    const i768stack = css.indexOf("/* —— ≤900 → 768");
+    expect(i768stack).toBeGreaterThan(-1);
+    const block900 = css.slice(i768stack, i768stack + 2000);
     expect(block900).toMatch(/\.hero-inner/);
     expect(block900).toMatch(/grid-template-columns:\s*1fr/);
-    // Features phone tiles (≤480): hide-non-active still in CSS, then contents shows all
-    const i980 = css.indexOf("@media (max-width: 980px)");
-    expect(i980).toBeGreaterThan(-1);
+    // Features phone tiles (≤640): hide-non-active still in CSS, then contents shows all
+    const i640media = css.indexOf("@media (max-width: 640px)");
+    expect(i640media).toBeGreaterThan(-1);
     // find the block that contains feature-scroll auto height
     const featMobile = css.includes(".feature-panel:not(.is-active)") &&
       css.includes("display: none !important");
     expect(featMobile).toBe(true);
     const inline = read("fx/modules/landing-inline.js");
     expect(inline).toMatch(/mqMobile\.matches/);
-    expect(inline).toMatch(/max-width: 480px/);
+    expect(inline).toMatch(/max-width: 640px/);
     expect(inline).toMatch(/Accordion/);
     expect(inline).toMatch(/reduce \|\| phone/);
     expect(inline).not.toMatch(/setTilt/);

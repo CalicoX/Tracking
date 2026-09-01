@@ -321,7 +321,7 @@ export function mount() {
       return !!(
         window.__isMobileLayout ||
         (window.matchMedia &&
-          window.matchMedia("(max-width: 768px)").matches)
+          window.matchMedia("(max-width: 640px)").matches)
       );
     }
 
