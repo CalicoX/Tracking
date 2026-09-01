@@ -8085,6 +8085,8 @@
       position: relative;
       flex: 0 0 auto;
       width: min(340px, 78vw);
+      /* 全档统一上限（sync from API 2026-08-31 Park：桌面 340 / 手机 100cqw 全宽都钳到 320） */
+      max-width: 320px;
       height: 260px;
       border-radius: 18px;
       overflow: hidden;
@@ -11841,5 +11843,25 @@
 
   .site-footer-legal {
     gap: 16px;
+  }
+}
+
+/* BrandsSay ≤640 手机化 — synced from API project (2026-08-31 Park)：
+   100cqw 全宽卡只到 ≤640（768 平板吃上方 720 块的 min(300px, 86vw)=300px 卡，
+   不吃全宽——API Park「768 巨宽卡太夸张」）。放末尾按源顺序覆盖 720 块同名规则 */
+@media (max-width: 640px) {
+  .brand-card {
+    width: 100cqw;
+  }
+
+  .brands-say-rows {
+    margin: 0 calc(-1 * var(--page-pad-x));
+    width: auto;
+    max-width: none;
+  }
+
+  .brands-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 }
