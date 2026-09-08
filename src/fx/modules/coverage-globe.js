@@ -41,6 +41,11 @@ export function mount() {
   if (!band || band.dataset.coverageFx) return () => {};
   band.dataset.coverageFx = "1";
 
+  // —— 数据项逐个依次上浮（CSS stagger，入场一次；纯 transform 不抖）——
+  const unvisIn = observeVisibility(band, (vis) => {
+    if (vis) band.classList.add("is-in");
+  }, { threshold: 0.25 });
+
   // —— Globe：照 stock-insight Globe3D 原样 ——
   let renderer = null;
   let disposeGlobe = () => {};
@@ -304,6 +309,7 @@ export function mount() {
   }
 
   return () => {
+    unvisIn();
     disposeGlobe();
     delete band.dataset.coverageFx;
   };

@@ -17,8 +17,8 @@ export default function CoverageBand() {
             <h2>Top Global Carriers Coverage</h2>
           </div>
           <ul className="coverage-data">
-            {ITEMS.map((item) => (
-              <li key={item.label}>
+            {ITEMS.map((item, i) => (
+              <li key={item.label} style={{ ["--cv-i"]: String(i) }}>
                 <strong>{item.value}</strong>
                 <span>{item.label}</span>
               </li>

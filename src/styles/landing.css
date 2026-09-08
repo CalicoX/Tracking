@@ -10082,6 +10082,24 @@
       gap: 8px;
       align-content: start;
       justify-items: center;
+      /* 入场：逐个依次上浮（is-in 由 coverage-globe.js IO 触发一次） */
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: calc(var(--cv-i, 0) * 0.12s);
+    }
+    .coverage-band.is-in .coverage-data li {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .coverage-data li {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
     }
     .coverage-data li:nth-child(4),
     .coverage-data li:nth-child(5) {
