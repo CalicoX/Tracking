@@ -3189,23 +3189,24 @@
     .feature-side-wrap {
       min-width: 0;
       min-height: 0;
-      height: auto;
+      /* Park：左栏高度固定（跟随右栏面板高度），切换卖点时 CTA 不跳 */
+      height: var(--feature-panel-h, auto);
       max-height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-self: center;
+      justify-content: flex-start;
+      align-self: start;
     }
     .feature-side {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       position: relative;
       top: auto;
       max-height: none;
       overflow: visible;
       background: transparent;
-      flex: 0 1 auto;
+      flex: 1 1 auto;
       min-height: 0;
       height: auto;
     }
@@ -3213,10 +3214,15 @@
       display: grid;
       gap: 12px;
       width: 100%;
-      align-content: center;
+      align-content: start;
       grid-auto-rows: auto;
       box-sizing: border-box;
       height: auto;
+    }
+    /* CTA 钉在固定高度左栏底部，不随展开内容位移 */
+    .feature-side .feature-cta {
+      margin-top: auto;
+      padding-top: 18px;
     }
     /* right: clipped viewport; height set by JS to panelH, then centered */
     .feature-panels-col {
@@ -3703,14 +3709,13 @@
       max-height: 220px;
       opacity: 1;
     }
-    /* 左栏手风琴下方的 CTA 组（原 head 里那组挪到这里） */
+    /* 左栏手风琴下方的 CTA 组（原 head 里那组挪到这里）；margin-top:auto 由 3223 行钉底 */
     .feature-side .feature-cta {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
       justify-content: flex-start;
-      margin: 18px 0 0;
       padding: 0;
     }
     .feature-side .feature-cta .btn-switch,
