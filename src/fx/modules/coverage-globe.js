@@ -1,8 +1,7 @@
 /**
- * CoverageBand FX — port of stock-insight GeoNews Globe3D (Park: 照源码搬，参数别改)
- * + coverage 数字入场计数（滚动模糊）。
+ * CoverageBand FX — port of stock-insight GeoNews Globe3D (Park: 照源码搬，参数别改).
  * Globe: occluder shell + atmosphere rim + graticule + land dot cloud (world.json)
- * + animated city arcs. No hotspots, no interaction. Renders continuously once mounted.
+ * + animated city arcs. No hotspots, no interaction, no counters (Park: 数字会抖).
  */
 import * as THREE from "three";
 import { observeVisibility } from "../utils.js";
@@ -26,16 +25,6 @@ const CITIES = [
   ["Karachi", 67.01, 24.86], ["Tehran", 51.39, 35.69], ["Riyadh", 46.72, 24.71],
 ];
 
-/** prefix + animated target + suffix; comma formats thousands. */
-const STATS = [
-  { prefix: "", target: 4000, decimals: 0, suffix: "+", comma: true },
-  { prefix: "9+", target: 30, decimals: 0, suffix: "" },
-  { prefix: "", target: 99.9, decimals: 1, suffix: "%" },
-  { prefix: "", target: 95, decimals: 0, suffix: "%+" },
-  { prefix: "", target: 99.9, decimals: 1, suffix: "%" },
-];
-const COUNT_MS = 1400;
-
 function latLonToVec3(lat, lon, radius) {
   const latR = (lat * Math.PI) / 180;
   const lonR = (lon * Math.PI) / 180;
@@ -46,85 +35,11 @@ function latLonToVec3(lat, lon, radius) {
   );
 }
 
-/** —— 数字入场：0→target，blur 随进度收敛（Park：滚动到位有数值滚动/滚动模糊）—— */
-function mountCounters(band) {
-  const items = band.querySelectorAll(".coverage-data li");
-  if (!items.length || band.dataset.countMounted) return;
-  band.dataset.countMounted = "1";
-
-  const fmt = (v, decimals, comma) => {
-    let s = decimals > 0 ? v.toFixed(decimals) : String(Math.round(v));
-    if (comma) s = Number(s).toLocaleString("en-US");
-    return s;
-  };
-
-  const state = Array.prototype.map.call(items, (li, i) => {
-    const spec = STATS[i] || STATS[0];
-    const strong = li.querySelector("strong");
-    if (!strong) return null;
-    return { li, strong, spec };
-  }).filter(Boolean);
-
-  let raf = 0;
-  let started = false;
-
-  function paint(p) {
-    // easeOutCubic
-    const e = 1 - Math.pow(1 - p, 3);
-    for (const s of state) {
-      const { spec, strong } = s;
-      const v = spec.target * e;
-      strong.textContent = spec.prefix + fmt(v, spec.decimals, spec.comma) + spec.suffix;
-      // 滚动模糊：计数中带 blur + 轻微上移，结束归零
-      const blur = (1 - e) * 6;
-      strong.style.filter = blur > 0.15 ? `blur(${blur.toFixed(2)}px)` : "";
-      s.li.style.transform = blur > 0.15 ? `translateY(${(blur * 0.9).toFixed(2)}px)` : "";
-    }
-  }
-
-  function play() {
-    if (started) return;
-    started = true;
-    const t0 = performance.now();
-    const step = (now) => {
-      const p = Math.min(1, (now - t0) / COUNT_MS);
-      paint(p);
-      if (p < 1) {
-        raf = requestAnimationFrame(step);
-      } else {
-        raf = 0;
-        for (const s of state) {
-          s.strong.style.filter = "";
-          s.li.style.transform = "";
-        }
-      }
-    };
-    raf = requestAnimationFrame(step);
-  }
-
-  const unvis = observeVisibility(band, (vis) => {
-    if (vis) play();
-  }, { threshold: 0.3 });
-
-  return () => {
-    if (raf) cancelAnimationFrame(raf);
-    unvis();
-    delete band.dataset.countMounted;
-  };
-}
-
 export function mount() {
   const container = document.getElementById("coverage-globe-canvas");
   const band = document.querySelector(".coverage-band");
   if (!band || band.dataset.coverageFx) return () => {};
   band.dataset.coverageFx = "1";
-
-  let disposeCounters = null;
-  try {
-    disposeCounters = mountCounters(band);
-  } catch (err) {
-    console.warn("[coverage-globe] counters", err);
-  }
 
   // —— Globe：照 stock-insight Globe3D 原样 ——
   let renderer = null;
@@ -387,7 +302,6 @@ export function mount() {
   }
 
   return () => {
-    disposeCounters?.();
     disposeGlobe();
     delete band.dataset.coverageFx;
   };
