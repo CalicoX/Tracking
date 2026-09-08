@@ -26,6 +26,7 @@ const FX_LOADERS = {
   aiLetterZoom: () => import("./modules/ai-letter-zoom.js"),
   aiTitleParticles: () => import("./modules/ai-title-particles.js"),
   bottomCta: () => import("./modules/bottom-cta-shader.js"),
+  coverageGlobe: () => import("./modules/coverage-globe.js"),
 };
 
 /**
@@ -123,6 +124,22 @@ export function useLandingEffects() {
             }, 400);
             disposers.push(stop);
           }
+        })
+      );
+    }
+
+    // —— Coverage globe deferred (canvas 2D, runs on phone too — Park particle-earth rule) ——
+    const coverage = document.getElementById("coverage");
+    if (coverage && !prefersReducedMotion()) {
+      let loaded = false;
+      disposers.push(
+        observeVisibility(coverage, (vis) => {
+          if (!vis || loaded) return;
+          loaded = true;
+          const stop = whenIdle(() => {
+            if (!cancelled) mountNamed("coverageGlobe");
+          }, 300);
+          disposers.push(stop);
         })
       );
     }

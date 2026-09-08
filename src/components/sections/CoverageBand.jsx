@@ -1,4 +1,4 @@
-/** Presentational section: CoverageBand — Top Global Carriers Coverage, 3+2 data grid on globe backdrop. */
+/** Presentational section: CoverageBand — Top Global Carriers Coverage, centered on animated dot-globe. */
 
 const ITEMS = [
   { value: "4,000+", label: "Carriers Worldwide" },
@@ -11,11 +11,11 @@ const ITEMS = [
 export default function CoverageBand() {
   return (
 <section className="coverage-band" id="coverage">
-        <div className="coverage-bg" aria-hidden="true">
-          <img src="/assets/globe-dots.jpg" alt="" loading="lazy" decoding="async" />
-        </div>
+        <canvas className="coverage-globe" id="coverage-globe-canvas" aria-hidden="true"></canvas>
         <div className="section-inner">
-          <span className="coverage-eyebrow">Top Global Carriers Coverage</span>
+          <div className="section-head coverage-head">
+            <h2>Top Global Carriers Coverage</h2>
+          </div>
           <ul className="coverage-data">
             {ITEMS.map((item) => (
               <li key={item.label}>
