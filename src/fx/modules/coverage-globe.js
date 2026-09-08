@@ -55,7 +55,7 @@ export function mount() {
     glc.style.cssText = "position:absolute;left:-99999px;top:0;width:2px;height:2px;";
     const view = document.createElement("canvas");
     view.id = "coverage-gl";
-    view.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;";
+    view.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;opacity:0.55;";
     const vctx = view.getContext("2d");
     band.appendChild(view);
     band.appendChild(glc);
@@ -63,8 +63,8 @@ export function mount() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
     camera.position.z = 2.55;
-    // Park 圈位：球心下移 → 相机上抬（画面里球向下走）
-    camera.position.y = 0.62;
+    // Park：球心再下移 + 整体调暗保文字可读
+    camera.position.y = 0.95;
 
     const rootGroup = new THREE.Group();
     rootGroup.rotation.x = 0.3;
