@@ -27,6 +27,7 @@ const FX_LOADERS = {
   aiTitleParticles: () => import("./modules/ai-title-particles.js"),
   bottomCta: () => import("./modules/bottom-cta-shader.js"),
   coverageGlobe: () => import("./modules/coverage-globe.js"),
+  aiCurtain: () => import("./modules/ai-curtain.js"),
 };
 
 /**
@@ -180,7 +181,8 @@ export function useLandingEffects() {
               await mountNamed("thinkingOrb");
               await mountNamed("aiLab");
               if (cancelled) return;
-              mountNamed("aiLetterZoom");
+              // Park：AI 字母遮罩退役，改 WebGL 窗帘拉开（ai-curtain.js）
+              mountNamed("aiCurtain");
               // Kick scroll bus so wantIn → setIn runs while intro is in view
               try {
                 window.dispatchEvent(new Event("scroll"));

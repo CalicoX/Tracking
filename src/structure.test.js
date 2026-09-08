@@ -188,7 +188,7 @@ describe("React landing structure (gating)", () => {
       "ai-title-particles.js",
       "border-beam.js",
       "ai-lab.js",
-      "ai-letter-zoom.js",
+      "ai-curtain.js",
       "hero-draw.js",
     ]) {
       const mod = read(`fx/modules/${name}`);
@@ -206,44 +206,21 @@ describe("React landing structure (gating)", () => {
     );
   });
 
-  it("AI letter zoom holds ~1 extra viewport after pin before scaling", () => {
-    const zoom = read("fx/modules/ai-letter-zoom.js");
-    expect(zoom).toMatch(/AI_HOLD_VH\s*=\s*0\.36/);
-    expect(zoom).toMatch(/scrolled <= holdPx/);
-    expect(zoom).not.toMatch(/AI_HOLD_END\s*=\s*0\.16/);
-    expect(zoom).not.toMatch(/wr\.height \* 0\.86/);
-    expect(zoom).toMatch(/selectNodeContents/);
-    expect(zoom).toMatch(/AI_ZOOM_VH\s*=\s*0\.48/);
-    /* cubic ease-in keeps the pair legible early; end scale from the viewport diagonal */
-    expect(zoom).toMatch(/const eased = p \* p \* p/);
-    expect(zoom).toMatch(/zoomEnd = Math\.max\(2, \(diag \* 1\.25\) \/ origin\.fs\)/);
-    /* ending is a long scroll-scrubbed veil fade (hard drop read as a pop) */
-    expect(zoom).toMatch(/FADE_FROM = 0\.55/);
-    expect(zoom).toMatch(/const cutOp = \(1 - tail\) \* rampIn;/);
-    expect(zoom).toMatch(/const rampIn = clamp\(p \/ 0\.18, 0, 1\)/);
-    /* surrounding copy washes out gradually across the first stretch of zoom */
-    expect(zoom).toMatch(/restOp = clamp\(1 - p \/ 0\.45, 0, 1\)/);
-    expect(zoom).not.toMatch(/restOp = p < 0\.22/);
-    /* pure knockout: nothing painted over the mask holes — page shows through */
-    expect(zoom).not.toMatch(/ai-zoom-glyph/);
-    expect(zoom).not.toMatch(/ai-glyph-grad/);
-    expect(zoom).toMatch(/layer\.style\.opacity = String\(/);
-    expect(zoom).toMatch(/dominant-baseline/);
-    expect(zoom).toMatch(/zooming = true/);
-    expect(zoom).not.toMatch(/peakZoom/);
-    const cssZoom = read("styles/landing.css");
-    /* veil up must block clicks — otherwise they punch through to the page below */
-    const cssLayer = cssZoom.match(/#ai-zoom-layer\.is-on\s*{[^}]*}/);
-    expect(cssLayer && /pointer-events:\s*auto/.test(cssLayer[0])).toBe(true);
-    expect(cssZoom).toMatch(/#ai-zoom-layer/);
-    expect(cssZoom).not.toMatch(/mix-blend-mode:\s*destination-out/);
-    expect(zoom).not.toMatch(/p - 0\.86/);
-    const css = read("styles/landing.css");
-    expect(css).toMatch(
-      /\.is-ai-zooming \.ai-word-ai[\s\S]{0,120}opacity:\s*0\s*!important/
-    );
-    expect(css).toMatch(/--ai-veil:\s*0/);
-    expect(css).toMatch(/--ai-zoom:\s*1/);
+  it("AI curtain: hold after pin, then WebGL curtains part (zoom mask retired)", () => {
+    const curtain = read("fx/modules/ai-curtain.js");
+    // 同一 hold 节奏：钉住后停约 0.36 屏再拉开
+    expect(curtain).toMatch(/AI_HOLD_VH = 0\.36/);
+    expect(curtain).toMatch(/scrolled - holdPx/);
+    expect(curtain).toMatch(/WebGLRenderer|getContext\("webgl"/);
+    // 幕叶从中心向两侧拉开 + 尾段消散
+    expect(curtain).toMatch(/uP/);
+    expect(curtain).toMatch(/smoothstep\(0\.72, 1\.0, uP\)/);
+    // 可见层走 2D blit（页面合成对 WebGL 层不可靠）
+    expect(curtain).toMatch(/drawImage\(gl\.canvas/);
+    // 挂载序：aiLab 之后 curtain（替代 aiLetterZoom）
+    const fx = read("fx/useLandingEffects.js");
+    expect(fx).not.toMatch(/mountNamed\("aiLetterZoom"\)/);
+    expect(fx).toMatch(/mountNamed\("aiCurtain"\)/);
   });
 
   it("responsive CSS parity: major breakpoints + mobile layout outcomes", () => {
