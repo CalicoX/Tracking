@@ -130,11 +130,11 @@ describe("React landing structure (gating)", () => {
     expect(fx).toMatch(/bottom-cta|bottomCta/);
     const features = read("components/sections/FeaturesSection.jsx");
     expect(features).toMatch(/feature-scroll|id="feature-scroll"/);
-    // 09-08 文案：4 个卖点标签（手风琴），不再锁旧三块标题
-    expect(features).toMatch(/BRANDED TRACKING PAGE/);
-    expect(features).toMatch(/BRANDED EMAIL NOTIFICATION/);
-    expect(features).toMatch(/SPLIT-ORDER MANAGEMENT/);
-    expect(features).toMatch(/CONVERSION &amp; LOYALTY/);
+    // 09-08 文案：4 个卖点标签（手风琴，首字母大写），不再锁旧三块标题
+    expect(features).toMatch(/Branded Tracking Page/);
+    expect(features).toMatch(/Branded Email Notification/);
+    expect(features).toMatch(/Split-Order Management/);
+    expect(features).toMatch(/Conversion &amp; Loyalty/);
     expect(features).not.toMatch(/Proactive notifications/);
     expect(features).not.toMatch(/data-feature="4"/);
     expect(features).toMatch(/feature-desc/);

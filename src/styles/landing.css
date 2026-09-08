@@ -3212,12 +3212,14 @@
     }
     .feature-list {
       display: grid;
-      gap: 12px;
+      gap: 8px;
       width: 100%;
       align-content: start;
       grid-auto-rows: auto;
       box-sizing: border-box;
       height: auto;
+      /* 固定占位高度：列表内容在栏内垂直居中（整体下移），CTA 仍钉底不随切换位移 */
+      min-height: calc(var(--feature-panel-h, 480px) - 120px);
     }
     /* CTA 钉在固定高度左栏底部，不随展开内容位移 */
     .feature-side .feature-cta {
@@ -3644,8 +3646,8 @@
     }
     .feature.active {
       gap: 8px;
-      padding-top: 8px;
-      padding-bottom: 8px;
+      padding-top: 6px;
+      padding-bottom: 6px;
       background: transparent;
       box-shadow: none;
       transform: none;

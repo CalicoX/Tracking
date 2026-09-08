@@ -10,7 +10,7 @@ export default function FeaturesSection() {
                   <div className="feature-side" id="feature-side">
                   <div className="feature-list" role="tablist" aria-label="Key features">
                     <button className="feature active" type="button" id="feature-tab-0" data-feature="0" role="tab" aria-selected="true" aria-controls="feature-panel-0">
-                      <h3>BRANDED TRACKING PAGE</h3>
+                      <h3>Branded Tracking Page</h3>
                       <p className="feature-desc">Create an AI-powered branded tracking page that turns every shipment update into a personalized post-purchase experience — without design or coding work.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
@@ -22,7 +22,7 @@ export default function FeaturesSection() {
                       </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-1" data-feature="1" role="tab" aria-selected="false" aria-controls="feature-panel-1">
-                      <h3>BRANDED EMAIL NOTIFICATION</h3>
+                      <h3>Branded Email Notification</h3>
                       <p className="feature-desc">Automate timely shipment updates to keep customers informed throughout delivery and reduce unnecessary WISMO inquiries.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
@@ -34,7 +34,7 @@ export default function FeaturesSection() {
                       </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-2" data-feature="2" role="tab" aria-selected="false" aria-controls="feature-panel-2">
-                      <h3>SPLIT-ORDER MANAGEMENT</h3>
+                      <h3>Split-Order Management</h3>
                       <p className="feature-desc">Give customers one clear view of every package in an order, even when shipments are split across multiple parcels.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
@@ -45,7 +45,7 @@ export default function FeaturesSection() {
                       </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-3" data-feature="3" role="tab" aria-selected="false" aria-controls="feature-panel-3">
-                      <h3>CONVERSION &amp; LOYALTY</h3>
+                      <h3>Conversion &amp; Loyalty</h3>
                       <p className="feature-desc">Turn post-purchase touchpoints into opportunities to increase purchase confidence, drive conversion, and encourage repeat purchases.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
@@ -231,7 +231,7 @@ export default function FeaturesSection() {
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
                             <div className="fx-glass fx-cv-card">
-                              <span className="fx-cv-eyebrow">CONVERSION &amp; LOYALTY</span>
+                              <span className="fx-cv-eyebrow">Conversion &amp; Loyalty</span>
                               <strong className="fx-cv-metric">16%</strong>
                               <span className="fx-cv-metric-label">Higher repurchase rate</span>
                               <ul className="fx-cv-list">
