@@ -18,7 +18,7 @@
 
 - **CoverageBand（09-08 三轮定稿）**：五项承运商数据独立板块（ExploreMore 后、Growing LTV 前）。整体居中，h2 用 `var(--fs-h2)` 模块级；数字 clamp(30-52px) **静态显示——计数/blur 动画 Park 否了（会抖），别再加**。3+2 网格用 **6 列轨道**：上排 3 项各跨 2、下排 2 项各跨 3，两行天然居中（3 列 grid 留空位会偏左）；行距 44、max-width 1200。≤640 回 2 列、SLA 跨满。
 - **CoverageBand 地球（Park 提供源码 /Users/stillpilot/Documents/Development/stock-insight，`src/pages/GeoNews.tsx` Globe3D）**：three@0.184 Web渲染，**照源码搬、参数别自作主张改**（Park 连续否掉我自写 canvas 2D 版和"提亮/推近"调参）——遮罩壳 0x060912 + 大气辉光 shader(0.65) + 经纬网 0x1a2a44/0.18 + world.json 陆地点云(size 0.015/0xc9dcf4) + 48 城市弧线(#e24dc0 脉冲 shader)；无热点/无交互/无国家标记。`world.json`（1MB）已拷到 public/。
-- **大坑：#coverage-globe-canvas 宿主 div 的子树在本站环境不 paint**（红块实验：挂它 0×0，挂 .coverage-band 的绿块正常 80×80；computed style 全正常但 getBoundingClientRect 0）——**往这个板块加可见元素一律直接挂 .coverage-band**，别用那个宿主。可见 canvas 是 2D 版（GL 离屏 -99999px，每帧 drawImage blit），顺手解决了截图管线丢 WebGL 层的问题。**地球取景（Park 定稿）：camera z=2.55、y=+0.95，可见 canvas opacity 0.55 压暗**（球顶在数据行之间、主体铺满板块向下溢出，文字可读性优先；再调就是这三个数）。
+- **大坑：#coverage-globe-canvas 宿主 div 的子树在本站环境不 paint**（红块实验：挂它 0×0，挂 .coverage-band 的绿块正常 80×80；computed style 全正常但 getBoundingClientRect 0）——**往这个板块加可见元素一律直接挂 .coverage-band**，别用那个宿主。可见 canvas 是 2D 版（GL 离屏 -99999px，每帧 drawImage blit），顺手解决了截图管线丢 WebGL 层的问题。**地球取景（Park 定稿）：camera z=2.55、y=+0.95，可见 canvas opacity 0.55 压暗，辉光是 stock-insight 原版（壳 1.18 + pow(0.7-d,3)*0.65）**——辉光壳 1.55/调 falloff 两轮 Park 都否了还原原版，别再动辉光参数；相机/透明度可再调。
 
 ## Hero 文案区
 

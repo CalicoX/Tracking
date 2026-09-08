@@ -78,10 +78,10 @@ export function mount() {
 
     // Atmosphere rim glow
     scene.add(new THREE.Mesh(
-      new THREE.SphereGeometry(1.55, 64, 64),
+      new THREE.SphereGeometry(1.18, 64, 64),
       new THREE.ShaderMaterial({
         vertexShader: "varying vec3 vNormal; void main(){ vNormal = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
-        fragmentShader: "varying vec3 vNormal; void main(){ float d = dot(vNormal, vec3(0.0,0.0,1.0)); float i = pow(max(0.0, 0.74 - d), 5.0) * 0.8; gl_FragColor = vec4(0.05, 0.3, 0.9, 1.0) * i; }",
+        fragmentShader: "varying vec3 vNormal; void main(){ float d = dot(vNormal, vec3(0.0,0.0,1.0)); float i = pow(max(0.0, 0.7 - d), 3.0) * 0.65; gl_FragColor = vec4(0.05, 0.3, 0.9, 1.0) * i; }",
         blending: THREE.AdditiveBlending,
         side: THREE.BackSide,
         transparent: true,
