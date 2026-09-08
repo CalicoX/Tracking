@@ -62,7 +62,9 @@ export function mount() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
-    camera.position.z = 3.2;
+    camera.position.z = 2.55;
+    // Park 圈位：球心下移 → 相机上抬（画面里球向下走）
+    camera.position.y = 0.62;
 
     const rootGroup = new THREE.Group();
     rootGroup.rotation.x = 0.3;
