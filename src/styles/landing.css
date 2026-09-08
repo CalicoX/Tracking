@@ -3211,7 +3211,7 @@
     }
     .feature-list {
       display: grid;
-      gap: 22px;
+      gap: 12px;
       width: 100%;
       align-content: center;
       grid-auto-rows: auto;
@@ -3614,7 +3614,7 @@
       border: 0;
       border-radius: 0;
       background: transparent;
-      padding: 10px 4px 10px 0;
+      padding: 6px 4px 6px 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -3631,9 +3631,6 @@
       box-shadow: none;
       opacity: 1;
       transform: none;
-      transition:
-        gap 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        padding 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .feature:hover {
       background: transparent;
@@ -3641,11 +3638,19 @@
     }
     .feature.active {
       gap: 8px;
-      padding-top: 12px;
-      padding-bottom: 12px;
+      padding-top: 8px;
+      padding-bottom: 8px;
       background: transparent;
       box-shadow: none;
       transform: none;
+    }
+    /* Park：切换时其他标题不许动。padding/gap 全状态一致（active 不再加高），整列不做垂直居中 */
+    .feature-list {
+      align-content: start;
+    }
+    .feature-side-wrap,
+    .feature-side {
+      justify-content: flex-start;
     }
     .feature.active:hover {
       opacity: 1;
@@ -3655,23 +3660,23 @@
     }
     .feature h3 {
       margin: 0;
-      font-size: clamp(16.5px, calc(15.24px + 0.35vw), 20px);
+      /* 桌面全状态同一字号（激活只变颜色/字重），切换时标题不再伸缩 */
+      font-size: clamp(18px, calc(16.6px + 0.4vw), 23px);
       font-weight: 600;
       line-height: 1.3;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.02em;
       color: #64748b;
       -webkit-text-fill-color: currentColor;
       background-image: none;
       overflow-wrap: anywhere;
       word-break: break-word;
+      transition: color 0.3s ease;
     }
     .feature:hover h3 {
       color: #475569;
     }
     .feature.active h3 {
-      font-size: clamp(20.5px, calc(18.88px + 0.45vw), 25px);
       font-weight: 700;
-      letter-spacing: -0.025em;
       background-image: linear-gradient(105deg, #1d4ed8 0%, #2563eb 48%, #4f46e5 100%);
       -webkit-background-clip: text;
       background-clip: text;
@@ -3681,6 +3686,98 @@
     .feature.active:hover h3 {
       color: transparent;
       -webkit-text-fill-color: transparent;
+    }
+    /* 卖点描述：active 才展开。坑：0fr 收展必须套真实子元素，p 里是裸文本收不住，用 max-height */
+    .feature .feature-desc {
+      margin: 0;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition:
+        max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        margin 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.45s ease;
+    }
+    .feature.active .feature-desc {
+      margin: 8px 0 0;
+      max-height: 220px;
+      opacity: 1;
+    }
+    /* 左栏手风琴下方的 CTA 组（原 head 里那组挪到这里） */
+    .feature-side .feature-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 18px 0 0;
+      padding: 0;
+    }
+    .feature-side .feature-cta .btn-switch,
+    .feature-side .feature-cta .btn-demo {
+      flex: 0 1 auto;
+    }
+    /* Conversion & Loyalty 占位卡（动画图下一批）：静态、无 iso */
+    .feature-stage[data-theme="conversion"] .fx-cv-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      width: min(420px, 100%);
+      padding: 28px 30px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    }
+    .feature-stage[data-theme="conversion"] .fx-cv-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #64748b;
+    }
+    .feature-stage[data-theme="conversion"] .fx-cv-metric {
+      font-size: clamp(30px, calc(24px + 1.6vw), 44px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background-image: linear-gradient(105deg, #1d4ed8 0%, #2563eb 48%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .feature-stage[data-theme="conversion"] .fx-cv-metric-label {
+      font-size: 14px;
+      color: #475569;
+      margin-top: -6px;
+    }
+    .feature-stage[data-theme="conversion"] .fx-cv-list {
+      list-style: none;
+      margin: 6px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .feature-stage[data-theme="conversion"] .fx-cv-list li {
+      position: relative;
+      padding-left: 22px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #475569;
+    }
+    .feature-stage[data-theme="conversion"] .fx-cv-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.28em;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #0f766e url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M2.4 6.2 4.7 8.5 9.6 3.4'/></svg>") center / 8px 8px no-repeat;
+    }
+    .feature-stage[data-theme="conversion"] .fx-cv-note {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #94a3b8;
     }
     .feature p,
     .feature-points {
@@ -5986,6 +6083,30 @@
       filter: blur(0);
     }
     .ai-reveal.delay-2 { transition-delay: 0.55s; }
+    /* AI intro eyebrow 标签（AI 二字是 ai-letter-zoom 的缩放源，勿删 .ai-word-ai） */
+    .ai-intro-eyebrow {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.02em;
+      margin: 0 auto 20px;
+      padding: 8px 18px;
+      border: 1px solid rgba(167, 139, 250, 0.42);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #c4b5fd;
+      background: rgba(124, 58, 237, 0.12);
+    }
+    .ai-intro-eyebrow .ai-word-ai {
+      display: inline-block;
+      transform-origin: 50% 50%;
+      color: #e9d5ff;
+    }
+    .ai-letter-sticky.is-ai-zooming .ai-intro-eyebrow .ai-eyebrow-rest {
+      opacity: 0;
+      transition: none;
+    }
     /* 标题：按词 blur；渐变是整段共用（background-size = 整行宽） */
     .ai-lab-intro h2 .ai-word {
       display: inline-block;
@@ -9058,6 +9179,16 @@
     .explore-card-copy h3 {
       margin-top: 0;
     }
+    /* 卡内标题行（09-08 文案）：17RETURNS / Tracking Developer API 的正式标题 */
+    .explore-card-copy .explore-card-headline {
+      display: block;
+      margin: 2px 0 6px;
+      font-size: clamp(15px, calc(13.4px + 0.45vw), 19px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      color: inherit;
+    }
     @media (prefers-reduced-motion: reduce) {
       .explore-card,
       .explore-card.is-tilting,
@@ -9923,6 +10054,39 @@
       margin: var(--sec-title-desc) 0 0;
       font-size: clamp(13px, calc(11.92px + 0.3vw), 16px);
       line-height: 1.6;
+    }
+    /* Growing LTV 数据条（09-08 文案）：Top Global Carriers Coverage 五项 */
+    .bottom-cta .bottom-cta-eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .bottom-cta .bottom-cta-data {
+      list-style: none;
+      margin: 26px 0 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 36px;
+    }
+    .bottom-cta .bottom-cta-data li {
+      display: grid;
+      gap: 4px;
+    }
+    .bottom-cta .bottom-cta-data strong {
+      font-size: clamp(18px, calc(14px + 1.1vw), 26px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+    .bottom-cta .bottom-cta-data span {
+      font-size: 12.5px;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.62);
+      max-width: 18ch;
     }
     /* CTA 按钮：主题橙 --brand-accent */
     .bottom-cta .cta-row {

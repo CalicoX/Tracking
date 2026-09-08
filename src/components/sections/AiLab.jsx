@@ -1,7 +1,18 @@
 /** Presentational section: AiLab */
 const AI_INTRO_TITLE =
-  "Show how AI turns tracking pages into personalized post-purchase journeys";
+  "Tracking Is Getting Smarter. So is the Customer Journey.";
 const AI_INTRO_WORDS = AI_INTRO_TITLE.split(" ");
+
+/** Eyebrow tag with a dedicated .ai-word-ai — ai-letter-zoom's knockout zoom
+ * sources its origin from this element (title no longer contains "AI"). */
+function AiEyebrow() {
+  return (
+    <span className="ai-intro-eyebrow ai-reveal" aria-hidden="true">
+      <span className="ai-word ai-word-ai">AI</span>
+      <span className="ai-eyebrow-rest">-POWERED POST-PURCHASE EXPERIENCE</span>
+    </span>
+  );
+}
 
 export default function AiLab() {
   return (
@@ -39,6 +50,7 @@ export default function AiLab() {
             <div className="ai-lab-intro-inner" id="ai-lab-intro-inner">
               {/* blur/fade only this block — pills stay sharp outside */}
               <div className="ai-lab-intro-copy" id="ai-lab-intro-copy">
+                <AiEyebrow />
                 <div className="ai-intro-orb-row ai-reveal" id="ai-intro-orb-row">
                   <canvas id="ai-intro-orb-canvas" width="128" height="128" aria-hidden="true"></canvas>
                   <span className="ai-intro-orb-label" id="ai-intro-orb-label"><span className="ai-orb-type-text">Searching…</span><span className="ai-orb-caret" aria-hidden="true"></span></span>
@@ -61,7 +73,7 @@ export default function AiLab() {
                     </span>
                   ))}
                 </h2>
-                <p className="lead ai-reveal delay-2">Use real brand case studies when available. Without approval, ship industry-template scenarios first — never present mockups as customer outcomes.</p>
+                <p className="lead ai-reveal delay-2">AI brings smarter prediction, personalization, and engagement to the post-purchase journey — from delivery estimates and intelligent tracking experiences to opportunities that drive repeat purchase.</p>
               </div>
             </div>
           </div>
@@ -99,7 +111,7 @@ export default function AiLab() {
                     <span>Tracking AI Agent</span>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
                   </div>
-                  <p className="ai-agent-lead">Our AI is analyzing your page and creating templates that match your brand</p>
+                  <p className="ai-agent-lead">AI will automatically generate a template that matches your brand based on this page.</p>
                   <div className="ai-agent-url">
                     <span className="ai-agent-url-ico" aria-hidden="true">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
@@ -117,7 +129,7 @@ export default function AiLab() {
                     <div className="ai-step" data-step="0">
                       <div className="ai-step-ico" data-ico="search"></div>
                       <div className="ai-step-body">
-                        <div className="ai-step-title">Fetching your store style</div>
+                        <div className="ai-step-title">Reading brand site</div>
                         <div className="ai-step-detail">
                           <span className="ai-chip">storefront</span>
                           <span className="ai-chip">css tokens</span>
@@ -128,7 +140,7 @@ export default function AiLab() {
                     <div className="ai-step" data-step="1">
                       <div className="ai-step-ico" data-ico="image"></div>
                       <div className="ai-step-body">
-                        <div className="ai-step-title">Analyzing your brand style</div>
+                        <div className="ai-step-title">Understanding brand story</div>
                         <div className="ai-step-detail">
                           <div className="ai-mini-card">
                             <div className="ai-mini-card-top"><span className="ai-mini-dot"></span><span className="ai-mini-dot"></span></div>
@@ -142,7 +154,7 @@ export default function AiLab() {
                     <div className="ai-step" data-step="2">
                       <div className="ai-step-ico" data-ico="globe"></div>
                       <div className="ai-step-body">
-                        <div className="ai-step-title">Generating tracking page</div>
+                        <div className="ai-step-title">Extracting visual style</div>
                         <div className="ai-step-detail">
                           <button type="button" className="ai-step-link" tabIndex="-1">Explored 6 modules <span>›</span></button>
                         </div>
@@ -151,7 +163,7 @@ export default function AiLab() {
                     <div className="ai-step" data-step="3">
                       <div className="ai-step-ico" data-ico="gear"></div>
                       <div className="ai-step-body">
-                        <div className="ai-step-title">Adjust the page</div>
+                        <div className="ai-step-title">Designing custom page</div>
                         <div className="ai-step-detail">
                           <span className="ai-step-sub">Compiling layout, copy, and recommendations…</span>
                         </div>
@@ -160,7 +172,7 @@ export default function AiLab() {
                     <div className="ai-step" data-step="4">
                       <div className="ai-step-ico" data-ico="check"></div>
                       <div className="ai-step-body">
-                        <div className="ai-step-title">Done</div>
+                        <div className="ai-step-title">Fine-tuning &amp; applying</div>
                         <div className="ai-step-detail">
                           <span className="ai-step-sub">Tracking template ready for review</span>
                         </div>
@@ -170,8 +182,8 @@ export default function AiLab() {
                 </div>
                 {/* CTA：在 agent 面板内部底部，上下排 */}
                 <div className="ai-lab-cta">
-                  <a className="btn-switch" href="#"><span className="btn-switch-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.4" fill="currentColor" opacity="0.35"/><circle cx="8.2" cy="12" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="11.5" cy="12" r="1.6" fill="currentColor" opacity="0.8"/><path d="M13 7.5L18.5 12 13 16.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span className="btn-switch-label">Start free trial</span></a>
-              <a className="btn-demo" href="#">Book a demo</a>
+                  <a className="btn-switch" href="#"><span className="btn-switch-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.4" fill="currentColor" opacity="0.35"/><circle cx="8.2" cy="12" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="11.5" cy="12" r="1.6" fill="currentColor" opacity="0.8"/><path d="M13 7.5L18.5 12 13 16.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span className="btn-switch-label">Try AI-generator</span></a>
+              <a className="btn-demo" href="#">Book A Demo</a>
                 </div>
               </aside>
               </div>

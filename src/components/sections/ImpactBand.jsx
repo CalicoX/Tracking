@@ -37,7 +37,7 @@ export default function ImpactBand() {
                   <span className="metric-label">Retained revenue</span>
                 </div>
               </div>
-              <div className="impact-stat" data-impact data-value="3.3" data-decimals="1">
+              <div className="impact-stat" data-impact data-value="3.5" data-decimals="1">
                 <span className="impact-stat-bar" aria-hidden="true"></span>
                 <div>
                   <div className="metric">

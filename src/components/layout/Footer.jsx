@@ -10,7 +10,7 @@ export default function Footer() {
             </a>
             <div className="site-footer-who">
               <h3>WHO WE ARE</h3>
-              <p>Track all your orders in one place. Sign up to get notifications at every step, and keep your orders organized and managed here.</p>
+              <p>17TRACK has been helping merchants track orders, provide real-time updates, and boost repeat sales since 2010.</p>
             </div>
             <div className="site-footer-badges">
               <a href="#" aria-label="Download on the App Store">

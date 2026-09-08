@@ -4,8 +4,8 @@ export default function ExploreMore() {
 <section className="section alt">
         <div className="section-inner">
           <div className="section-head">
-            <h2>Need returns automation or shipment data infrastructure?</h2>
-            <p className="lead">Beyond tracking, explore returns automation and shipment data APIs — pick the product that matches your stage.</p>
+            <h2>Find the Right Solution for Your Business</h2>
+            <p className="lead">Go beyond tracking with solutions for post-purchase experience, returns automation, and global shipment visibility.</p>
           </div>
           <div className="explore-grid">
             <a className="explore-card explore-card-returns" href="#">
@@ -18,10 +18,11 @@ export default function ExploreMore() {
                     <path className="ico-r-head-b" d="M20 20.8V16h-4.8"/>
                   </svg>
                 </span>
-                <h3>17 Returns</h3>
-                <p>Automate returns, exchanges, and refunds to cut manual work, recover more revenue, and control reverse-logistics cost.</p>
+                <h3>17RETURNS</h3>
+                <strong className="explore-card-headline">Turn Returns Into Revenue and Growth</strong>
+                <p>AI-assisted, branded return experiences help you automate returns, exchanges, and refunds, recover more revenue, and access competitive label rates for DTC brands.</p>
                 <span className="explore-link">
-                  <span className="explore-link-label">Explore 17 Returns</span>
+                  <span className="explore-link-label">Explore 17RETURNS</span>
                   <span className="explore-link-arrow" aria-hidden="true">→</span>
                 </span>
               </div>
@@ -101,8 +102,9 @@ export default function ExploreMore() {
                     <path className="ico-a-right" d="m18 16 4-4-4-4"/>
                   </svg>
                 </span>
-                <h3>Tracking API</h3>
-                <p>Global shipment tracking data for developers and enterprise systems — less multi-carrier integration overhead.</p>
+                <h3>Tracking Developer API</h3>
+                <strong className="explore-card-headline">Power Your Systems With Global Tracking Visibility</strong>
+                <p>Access high-quality, reliable, and timely shipment data from 3,500+ carriers through a single API, built for seamless integration across your systems.</p>
                 <span className="explore-link">
                   <span className="explore-link-label">Explore Tracking API</span>
                   <span className="explore-link-arrow" aria-hidden="true">→</span>

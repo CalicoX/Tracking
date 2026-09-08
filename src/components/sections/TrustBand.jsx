@@ -37,7 +37,6 @@ export default function TrustBand() {
       <div className="trust">
         <div className="trust-copy">
           <strong>Trusted by 100,000+ brands and businesses</strong>
-          <span>Post-purchase infrastructure for DTC, cross-border, and Shopify merchants.</span>
         </div>
         <div className="logos-marquee" aria-label="Brand logos">
           <div className="logos-track">

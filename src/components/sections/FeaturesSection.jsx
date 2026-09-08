@@ -5,59 +5,116 @@ export default function FeaturesSection() {
         <div className="section-inner">
           <div className="feature-scroll" id="feature-scroll">
             <div className="feature-sticky">
-              <div className="section-head" id="feature-section-head">
-                <div className="section-head-text">
-                  <h2>Everything merchants need to control the post-purchase tracking experience</h2>
-                  <p className="lead">Features are organized around merchant problems — not a technical checklist.</p>
-                </div>
-                <div className="feature-cta">
-                  <a className="btn-switch" href="#"><span className="btn-switch-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.4" fill="currentColor" opacity="0.35"/><circle cx="8.2" cy="12" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="11.5" cy="12" r="1.6" fill="currentColor" opacity="0.8"/><path d="M13 7.5L18.5 12 13 16.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span className="btn-switch-label">Start free trial</span></a>
-                  <a className="btn-demo" href="#">Book a demo</a>
-                </div>
-              </div>
               <div className="feature-layout">
                 <div className="feature-side-wrap">
                   <div className="feature-side" id="feature-side">
                   <div className="feature-list" role="tablist" aria-label="Key features">
                     <button className="feature active" type="button" id="feature-tab-0" data-feature="0" role="tab" aria-selected="true" aria-controls="feature-panel-0">
-                      <h3>Last-Mile Visibility</h3>
+                      <h3>BRANDED TRACKING PAGE</h3>
+                      <p className="feature-desc">Create an AI-powered branded tracking page that turns every shipment update into a personalized post-purchase experience — without design or coding work.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
-                          <li>Last-mile information is displayed automatically, allowing buyers to contact carriers directly, reducing delivery failure risks.</li>
-                          <li>Partnerships with major carriers ensure transparent, accurate tracking, enhancing buyer trust.</li>
-                          <li>Customizable last-mile info in automated emails improves the post-purchase experience and eases merchant workload.</li>
+                          <li>AI-Generated Design</li>
+                          <li>Drive 16% Repeat purchases</li>
+                          <li>Enable Agile Operations</li>
+                          <li>Consistent Brand Experience</li>
                         </ul>
                       </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-1" data-feature="1" role="tab" aria-selected="false" aria-controls="feature-panel-1">
-                      <h3>Split-Order Management</h3>
+                      <h3>BRANDED EMAIL NOTIFICATION</h3>
+                      <p className="feature-desc">Automate timely shipment updates to keep customers informed throughout delivery and reduce unnecessary WISMO inquiries.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
-                          <li>The system detects split orders and notifies customers by email for clear communication.</li>
-                          <li>Emails and branded tracking pages sync to show multi-package details, reducing confusion.</li>
-                          <li>Buyers can track shipped and pending items in real time, enhancing the shopping experience.</li>
+                          <li>19 Notification Scenarios</li>
+                          <li>Custom Triggers for Business-Specific Needs</li>
+                          <li>Delay, Exception &amp; Delivery Alerts</li>
+                          <li>Reduce 95% WISMO</li>
                         </ul>
                       </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-2" data-feature="2" role="tab" aria-selected="false" aria-controls="feature-panel-2">
-                      <h3>Branded Tracking Experience</h3>
+                      <h3>SPLIT-ORDER MANAGEMENT</h3>
+                      <p className="feature-desc">Give customers one clear view of every package in an order, even when shipments are split across multiple parcels.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
-                          <li>Custom tracking pages enhance brand identity and reduce customer support load.</li>
-                          <li>Branded pages encourage customer return visits, boosting store engagement.</li>
-                          <li>Product recommendations during tracking offer second exposure, driving repeat purchases.</li>
+                          <li>Multi-Shipment Tracking</li>
+                          <li>Clear Shipment Status</li>
+                          <li>Real-Time Updates</li>
+                        </ul>
+                      </div>
+                    </button>
+                    <button className="feature" type="button" id="feature-tab-3" data-feature="3" role="tab" aria-selected="false" aria-controls="feature-panel-3">
+                      <h3>CONVERSION &amp; LOYALTY</h3>
+                      <p className="feature-desc">Turn post-purchase touchpoints into opportunities to increase purchase confidence, drive conversion, and encourage repeat purchases.</p>
+                      <div className="feature-points">
+                        <ul className="feature-points-inner">
+                          <li>AI-Powered pre&amp;post-purchase EDD</li>
+                          <li>One-Click Checkout</li>
+                          <li>Smart Product Recommendations</li>
+                          <li>Re-engagement Opportunities</li>
                         </ul>
                       </div>
                     </button>
                   </div>{/* /.feature-list */}
+                  <div className="feature-cta">
+                    <a className="btn-switch" href="#"><span className="btn-switch-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.4" fill="currentColor" opacity="0.35"/><circle cx="8.2" cy="12" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="11.5" cy="12" r="1.6" fill="currentColor" opacity="0.8"/><path d="M13 7.5L18.5 12 13 16.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span className="btn-switch-label">Start Free Trial</span></a>
+                    <a className="btn-demo" href="#">Book A Demo</a>
+                  </div>
                   </div>{/* /.feature-side */}
                 </div>{/* /.feature-side-wrap */}
                 <div className="feature-panels-col">
                   <div className="feature-panels" id="feature-panels">
-                  {/* 0 · Last-Mile Visibility */}
+                  {/* 0 · Branded tracking page — AURA form + recommendations + color wheel */}
                   <article className="feature-panel is-active" data-feature="0" id="feature-panel-0" role="tabpanel" aria-labelledby="feature-tab-0">
                     <div className="feature-visual">
-                      <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 1, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
+                      <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 1, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
+                        <div className="feature-stage-art" aria-hidden="true">
+                          <div className="fx-mock">
+                          <div className="fx-br-stage">
+                            <div className="fx-glass fx-br-form">
+                              <div className="fx-br-accent" />
+                              <div className="fx-br-brand">
+                                <span className="fx-br-mark">A</span>
+                                <span className="fx-br-shop">AURA</span>
+                                <span className="fx-br-dots" aria-hidden="true">
+                                  <i /><i /><i />
+                                </span>
+                              </div>
+                              <h4>Track your order</h4>
+                              <span className="fx-br-label">Order number</span>
+                              <div className="fx-br-field" />
+                              <span className="fx-br-label">Email</span>
+                              <div className="fx-br-field" />
+                              <span className="fx-br-cta">Track</span>
+                              <div className="fx-br-status">
+                                <i />
+                                <span>On the way · Thu 4–6pm</span>
+                                <em>Live</em>
+                              </div>
+                              <div className="fx-br-store">Visit store</div>
+                            </div>
+                            <div className="fx-glass fx-br-recs">
+                              <strong>You may also like</strong>
+                              <span className="fx-br-recs-sub">From this order</span>
+                              <div className="fx-br-grid">
+                                <img src="/assets/products/earbuds.jpg" alt="" />
+                                <img src="/assets/products/case.jpg" alt="" />
+                                <img src="/assets/products/tips.jpg" alt="" />
+                                <img src="/assets/products/earbuds.jpg" alt="" style={{ objectPosition: "70% 40%" }} />
+                              </div>
+                            </div>
+                            <div className="fx-br-wheel" />
+                          </div>
+                          </div>
+                        </div>
+</div>
+                    </div>
+                  </article>
+                  {/* 1 · Branded email notification — 17TRACK email + tracking info card + carrier tiles */}
+                  <article className="feature-panel" data-feature="1" id="feature-panel-1" role="tabpanel" aria-labelledby="feature-tab-1">
+                    <div className="feature-visual">
+                      <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
                           <div className="fx-lm-cluster">
@@ -124,8 +181,8 @@ export default function FeaturesSection() {
 </div>
                     </div>
                   </article>
-                  {/* 1 · Split-Order Management */}
-                  <article className="feature-panel" data-feature="1" id="feature-panel-1" role="tabpanel" aria-labelledby="feature-tab-1">
+                  {/* 2 · Split-order management — split email + Package #1/#2/#3 card */}
+                  <article className="feature-panel" data-feature="2" id="feature-panel-2" role="tabpanel" aria-labelledby="feature-tab-2">
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="split" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
@@ -167,50 +224,27 @@ export default function FeaturesSection() {
 </div>
                     </div>
                   </article>
-                  {/* 2 · Branded Tracking Experience */}
-                  <article className="feature-panel" data-feature="2" id="feature-panel-2" role="tabpanel" aria-labelledby="feature-tab-2">
+                  {/* 3 · Conversion & Loyalty — static placeholder, animation artwork next batch */}
+                  <article className="feature-panel" data-feature="3" id="feature-panel-3" role="tabpanel" aria-labelledby="feature-tab-3">
                     <div className="feature-visual">
-                      <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
+                      <div className="feature-stage" data-theme="conversion">
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                          <div className="fx-br-stage">
-                            <div className="fx-glass fx-br-form">
-                              <div className="fx-br-accent" />
-                              <div className="fx-br-brand">
-                                <span className="fx-br-mark">A</span>
-                                <span className="fx-br-shop">AURA</span>
-                                <span className="fx-br-dots" aria-hidden="true">
-                                  <i /><i /><i />
-                                </span>
-                              </div>
-                              <h4>Track your order</h4>
-                              <span className="fx-br-label">Order number</span>
-                              <div className="fx-br-field" />
-                              <span className="fx-br-label">Email</span>
-                              <div className="fx-br-field" />
-                              <span className="fx-br-cta">Track</span>
-                              <div className="fx-br-status">
-                                <i />
-                                <span>On the way · Thu 4–6pm</span>
-                                <em>Live</em>
-                              </div>
-                              <div className="fx-br-store">Visit store</div>
+                            <div className="fx-glass fx-cv-card">
+                              <span className="fx-cv-eyebrow">CONVERSION &amp; LOYALTY</span>
+                              <strong className="fx-cv-metric">16%</strong>
+                              <span className="fx-cv-metric-label">Higher repurchase rate</span>
+                              <ul className="fx-cv-list">
+                                <li>AI-Powered pre&amp;post-purchase EDD</li>
+                                <li>One-Click Checkout</li>
+                                <li>Smart Product Recommendations</li>
+                                <li>Re-engagement Opportunities</li>
+                              </ul>
+                              <span className="fx-cv-note">Animation artwork coming next batch</span>
                             </div>
-                            <div className="fx-glass fx-br-recs">
-                              <strong>You may also like</strong>
-                              <span className="fx-br-recs-sub">From this order</span>
-                              <div className="fx-br-grid">
-                                <img src="/assets/products/earbuds.jpg" alt="" />
-                                <img src="/assets/products/case.jpg" alt="" />
-                                <img src="/assets/products/tips.jpg" alt="" />
-                                <img src="/assets/products/earbuds.jpg" alt="" style={{ objectPosition: "70% 40%" }} />
-                              </div>
-                            </div>
-                            <div className="fx-br-wheel" />
-                          </div>
                           </div>
                         </div>
-</div>
+                      </div>
                     </div>
                   </article>
                 </div>{/* /.feature-panels */}
