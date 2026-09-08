@@ -3214,9 +3214,9 @@
       display: grid;
       gap: 8px;
       width: 100%;
-      /* Park：内容整体下移——列表吃满剩余高度、内容贴底，紧挨钉底的 CTA */
-      flex: 1 1 auto;
-      align-content: end;
+      /* Park：整块下移——固定顶距 56px，任何激活态首项都从更低处开始 */
+      padding-top: 56px;
+      align-content: start;
       grid-auto-rows: auto;
       box-sizing: border-box;
       height: auto;
