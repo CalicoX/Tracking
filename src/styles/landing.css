@@ -3214,12 +3214,12 @@
       display: grid;
       gap: 8px;
       width: 100%;
-      align-content: start;
+      /* Park：内容整体下移——列表吃满剩余高度、内容贴底，紧挨钉底的 CTA */
+      flex: 1 1 auto;
+      align-content: end;
       grid-auto-rows: auto;
       box-sizing: border-box;
       height: auto;
-      /* 固定占位高度：列表内容在栏内垂直居中（整体下移），CTA 仍钉底不随切换位移 */
-      min-height: calc(var(--feature-panel-h, 480px) - 120px);
     }
     /* CTA 钉在固定高度左栏底部，不随展开内容位移 */
     .feature-side .feature-cta {
