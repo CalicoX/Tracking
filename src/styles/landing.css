@@ -10012,6 +10012,93 @@
     }
 
     /* Bottom CTA — 透视点阵波浪（图2：纯黑 + 白点） */
+    /* CoverageBand：Top Global Carriers Coverage，3+2 数据 + 地球点阵背景（图二） */
+    .coverage-band {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      display: flex;
+      align-items: center;
+      min-height: clamp(380px, 48vh, 560px);
+      background: #010409;
+      color: #fff;
+    }
+    .coverage-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .coverage-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 38%;
+      opacity: 0.9;
+    }
+    /* 左右压暗 + 顶底渐变，保证数据可读（地球主体居中偏右透出） */
+    .coverage-band::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(1, 4, 9, 0.72) 0%, rgba(1, 4, 9, 0.25) 45%, rgba(1, 4, 9, 0.55) 100%),
+        linear-gradient(180deg, #010409 0%, rgba(1, 4, 9, 0) 26%, rgba(1, 4, 9, 0) 70%, #010409 100%);
+    }
+    .coverage-band .section-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+    .coverage-eyebrow + .coverage-data {
+      margin-top: 26px;
+    }
+    .coverage-data {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 34px 40px;
+      max-width: 980px;
+    }
+    .coverage-data li {
+      display: grid;
+      gap: 6px;
+      align-content: start;
+    }
+    .coverage-data strong {
+      font-size: clamp(24px, calc(18px + 1.6vw), 38px);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: #fff;
+    }
+    .coverage-data span {
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.64);
+      max-width: 22ch;
+    }
+    @media (max-width: 640px) {
+      .coverage-band {
+        min-height: 0;
+        padding: 64px 0;
+      }
+      .coverage-bg img {
+        object-position: 62% 30%;
+        opacity: 0.62;
+      }
+      .coverage-data {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 26px 18px;
+        margin-top: 20px;
+      }
+      .coverage-data li:last-child {
+        grid-column: 1 / -1;
+      }
+    }
     .bottom-cta {
       position: relative;
       overflow: hidden;

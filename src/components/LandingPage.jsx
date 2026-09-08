@@ -9,6 +9,7 @@ import AiLab from "./sections/AiLab.jsx";
 import ExploreMore from "./sections/ExploreMore.jsx";
 import BrandsSay from "./sections/BrandsSay.jsx";
 import Credentials from "./sections/Credentials.jsx";
+import CoverageBand from "./sections/CoverageBand.jsx";
 import BottomCta from "./sections/BottomCta.jsx";
 import { useEffect } from "react";
 import { useLandingEffects } from "../fx/useLandingEffects.js";
@@ -35,6 +36,7 @@ export default function LandingPage() {
           <AiLab />
           <Credentials />
           <ExploreMore />
+          <CoverageBand />
           <BottomCta />
         </main>
         <Footer />

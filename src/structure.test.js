@@ -28,6 +28,7 @@ describe("React landing structure (gating)", () => {
       "ExploreMore",
       "BrandsSay",
       "Credentials",
+      "CoverageBand",
       "BottomCta",
       "Footer",
       "ProductDock",
@@ -41,7 +42,7 @@ describe("React landing structure (gating)", () => {
     }
     expect(lp).toMatch(/<TrustBand \/>\s*<BrandsSay \/>\s*<ImpactBand \/>/);
     expect(lp).toMatch(
-      /<AiLab \/>\s*<Credentials \/>\s*<ExploreMore \/>\s*<BottomCta \/>/
+      /<AiLab \/>\s*<Credentials \/>\s*<ExploreMore \/>\s*<CoverageBand \/>\s*<BottomCta \/>/
     );
   });
 
