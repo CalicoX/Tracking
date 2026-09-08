@@ -206,17 +206,18 @@ describe("React landing structure (gating)", () => {
     );
   });
 
-  it("AI curtain: hold after pin, then WebGL curtains part (zoom mask retired)", () => {
+  it("AI curtain: hold after pin, then WebGL cloth lifts (zoom mask retired)", () => {
     const curtain = read("fx/modules/ai-curtain.js");
-    // 同一 hold 节奏：钉住后停约 0.36 屏再拉开
+    // 同一 hold 节奏：钉住后停约 0.36 屏再掀开
     expect(curtain).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(curtain).toMatch(/scrolled - holdPx/);
-    expect(curtain).toMatch(/WebGLRenderer|getContext\("webgl"/);
-    // 幕叶从中心向两侧拉开 + 尾段消散
-    expect(curtain).toMatch(/uP/);
-    expect(curtain).toMatch(/smoothstep\(0\.72, 1\.0, uP\)/);
+    expect(curtain).toMatch(/getContext\("webgl"/);
+    // 整屏单块布向上掀（顶边先行）+ 扭曲，不是从中间对开
+    expect(curtain).toMatch(/uLift/);
+    expect(curtain).toMatch(/is-curtain-on/);
+    expect(curtain).not.toMatch(/smoothstep\(0\.72, 1\.0, uP\)/);
     // 可见层走 2D blit（页面合成对 WebGL 层不可靠）
-    expect(curtain).toMatch(/drawImage\(gl\.canvas/);
+    expect(curtain).toMatch(/drawImage\(glc/);
     // 挂载序：aiLab 之后 curtain（替代 aiLetterZoom）
     const fx = read("fx/useLandingEffects.js");
     expect(fx).not.toMatch(/mountNamed\("aiLetterZoom"\)/);

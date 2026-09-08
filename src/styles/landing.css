@@ -5991,6 +5991,12 @@
       visibility: hidden;
       transition: none !important;
     }
+    /* 布幕接管（ai-curtain.js）：藏真 DOM 文案与背景，布面纹理自己画着同样的像 */
+    .ai-letter-sticky.is-curtain-on .ai-lab-intro-copy,
+    .ai-letter-sticky.is-curtain-on .ai-intro-bg {
+      opacity: 0;
+      transition: opacity 0.18s linear;
+    }
     .ai-letter-cut {
       position: absolute;
       inset: 0;
@@ -10279,31 +10285,15 @@
       position: relative;
       background: #000;
       color: #fff;
-      /* 无扫光时只靠极淡描边；光靠 ::after */
-      border-top: 1px solid rgba(255, 255, 255, 0.045);
+      /* Park：顶部 1px 线去掉（border + ::before 细线都不要） */
+      border-top: 0;
       overflow: hidden;
       /* dock 叠在黑底上，避免页脚下白边 */
       padding-bottom: 96px;
     }
-    /* 上边缘：无光时极淡细线；亮感只来自扫光 ::after */
+    /* 上边缘细线已删（Park） */
     .site-footer::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      height: 1px;
-      z-index: 3;
-      pointer-events: none;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.03) 12%,
-        rgba(255, 255, 255, 0.06) 50%,
-        rgba(255, 255, 255, 0.03) 88%,
-        transparent 100%
-      );
-      box-shadow: none;
+      display: none;
     }
     .site-footer::after {
       content: "";
