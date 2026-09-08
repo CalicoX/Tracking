@@ -10077,17 +10077,16 @@
       grid-column: span 3;
     }
     .coverage-data strong {
-      font-size: clamp(30px, calc(22px + 2.2vw), 52px);
+      font-size: clamp(34px, calc(25px + 2.4vw), 58px);
       font-weight: 700;
       letter-spacing: -0.015em;
       color: #fff;
-      will-change: filter, transform;
     }
     .coverage-data span {
-      font-size: 13px;
+      font-size: clamp(14px, calc(12.6px + 0.4vw), 17px);
       line-height: 1.45;
       color: rgba(255, 255, 255, 0.64);
-      max-width: 22ch;
+      white-space: nowrap;
     }
     @media (max-width: 640px) {
       .coverage-band {
