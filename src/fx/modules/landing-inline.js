@@ -372,6 +372,21 @@ export function mount() {
             stage.style.setProperty("--fx-spread", "0");
           }
         });
+        alignActiveMock();
+      }
+
+      /* Park：图/文水平中心对齐——短内容面板（Conversion 卡）mock 中心平移到面板中心 */
+      function alignActiveMock() {
+        if (mqMobile.matches) return;
+        var p = panels[current];
+        if (!p) return;
+        var pr = p.getBoundingClientRect();
+        var mock = p.querySelector(".fx-mock");
+        if (!mock || !pr.height) return;
+        var mr = mock.getBoundingClientRect();
+        if (!mr.height) return;
+        var shift = (pr.top + pr.height / 2) - (mr.top + mr.height / 2);
+        p.style.setProperty("--mock-shift", shift.toFixed(1) + "px");
       }
 
       /**

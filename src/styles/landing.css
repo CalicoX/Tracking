@@ -3702,14 +3702,18 @@
       overflow: hidden;
       opacity: 0;
       transition:
-        max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-        margin 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.45s ease;
+        max-height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        margin 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.7s ease;
     }
     .feature.active .feature-desc {
       margin: 8px 0 0;
       max-height: 220px;
       opacity: 1;
+    }
+    /* feature-points（bullets）同步放慢，跟 desc 同节奏 */
+    .feature-points {
+      transition: grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
     }
     /* 左栏手风琴下方的 CTA 组（原 head 里那组挪到这里）；margin-top:auto 由 3223 行钉底 */
     .feature-side .feature-cta {
@@ -3725,6 +3729,11 @@
       flex: 0 1 auto;
     }
     /* Conversion & Loyalty 占位卡（动画图下一批）：静态、无 iso */
+    /* --mock-shift：landing-inline.alignActiveMock 量出的图文中心差，切换时缓动对齐 */
+    .feature-panel .fx-mock {
+      transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      translate: 0 var(--mock-shift, 0px);
+    }
     .feature-stage[data-theme="conversion"] .fx-cv-card {
       display: flex;
       flex-direction: column;
@@ -9877,7 +9886,8 @@
     /* ——— Credentials / compliance (Figma 11769:9469) ——— */
     .credentials {
       background: var(--bg-subtle);
-      border-bottom: 1px solid var(--border-default);
+      /* Park：与 ExploreMore 之间的分割线去掉 */
+      border-bottom: 0;
     }
     .credentials .section-inner {
       /* inherit --sec-y from .section-inner; no extra vertical pad */
