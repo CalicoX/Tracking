@@ -5772,10 +5772,10 @@
       pointer-events: none;
       background:
         radial-gradient(
-          ellipse 70% 55% at 50% 48%,
-          rgba(8, 4, 18, 0.58) 0%,
-          rgba(8, 4, 18, 0.3) 50%,
-          transparent 78%
+          ellipse 58% 44% at 50% 48%,
+          rgba(8, 7, 26, 0.14) 0%,
+          rgba(8, 7, 26, 0.04) 46%,
+          transparent 72%
         );
     }
     .ai-lab-intro-inner {

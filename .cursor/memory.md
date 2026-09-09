@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-09（AI intro 背景改自写 WebGL，参数仍用 Synthesis 1 解出来的数）
+最后更新：2026-09-09（AI intro grain 改回官方 1 设备像素，Park 否掉 CSS 格/半分辨率）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -46,7 +46,7 @@
 
 ## AI intro → work 过渡（2026-09-09）
 
-- **现用：自己写的 WebGL 背景**（`ai-intro-flow-gl.js`），参数来自 Synthesis 1 公开 API（`c91ae513`）：底 `#08071a` + 两道正弦辉光（蓝 `#0582e8` pos 0.654/0.673 amp 0.36 thick 0.72 speed 0.3；粉 `#f00e94` pos 0.605/0.514 amp 0.17 thick 0.35 speed 0.5）+ WaveDistortion 299°/strength 1/freq 0.3/speed 0.2（位移 ×0.5）+ FilmGrain 0.07×0.1 偏暗。混合走 OKLab，不是 screen。`shaders` npm 已卸。无 GL 才走 `sampleIntroFlow`（同公式）。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明（CSS `#08071a`）；hold 0.36 / exit 0.48；≤640 / hidden 停环。
+- **现用：自己写的 WebGL 背景**（`ai-intro-flow-gl.js`），参数来自 Synthesis 1 公开 API（`c91ae513`）：底 `#08071a` + 两道正弦辉光（蓝 `#0582e8` pos 0.654/0.673 amp 0.36 thick 0.72 speed 0.3；粉 `#f00e94` pos 0.605/0.514 amp 0.17 thick 0.35 speed 0.5）+ WaveDistortion 299°/strength 1/freq 0.3/speed 0.2（位移 ×0.5）。**混合走线性叠加 `addGlow`**（mask^1.28，增益 1.18）——OKLab / screen 往藏青里混会脏成灰紫（Park 09-09）。**Grain 跟官方 FilmGrain**：`uv*viewport` 一设备像素 + `sin/fract` 哈希 + bias 2 + `strength*0.1`。Park 否掉 CSS 像素格和半分辨率第二层（太粗）。canvas DPR 上限 2。不要再放大格子来「看清」噪点。veil 留着但压到 0.14/0.04，色跟 `#08071a`，别用 `rgba(8,4,18,0.58)`。`shaders` npm 已卸。无 GL 才走 `sampleIntroFlow`（同公式）。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明（CSS `#08071a`）；hold 0.36 / exit 0.48；≤640 / hidden 停环。
 - **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；CSS 底锁 `#08071a` + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
 - **退场**：钉住 hold 0.36vh → 0.48vh 里文案先淡、网点变稀，再 `--intro-rest-op` 整层抬走，露出 `.ai-lab-work`。回滚倒放。≤640 canvas `display:none`，叠排不走遮罩。
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
