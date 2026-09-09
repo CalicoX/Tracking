@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-09（AI intro 粒子消散按 canvasui particle-scroll 原版重写：纹理+实例化四边形，本地已 commit）
+最后更新：2026-09-09（粒子消散：整屏含暗底；画布钉 sticky；倒滚 p=0 立刻还 intro）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -49,8 +49,9 @@
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
 - **滚动粒子消散** `src/fx/modules/ai-curtain.js`，对照 [canvasui particle-scroll](https://canvasui.dev/docs/components/particle-scroll) 完整源码（`ParticleScrollVanilla.ts`：html-in-canvas 纹理 + 全屏 textured quad 拼好的格子 + `gl.POINTS` 沙粒）。**Park 要反向**：intro 先完整，往下滚打成沙粒向上散开，露出 `.ai-lab-work`。
 - **不要把像素烘焙成色块顶点**（旧实现）：那样标题变成渐变矩形、副标马赛克（Park 截图）。正确是 **整张 intro 当 `uContent` 纹理**；拼好的走 BASE quad（`textureLod` lod0），散开的走 **实例化 TRIANGLE_STRIP 四边形**（Park：`gl.POINTS` 在 IAB/合成里看不见）。参数跟原版：density 2、size 1.25、spread 220、stagger 0.7、gravity **-0.45（向上）**。
-- **捕获**：优先 `drawElementImage`；否则 html2canvas。**两个必须的 onclone**：① 所有 `background-clip:text` 改实色（否则 TRACK 类渐变字变色块）；② `#ai-lab-intro *` 的 `transform/filter/will-change` 清掉（`.ai-lab-intro-copy` 的 `translate3d` 会让 html2canvas 按 1x 栅格化再放大 → 字马赛克）。藏 `.ai-intro-bg`/流线/veil。只抠 **不透明近黑**（#0a0514 底），别按 rgb<70 全抠（会吃抗锯齿）。
-- **回滚**：`is-curtain-on` 只在 `pSmooth>0` 开；倒滚 hold 把 intro 交还 DOM。hold 0.36 → 0.48 屏 scrub。WebGL2。`shouldReduceFx`（≤640 / reduced-motion）不挂。可见层仍 2D blit `drawImage(glc)`。
+- **整屏粒子化**（Park 09-09）：抓 intro **含暗底/流线/veil**，不要只抓字。html2canvas `backgroundColor:'#0a0514'`，不要把 root 背景清成透明、不要 ignore `.ai-intro-bg`、不要 punch 近黑像素（否则回滚只剩字浮在白底上）。
+- **捕获 onclone**：① `background-clip:text` 改实色（否则渐变字变色块）；② `#ai-lab-intro *` 的 `transform/filter/will-change` 清掉（1x 栅格化会马赛克）。只藏 `.ai-title-particles` / `.ai-letter-cut`。
+- **回滚**：画布挂在 sticky 里 `position:absolute`（不要 `fixed` 盖 Features）。`p<=0` 或 unpin **立刻** `pSmooth=0`、关 `is-curtain-on`、藏画布，intro 暗底 DOM 交还。hold 0.36 → 0.48 屏 scrub。WebGL2。`shouldReduceFx`（≤640 / reduced-motion）不挂。可见层仍 2D blit `drawImage(glc)`。
 - Footer 顶部分割线已删（`border-top:0` + `.site-footer::before { display:none }`），不要再加 1px 线。
 
 ## AI 二字遮罩（已退役，勿复活）

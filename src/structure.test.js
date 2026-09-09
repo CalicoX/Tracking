@@ -219,6 +219,9 @@ describe("React landing structure (gating)", () => {
     expect(curtain).toMatch(/drawArraysInstanced/);
     expect(curtain).toMatch(/TRIANGLE_STRIP/);
     expect(curtain).toMatch(/flattenClipText/);
+    expect(curtain).toMatch(/backgroundColor: "#0a0514"/);
+    expect(curtain).not.toMatch(/ai-intro-bg/);
+    expect(curtain).toMatch(/sticky\.appendChild\(view\)/);
     expect(curtain).toMatch(/is-curtain-on/);
     expect(curtain).not.toMatch(/uLift|peelDir|paintIntro/);
     expect(curtain).toMatch(/drawImage\(glc/);

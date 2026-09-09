@@ -5,7 +5,8 @@
  *
  * 算法照原版：HTML 抓成一张纹理；拼好的格子走全屏 textured quad（真字形，不是渐变色块）；
  * 未拼好的格子走实例化四边形沙粒（不用 gl.POINTS，IAB/合成不可靠），片元按 home 采样纹理。
- * 捕获：优先 html-in-canvas drawElementImage；否则 html2canvas，并把 background-clip:text 拍成实色字。
+ * 整屏（暗底+流线+字）抓成纹理。捕获：优先 drawElementImage；否则 html2canvas + 实色字。
+ * 画布钉在 sticky 内；p=0 / unpin 立刻把 intro DOM（含背景）交还。
  */
 import { clamp, prefersReducedMotion, shouldReduceFx } from "../utils.js";
 
@@ -172,8 +173,7 @@ void main () {
 
 const TITLE_FILLS = ["#f5f3ff", "#e9d5ff", "#c4b5fd", "#a78bfa", "#c026d3", "#e879f9"];
 
-const HIDE_SEL =
-  ".ai-intro-bg, .ai-intro-streams, .ai-intro-dots, .ai-intro-veil, .ai-title-particles, .ai-letter-cut, canvas.ai-title-particles";
+const HIDE_SEL = ".ai-title-particles, .ai-letter-cut, canvas.ai-title-particles";
 
 function flattenClipText(doc) {
   const set = (el, prop, val) => el.style.setProperty(prop, val, "important");
@@ -254,8 +254,8 @@ export function mount() {
   const view = document.createElement("canvas");
   view.id = "ai-curtain-view";
   view.style.cssText =
-    "position:fixed;inset:0;width:100vw;height:100vh;z-index:180;pointer-events:none;display:none;";
-  document.body.appendChild(view);
+    "position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;display:none;";
+  sticky.appendChild(view);
   const vctx = view.getContext("2d", { alpha: true });
 
   const glc = document.createElement("canvas");
@@ -351,10 +351,18 @@ export function mount() {
   let pSmooth = 0;
   const t0 = performance.now();
 
+  function viewCssSize() {
+    return {
+      w: Math.max(1, sticky.clientWidth || window.innerWidth),
+      h: Math.max(1, sticky.clientHeight || window.innerHeight),
+    };
+  }
+
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
-    const W = Math.round(window.innerWidth * dpr);
-    const H = Math.round(window.innerHeight * dpr);
+    const { w, h } = viewCssSize();
+    const W = Math.round(w * dpr);
+    const H = Math.round(h * dpr);
     if (view.width !== W) view.width = W;
     if (view.height !== H) view.height = H;
     if (glc.width !== W) glc.width = W;
@@ -378,24 +386,7 @@ export function mount() {
     };
   }
 
-  function punchOpaqueBlack(shot) {
-    try {
-      const ctx = shot.getContext("2d", { willReadFrequently: true });
-      if (!ctx) return shot;
-      const img = ctx.getImageData(0, 0, shot.width, shot.height);
-      const d = img.data;
-      for (let i = 0; i < d.length; i += 4) {
-        if (d[i + 3] > 220 && d[i] + d[i + 1] + d[i + 2] < 36) d[i + 3] = 0;
-      }
-      ctx.putImageData(img, 0, 0);
-    } catch {
-      /* tainted / no 2d — keep original */
-    }
-    return shot;
-  }
-
   function uploadContent(shot) {
-    punchOpaqueBlack(shot);
     gl.bindTexture(gl.TEXTURE_2D, contentTexture);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
@@ -423,7 +414,7 @@ export function mount() {
       .then((mod) => {
         const html2canvas = mod.default || mod;
         return html2canvas(intro, {
-          backgroundColor: null,
+          backgroundColor: "#0a0514",
           scale: dpr,
           useCORS: true,
           logging: false,
@@ -431,20 +422,11 @@ export function mount() {
           ignoreElements(el) {
             if (!el || !el.classList) return false;
             return (
-              el.classList.contains("ai-intro-bg") ||
-              el.classList.contains("ai-intro-streams") ||
-              el.classList.contains("ai-intro-dots") ||
-              el.classList.contains("ai-intro-veil") ||
               el.classList.contains("ai-title-particles") ||
               el.classList.contains("ai-letter-cut")
             );
           },
           onclone(doc) {
-            const root = doc.getElementById("ai-lab-intro");
-            if (root) {
-              root.style.setProperty("background", "transparent", "important");
-              root.style.setProperty("background-image", "none", "important");
-            }
             doc.querySelectorAll(HIDE_SEL).forEach((el) => {
               el.style.display = "none";
             });
@@ -489,8 +471,7 @@ export function mount() {
   }
 
   function render(p, dt, scrolled) {
-    const w = Math.max(window.innerWidth, 1);
-    const h = Math.max(window.innerHeight, 1);
+    const { w, h } = viewCssSize();
     const density = densityFor(w, h);
     const gridX = Math.ceil(w / density);
     const gridY = Math.ceil(h / density) + 2;
@@ -554,21 +535,29 @@ export function mount() {
     lastTime = now;
     time = (now - t0) / 1000;
 
+    if (!pinned || p <= 0) {
+      pSmooth = 0;
+      sticky.classList.remove("is-curtain-on");
+      view.style.display = "none";
+      if (!pinned) {
+        captured = false;
+        capturing = false;
+      }
+      stopRaf();
+      return;
+    }
+
     const tau = CFG.smoothing;
     const k = tau <= 0 ? 1 : 1 - Math.exp(-dt / Math.max(tau, 1e-4));
     pSmooth += (p - pSmooth) * k;
     if (Math.abs(p - pSmooth) < 0.0005) pSmooth = p;
 
-    const scattering = pSmooth > 0.0001;
+    const scattering = p > 0.0001;
     sticky.classList.toggle("is-curtain-on", captured && scattering);
-    const on = captured && scattering && pSmooth < 0.999;
+    const on = captured && scattering && p < 0.999;
 
     if (!on) {
       view.style.display = "none";
-      if (!pinned && !scattering) {
-        captured = false;
-        capturing = false;
-      }
       stopRaf();
       return;
     }
