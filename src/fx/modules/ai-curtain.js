@@ -3,10 +3,10 @@
  * 原版 https://canvasui.dev/docs/components/particle-scroll ：线下是沙，往下滚再聚回去。
  * 这里反过来——intro 先完整，往下滚打成沙粒向上散开，露出底下案例。
  *
- * 算法照原版：HTML 抓成一张纹理；拼好的格子走全屏 textured quad（真字形，不是渐变色块）；
- * 未拼好的格子走实例化四边形沙粒（不用 gl.POINTS，IAB/合成不可靠），片元按 home 采样纹理。
- * 整屏（暗底+流线+字）抓成纹理。捕获：优先 drawElementImage；否则 html2canvas + 实色字。
- * 画布钉在 sticky 内；p=0 / unpin 立刻把 intro DOM（含背景）交还。
+ * 跟 canvasui 一样走 html-in-canvas：intro 放进 layoutsubtree canvas，
+ * onpaint 里 drawElementImage 活 HTML 当纹理。禁止 html2canvas（会多一帧、内容和屏幕不一致）。
+ * 拼好的格子走 textured quad；散开走实例化四边形（不用 gl.POINTS）。
+ * 不支持 html-in-canvas 就跳过特效，只留真 DOM。
  */
 import { clamp, prefersReducedMotion, shouldReduceFx } from "../utils.js";
 
@@ -171,64 +171,33 @@ void main () {
   outColor = vec4(tex.rgb, a);
 }`;
 
-const TITLE_FILLS = ["#f5f3ff", "#e9d5ff", "#c4b5fd", "#a78bfa", "#c026d3", "#e879f9"];
-
-const HIDE_SEL = ".ai-title-particles, .ai-letter-cut, canvas.ai-title-particles";
-
-function flattenClipText(doc) {
-  const set = (el, prop, val) => el.style.setProperty(prop, val, "important");
-  doc.querySelectorAll("#ai-intro-title .ai-word").forEach((el, i) => {
-    const c = TITLE_FILLS[Math.min(i, TITLE_FILLS.length - 1)];
-    set(el, "background-image", "none");
-    set(el, "background", "none");
-    set(el, "-webkit-background-clip", "border-box");
-    set(el, "background-clip", "border-box");
-    set(el, "-webkit-text-fill-color", c);
-    set(el, "color", c);
-    set(el, "filter", "none");
-    set(el, "opacity", "1");
-  });
-  doc.querySelectorAll(".ai-orb-type-text, .ai-intro-eyebrow, .ai-intro-eyebrow *").forEach((el) => {
-    set(el, "background-image", "none");
-    set(el, "background", "none");
-    set(el, "-webkit-background-clip", "border-box");
-    set(el, "background-clip", "border-box");
-    set(el, "-webkit-text-fill-color", "#ede9fe");
-    set(el, "color", "#ede9fe");
-  });
-  const win = doc.defaultView;
-  if (!win) return;
-  doc.querySelectorAll("#ai-lab-intro *").forEach((el) => {
-    const clip = `${win.getComputedStyle(el).webkitBackgroundClip || ""} ${
-      win.getComputedStyle(el).backgroundClip || ""
-    }`.toLowerCase();
-    if (!clip.includes("text")) return;
-    set(el, "background-image", "none");
-    set(el, "background", "none");
-    set(el, "-webkit-background-clip", "border-box");
-    set(el, "background-clip", "border-box");
-    set(el, "-webkit-text-fill-color", "#ede9fe");
-    set(el, "color", "#ede9fe");
-  });
+function supportsHtmlInCanvas() {
+  const probe = document.createElement("canvas");
+  const ctx = probe.getContext("2d");
+  return Boolean(
+    ctx &&
+      typeof ctx.drawElementImage === "function" &&
+      typeof probe.requestPaint === "function"
+  );
 }
 
-function captureWithDrawElement(el) {
-  const c = document.createElement("canvas");
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-  const w = Math.max(1, Math.round(el.offsetWidth));
-  const h = Math.max(1, Math.round(el.offsetHeight));
-  c.width = Math.round(w * dpr);
-  c.height = Math.round(h * dpr);
-  const ctx = c.getContext("2d");
-  if (!ctx || typeof ctx.drawElementImage !== "function") return null;
-  try {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-    ctx.drawElementImage(el, 0, 0);
-    return c;
-  } catch {
-    return null;
+function wrapIntroSource(intro) {
+  if (intro.parentElement && intro.parentElement.id === "ai-intro-source") {
+    return intro.parentElement;
   }
+  const source = document.createElement("canvas");
+  source.id = "ai-intro-source";
+  source.className = "ai-intro-source";
+  source.setAttribute("layoutsubtree", "true");
+  intro.parentNode.insertBefore(source, intro);
+  source.appendChild(intro);
+  return source;
+}
+
+function unwrapIntroSource(source, intro) {
+  if (!source || !source.parentNode) return;
+  if (intro && source.contains(intro)) source.parentNode.insertBefore(intro, source);
+  source.remove();
 }
 
 export function mount() {
@@ -251,6 +220,23 @@ export function mount() {
     };
   }
 
+  if (!supportsHtmlInCanvas()) {
+    console.warn(
+      "[ai-curtain] html-in-canvas 不可用。打开 chrome://flags/#canvas-draw-element 后重启 Chrome（canvasui 同一套 API，不用抓图）。"
+    );
+    return function dispose() {
+      clearMountFlag();
+    };
+  }
+
+  const source = wrapIntroSource(intro);
+  const sourceCtx = source.getContext("2d");
+  if (!sourceCtx || typeof sourceCtx.drawElementImage !== "function") {
+    unwrapIntroSource(source, intro);
+    clearMountFlag();
+    return () => {};
+  }
+
   const view = document.createElement("canvas");
   view.id = "ai-curtain-view";
   view.style.cssText =
@@ -270,6 +256,7 @@ export function mount() {
   if (!gl || gl.isContextLost()) {
     console.warn("[ai-curtain] webgl2 unavailable");
     view.remove();
+    unwrapIntroSource(source, intro);
     clearMountFlag();
     return () => {};
   }
@@ -311,6 +298,7 @@ export function mount() {
   } catch (err) {
     console.warn("[ai-curtain] shader", err);
     view.remove();
+    unwrapIntroSource(source, intro);
     clearMountFlag();
     return () => {};
   }
@@ -341,8 +329,8 @@ export function mount() {
     new Uint8Array([0, 0, 0, 0])
   );
 
-  let captured = false;
-  let capturing = false;
+  let introReady = false;
+  let contentDirty = false;
   let raf = 0;
   let time = 0;
   let lastTime = performance.now();
@@ -359,7 +347,7 @@ export function mount() {
   }
 
   function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const { w, h } = viewCssSize();
     const W = Math.round(w * dpr);
     const H = Math.round(h * dpr);
@@ -368,7 +356,37 @@ export function mount() {
     if (glc.width !== W) glc.width = W;
     if (glc.height !== H) glc.height = H;
     gl.viewport(0, 0, W, H);
+    const cssW = Math.max(1, Math.round(source.clientWidth || w));
+    const cssH = Math.max(1, Math.round(source.clientHeight || h));
+    if (source.width !== cssW * dpr || source.height !== cssH * dpr) {
+      source.width = cssW * dpr;
+      source.height = cssH * dpr;
+    }
+    if (typeof source.requestPaint === "function") source.requestPaint();
   }
+
+  source.onpaint = () => {
+    try {
+      if (typeof sourceCtx.reset === "function") sourceCtx.reset();
+      else sourceCtx.clearRect(0, 0, source.width, source.height);
+      sourceCtx.drawElementImage(intro, 0, 0);
+      contentDirty = true;
+      introReady = true;
+    } catch (err) {
+      console.warn("[ai-curtain] drawElementImage", err);
+    }
+  };
+
+  function uploadLive() {
+    if (!contentDirty || !introReady) return;
+    contentDirty = false;
+    gl.bindTexture(gl.TEXTURE_2D, contentTexture);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+    gl.generateMipmap(gl.TEXTURE_2D);
+  }
+
   resize();
   window.addEventListener("resize", resize);
 
@@ -386,79 +404,6 @@ export function mount() {
     };
   }
 
-  function uploadContent(shot) {
-    gl.bindTexture(gl.TEXTURE_2D, contentTexture);
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
-    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, shot);
-    gl.generateMipmap(gl.TEXTURE_2D);
-    captured = true;
-    capturing = false;
-  }
-
-  function captureCloth() {
-    if (capturing || captured) return;
-    const title = intro.querySelector("#ai-intro-title");
-    if (title && !title.classList.contains("is-words-in")) return;
-    capturing = true;
-
-    const native = captureWithDrawElement(intro);
-    if (native) {
-      uploadContent(native);
-      draw();
-      return;
-    }
-
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    import("html2canvas")
-      .then((mod) => {
-        const html2canvas = mod.default || mod;
-        return html2canvas(intro, {
-          backgroundColor: "#0a0514",
-          scale: dpr,
-          useCORS: true,
-          logging: false,
-          foreignObjectRendering: false,
-          ignoreElements(el) {
-            if (!el || !el.classList) return false;
-            return (
-              el.classList.contains("ai-title-particles") ||
-              el.classList.contains("ai-letter-cut")
-            );
-          },
-          onclone(doc) {
-            doc.querySelectorAll(HIDE_SEL).forEach((el) => {
-              el.style.display = "none";
-            });
-            /* transform/filter 会让 html2canvas 按 1x 栅格化再放大 → 标题马赛克 */
-            doc.querySelectorAll("#ai-lab-intro, #ai-lab-intro *").forEach((el) => {
-              el.style.setProperty("filter", "none", "important");
-              el.style.setProperty("backdrop-filter", "none", "important");
-              el.style.setProperty("-webkit-backdrop-filter", "none", "important");
-              el.style.setProperty("transform", "none", "important");
-              el.style.setProperty("will-change", "auto", "important");
-              el.style.setProperty("opacity", "1", "important");
-            });
-            const h2 = doc.getElementById("ai-intro-title");
-            if (h2) {
-              h2.classList.add("is-words-in");
-              h2.classList.remove("is-shine");
-            }
-            doc.querySelectorAll(".ai-reveal").forEach((el) => el.classList.add("is-in"));
-            flattenClipText(doc);
-          },
-        });
-      })
-      .then((shot) => {
-        uploadContent(shot);
-        draw();
-      })
-      .catch((err) => {
-        console.warn("[ai-curtain] html2canvas", err);
-        capturing = false;
-      });
-  }
-
   function stopRaf() {
     if (raf) {
       cancelAnimationFrame(raf);
@@ -471,6 +416,8 @@ export function mount() {
   }
 
   function render(p, dt, scrolled) {
+    if (typeof source.requestPaint === "function") source.requestPaint();
+    uploadLive();
     const { w, h } = viewCssSize();
     const density = densityFor(w, h);
     const gridX = Math.ceil(w / density);
@@ -528,7 +475,6 @@ export function mount() {
 
   function draw() {
     const { p, pinned, scrolled } = progress();
-    if (pinned && !captured && !capturing) captureCloth();
 
     const now = performance.now();
     const dt = Math.min((now - lastTime) / 1000, 1 / 30);
@@ -539,10 +485,6 @@ export function mount() {
       pSmooth = 0;
       sticky.classList.remove("is-curtain-on");
       view.style.display = "none";
-      if (!pinned) {
-        captured = false;
-        capturing = false;
-      }
       stopRaf();
       return;
     }
@@ -553,8 +495,9 @@ export function mount() {
     if (Math.abs(p - pSmooth) < 0.0005) pSmooth = p;
 
     const scattering = p > 0.0001;
-    sticky.classList.toggle("is-curtain-on", captured && scattering);
-    const on = captured && scattering && p < 0.999;
+    if (scattering && typeof source.requestPaint === "function") source.requestPaint();
+    sticky.classList.toggle("is-curtain-on", introReady && scattering);
+    const on = introReady && scattering && p < 0.999;
 
     if (!on) {
       view.style.display = "none";
@@ -591,6 +534,8 @@ export function mount() {
       window.__updateAiScroll = prev;
     }
     sticky.classList.remove("is-curtain-on");
+    source.onpaint = null;
+    unwrapIntroSource(source, intro);
     gl.deleteTexture(contentTexture);
     gl.deleteProgram(base.program);
     gl.deleteProgram(points.program);

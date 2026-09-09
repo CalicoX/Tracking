@@ -211,16 +211,14 @@ describe("React landing structure (gating)", () => {
     expect(curtain).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(curtain).toMatch(/scrolled - holdPx/);
     expect(curtain).toMatch(/getContext\("webgl2"/);
-    // 反向 particle-scroll：intro 先完整，往下滚打成沙粒散开
-    // 纹理采样（原版算法）而不是把像素烘焙成色块顶点
-    expect(curtain).toMatch(/html2canvas/);
-    expect(curtain).toMatch(/uploadContent/);
+    // 反向 particle-scroll：活 HTML html-in-canvas，禁止 html2canvas 抓图
+    expect(curtain).toMatch(/drawElementImage/);
+    expect(curtain).toMatch(/layoutsubtree/);
+    expect(curtain).toMatch(/requestPaint/);
+    expect(curtain).not.toMatch(/import\("html2canvas"\)/);
     expect(curtain).toMatch(/uContent/);
     expect(curtain).toMatch(/drawArraysInstanced/);
     expect(curtain).toMatch(/TRIANGLE_STRIP/);
-    expect(curtain).toMatch(/flattenClipText/);
-    expect(curtain).toMatch(/backgroundColor: "#0a0514"/);
-    expect(curtain).not.toMatch(/ai-intro-bg/);
     expect(curtain).toMatch(/sticky\.appendChild\(view\)/);
     expect(curtain).toMatch(/is-curtain-on/);
     expect(curtain).not.toMatch(/uLift|peelDir|paintIntro/);
