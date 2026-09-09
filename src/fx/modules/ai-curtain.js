@@ -1,56 +1,188 @@
 /**
- * AI intro 整屏一块布（Park：文字贴真实布料面；从右下角掀开，露出下面 AI 案例）。
- * - intro 画成纹理，UNPACK_FLIP_Y 贴网格（canvas 顶左 vs GL 底左）；
- * - 右下角沿对角线卷向左上：柱面卷曲 + 透视 + 法线；卷过 π 的片元丢掉，底下案例透出来；
- * - sticky is-curtain-on 藏整块 intro DOM，避免盖住 work。
- * - 可见层 2D blit（页面合成对 WebGL 层不可靠，同 coverage-globe）。
+ * AI intro 整屏一块布（Park：把真实 intro 画进 canvas 当布面，不要另画一版）。
+ * - 掀开前按 DOM 实测把 intro（背景/流线/orb canvas/标签/标题/副标）画进纹理；
+ * - 右下角沿对角线柱面掀开；卷过 π 的片元丢掉，底下案例透出；
+ * - is-curtain-on 藏整块 intro DOM。可见层 2D blit。
  */
 import { clamp, prefersReducedMotion } from "../utils.js";
 
 const AI_HOLD_VH = 0.36;
 
-function buildIntroTexture(W, H, titleFs, leadFs) {
-  const c = document.createElement("canvas");
-  c.width = W;
-  c.height = H;
-  const x = c.getContext("2d");
-  const bg = x.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, "#0b0616");
-  bg.addColorStop(0.5, "#0e0919");
-  bg.addColorStop(1, "#0a0514");
-  x.fillStyle = bg;
-  x.fillRect(0, 0, W, H);
-  x.strokeStyle = "rgba(167,139,250,0.16)";
-  x.lineWidth = Math.max(1, H * 0.0016);
-  for (let i = 0; i < 4; i++) {
-    const y0 = H * (0.12 + i * 0.24);
-    x.beginPath();
-    x.moveTo(-40, y0);
-    x.bezierCurveTo(W * 0.25, y0 - H * 0.05, W * 0.5, y0 + H * 0.05, W * 0.75, y0 - H * 0.02);
-    x.bezierCurveTo(W * 0.9, y0 - H * 0.05, W + 40, y0 + H * 0.01, W + 40, y0);
-    x.stroke();
+function cssPx(cs, prop) {
+  return parseFloat(cs[prop]) || 0;
+}
+
+function paintIntro(ctx, intro, cssW, cssH, ox, oy) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  const dpr = ctx.canvas.width / Math.max(1, cssW);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const bg = ctx.createLinearGradient(0, 0, 0, cssH);
+  bg.addColorStop(0, "#0a0514");
+  bg.addColorStop(0.48, "#0e081c");
+  bg.addColorStop(1, "#090412");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, cssW, cssH);
+  const glow = ctx.createRadialGradient(
+    cssW * 0.5,
+    cssH * 0.42,
+    8,
+    cssW * 0.5,
+    cssH * 0.42,
+    cssW * 0.55,
+  );
+  glow.addColorStop(0, "rgba(88, 40, 140, 0.2)");
+  glow.addColorStop(1, "rgba(88, 40, 140, 0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, cssW, cssH);
+
+  const wrap = intro.querySelector(".ai-intro-streams");
+  const svg = intro.querySelector(".ai-intro-streams-svg");
+  if (wrap && svg) {
+    const wr = wrap.getBoundingClientRect();
+    ctx.save();
+    ctx.translate(wr.left - ox, wr.top - oy);
+    ctx.scale(wr.width / 1440, wr.height / 900);
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "rgba(196,181,253,0.28)";
+    svg.querySelectorAll(".ai-stream").forEach((p) => {
+      const d = p.getAttribute("d");
+      if (!d) return;
+      ctx.lineWidth = p.closest(".ai-stream-layer-a") ? 1.15 : 0.9;
+      ctx.stroke(new Path2D(d));
+    });
+    ctx.restore();
   }
-  const cx = W / 2;
-  const cy = H / 2;
-  x.textAlign = "center";
-  x.textBaseline = "middle";
-  x.font = `700 ${titleFs}px Inter, system-ui, sans-serif`;
-  const grad = x.createLinearGradient(cx - W * 0.34, 0, cx + W * 0.34, 0);
-  grad.addColorStop(0, "#f8f7ff");
-  grad.addColorStop(0.45, "#c9b2ff");
-  grad.addColorStop(0.75, "#b76ef2");
-  grad.addColorStop(1, "#e879f9");
-  x.fillStyle = grad;
-  x.fillText("Tracking Is Getting Smarter. So", cx, cy - titleFs * 0.62);
-  x.fillText("is the Customer Journey.", cx, cy + titleFs * 0.62);
-  x.font = `400 ${leadFs}px Inter, system-ui, sans-serif`;
-  x.fillStyle = "rgba(226, 222, 245, 0.86)";
-  [
-    "AI brings smarter prediction, personalization, and engagement to the post-",
-    "purchase journey — from delivery estimates and intelligent tracking",
-    "experiences to opportunities that drive repeat purchase.",
-  ].forEach((t, i) => x.fillText(t, cx, cy + titleFs * 1.75 + leadFs * 1.6 * i));
-  return c;
+
+  ctx.fillStyle = "rgba(196,181,253,0.10)";
+  for (let y = 8; y < cssH; y += 52) {
+    for (let x = 8; x < cssW; x += 56) {
+      ctx.beginPath();
+      ctx.arc(x, y, 1, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  const veil = ctx.createRadialGradient(
+    cssW * 0.5,
+    cssH * 0.48,
+    4,
+    cssW * 0.5,
+    cssH * 0.48,
+    cssW * 0.55,
+  );
+  veil.addColorStop(0, "rgba(8, 4, 18, 0.58)");
+  veil.addColorStop(0.5, "rgba(8, 4, 18, 0.3)");
+  veil.addColorStop(1, "rgba(8, 4, 18, 0)");
+  ctx.fillStyle = veil;
+  ctx.fillRect(0, 0, cssW, cssH);
+
+  function local(el) {
+    const r = el.getBoundingClientRect();
+    return { x: r.left - ox, y: r.top - oy, w: r.width, h: r.height, r };
+  }
+
+  const eb = intro.querySelector(".ai-intro-eyebrow");
+  if (eb) {
+    const b = local(eb);
+    const cs = getComputedStyle(eb);
+    ctx.save();
+    ctx.beginPath();
+    const rr = Math.min(b.h / 2, 999);
+    if (typeof ctx.roundRect === "function") ctx.roundRect(b.x, b.y, b.w, b.h, rr);
+    else ctx.rect(b.x, b.y, b.w, b.h);
+    ctx.fillStyle = cs.backgroundColor || "rgba(124, 58, 237, 0.12)";
+    ctx.fill();
+    ctx.strokeStyle = cs.borderColor || "rgba(167, 139, 250, 0.42)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    ctx.fillStyle = cs.color || "#c4b5fd";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText((eb.textContent || "").replace(/\s+/g, " ").trim(), b.x + b.w / 2, b.y + b.h / 2);
+    ctx.restore();
+  }
+
+  const orbCanvas = intro.querySelector("#ai-intro-orb-canvas");
+  if (orbCanvas && orbCanvas.width) {
+    const b = local(orbCanvas);
+    try {
+      ctx.drawImage(orbCanvas, b.x, b.y, b.w, b.h);
+    } catch (err) {
+      /* tainted / empty */
+    }
+  }
+
+  const orbLabel = intro.querySelector("#ai-intro-orb-label");
+  if (orbLabel) {
+    const b = local(orbLabel);
+    const cs = getComputedStyle(orbLabel);
+    const textEl = orbLabel.querySelector(".ai-orb-type-text") || orbLabel;
+    ctx.save();
+    ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    ctx.fillStyle = "#ede9fe";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.fillText(textEl.textContent || "", b.x, b.y + b.h / 2);
+    ctx.restore();
+  }
+
+  const h2 = intro.querySelector("#ai-intro-title");
+  if (h2) {
+    const words = h2.querySelectorAll(".ai-word");
+    const hr = h2.getBoundingClientRect();
+    const grad = ctx.createLinearGradient(hr.left - ox, 0, hr.right - ox, 0);
+    grad.addColorStop(0, "#f5f3ff");
+    grad.addColorStop(0.14, "#e9d5ff");
+    grad.addColorStop(0.32, "#c4b5fd");
+    grad.addColorStop(0.48, "#a78bfa");
+    grad.addColorStop(0.72, "#c026d3");
+    grad.addColorStop(1, "#e879f9");
+    words.forEach((w) => {
+      const cs = getComputedStyle(w);
+      const b = local(w);
+      ctx.save();
+      ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      if (cs.letterSpacing) ctx.letterSpacing = cs.letterSpacing;
+      ctx.fillStyle = grad;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(w.textContent || "", b.x + b.w / 2, b.y + b.h / 2);
+      ctx.restore();
+    });
+  }
+
+  const lead = intro.querySelector(".ai-lab-intro-copy .lead");
+  if (lead) {
+    const b = local(lead);
+    const cs = getComputedStyle(lead);
+    ctx.save();
+    ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    ctx.fillStyle = cs.color || "rgba(237, 233, 254, 0.82)";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    const lh = cssPx(cs, "lineHeight") || cssPx(cs, "fontSize") * 1.6;
+    const text = (lead.textContent || "").trim();
+    const words = text.split(/\s+/);
+    const lines = [];
+    let line = "";
+    words.forEach((word) => {
+      const test = line ? line + " " + word : word;
+      if (ctx.measureText(test).width > b.w && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = test;
+      }
+    });
+    if (line) lines.push(line);
+    lines.forEach((ln, i) => {
+      ctx.fillText(ln, b.x + b.w / 2, b.y + i * lh);
+    });
+    ctx.restore();
+  }
 }
 
 const VS = `
@@ -129,6 +261,7 @@ export function mount() {
     document.getElementById("ai-lab-intro-track") ||
     document.getElementById("ai-letter-track");
   const sticky = document.getElementById("ai-letter-sticky");
+  const intro = document.getElementById("ai-lab-intro");
   if (!track || !sticky) return () => {};
   if (sticky.dataset.curtainMounted) return () => {};
   sticky.dataset.curtainMounted = "1";
@@ -138,9 +271,6 @@ export function mount() {
       delete sticky.dataset.curtainMounted;
     };
   }
-
-  const vw0 = window.innerWidth;
-  const vh0 = window.innerHeight;
 
   const view = document.createElement("canvas");
   view.id = "ai-curtain-view";
@@ -206,25 +336,19 @@ export function mount() {
   gl.enableVertexAttribArray(aP);
   gl.vertexAttribPointer(aP, 2, gl.FLOAT, false, 0, 0);
 
-  const dprT = Math.min(window.devicePixelRatio || 1, 2);
-  const texCanvas = buildIntroTexture(
-    Math.round(vw0 * dprT),
-    Math.round(vh0 * dprT),
-    56 * dprT,
-    18 * dprT,
-  );
   const tex = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, tex);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texCanvas);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([10, 5, 20, 255]));
   for (const name of ["uLift", "uAlpha", "uTex"]) {
     U[name] = gl.getUniformLocation(prog, name);
   }
   gl.uniform1i(U.uTex, 0);
+
+  let captured = false;
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
@@ -239,6 +363,23 @@ export function mount() {
   resize();
   window.addEventListener("resize", resize);
 
+  function captureCloth() {
+    if (!intro || view.width < 2) return false;
+    const cssW = view.clientWidth || window.innerWidth;
+    const cssH = view.clientHeight || Math.max(1, window.innerHeight - 64);
+    const ox = 0;
+    const oy = 64;
+    const snap = document.createElement("canvas");
+    snap.width = view.width;
+    snap.height = view.height;
+    paintIntro(snap.getContext("2d"), intro, cssW, cssH, ox, oy);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, snap);
+    captured = true;
+    return true;
+  }
+
   function progress() {
     const vh = window.innerHeight;
     const r = track.getBoundingClientRect();
@@ -252,9 +393,11 @@ export function mount() {
   function draw() {
     const p = progress();
     const on = p > 0.0001 && p < 0.999;
+    if (on && !captured) captureCloth();
+    if (!on) captured = false;
     view.style.display = on ? "block" : "none";
-    sticky.classList.toggle("is-curtain-on", p > 0.0001);
-    if (!on) return;
+    sticky.classList.toggle("is-curtain-on", on && captured);
+    if (!on || !captured) return;
 
     const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
     const lift = ease;

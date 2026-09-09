@@ -212,7 +212,10 @@ describe("React landing structure (gating)", () => {
     expect(curtain).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(curtain).toMatch(/scrolled - holdPx/);
     expect(curtain).toMatch(/getContext\("webgl"/);
-    // 整屏单块布：文字贴布面（FLIP_Y 防倒字）+ 从右下角掀开，不是从中间对开
+    // 布面 = 把真实 intro 画进 canvas（含 orb canvas），不要另绘一版文案
+    expect(curtain).toMatch(/function paintIntro/);
+    expect(curtain).toMatch(/captureCloth/);
+    expect(curtain).toMatch(/#ai-intro-orb-canvas/);
     expect(curtain).toMatch(/UNPACK_FLIP_Y_WEBGL/);
     expect(curtain).toMatch(/uLift/);
     expect(curtain).toMatch(/peelDir/);
