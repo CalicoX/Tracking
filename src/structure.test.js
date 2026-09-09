@@ -210,11 +210,15 @@ describe("React landing structure (gating)", () => {
     const curtain = read("fx/modules/ai-curtain.js");
     expect(curtain).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(curtain).toMatch(/scrolled - holdPx/);
-    expect(curtain).toMatch(/getContext\("webgl"/);
+    expect(curtain).toMatch(/getContext\("webgl2"/);
     // 反向 particle-scroll：intro 先完整，往下滚打成沙粒散开
+    // 纹理采样（原版算法）而不是把像素烘焙成色块顶点
     expect(curtain).toMatch(/html2canvas/);
-    expect(curtain).toMatch(/uploadParticles/);
-    expect(curtain).toMatch(/gl\.TRIANGLES/);
+    expect(curtain).toMatch(/uploadContent/);
+    expect(curtain).toMatch(/uContent/);
+    expect(curtain).toMatch(/drawArraysInstanced/);
+    expect(curtain).toMatch(/TRIANGLE_STRIP/);
+    expect(curtain).toMatch(/flattenClipText/);
     expect(curtain).toMatch(/is-curtain-on/);
     expect(curtain).not.toMatch(/uLift|peelDir|paintIntro/);
     expect(curtain).toMatch(/drawImage\(glc/);
