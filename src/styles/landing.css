@@ -6007,6 +6007,11 @@
     .ai-letter-sticky.is-curtain-on .ai-intro-source {
       opacity: 0;
     }
+    /* 抓图兜底：intro 是 sticky 的直接子节点，散开时藏真 DOM */
+    .ai-letter-sticky.is-curtain-on > .ai-lab-intro {
+      opacity: 0;
+      pointer-events: none;
+    }
     .ai-letter-sticky #ai-curtain-view {
       position: absolute;
       inset: 0;

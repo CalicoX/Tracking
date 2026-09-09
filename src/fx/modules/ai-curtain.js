@@ -3,10 +3,9 @@
  * 原版 https://canvasui.dev/docs/components/particle-scroll ：线下是沙，往下滚再聚回去。
  * 这里反过来——intro 先完整，往下滚打成沙粒向上散开，露出底下案例。
  *
- * 跟 canvasui 一样走 html-in-canvas：intro 放进 layoutsubtree canvas，
- * onpaint 里 drawElementImage 活 HTML 当纹理。禁止 html2canvas（会多一帧、内容和屏幕不一致）。
+ * 能 html-in-canvas 就走活 HTML（canvasui 同款）。否则 html2canvas 抓当前屏幕原样
+ * （不改 visibility，不把没入场的 eyebrow 强行显示）。整屏含暗底粒子化。
  * 拼好的格子走 textured quad；散开走实例化四边形（不用 gl.POINTS）。
- * 不支持 html-in-canvas 就跳过特效，只留真 DOM。
  */
 import { clamp, prefersReducedMotion, shouldReduceFx } from "../utils.js";
 
@@ -200,6 +199,28 @@ function unwrapIntroSource(source, intro) {
   source.remove();
 }
 
+const TITLE_FILLS = ["#f5f3ff", "#e9d5ff", "#c4b5fd", "#a78bfa", "#c026d3", "#e879f9"];
+
+function flattenClipText(doc) {
+  const set = (el, prop, val) => el.style.setProperty(prop, val, "important");
+  doc.querySelectorAll("#ai-intro-title .ai-word").forEach((el, i) => {
+    const c = TITLE_FILLS[Math.min(i, TITLE_FILLS.length - 1)];
+    set(el, "background-image", "none");
+    set(el, "background", "none");
+    set(el, "-webkit-background-clip", "border-box");
+    set(el, "background-clip", "border-box");
+    set(el, "-webkit-text-fill-color", c);
+    set(el, "color", c);
+  });
+  doc.querySelectorAll(".ai-orb-type-text").forEach((el) => {
+    set(el, "background-image", "none");
+    set(el, "-webkit-background-clip", "border-box");
+    set(el, "background-clip", "border-box");
+    set(el, "-webkit-text-fill-color", "#ede9fe");
+    set(el, "color", "#ede9fe");
+  });
+}
+
 export function mount() {
   const track =
     document.getElementById("ai-lab-intro-track") ||
@@ -220,21 +241,17 @@ export function mount() {
     };
   }
 
-  if (!supportsHtmlInCanvas()) {
-    console.warn(
-      "[ai-curtain] html-in-canvas 不可用。打开 chrome://flags/#canvas-draw-element 后重启 Chrome（canvasui 同一套 API，不用抓图）。"
-    );
-    return function dispose() {
-      clearMountFlag();
-    };
-  }
-
-  const source = wrapIntroSource(intro);
-  const sourceCtx = source.getContext("2d");
-  if (!sourceCtx || typeof sourceCtx.drawElementImage !== "function") {
-    unwrapIntroSource(source, intro);
-    clearMountFlag();
-    return () => {};
+  const live = supportsHtmlInCanvas();
+  let source = null;
+  let sourceCtx = null;
+  if (live) {
+    source = wrapIntroSource(intro);
+    sourceCtx = source.getContext("2d");
+    if (!sourceCtx || typeof sourceCtx.drawElementImage !== "function") {
+      unwrapIntroSource(source, intro);
+      source = null;
+      sourceCtx = null;
+    }
   }
 
   const view = document.createElement("canvas");
@@ -303,6 +320,8 @@ export function mount() {
     return () => {};
   }
 
+  const useLive = !!(source && sourceCtx);
+
   const quadVao = gl.createVertexArray();
   gl.bindVertexArray(quadVao);
   const quad = gl.createBuffer();
@@ -331,6 +350,7 @@ export function mount() {
 
   let introReady = false;
   let contentDirty = false;
+  let capturing = false;
   let raf = 0;
   let time = 0;
   let lastTime = performance.now();
@@ -356,35 +376,95 @@ export function mount() {
     if (glc.width !== W) glc.width = W;
     if (glc.height !== H) glc.height = H;
     gl.viewport(0, 0, W, H);
-    const cssW = Math.max(1, Math.round(source.clientWidth || w));
-    const cssH = Math.max(1, Math.round(source.clientHeight || h));
-    if (source.width !== cssW * dpr || source.height !== cssH * dpr) {
-      source.width = cssW * dpr;
-      source.height = cssH * dpr;
+    if (source) {
+      const cssW = Math.max(1, Math.round(source.clientWidth || w));
+      const cssH = Math.max(1, Math.round(source.clientHeight || h));
+      if (source.width !== cssW * dpr || source.height !== cssH * dpr) {
+        source.width = cssW * dpr;
+        source.height = cssH * dpr;
+      }
+      if (typeof source.requestPaint === "function") source.requestPaint();
     }
-    if (typeof source.requestPaint === "function") source.requestPaint();
   }
 
-  source.onpaint = () => {
-    try {
-      if (typeof sourceCtx.reset === "function") sourceCtx.reset();
-      else sourceCtx.clearRect(0, 0, source.width, source.height);
-      sourceCtx.drawElementImage(intro, 0, 0);
-      contentDirty = true;
-      introReady = true;
-    } catch (err) {
-      console.warn("[ai-curtain] drawElementImage", err);
-    }
-  };
+  if (useLive) {
+    source.onpaint = () => {
+      try {
+        if (typeof sourceCtx.reset === "function") sourceCtx.reset();
+        else sourceCtx.clearRect(0, 0, source.width, source.height);
+        sourceCtx.drawElementImage(intro, 0, 0);
+        contentDirty = true;
+        introReady = true;
+      } catch (err) {
+        console.warn("[ai-curtain] drawElementImage", err);
+      }
+    };
+  }
 
-  function uploadLive() {
-    if (!contentDirty || !introReady) return;
-    contentDirty = false;
+  function uploadTexture(shot) {
     gl.bindTexture(gl.TEXTURE_2D, contentTexture);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, shot);
     gl.generateMipmap(gl.TEXTURE_2D);
+    introReady = true;
+    contentDirty = false;
+    capturing = false;
+  }
+
+  function uploadLive() {
+    if (!useLive || !contentDirty || !introReady) return;
+    contentDirty = false;
+    uploadTexture(source);
+  }
+
+  function captureSnapshot() {
+    if (useLive || capturing || introReady) return;
+    const title = intro.querySelector("#ai-intro-title");
+    if (title && !title.classList.contains("is-words-in")) return;
+    capturing = true;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    import("html2canvas")
+      .then((mod) => {
+        const html2canvas = mod.default || mod;
+        return html2canvas(intro, {
+          backgroundColor: "#0a0514",
+          scale: dpr,
+          useCORS: true,
+          logging: false,
+          foreignObjectRendering: false,
+          ignoreElements(el) {
+            if (!el || !el.classList) return false;
+            return (
+              el.classList.contains("ai-title-particles") ||
+              el.classList.contains("ai-letter-cut")
+            );
+          },
+          onclone(doc) {
+            doc.querySelectorAll(".ai-title-particles, .ai-letter-cut").forEach((el) => {
+              el.style.display = "none";
+            });
+            doc.querySelectorAll("#ai-lab-intro, #ai-lab-intro *").forEach((el) => {
+              el.style.setProperty("filter", "none", "important");
+              el.style.setProperty("backdrop-filter", "none", "important");
+              el.style.setProperty("-webkit-backdrop-filter", "none", "important");
+              el.style.setProperty("transform", "none", "important");
+              el.style.setProperty("will-change", "auto", "important");
+            });
+            const h2 = doc.getElementById("ai-intro-title");
+            if (h2) h2.classList.remove("is-shine");
+            flattenClipText(doc);
+          },
+        });
+      })
+      .then((shot) => {
+        uploadTexture(shot);
+        draw();
+      })
+      .catch((err) => {
+        console.warn("[ai-curtain] html2canvas", err);
+        capturing = false;
+      });
   }
 
   resize();
@@ -416,7 +496,7 @@ export function mount() {
   }
 
   function render(p, dt, scrolled) {
-    if (typeof source.requestPaint === "function") source.requestPaint();
+    if (useLive && typeof source.requestPaint === "function") source.requestPaint();
     uploadLive();
     const { w, h } = viewCssSize();
     const density = densityFor(w, h);
@@ -475,6 +555,7 @@ export function mount() {
 
   function draw() {
     const { p, pinned, scrolled } = progress();
+    if (!useLive && pinned) captureSnapshot();
 
     const now = performance.now();
     const dt = Math.min((now - lastTime) / 1000, 1 / 30);
@@ -485,6 +566,10 @@ export function mount() {
       pSmooth = 0;
       sticky.classList.remove("is-curtain-on");
       view.style.display = "none";
+      if (!pinned && !useLive) {
+        introReady = false;
+        capturing = false;
+      }
       stopRaf();
       return;
     }
@@ -495,7 +580,9 @@ export function mount() {
     if (Math.abs(p - pSmooth) < 0.0005) pSmooth = p;
 
     const scattering = p > 0.0001;
-    if (scattering && typeof source.requestPaint === "function") source.requestPaint();
+    if (useLive && scattering && typeof source.requestPaint === "function") {
+      source.requestPaint();
+    }
     sticky.classList.toggle("is-curtain-on", introReady && scattering);
     const on = introReady && scattering && p < 0.999;
 
@@ -534,8 +621,10 @@ export function mount() {
       window.__updateAiScroll = prev;
     }
     sticky.classList.remove("is-curtain-on");
-    source.onpaint = null;
-    unwrapIntroSource(source, intro);
+    if (source) {
+      source.onpaint = null;
+      unwrapIntroSource(source, intro);
+    }
     gl.deleteTexture(contentTexture);
     gl.deleteProgram(base.program);
     gl.deleteProgram(points.program);

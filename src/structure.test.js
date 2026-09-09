@@ -211,11 +211,12 @@ describe("React landing structure (gating)", () => {
     expect(curtain).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(curtain).toMatch(/scrolled - holdPx/);
     expect(curtain).toMatch(/getContext\("webgl2"/);
-    // 反向 particle-scroll：活 HTML html-in-canvas，禁止 html2canvas 抓图
+    // 反向 particle-scroll：能 html-in-canvas 走活 HTML，否则 html2canvas 抓当前屏幕原样
     expect(curtain).toMatch(/drawElementImage/);
     expect(curtain).toMatch(/layoutsubtree/);
     expect(curtain).toMatch(/requestPaint/);
-    expect(curtain).not.toMatch(/import\("html2canvas"\)/);
+    expect(curtain).toMatch(/import\("html2canvas"\)/);
+    expect(curtain).toMatch(/flattenClipText/);
     expect(curtain).toMatch(/uContent/);
     expect(curtain).toMatch(/drawArraysInstanced/);
     expect(curtain).toMatch(/TRIANGLE_STRIP/);
