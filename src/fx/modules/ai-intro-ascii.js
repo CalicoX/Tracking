@@ -34,13 +34,15 @@ function smoothstep(a, b, t) {
 
 const BLOBS = (function () {
   const out = [];
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 8; i++) {
+    const sx = hash(i * 5 + 6) > 0.5 ? 1 : -1;
+    const sy = hash(i * 5 + 8) > 0.5 ? 1 : -1;
     out.push({
       x: hash(i * 3 + 1),
       y: hash(i * 3 + 2),
-      r: 0.2 + hash(i * 3 + 4) * 0.16,
-      vx: (hash(i * 5 + 6) - 0.42) * 0.055,
-      vy: (hash(i * 5 + 8) - 0.5) * 0.04,
+      r: 0.075 + hash(i * 3 + 4) * 0.07,
+      vx: sx * (0.09 + hash(i * 7 + 1) * 0.08),
+      vy: sy * (0.06 + hash(i * 7 + 3) * 0.07),
     });
   }
   return out;
