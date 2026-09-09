@@ -46,14 +46,14 @@ function vnoise(x, y) {
 }
 
 function field(cx, cy, t) {
-  const x = cx * 0.042 + t * 0.09;
-  const y = cy * 0.042 - t * 0.035;
+  const x = cx * 0.038 + t * 0.07;
+  const y = cy * 0.038 - t * 0.028;
   const n =
     vnoise(x, y) * 0.58 +
     vnoise(x * 2.2 + 8, y * 2.2) * 0.28 +
-    vnoise(x * 4.6, y * 4.6 + t * 0.06) * 0.14;
-  /* Square the noise: dark void + dense dithered blobs, not a flat soup. */
-  return n * n * 1.25;
+    vnoise(x * 4.6, y * 4.6 + t * 0.05) * 0.14;
+  /* Sparse occupancy — Park: 太密. */
+  return n * n * 0.72;
 }
 
 function exitProgress(track) {
@@ -67,8 +67,8 @@ function exitProgress(track) {
 }
 
 /**
- * Square-dot Bayer dither on the AI intro. Intro CSS background stays opaque
- * at rest. After hold, copy fades, the dither thins, then the overlay lifts.
+ * Sparse square / plus Bayer dither on the AI intro. Intro CSS background
+ * stays opaque at rest. After hold, copy fades, the field thins, then lifts.
  */
 export function mount() {
   const track =
@@ -109,7 +109,7 @@ export function mount() {
     canvas.style.width = w + "px";
     canvas.style.height = h + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cell = Math.max(5, Math.min(7, Math.round(w / 240)));
+    cell = Math.max(11, Math.min(14, Math.round(w / 110)));
     cols = Math.ceil(w / cell) + 1;
     rows = Math.ceil(h / cell) + 1;
     drawnOut = false;
@@ -134,21 +134,32 @@ export function mount() {
     }
 
     const t = (now || 0) * 0.001;
-    /* Exit raises the dither threshold so dots drop out before the overlay lifts. */
-    const bias = p * 0.7;
-    const dot = Math.max(2, cell * 0.58);
+    /* Exit raises the dither threshold so glyphs drop out before the overlay lifts. */
+    const bias = 0.08 + p * 0.7;
+    const dot = Math.max(2, cell * 0.38);
     const inset = (cell - dot) * 0.5;
-    ctx.fillStyle = "rgba(236,236,242,0.9)";
+    const arm = cell * 0.28;
+    const thick = Math.max(1, cell * 0.11);
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         let n = field(c, r, t);
         const dx = c / cols - 0.5;
         const dy = r / rows - 0.44;
-        n *= 1 - 0.28 * Math.max(0, 1 - (dx * dx * 4.2 + dy * dy * 5.5));
+        n *= 1 - 0.4 * Math.max(0, 1 - (dx * dx * 3.6 + dy * dy * 4.8));
         const b = (BAYER8[(c & 7) + ((r & 7) << 3)] + 0.5) / 64;
         if (n < b + bias) continue;
-        ctx.fillRect(c * cell + inset, r * cell + inset, dot, dot);
+        const plus = hash(c * 31 + r * 17 + 9) > 0.48;
+        const a = 0.22 + n * 0.16;
+        ctx.fillStyle = "rgba(168,160,196," + a.toFixed(3) + ")";
+        const x = (c + 0.5) * cell;
+        const y = (r + 0.5) * cell;
+        if (plus) {
+          ctx.fillRect(x - arm, y - thick * 0.5, arm * 2, thick);
+          ctx.fillRect(x - thick * 0.5, y - arm, thick, arm * 2);
+        } else {
+          ctx.fillRect(c * cell + inset, r * cell + inset, dot, dot);
+        }
       }
     }
     drawnOut = false;
