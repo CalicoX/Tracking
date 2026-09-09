@@ -214,7 +214,7 @@ describe("React landing structure (gating)", () => {
     // 反向 particle-scroll：intro 先完整，往下滚打成沙粒散开
     expect(curtain).toMatch(/html2canvas/);
     expect(curtain).toMatch(/uploadParticles/);
-    expect(curtain).toMatch(/gl\.POINTS/);
+    expect(curtain).toMatch(/gl\.TRIANGLES/);
     expect(curtain).toMatch(/is-curtain-on/);
     expect(curtain).not.toMatch(/uLift|peelDir|paintIntro/);
     expect(curtain).toMatch(/drawImage\(glc/);
