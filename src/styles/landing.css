@@ -5991,11 +5991,10 @@
       visibility: hidden;
       transition: none !important;
     }
-    /* 布幕接管（ai-curtain.js）：藏真 DOM 文案与背景，布面纹理自己画着同样的像 */
-    .ai-letter-sticky.is-curtain-on .ai-lab-intro-copy,
-    .ai-letter-sticky.is-curtain-on .ai-intro-bg {
+    /* 布幕接管：整块 intro 藏掉，掀开的透明区露出底下 .ai-lab-work 案例 */
+    .ai-letter-sticky.is-curtain-on .ai-lab-intro {
       opacity: 0;
-      transition: opacity 0.18s linear;
+      pointer-events: none;
     }
     .ai-letter-cut {
       position: absolute;

@@ -47,7 +47,7 @@
 ## AI intro → work 过渡（2026-09-08 Park 重做：窗帘）
 
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载；`#ai-zoom-layer`/`--ai-veil`/`is-ai-zooming` 相关 CSS 成死代码（同步删过 structure.test 的 zoom 断言段）。`.ai-word-ai` 仍留在 eyebrow JSX 里（无害）。
-- **替代：整屏一块 WebGL 布向上掀开** `src/fx/modules/ai-curtain.js`（Park 否掉「从中间对开两条紫条」）。同一滚动映射（钉住 hold 0.36 屏 → 0.48 屏 scrub p 0→1）；intro 画成纹理贴在 40×30 网格上；顶边先行、底边拖尾（`uLift` + lead），sin/cos 扭曲褶皱；p 0–0.06 淡入接管（sticky `is-curtain-on` 藏真文案/背景），0.85–1 淡出露出 AI 案例。**可见层 2D blit**（`#ai-curtain-view` fixed topbar 以下 z-180，GL 离屏——同 coverage-globe 合成坑）。挂载在 aiLab 之后（useLandingEffects `mountNamed("aiCurtain")`）。倒滚可倒放。别再做成双幕叶对开。
+- **替代：整屏一块 WebGL 布料，从右下角掀开露出案例** `src/fx/modules/ai-curtain.js`（Park 否掉对开紫条 / 平面位移 / 从上往下卷；倒字必须 `UNPACK_FLIP_Y_WEBGL`）。intro 贴 64×48 网格；掀开轴从右下角 `(1,-1)` 沿对角线卷向左上，柱面卷过 π 的片元丢掉，透明区露出底下 `.ai-lab-work`。`is-curtain-on` 必须藏**整块** `.ai-lab-intro`（只藏 copy/bg 会把案例盖住）。hold 0.36 → 0.48 屏 scrub。可见层 2D blit `#ai-curtain-view` z-180。别再从上边卷、别再做成双幕叶。
 - Footer 顶部分割线已删（`border-top:0` + `.site-footer::before { display:none }`），不要再加 1px 线。
 
 ## AI 二字遮罩（已退役，勿复活）

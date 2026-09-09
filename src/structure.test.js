@@ -212,8 +212,11 @@ describe("React landing structure (gating)", () => {
     expect(curtain).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(curtain).toMatch(/scrolled - holdPx/);
     expect(curtain).toMatch(/getContext\("webgl"/);
-    // 整屏单块布向上掀（顶边先行）+ 扭曲，不是从中间对开
+    // 整屏单块布：文字贴布面（FLIP_Y 防倒字）+ 从右下角掀开，不是从中间对开
+    expect(curtain).toMatch(/UNPACK_FLIP_Y_WEBGL/);
     expect(curtain).toMatch(/uLift/);
+    expect(curtain).toMatch(/peelDir/);
+    expect(curtain).toMatch(/vec2\(1\.0, -1\.0\)/);
     expect(curtain).toMatch(/is-curtain-on/);
     expect(curtain).not.toMatch(/smoothstep\(0\.72, 1\.0, uP\)/);
     // 可见层走 2D blit（页面合成对 WebGL 层不可靠）
