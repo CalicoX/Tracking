@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-09（AI intro 方点 dither ASCII；idle 不透明，滚出再漏案例）
+最后更新：2026-09-09（AI intro 背景改流动渐变+噪点；Bayer 团块退役）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -46,7 +46,7 @@
 
 ## AI intro → work 过渡（2026-09-09）
 
-- **现用：Bayer 方点 dither** `src/fx/modules/ai-intro-ascii.js`（Park 参考 Closed-Loop 疏密块）。`CELL=7`，全屏铺、不绕标题。**5 个**不规则团块（r≈0.13–0.23）。速度约 0.09–0.17 屏/秒。核铺满、外面空。约 40% `+` 按格固定。颜色 `rgba(118,112,148,~0.07–0.17)` 再暗。`is-ascii-on` 藏 hover 标题粒子。
+- **现用：流动渐变 + 屏空间噪点**（Park 要 shaders.com Synthesis 那种感觉）。`sampleIntroFlow(uv,t,grainUv)` 在 `ai-intro-flow-sample.js`；mount 仍走 `aiIntroAscii` / `#ai-intro-ascii`。色斑按 Mesh Gradient 轨迹 `sin/cos(t)` 混色，grain 用像素坐标（Paper GrainGradient：grain 不跟渐变缩放）。低分辨率场再 stretch + overlay 噪点贴图。Bayer ASCII 团块退役。shaders.com 该 collection 是 Pro 门（Unlock with Pro），HTTP 抓取 SSRF 拦了，不装 `@paper-design/shaders`。idle 仍不透明；hold 0.36 / exit 0.48；≤640 / hidden / off-screen 停 rAF。
 - **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；canvas 只画点、不铺半透明径向。CSS 暗底 + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
 - **退场**：钉住 hold 0.36vh → 0.48vh 里文案先淡、网点变稀，再 `--intro-rest-op` 整层抬走，露出 `.ai-lab-work`。回滚倒放。≤640 canvas `display:none`，叠排不走遮罩。
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。

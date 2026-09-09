@@ -231,11 +231,12 @@ describe("React landing structure (gating)", () => {
     expect(fx).not.toMatch(/mountNamed\("aiCurtain"\)/);
   });
 
-  it("AI intro ASCII field + scroll exit (no html2canvas)", () => {
+  it("AI intro flowing gradient + grain (no html2canvas)", () => {
     const fx = read("fx/useLandingEffects.js");
     expect(fx).toMatch(/mountNamed\("aiIntroAscii"\)/);
     expect(fx).not.toMatch(/mountNamed\("aiCurtain"\)/);
     const ascii = read("fx/modules/ai-intro-ascii.js");
+    const sample = read("fx/modules/ai-intro-flow-sample.js");
     expect(ascii).toMatch(/export function mount\s*\(/);
     expect(ascii).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(ascii).toMatch(/AI_EXIT_VH = 0\.48/);
@@ -243,17 +244,18 @@ describe("React landing structure (gating)", () => {
     expect(ascii).toMatch(/is-ascii-out/);
     expect(ascii).toMatch(/document\.hidden/);
     expect(ascii).toMatch(/shouldReduceFx|isMobileLayout/);
+    expect(ascii).toMatch(/sampleIntroFlow/);
+    expect(sample).toMatch(/export function sampleIntroFlow/);
+    expect(sample).toMatch(/grainTerm/);
     expect(ascii).not.toMatch(/import\(["']html2canvas["']\)/);
     expect(ascii).not.toMatch(/drawElementImage/);
     expect(ascii).not.toMatch(/getContext\("webgl/);
+    expect(ascii).not.toMatch(/BAYER8/);
     const jsx = read("components/sections/AiLab.jsx");
     expect(jsx).toMatch(/ai-intro-ascii/);
     const css = read("styles/landing.css");
     expect(css).toMatch(/--ascii-copy/);
     expect(css).toMatch(/is-ascii-out/);
-    expect(ascii).toMatch(/CELL = 7/);
-    expect(ascii).toMatch(/BAYER8/);
-    expect(ascii).toMatch(/fillRect/);
     expect(css).not.toMatch(
       /is-ascii-on\s*>\s*\.ai-lab-intro\s*\{[^}]*background:\s*transparent/
     );
