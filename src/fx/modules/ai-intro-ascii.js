@@ -32,33 +32,44 @@ function smoothstep(a, b, t) {
   return x * x * (3 - 2 * x);
 }
 
-function vnoise(x, y) {
-  const ix = Math.floor(x);
-  const iy = Math.floor(y);
-  const fx = x - ix;
-  const fy = y - iy;
-  const ux = fx * fx * (3 - 2 * fx);
-  const uy = fy * fy * (3 - 2 * fy);
-  const a = hash(ix * 13 + iy * 47);
-  const b = hash((ix + 1) * 13 + iy * 47);
-  const c = hash(ix * 13 + (iy + 1) * 47);
-  const d = hash((ix + 1) * 13 + (iy + 1) * 47);
-  return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+const BLOBS = (function () {
+  const out = [];
+  for (let i = 0; i < 6; i++) {
+    out.push({
+      x: hash(i * 3 + 1),
+      y: hash(i * 3 + 2),
+      r: 0.2 + hash(i * 3 + 4) * 0.16,
+      vx: (hash(i * 5 + 6) - 0.42) * 0.055,
+      vy: (hash(i * 5 + 8) - 0.5) * 0.04,
+    });
+  }
+  return out;
+})();
+
+function wrap1(x) {
+  return x - Math.floor(x);
 }
 
-/** Slow domain-warped masses — continuous drift, no scrolling-texture look. */
-function field(cx, cy, t) {
-  const u = cx * 0.026;
-  const v = cy * 0.026;
-  const wx = vnoise(u + t * 0.045, v + 3) - 0.5;
-  const wy = vnoise(u + 18, v + t * 0.04) - 0.5;
-  const x = u + wx * 0.85 + t * 0.035;
-  const y = v + wy * 0.85;
-  const n =
-    vnoise(x, y) * 0.55 +
-    vnoise(x * 2.05 + 9, y * 2.05) * 0.3 +
-    vnoise(x * 3.6, y * 3.6) * 0.15;
-  return n * n * 1.2;
+function wrapDist(a, b) {
+  let d = Math.abs(a - b);
+  return d > 0.5 ? 1 - d : d;
+}
+
+/** Moving blobs: core packed, outside empty, dither only on the rim. */
+function field(cx, cy, t, cols, rows) {
+  const nx = cx / Math.max(cols, 1);
+  const ny = cy / Math.max(rows, 1);
+  let m = 0;
+  for (let i = 0; i < BLOBS.length; i++) {
+    const b = BLOBS[i];
+    const bx = wrap1(b.x + t * b.vx);
+    const by = wrap1(b.y + t * b.vy);
+    const dx = wrapDist(nx, bx);
+    const dy = wrapDist(ny, by);
+    const d = Math.sqrt(dx * dx + dy * dy) / b.r;
+    if (d < 1) m += (1 - d) * (1 - d);
+  }
+  return smoothstep(0.12, 0.55, clamp(m, 0, 1.4));
 }
 
 function exitProgress(track) {
@@ -149,17 +160,12 @@ export function mount() {
       for (let c = 0; c < cols; c++) {
         const x = c * CELL + inset;
         const y = r * CELL + inset;
-        const n = field(c, r, t);
+        const n = field(c, r, t, cols, rows);
+        if (n < 0.02) continue;
         const b = (BAYER8[(c & 7) + ((r & 7) << 3)] + 0.5) / 64;
-        const dense = n > b + 0.12 + bias;
-        const sparse =
-          !dense &&
-          ((c + r * 3) & 7) === 0 &&
-          hash(c * 13 + r * 29) > 0.55 &&
-          n + 0.08 > b + bias;
-        if (!dense && !sparse) continue;
+        if (n <= b + bias) continue;
         const plus = hash(c * 31 + r * 17) > 0.6;
-        const a = dense ? 0.26 : 0.12;
+        const a = 0.12 + n * 0.16;
         ctx.fillStyle = "rgba(148,140,176," + a.toFixed(3) + ")";
         if (plus) {
           const cx = c * CELL + CELL * 0.5;
@@ -189,7 +195,7 @@ export function mount() {
       running = false;
       return;
     }
-    if (lastDraw && now - lastDraw < 32) {
+    if (lastDraw && now - lastDraw < 20) {
       raf = requestAnimationFrame(loop);
       return;
     }

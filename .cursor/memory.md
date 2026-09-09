@@ -46,7 +46,7 @@
 
 ## AI intro → work 过渡（2026-09-09）
 
-- **现用：Bayer 方点 dither** `src/fx/modules/ai-intro-ascii.js`（Park 参考 Closed-Loop 疏密块）。`CELL=7`，全屏铺、**不要绕开标题**。约 40% `+` 按格子固定，不随时间跳切。颜色 `rgba(148,140,176,~0.12–0.26)` 再暗一档。流动用 domain-warp 慢推，不要整场平移/整数 tick 换符号。`is-ascii-on` 仍藏 hover 标题粒子。
+- **现用：Bayer 方点 dither** `src/fx/modules/ai-intro-ascii.js`（Park 参考 Closed-Loop 疏密块）。`CELL=7`，全屏铺、不绕标题。6 个移动 blob：核几乎铺满、外面几乎空、边沿 dither。约 40% `+` 按格固定。颜色 `rgba(148,140,176,~0.12–0.28)`。`is-ascii-on` 藏 hover 标题粒子。不要再铺成均匀墙纸。
 - **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；canvas 只画点、不铺半透明径向。CSS 暗底 + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
 - **退场**：钉住 hold 0.36vh → 0.48vh 里文案先淡、网点变稀，再 `--intro-rest-op` 整层抬走，露出 `.ai-lab-work`。回滚倒放。≤640 canvas `display:none`，叠排不走遮罩。
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
