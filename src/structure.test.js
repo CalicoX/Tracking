@@ -189,6 +189,7 @@ describe("React landing structure (gating)", () => {
       "border-beam.js",
       "ai-lab.js",
       "ai-curtain.js",
+      "ai-intro-ascii.js",
       "hero-draw.js",
     ]) {
       const mod = read(`fx/modules/${name}`);
@@ -228,6 +229,33 @@ describe("React landing structure (gating)", () => {
     expect(fx).not.toMatch(/mountNamed\("aiLetterZoom"\)/);
     // 窗帘整屏粒子太卡（html2canvas + 数十万实例），09-09 卸挂载
     expect(fx).not.toMatch(/mountNamed\("aiCurtain"\)/);
+  });
+
+  it("AI intro ASCII field + scroll exit (no html2canvas)", () => {
+    const fx = read("fx/useLandingEffects.js");
+    expect(fx).toMatch(/mountNamed\("aiIntroAscii"\)/);
+    expect(fx).not.toMatch(/mountNamed\("aiCurtain"\)/);
+    const ascii = read("fx/modules/ai-intro-ascii.js");
+    expect(ascii).toMatch(/export function mount\s*\(/);
+    expect(ascii).toMatch(/AI_HOLD_VH = 0\.36/);
+    expect(ascii).toMatch(/AI_EXIT_VH = 0\.48/);
+    expect(ascii).toMatch(/getContext\("2d"/);
+    expect(ascii).toMatch(/is-ascii-out/);
+    expect(ascii).toMatch(/document\.hidden/);
+    expect(ascii).toMatch(/shouldReduceFx|isMobileLayout/);
+    expect(ascii).not.toMatch(/import\(["']html2canvas["']\)/);
+    expect(ascii).not.toMatch(/drawElementImage/);
+    expect(ascii).not.toMatch(/getContext\("webgl/);
+    const jsx = read("components/sections/AiLab.jsx");
+    expect(jsx).toMatch(/ai-intro-ascii/);
+    const css = read("styles/landing.css");
+    expect(css).toMatch(/--ascii-copy/);
+    expect(css).toMatch(/is-ascii-out/);
+    expect(ascii).toMatch(/BAYER8/);
+    expect(ascii).toMatch(/fillRect/);
+    expect(css).not.toMatch(
+      /is-ascii-on\s*>\s*\.ai-lab-intro\s*\{[^}]*background:\s*transparent/
+    );
   });
 
   it("responsive CSS parity: major breakpoints + mobile layout outcomes", () => {

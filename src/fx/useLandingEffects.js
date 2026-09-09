@@ -28,6 +28,7 @@ const FX_LOADERS = {
   bottomCta: () => import("./modules/bottom-cta-shader.js"),
   coverageGlobe: () => import("./modules/coverage-globe.js"),
   aiCurtain: () => import("./modules/ai-curtain.js"),
+  aiIntroAscii: () => import("./modules/ai-intro-ascii.js"),
 };
 
 /**
@@ -177,6 +178,8 @@ export function useLandingEffects() {
         (async () => {
           await mountNamed("thinkingOrb");
           await mountNamed("aiLab");
+          /* 模块内按 640 / reduced-motion 降级；始终挂上，避免从手机拉到桌面后缺退场 */
+          if (!cancelled) await mountNamed("aiIntroAscii");
           if (cancelled) return;
           try {
             window.dispatchEvent(new Event("scroll"));

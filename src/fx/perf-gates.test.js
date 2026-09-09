@@ -63,6 +63,7 @@ describe("perf gates (shipped path)", () => {
       "undertones-shader",
       "impact-bg-shader",
       "ai-lab",
+      "ai-intro-ascii",
       "ai-title-particles",
       "bottom-cta-shader",
       "landing-inline",

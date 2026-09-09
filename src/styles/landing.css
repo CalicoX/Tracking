@@ -5642,6 +5642,7 @@
     .ai-lab-intro {
       --intro-fade: 1;
       --intro-blur: 0px;
+      --ascii-copy: 1;
       position: sticky;
       top: 0;
       /* 整屏 100vh 钉在视口；track 滚动驱动 pill morph */
@@ -5677,6 +5678,27 @@
       overflow: hidden;
       pointer-events: none;
       opacity: var(--intro-fade, 1);
+    }
+    .ai-intro-ascii {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .ai-letter-sticky.is-ascii-on .ai-intro-streams,
+    .ai-letter-sticky.is-ascii-on .ai-intro-dots {
+      visibility: hidden;
+    }
+    .ai-letter-sticky.is-ascii-out > .ai-lab-intro {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .ai-letter-sticky.is-ascii-out {
+      background: transparent;
     }
     /* GPU-composited SVG streams — no canvas rAF */
     .ai-intro-streams {
@@ -5772,8 +5794,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      opacity: var(--intro-fade, 1);
-      transform: translate3d(0, calc((1 - var(--intro-fade, 1)) * -20px), 0);
+      opacity: calc(var(--intro-fade, 1) * var(--ascii-copy, 1));
+      transform: translate3d(0, calc((1 - (var(--intro-fade, 1) * var(--ascii-copy, 1))) * -20px), 0);
       will-change: opacity, transform;
     }
     .ai-lab-intro-copy.has-intro-blur {
@@ -11618,7 +11640,8 @@
 
       /* FX 降级线 = 640（2026-09-01 断点并档对齐 API：768 平板吃完整桌面 FX） */
       .bottom-cta-shader,
-      .ai-intro-rail {
+      .ai-intro-rail,
+      .ai-intro-ascii {
         display: none !important;
       }
 
@@ -12048,6 +12071,7 @@
         position: relative !important;
         height: auto !important;
         opacity: 1 !important;
+        visibility: visible !important;
       }
       .ai-letter-sticky .ai-lab-work {
         position: relative !important;
