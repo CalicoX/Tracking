@@ -54,7 +54,7 @@ const BLOBS = (function () {
     out.push({
       x: hash(i * 3 + 1),
       y: hash(i * 3 + 2),
-      r: 0.075 + hash(i * 3 + 4) * 0.07,
+      r: 0.13 + hash(i * 3 + 4) * 0.1,
       vx: sx * (0.09 + hash(i * 7 + 1) * 0.08),
       vy: sy * (0.06 + hash(i * 7 + 3) * 0.07),
       stretch: 0.55 + hash(i * 9 + 2) * 0.9,
