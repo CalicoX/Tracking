@@ -3175,27 +3175,26 @@
     .features-section .feature-cta .btn-demo {
       flex: 0 1 auto;
     }
-    /* body row: left switcher + right viewport — vertically centered in sticky */
+    /* body row: left copy + right mock — both vertically centered in sticky */
     .feature-layout {
       display: grid;
       grid-template-columns: minmax(340px, 42%) minmax(0, 1fr);
       gap: 24px 56px;
-      align-items: stretch;
+      align-items: center;
       flex: 1 1 auto;
       min-height: 0;
       width: 100%;
-      align-content: stretch;
+      align-content: center;
     }
     .feature-side-wrap {
       min-width: 0;
       min-height: 0;
-      /* Park：左栏高度固定（跟随右栏面板高度），切换卖点时 CTA 不跳 */
-      height: var(--feature-panel-h, auto);
+      height: auto;
       max-height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      align-self: start;
+      justify-content: center;
+      align-self: center;
     }
     .feature-side {
       display: flex;
@@ -3206,7 +3205,7 @@
       max-height: none;
       overflow: visible;
       background: transparent;
-      flex: 1 1 auto;
+      flex: 0 0 auto;
       min-height: 0;
       height: auto;
     }
@@ -3214,17 +3213,16 @@
       display: grid;
       gap: 8px;
       width: 100%;
-      /* Park：整块下移——固定顶距 56px，任何激活态首项都从更低处开始 */
-      padding-top: 56px;
+      padding-top: 0;
       align-content: start;
       grid-auto-rows: auto;
       box-sizing: border-box;
       height: auto;
     }
-    /* CTA 钉在固定高度左栏底部，不随展开内容位移 */
+    /* CTA 贴着手风琴，间距收紧；整组在 sticky 里垂直居中 */
     .feature-side .feature-cta {
-      margin-top: auto;
-      padding-top: 18px;
+      margin-top: 24px;
+      padding-top: 0;
     }
     /* right: clipped viewport; height set by JS to panelH, then centered */
     .feature-panels-col {
@@ -3233,7 +3231,7 @@
       min-height: 0;
       height: var(--feature-panel-h, auto);
       max-height: 100%;
-      align-self: stretch;
+      align-self: center;
       overflow: hidden;
       /* no top/bottom mask fade */
       -webkit-mask-image: none;
@@ -3652,13 +3650,9 @@
       box-shadow: none;
       transform: none;
     }
-    /* Park：切换时其他标题不许动。padding/gap 全状态一致（active 不再加高），整列不做垂直居中 */
+    /* Park：切换时其他标题不许动。padding/gap 全状态一致（active 不再加高） */
     .feature-list {
       align-content: start;
-    }
-    .feature-side-wrap,
-    .feature-side {
-      justify-content: flex-start;
     }
     .feature.active:hover {
       opacity: 1;
@@ -3715,13 +3709,14 @@
     .feature-points {
       transition: grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
     }
-    /* 左栏手风琴下方的 CTA 组（原 head 里那组挪到这里）；margin-top:auto 由 3223 行钉底 */
+    /* 左栏手风琴下方的 CTA 组 */
     .feature-side .feature-cta {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
       justify-content: flex-start;
+      margin-top: 24px;
       padding: 0;
     }
     .feature-side .feature-cta .btn-switch,
@@ -3860,7 +3855,8 @@
       height: 100%;
       max-height: var(--feature-visual-h, 640px);
       display: grid;
-      align-content: stretch;
+      align-content: center;
+      align-items: center;
       overflow: visible;
       position: relative;
       box-sizing: border-box;
@@ -4216,17 +4212,17 @@
       will-change: transform;
     }
     .feature-stage[data-theme="lastmile"] .feature-stage-art {
-      place-items: end stretch;
+      place-items: center stretch;
       perspective: 1600px;
-      perspective-origin: 62% 70%;
+      perspective-origin: 62% 50%;
     }
     .feature-stage[data-theme="lastmile"] .fx-mock {
       height: auto;
       width: 100%;
-      align-items: flex-end;
+      align-items: center;
       justify-content: center;
       gap: 36px;
-      padding: 0 0 12px;
+      padding: 0;
       transform-origin: 50% 50%;
       transform:
         translate3d(
