@@ -12,13 +12,8 @@ export const AI_HOLD_VH = 0.36;
 /** Scroll window that dissolves the intro so `.ai-lab-work` leaks through. */
 export const AI_EXIT_VH = 0.48;
 
-/* Ordered dither — square dots on black (Axiom-style halftone). */
-const BAYER8 = [
-  0, 32, 8, 40, 2, 34, 10, 42, 48, 16, 56, 24, 50, 18, 58, 26, 12, 44, 4, 36,
-  14, 46, 6, 38, 60, 28, 52, 20, 62, 30, 54, 22, 3, 35, 11, 43, 1, 33, 9, 41,
-  51, 19, 59, 27, 49, 17, 57, 25, 15, 47, 7, 39, 13, 45, 5, 37, 63, 31, 55, 23,
-  61, 29, 53, 21,
-];
+/** Hard cap — denser marks, not more of them (Park: 密度加大，控制总数量). */
+export const MAX_GLYPHS = 780;
 
 function hash(i) {
   let x = Math.imul((i | 0) ^ 0x9e3779b9, 0x85ebca6b);
@@ -45,15 +40,66 @@ function vnoise(x, y) {
   return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
 }
 
-function field(cx, cy, t) {
-  const x = cx * 0.038 + t * 0.07;
-  const y = cy * 0.038 - t * 0.028;
-  const n =
-    vnoise(x, y) * 0.58 +
-    vnoise(x * 2.2 + 8, y * 2.2) * 0.28 +
-    vnoise(x * 4.6, y * 4.6 + t * 0.05) * 0.14;
-  /* Sparse occupancy — Park: 太密. */
-  return n * n * 0.72;
+function field(nx, ny) {
+  return (
+    vnoise(nx * 3.2, ny * 3.2) * 0.55 +
+    vnoise(nx * 7.1 + 4, ny * 6.4) * 0.45
+  );
+}
+
+function pushGlyph(glyphs, nx, ny, i, sizeMul) {
+  const k = hash(i + 9);
+  glyphs.push({
+    nx: clamp(nx, 0.012, 0.988),
+    ny: clamp(ny, 0.018, 0.982),
+    plus: k > 0.5,
+    size: (5.5 + hash(i + 21) * 6.5) * sizeMul,
+    amp: 0.36 + hash(i + 4) * 0.22,
+    phase: hash(i + 8) * Math.PI * 2,
+    drop: 0.06 + hash(i + 15) * 0.78,
+    fall: 40 + hash(i + 19) * 260,
+    drift: (hash(i + 23) - 0.5) * 48,
+  });
+}
+
+function buildGlyphs(w, h) {
+  const area = Math.max(1, w * h);
+  const maxN = clamp(Math.round(area / 1750), 480, MAX_GLYPHS);
+  const glyphs = [];
+  let i = 0;
+  const tries = maxN * 6;
+  while (glyphs.length < maxN && i < tries) {
+    i += 1;
+    const u = hash(i * 3 + 1);
+    const v = hash(i * 5 + 7);
+    const k = hash(i * 11 + 13);
+    const n = field(u, v);
+    /* Keep random scatter; skip more in the title well. */
+    const dx = u - 0.5;
+    const dy = v - 0.44;
+    const center = dx * dx * 3.4 + dy * dy * 4.6;
+    if (center < 0.16 && k > 0.22) continue;
+    if (n < 0.28 && k > 0.55) continue;
+    const nx = clamp(u + (n - 0.5) * 0.05, 0.012, 0.988);
+    const ny = clamp(v + (hash(i + 29) - 0.5) * 0.04, 0.018, 0.982);
+    pushGlyph(glyphs, nx, ny, i, 1);
+    /* Local clumps — denser pockets, still inside the cap. */
+    if (k > 0.7 && glyphs.length + 3 < maxN) {
+      const sats = 1 + ((hash(i + 41) * 3) | 0);
+      for (let s = 0; s < sats && glyphs.length < maxN; s++) {
+        const ang = hash(i * 17 + s + 3) * Math.PI * 2;
+        const rad = 0.01 + hash(i * 19 + s) * 0.028;
+        pushGlyph(
+          glyphs,
+          nx + Math.cos(ang) * rad,
+          ny + Math.sin(ang) * rad * 0.85,
+          i * 31 + s + 90,
+          0.72
+        );
+      }
+    }
+  }
+  return glyphs;
 }
 
 function exitProgress(track) {
@@ -67,8 +113,8 @@ function exitProgress(track) {
 }
 
 /**
- * Sparse square / plus Bayer dither on the AI intro. Intro CSS background
- * stays opaque at rest. After hold, copy fades, the field thins, then lifts.
+ * Capped, randomly scattered square / plus field. Intro CSS background stays
+ * opaque at rest. After hold, copy fades, glyphs drop, then the overlay lifts.
  */
 export function mount() {
   const track =
@@ -88,9 +134,7 @@ export function mount() {
   let drawnOut = false;
   let cssW = 0;
   let cssH = 0;
-  let cell = 8;
-  let cols = 0;
-  let rows = 0;
+  let glyphs = [];
   let ctx = null;
   let lastDraw = 0;
   let reduceCanvas = shouldReduceFx() || prefersReducedMotion();
@@ -109,9 +153,7 @@ export function mount() {
     canvas.style.width = w + "px";
     canvas.style.height = h + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cell = Math.max(11, Math.min(14, Math.round(w / 110)));
-    cols = Math.ceil(w / cell) + 1;
-    rows = Math.ceil(h / cell) + 1;
+    glyphs = buildGlyphs(w, h);
     drawnOut = false;
     draw(typeof performance !== "undefined" ? performance.now() : 0);
   }
@@ -126,7 +168,7 @@ export function mount() {
   }
 
   function draw(now) {
-    if (!ctx || !cssW || !cols) return;
+    if (!ctx || !cssW) return;
     ctx.clearRect(0, 0, cssW, cssH);
     if (p >= 0.995) {
       drawnOut = true;
@@ -134,32 +176,28 @@ export function mount() {
     }
 
     const t = (now || 0) * 0.001;
-    /* Exit raises the dither threshold so glyphs drop out before the overlay lifts. */
-    const bias = 0.08 + p * 0.7;
-    const dot = Math.max(2, cell * 0.38);
-    const inset = (cell - dot) * 0.5;
-    const arm = cell * 0.28;
-    const thick = Math.max(1, cell * 0.11);
-
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        let n = field(c, r, t);
-        const dx = c / cols - 0.5;
-        const dy = r / rows - 0.44;
-        n *= 1 - 0.4 * Math.max(0, 1 - (dx * dx * 3.6 + dy * dy * 4.8));
-        const b = (BAYER8[(c & 7) + ((r & 7) << 3)] + 0.5) / 64;
-        if (n < b + bias) continue;
-        const plus = hash(c * 31 + r * 17 + 9) > 0.48;
-        const a = 0.22 + n * 0.16;
-        ctx.fillStyle = "rgba(168,160,196," + a.toFixed(3) + ")";
-        const x = (c + 0.5) * cell;
-        const y = (r + 0.5) * cell;
-        if (plus) {
-          ctx.fillRect(x - arm, y - thick * 0.5, arm * 2, thick);
-          ctx.fillRect(x - thick * 0.5, y - arm, thick, arm * 2);
-        } else {
-          ctx.fillRect(c * cell + inset, r * cell + inset, dot, dot);
-        }
+    for (let i = 0; i < glyphs.length; i++) {
+      const g = glyphs[i];
+      const local = clamp((p - g.drop) / 0.3, 0, 1);
+      let a = g.amp * (0.7 + 0.3 * Math.sin(t * 0.85 + g.phase));
+      if (local > 0) a *= 1 - local;
+      if (a < 0.04) continue;
+      let x = g.nx * cssW + Math.sin(t * 0.55 + g.phase) * 1.6;
+      let y = g.ny * cssH + Math.cos(t * 0.4 + g.phase) * 1.2;
+      if (local > 0) {
+        const fall = local * local;
+        y += fall * g.fall;
+        x += local * g.drift;
+      }
+      ctx.fillStyle = "rgba(168,160,196," + a.toFixed(3) + ")";
+      if (g.plus) {
+        const arm = g.size * 0.55;
+        const thick = Math.max(1.1, g.size * 0.22);
+        ctx.fillRect(x - arm, y - thick * 0.5, arm * 2, thick);
+        ctx.fillRect(x - thick * 0.5, y - arm, thick, arm * 2);
+      } else {
+        const d = g.size;
+        ctx.fillRect(x - d * 0.5, y - d * 0.5, d, d);
       }
     }
     drawnOut = false;
