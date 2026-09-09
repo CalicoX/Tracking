@@ -22,7 +22,7 @@ export default function AiLab() {
           <div className="ai-lab-intro" id="ai-lab-intro">
             {/* ASCII canvas is idle-cheap 2D; SVG streams stay as 640 / no-JS fallback */}
             <div className="ai-intro-bg" aria-hidden="true">
-              <div id="ai-intro-ascii" className="ai-intro-ascii" aria-hidden="true"></div>
+              <canvas id="ai-intro-ascii" className="ai-intro-ascii" aria-hidden="true"></canvas>
               <div className="ai-intro-streams">
                 <svg className="ai-intro-streams-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
                   <defs>

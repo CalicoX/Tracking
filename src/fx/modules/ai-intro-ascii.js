@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import {
   hookLenisWhenReady,
   isMobileLayout,
@@ -6,6 +5,7 @@ import {
   shouldReduceFx,
   shouldRunContinuousFx,
 } from "../utils.js";
+import { createIntroFlowGl } from "./ai-intro-flow-gl.js";
 import { sampleIntroFlow } from "./ai-intro-flow-sample.js";
 
 export { sampleIntroFlow } from "./ai-intro-flow-sample.js";
@@ -36,13 +36,8 @@ function exitProgress(track) {
   return Math.max(0, Math.min((scrolled - holdPx) / Math.max(exitPx, 1), 1));
 }
 
-function canWebGpu() {
-  return typeof navigator !== "undefined" && !!navigator.gpu;
-}
-
 /**
- * Official Synthesis 1 on the AI intro (shaders/react).
- * CPU sampleIntroFlow is only the no-WebGPU stand-in.
+ * Own WebGL Synthesis port on the AI intro. 2D sampleIntroFlow if GL fails.
  * Intro CSS background stays opaque (#08071a).
  */
 export function mount() {
@@ -52,13 +47,10 @@ export function mount() {
   const sticky = document.getElementById("ai-letter-sticky");
   const intro = document.getElementById("ai-lab-intro");
   const host = document.getElementById("ai-intro-ascii");
-  if (!track || !sticky || !intro) return () => {};
+  if (!track || !sticky || !intro || !host) return () => {};
   if (sticky.dataset.fxAscii) return () => {};
   sticky.dataset.fxAscii = "1";
 
-  let disposed = false;
-  let reactRoot = null;
-  let gpuOn = false;
   let raf = 0;
   let running = false;
   let visible = false;
@@ -68,6 +60,7 @@ export function mount() {
   let cssH = 0;
   let ctx = null;
   let canvas = null;
+  let glApi = null;
   let lastDraw = 0;
   let reduceCanvas = shouldReduceFx() || prefersReducedMotion();
   const field = document.createElement("canvas");
@@ -83,6 +76,18 @@ export function mount() {
     intro.style.setProperty("--intro-rest-op", rest.toFixed(3));
     sticky.classList.toggle("is-ascii-on", !reduceCanvas);
     sticky.classList.toggle("is-ascii-out", progress >= 0.98);
+  }
+
+  function ensureCanvas() {
+    if (canvas) return canvas;
+    if (host.tagName === "CANVAS") canvas = host;
+    else {
+      canvas = host.querySelector("canvas") || document.createElement("canvas");
+      canvas.className = "ai-intro-flow";
+      canvas.setAttribute("aria-hidden", "true");
+      if (!canvas.parentNode) host.appendChild(canvas);
+    }
+    return canvas;
   }
 
   function resizeFallback() {
@@ -103,25 +108,25 @@ export function mount() {
     draw(typeof performance !== "undefined" ? performance.now() : 0);
   }
 
-  function draw(now) {
+  function drawFallback(now) {
     if (!ctx || !cssW || !fieldCtx || !fieldImg) return;
     if (p >= 0.995) {
       ctx.clearRect(0, 0, cssW, cssH);
       drawnOut = true;
       return;
     }
-
     const t = (now || 0) * 0.001;
     const data = fieldImg.data;
     const fade = 1 - p * 0.35;
+    const viewport = { x: cssW, y: cssH };
     for (let y = 0; y < FIELD_H; y++) {
       for (let x = 0; x < FIELD_W; x++) {
-        const uv = { x: (x + 0.5) / FIELD_W, y: (y + 0.5) / FIELD_H };
+        const uv = { x: (x + 0.5) / FIELD_W, y: 1 - (y + 0.5) / FIELD_H };
         const grainUv = {
           x: (x * cssW) / FIELD_W,
           y: (y * cssH) / FIELD_H,
         };
-        const rgb = sampleIntroFlow(uv, t, grainUv);
+        const rgb = sampleIntroFlow(uv, t, grainUv, viewport);
         const i = (y * FIELD_W + x) * 4;
         data[i] = (rgb[0] * 255 * fade) | 0;
         data[i + 1] = (rgb[1] * 255 * fade) | 0;
@@ -133,6 +138,22 @@ export function mount() {
     ctx.imageSmoothingEnabled = true;
     ctx.drawImage(field, 0, 0, cssW, cssH);
     drawnOut = false;
+  }
+
+  function draw(now) {
+    const fade = Math.max(0, 1 - p * 0.35);
+    if (p >= 0.995) {
+      if (ctx && cssW) ctx.clearRect(0, 0, cssW, cssH);
+      drawnOut = true;
+      return;
+    }
+    if (glApi) {
+      glApi.resize();
+      glApi.draw(now, fade);
+      drawnOut = false;
+      return;
+    }
+    drawFallback(now);
   }
 
   function loop(now) {
@@ -160,8 +181,9 @@ export function mount() {
   }
 
   function startLoop() {
-    if (gpuOn || reduceCanvas || !visible || !ctx) return;
+    if (reduceCanvas || !visible) return;
     if (typeof document !== "undefined" && document.hidden) return;
+    if (!glApi && !ctx) return;
     running = true;
     if (!raf) raf = requestAnimationFrame(loop);
   }
@@ -174,66 +196,37 @@ export function mount() {
     }
   }
 
-  function unmountGpu() {
-    if (!reactRoot) return;
+  function startGl() {
+    ensureCanvas();
     try {
-      reactRoot.unmount();
+      glApi = createIntroFlowGl(canvas, sticky);
     } catch (e) {
-      /* ignore */
+      glApi = null;
     }
-    reactRoot = null;
-    gpuOn = false;
+    if (glApi) {
+      sticky.classList.add("is-ascii-on");
+      return true;
+    }
+    return false;
   }
 
   function startFallback() {
-    if (disposed || reduceCanvas || !host) return;
-    unmountGpu();
-    if (ctx) {
-      startLoop();
-      return;
-    }
-    canvas = host.tagName === "CANVAS" ? host : host.querySelector("canvas");
-    if (!canvas) {
-      canvas = document.createElement("canvas");
-      canvas.className = "ai-intro-ascii-fallback";
-      canvas.setAttribute("aria-hidden", "true");
-      host.appendChild(canvas);
-    }
+    if (reduceCanvas) return;
+    ensureCanvas();
     ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
     sticky.classList.add("is-ascii-on");
     resizeFallback();
-    startLoop();
   }
 
-  async function startGpu() {
-    if (disposed || reduceCanvas || !host || !canWebGpu()) {
-      startFallback();
+  function startVisual() {
+    if (reduceCanvas) return;
+    if (glApi || ctx) {
+      startLoop();
       return;
     }
-    try {
-      const [{ createRoot }, { default: AiIntroSynthesis }] = await Promise.all([
-        import("react-dom/client"),
-        import("./AiIntroSynthesis.jsx"),
-      ]);
-      if (disposed || reduceCanvas) return;
-      reactRoot = createRoot(host);
-      reactRoot.render(
-        createElement(AiIntroSynthesis, {
-          onReady() {
-            if (disposed) return;
-            gpuOn = true;
-            sticky.classList.add("is-ascii-on");
-          },
-          onUnavailable(reason) {
-            console.warn("[ai-intro] Synthesis GPU unavailable:", reason);
-            if (!disposed) startFallback();
-          },
-        })
-      );
-    } catch (err) {
-      startFallback();
-    }
+    if (!startGl()) startFallback();
+    startLoop();
   }
 
   function onScroll() {
@@ -246,7 +239,7 @@ export function mount() {
     }
     p = exitProgress(track);
     applyExit(p);
-    if (reduceCanvas || gpuOn) return;
+    if (reduceCanvas) return;
     if (p < 0.995) drawnOut = false;
     if (visible && !document.hidden) startLoop();
   }
@@ -255,26 +248,13 @@ export function mount() {
     reduceCanvas = shouldReduceFx() || prefersReducedMotion() || isMobileLayout();
     if (reduceCanvas) {
       stopLoop();
-      unmountGpu();
       sticky.classList.remove("is-ascii-on");
-      if (host) host.style.display = "none";
-      if (ctx && cssW) ctx.clearRect(0, 0, cssW, cssH);
+      host.style.display = "none";
       onScroll();
       return;
     }
-    if (host) host.style.display = "";
-    if (gpuOn) {
-      onScroll();
-      return;
-    }
-    if (ctx) {
-      resizeFallback();
-      drawnOut = false;
-      onScroll();
-      startLoop();
-      return;
-    }
-    startGpu();
+    host.style.display = "";
+    startVisual();
     onScroll();
   }
 
@@ -326,8 +306,9 @@ export function mount() {
   let ro = null;
   if (typeof ResizeObserver !== "undefined") {
     ro = new ResizeObserver(() => {
-      if (reduceCanvas || gpuOn) return;
-      resizeFallback();
+      if (reduceCanvas) return;
+      if (glApi) glApi.resize();
+      else resizeFallback();
       drawnOut = false;
       if (!running) draw(performance.now());
     });
@@ -340,9 +321,7 @@ export function mount() {
   onScroll();
 
   return function dispose() {
-    disposed = true;
     stopLoop();
-    unmountGpu();
     unLenis();
     if (io) io.disconnect();
     document.removeEventListener("visibilitychange", onVis);
@@ -355,10 +334,10 @@ export function mount() {
     }
     if (ro) ro.disconnect();
     else window.removeEventListener("resize", onBp);
+    if (glApi) glApi.dispose();
     sticky.classList.remove("is-ascii-on", "is-ascii-out");
     intro.style.removeProperty("--ascii-copy");
     intro.style.removeProperty("--intro-rest-op");
-    if (ctx && cssW) ctx.clearRect(0, 0, cssW, cssH);
     delete sticky.dataset.fxAscii;
   };
 }

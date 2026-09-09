@@ -1,9 +1,7 @@
 /**
- * Synthesis 1 — https://shaders.com/collection/synthesis/c91ae513-d656-4f32-933f-fdcd579495e2
- *
- * Decoded from public `/api/preview/preset/{id}` (XOR `shaders-preview-key`).
- * Preview watermark `ImageTexture` stripped. Filter nodes wrap generators
- * (structureVersion 3 is a flat sibling list on the site; createShader needs children).
+ * Synthesis 1 numbers — https://shaders.com/collection/synthesis/c91ae513-d656-4f32-933f-fdcd579495e2
+ * Decoded from public preview API. We draw them ourselves in ai-intro-flow-gl.js
+ * (no shaders npm).
  */
 
 export const SYNTHESIS_ID = "c91ae513-d656-4f32-933f-fdcd579495e2";
