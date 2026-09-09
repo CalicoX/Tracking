@@ -212,16 +212,15 @@ describe("React landing structure (gating)", () => {
     expect(curtain).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(curtain).toMatch(/scrolled - holdPx/);
     expect(curtain).toMatch(/getContext\("webgl"/);
-    // 布面 = 把真实 intro 画进 canvas（含 orb canvas），不要另绘一版文案
-    expect(curtain).toMatch(/function paintIntro/);
-    expect(curtain).toMatch(/captureCloth/);
-    expect(curtain).toMatch(/#ai-intro-orb-canvas/);
+    // html2canvas 抓当前 intro 当唯一布面；藏真 DOM；掀开露案例
+    expect(curtain).toMatch(/html2canvas/);
     expect(curtain).toMatch(/UNPACK_FLIP_Y_WEBGL/);
     expect(curtain).toMatch(/uLift/);
     expect(curtain).toMatch(/peelDir/);
     expect(curtain).toMatch(/vec2\(1\.0, -1\.0\)/);
     expect(curtain).toMatch(/is-curtain-on/);
     expect(curtain).not.toMatch(/smoothstep\(0\.72, 1\.0, uP\)/);
+    expect(curtain).not.toMatch(/paintIntro|remainingClip/);
     // 可见层走 2D blit（页面合成对 WebGL 层不可靠）
     expect(curtain).toMatch(/drawImage\(glc/);
     // 挂载序：aiLab 之后 curtain（替代 aiLetterZoom）

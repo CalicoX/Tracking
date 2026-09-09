@@ -5991,7 +5991,10 @@
       visibility: hidden;
       transition: none !important;
     }
-    /* 布幕接管：整块 intro 藏掉，掀开的透明区露出底下 .ai-lab-work 案例 */
+    /* 布幕：html2canvas 抓完后藏 intro，只留一张布；洞里露出案例 */
+    .ai-letter-sticky.is-curtain-on {
+      background: transparent;
+    }
     .ai-letter-sticky.is-curtain-on .ai-lab-intro {
       opacity: 0;
       pointer-events: none;

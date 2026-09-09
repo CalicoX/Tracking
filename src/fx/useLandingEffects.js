@@ -171,39 +171,43 @@ export function useLandingEffects() {
     const ai = document.getElementById("ai-lab");
     if (ai) {
       let loaded = false;
+      const loadAiFx = () => {
+        if (loaded || cancelled) return;
+        loaded = true;
+        (async () => {
+          await mountNamed("thinkingOrb");
+          await mountNamed("aiLab");
+          if (cancelled) return;
+          await mountNamed("aiCurtain");
+          try {
+            window.dispatchEvent(new Event("scroll"));
+            if (typeof window.__updateAiScroll === "function") {
+              window.__updateAiScroll();
+            }
+          } catch (e) {
+            /* ignore */
+          }
+          if (!cancelled && !prefersReducedMotion()) {
+            const stop = whenIdle(() => {
+              if (!cancelled) mountNamed("aiTitleParticles");
+            }, 900);
+            disposers.push(stop);
+          }
+        })();
+      };
       disposers.push(
-        observeVisibility(
-          ai,
-          (vis) => {
-            if (!vis || loaded) return;
-            loaded = true;
-            (async () => {
-              await mountNamed("thinkingOrb");
-              await mountNamed("aiLab");
-              if (cancelled) return;
-              // Park：AI 字母遮罩退役，改 WebGL 窗帘拉开（ai-curtain.js）
-              mountNamed("aiCurtain");
-              // Kick scroll bus so wantIn → setIn runs while intro is in view
-              try {
-                window.dispatchEvent(new Event("scroll"));
-                if (typeof window.__updateAiScroll === "function") {
-                  window.__updateAiScroll();
-                }
-              } catch (e) {
-                /* ignore */
-              }
-              // Hover particles after lab (title enter is owned by ai-lab setIn)
-              if (!cancelled && !prefersReducedMotion()) {
-                const stop = whenIdle(() => {
-                  if (!cancelled) mountNamed("aiTitleParticles");
-                }, 900);
-                disposers.push(stop);
-              }
-            })();
-          },
-          { rootMargin: "70% 0px" }
-        )
+        observeVisibility(ai, (vis) => {
+          if (vis) loadAiFx();
+        }, { rootMargin: "70% 0px" })
       );
+      /* Lenis 跳滚会错过 IO；进/靠近 AI 区也挂 */
+      const onScrollBoot = () => {
+        const r = ai.getBoundingClientRect();
+        if (r.top < window.innerHeight * 1.8 && r.bottom > -240) loadAiFx();
+      };
+      window.addEventListener("scroll", onScrollBoot, { passive: true });
+      disposers.push(() => window.removeEventListener("scroll", onScrollBoot));
+      onScrollBoot();
     }
 
     // —— Bottom CTA deferred ——

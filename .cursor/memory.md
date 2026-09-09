@@ -47,7 +47,7 @@
 ## AI intro → work 过渡（2026-09-08 Park 重做：窗帘）
 
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载；`#ai-zoom-layer`/`--ai-veil`/`is-ai-zooming` 相关 CSS 成死代码（同步删过 structure.test 的 zoom 断言段）。`.ai-word-ai` 仍留在 eyebrow JSX 里（无害）。
-- **替代：整屏一块 WebGL 布料，从右下角掀开露出案例** `src/fx/modules/ai-curtain.js`（Park 否掉对开紫条 / 平面位移 / 从上往下卷 / **另画一版 intro 当布面**）。布面必须 `paintIntro`：按 DOM 实测把真实 intro（流线、orb canvas、Solving 标签、标题词、副标）画进同一块 canvas，掀开那帧 `captureCloth` 再贴网格——手绘假文案会和真页两帧对不上（orb 在真页、布上没有）。倒字 `UNPACK_FLIP_Y_WEBGL`。掀开轴从右下角 `(1,-1)` 沿对角线卷向左上。`is-curtain-on` 藏**整块** `.ai-lab-intro`。hold 0.36 → 0.48 屏 scrub。可见层 2D blit `#ai-curtain-view` z-180。
+- **替代：html2canvas 抓当前 intro 当唯一布面** `src/fx/modules/ai-curtain.js`（Park：是 html2canvas；叠两层是因为真 DOM 还在 + 上面又盖布；案例漏不出是 sticky 黑底挡着）。掀开前 html2canvas 拍 `.ai-lab-intro`，立刻 `is-curtain-on` 藏 intro 并把 sticky 底透明，只留这一张布从右下角掀开，洞里露出 `.ai-lab-work`。hold 0.36 → 0.48 屏 scrub。可见层 2D blit。别再 clip-path 叠卷边、别再手绘 paintIntro。
 - Footer 顶部分割线已删（`border-top:0` + `.site-footer::before { display:none }`），不要再加 1px 线。
 
 ## AI 二字遮罩（已退役，勿复活）
