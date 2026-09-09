@@ -46,7 +46,7 @@
 
 ## AI intro → work 过渡（2026-09-09）
 
-- **现用：方点 / + ASCII** `src/fx/modules/ai-intro-ascii.js`（Park：不规律 ASCII）。**不要 Bayer 整格铺满**。`MAX_GLYPHS = 780`，随机打散 + 局部小团；混 **方块和 +**；颜色压在紫灰 `rgba(168,160,196,~0.36–0.58)`。标题井少放。标题/orb 仍是 HTML。
+- **现用：方点 / + ASCII** `src/fx/modules/ai-intro-ascii.js`（Park：不规律 ASCII）。全屏均匀随机坐标，**同一尺寸 `GLYPH_SIZE=7`**（不要有大有小），`MAX_GLYPHS=1600`。混方块和 +。idle 要有随机动画：游走、闪灭、方块/+ 互换、偶尔瞬移。不要 Bayer 整格、不要成团大小不一。标题/orb 仍是 HTML。
 - **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；canvas 只画点、不铺半透明径向。CSS 暗底 + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
 - **退场**：钉住 hold 0.36vh → 0.48vh 里文案先淡、网点变稀，再 `--intro-rest-op` 整层抬走，露出 `.ai-lab-work`。回滚倒放。≤640 canvas `display:none`，叠排不走遮罩。
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
