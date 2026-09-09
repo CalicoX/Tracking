@@ -48,7 +48,7 @@ function vnoise(x, y) {
 
 const BLOBS = (function () {
   const out = [];
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 5; i++) {
     const sx = hash(i * 5 + 6) > 0.5 ? 1 : -1;
     const sy = hash(i * 5 + 8) > 0.5 ? 1 : -1;
     out.push({
@@ -200,8 +200,8 @@ export function mount() {
         const b = (BAYER8[(c & 7) + ((r & 7) << 3)] + 0.5) / 64;
         if (n <= b + bias) continue;
         const plus = hash(c * 31 + r * 17) > 0.6;
-        const a = 0.12 + n * 0.16;
-        ctx.fillStyle = "rgba(148,140,176," + a.toFixed(3) + ")";
+        const a = 0.07 + n * 0.1;
+        ctx.fillStyle = "rgba(118,112,148," + a.toFixed(3) + ")";
         if (plus) {
           const cx = c * CELL + CELL * 0.5;
           const cy = r * CELL + CELL * 0.5;
