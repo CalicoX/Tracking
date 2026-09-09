@@ -89,7 +89,7 @@ function addGlow(base, col, a) {
   const k = clamp01(a) ** 1.28;
   const out = [0, 0, 0];
   for (let i = 0; i < 3; i++) {
-    out[i] = clamp01(linearToSrgb(srgbToLinear(base[i]) + srgbToLinear(col[i]) * k * 1.18));
+    out[i] = clamp01(linearToSrgb(srgbToLinear(base[i]) + srgbToLinear(col[i]) * k * 0.58));
   }
   return out;
 }

@@ -36,7 +36,7 @@ vec3 linToSrgb(vec3 c){
 /* Additive linear glow. pow() kills the gray-purple fringe of a soft mask. */
 vec3 addGlow(vec3 base, vec3 col, float a){
   a = pow(clamp(a, 0.0, 1.0), 1.28);
-  return clamp(linToSrgb(srgbToLin(base) + srgbToLin(col) * a * 1.18), 0.0, 1.0);
+  return clamp(linToSrgb(srgbToLin(base) + srgbToLin(col) * a * 0.58), 0.0, 1.0);
 }
 
 vec2 waveDistort(vec2 uv, float aspect, float t){

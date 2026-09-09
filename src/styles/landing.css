@@ -5772,10 +5772,10 @@
       pointer-events: none;
       background:
         radial-gradient(
-          ellipse 58% 44% at 50% 48%,
-          rgba(8, 7, 26, 0.14) 0%,
-          rgba(8, 7, 26, 0.04) 46%,
-          transparent 72%
+          ellipse 72% 58% at 50% 48%,
+          rgba(8, 7, 26, 0.72) 0%,
+          rgba(8, 7, 26, 0.38) 46%,
+          transparent 78%
         );
     }
     .ai-lab-intro-inner {
@@ -5995,7 +5995,7 @@
       height: 100%;
       min-height: 0;
       max-height: none;
-      pointer-events: none;
+      pointer-events: auto;
       opacity: var(--intro-rest-op, 1);
     }
     .ai-letter-sticky .ai-lab-intro .ai-word:not(.ai-word-ai) {
