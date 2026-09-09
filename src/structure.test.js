@@ -254,7 +254,6 @@ describe("React landing structure (gating)", () => {
     expect(ascii).toMatch(/CELL = 7/);
     expect(ascii).toMatch(/BAYER8/);
     expect(ascii).toMatch(/fillRect/);
-    expect(ascii).toMatch(/inHole/);
     expect(css).not.toMatch(
       /is-ascii-on\s*>\s*\.ai-lab-intro\s*\{[^}]*background:\s*transparent/
     );

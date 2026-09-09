@@ -46,15 +46,19 @@ function vnoise(x, y) {
   return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
 }
 
-/** Large organic masses + empty void (reference: dithered blobs, not wallpaper). */
+/** Slow domain-warped masses — continuous drift, no scrolling-texture look. */
 function field(cx, cy, t) {
-  const x = cx * 0.028 + t * 0.16;
-  const y = cy * 0.028 - t * 0.09;
+  const u = cx * 0.026;
+  const v = cy * 0.026;
+  const wx = vnoise(u + t * 0.045, v + 3) - 0.5;
+  const wy = vnoise(u + 18, v + t * 0.04) - 0.5;
+  const x = u + wx * 0.85 + t * 0.035;
+  const y = v + wy * 0.85;
   const n =
-    vnoise(x, y) * 0.5 +
-    vnoise(x * 2.05 + 9, y * 2.05 - t * 0.07) * 0.32 +
-    vnoise(x * 4.2 + t * 0.11, y * 4.2) * 0.18;
-  return n * n * n * 1.65;
+    vnoise(x, y) * 0.55 +
+    vnoise(x * 2.05 + 9, y * 2.05) * 0.3 +
+    vnoise(x * 3.6, y * 3.6) * 0.15;
+  return n * n * 1.2;
 }
 
 function exitProgress(track) {
@@ -68,8 +72,7 @@ function exitProgress(track) {
 }
 
 /**
- * Ordered-dither square field: organic dense masses, empty void, copy stays clean.
- * Noise crawls in place — glyphs do not fly. Intro CSS background stays opaque.
+ * Ordered-dither field over the full intro. Masses drift; + / square stay per-cell.
  */
 export function mount() {
   const track =
@@ -91,29 +94,9 @@ export function mount() {
   let cssH = 0;
   let cols = 0;
   let rows = 0;
-  let hole = null;
   let ctx = null;
   let lastDraw = 0;
   let reduceCanvas = shouldReduceFx() || prefersReducedMotion();
-
-  function measureHole() {
-    const copy = document.getElementById("ai-lab-intro-copy");
-    if (!copy) return null;
-    const cr = copy.getBoundingClientRect();
-    const sr = sticky.getBoundingClientRect();
-    if (cr.width < 8 || cr.height < 8) return null;
-    return {
-      l: cr.left - sr.left - 48,
-      t: cr.top - sr.top - 36,
-      r: cr.right - sr.left + 48,
-      b: cr.bottom - sr.top + 40,
-    };
-  }
-
-  function inHole(x, y) {
-    if (!hole) return false;
-    return x > hole.l && x < hole.r && y > hole.t && y < hole.b;
-  }
 
   function resize() {
     if (!canvas || !ctx) return;
@@ -134,7 +117,6 @@ export function mount() {
     }
     cols = Math.ceil(w / CELL) + 1;
     rows = Math.ceil(h / CELL) + 1;
-    hole = measureHole();
     drawnOut = false;
     draw(typeof performance !== "undefined" ? performance.now() : 0);
   }
@@ -167,7 +149,6 @@ export function mount() {
       for (let c = 0; c < cols; c++) {
         const x = c * CELL + inset;
         const y = r * CELL + inset;
-        if (inHole(x + CELL * 0.5, y + CELL * 0.5)) continue;
         const n = field(c, r, t);
         const b = (BAYER8[(c & 7) + ((r & 7) << 3)] + 0.5) / 64;
         const dense = n > b + 0.12 + bias;
@@ -177,10 +158,9 @@ export function mount() {
           hash(c * 13 + r * 29) > 0.55 &&
           n + 0.08 > b + bias;
         if (!dense && !sparse) continue;
-        /* ~40% plus, slowly flipping as the field flows. */
-        const plus = hash(c * 31 + r * 17 + ((t * 1.6) | 0)) > 0.6;
-        const a = dense ? 0.4 : 0.2;
-        ctx.fillStyle = "rgba(168,160,196," + a.toFixed(3) + ")";
+        const plus = hash(c * 31 + r * 17) > 0.6;
+        const a = dense ? 0.26 : 0.12;
+        ctx.fillStyle = "rgba(148,140,176," + a.toFixed(3) + ")";
         if (plus) {
           const cx = c * CELL + CELL * 0.5;
           const cy = r * CELL + CELL * 0.5;
