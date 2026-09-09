@@ -226,7 +226,8 @@ describe("React landing structure (gating)", () => {
     expect(curtain).toMatch(/drawImage\(glc/);
     const fx = read("fx/useLandingEffects.js");
     expect(fx).not.toMatch(/mountNamed\("aiLetterZoom"\)/);
-    expect(fx).toMatch(/mountNamed\("aiCurtain"\)/);
+    // 窗帘整屏粒子太卡（html2canvas + 数十万实例），09-09 卸挂载
+    expect(fx).not.toMatch(/mountNamed\("aiCurtain"\)/);
   });
 
   it("responsive CSS parity: major breakpoints + mobile layout outcomes", () => {

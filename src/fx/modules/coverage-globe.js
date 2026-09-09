@@ -246,10 +246,15 @@ export function mount() {
       cityArcGroup.add(a.line);
     }
 
-    // Animation loop — 原版常跑（无可见性门控）
+    // 看不见就停 rAF（原版常跑，整页滚动都会卡）
     let animId = 0;
+    let globeOn = false;
     const autoRotateSpeed = 0.0012;
     const animate = (now) => {
+      if (!globeOn) {
+        animId = 0;
+        return;
+      }
       animId = requestAnimationFrame(animate);
       rootGroup.rotation.y += autoRotateSpeed;
       rootGroup.updateMatrixWorld();
@@ -276,7 +281,14 @@ export function mount() {
       vctx.clearRect(0, 0, view.width, view.height);
       vctx.drawImage(glc, 0, 0, view.width, view.height);
     };
-    animId = requestAnimationFrame(animate);
+    const unvisGlobe = observeVisibility(
+      band,
+      (vis) => {
+        globeOn = vis;
+        if (vis && !animId) animId = requestAnimationFrame(animate);
+      },
+      { rootMargin: "120px", threshold: 0.01 }
+    );
 
     const onResize = () => {
       const w = container.clientWidth, h = container.clientHeight;
@@ -294,7 +306,10 @@ export function mount() {
     ro.observe(container);
 
     disposeGlobe = () => {
+      globeOn = false;
       cancelAnimationFrame(animId);
+      animId = 0;
+      unvisGlobe();
       window.removeEventListener("resize", onResize);
       ro.disconnect();
       renderer.dispose();

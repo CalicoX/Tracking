@@ -178,7 +178,6 @@ export function useLandingEffects() {
           await mountNamed("thinkingOrb");
           await mountNamed("aiLab");
           if (cancelled) return;
-          await mountNamed("aiCurtain");
           try {
             window.dispatchEvent(new Event("scroll"));
             if (typeof window.__updateAiScroll === "function") {

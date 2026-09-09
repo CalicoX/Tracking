@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-09（Features 左栏收紧+整屏垂直居中，右 mock 同步居中）
+最后更新：2026-09-09（太卡：卸 aiCurtain 挂载；coverage-globe 看不见停 rAF）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -49,8 +49,8 @@
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
 - **滚动粒子消散** `src/fx/modules/ai-curtain.js`，对照 [canvasui particle-scroll](https://canvasui.dev/docs/components/particle-scroll) 完整源码（`ParticleScrollVanilla.ts`：html-in-canvas 纹理 + 全屏 textured quad 拼好的格子 + `gl.POINTS` 沙粒）。**Park 要反向**：intro 先完整，往下滚打成沙粒向上散开，露出 `.ai-lab-work`。
 - **不要把像素烘焙成色块顶点**（旧实现）：那样标题变成渐变矩形、副标马赛克（Park 截图）。正确是 **整张 intro 当 `uContent` 纹理**；拼好的走 BASE quad（`textureLod` lod0），散开的走 **实例化 TRIANGLE_STRIP 四边形**（Park：`gl.POINTS` 在 IAB/合成里看不见）。参数跟原版：density 2、size 1.25、spread 220、stagger 0.7、gravity **-0.45（向上）**。
-- **双路径**（Park：html-in-canvas 多数浏览器没有，不能只靠它）：能 `drawElementImage` 就活 HTML；否则 **html2canvas 抓当前屏幕原样**。onclone 禁止 `opacity:1` / 禁止给 `.ai-reveal` 加 `is-in`（那会把没入场的 eyebrow 抓进来，多一帧还不一样）。只 flatten `background-clip:text`、清 filter/transform。整屏含暗底。
-- **回滚**：输出画布钉 sticky；`p<=0` / unpin 立刻关 `is-curtain-on`。抓图路径藏 `> .ai-lab-intro`；活 HTML 路径藏 `.ai-intro-source`。hold 0.36 → 0.48 屏 scrub。WebGL2。`shouldReduceFx`（≤640）不挂。
+- **09-09 太卡卸挂载**：钉住 intro 就 html2canvas 整屏 + 滚动数十万实例化四边形，这一屏会卡死。`useLandingEffects` **不再** `mountNamed("aiCurtain")`（文件保留）。Coverage 地球原版常跑 rAF，改成看不见 band 就停。
+- **双路径**（已卸挂载，代码还在）：能 `drawElementImage` 就活 HTML；否则 html2canvas 抓当前屏幕原样。onclone 禁止 `opacity:1` / 禁止给 `.ai-reveal` 加 `is-in`。
 - Footer 顶部分割线已删（`border-top:0` + `.site-footer::before { display:none }`），不要再加 1px 线。
 
 ## AI 二字遮罩（已退役，勿复活）
