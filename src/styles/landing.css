@@ -5991,7 +5991,7 @@
       visibility: hidden;
       transition: none !important;
     }
-    /* 布幕：html2canvas 抓完后藏 intro，只留一张布；洞里露出案例 */
+    /* 粒子消散：html2canvas 抓完后藏 intro，粒子散开露出案例 */
     .ai-letter-sticky.is-curtain-on {
       background: transparent;
     }

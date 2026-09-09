@@ -1,78 +1,45 @@
 /**
- * AI intro 布幕（Park：html2canvas 抓当前 intro 当唯一布面）。
- * - 掀开前 html2canvas 拍 intro；立刻藏掉真 DOM，只留这一张布；
- * - 右下角柱面掀开，卷过的片元丢掉，底下案例透出。
- * - 可见层 2D blit。
+ * AI intro → 案例：滚动粒子消散（Park：去掉布料；反向 canvasui particle-scroll）。
+ * 案例原版：线下是沙，往下滚再聚回去。这里反过来——intro 先完整，往下滚打成沙粒散开，露出底下案例。
+ * html2canvas 抓当前 intro 当粒子贴图；藏真 DOM；sticky 底透明。
  */
 import { clamp, prefersReducedMotion } from "../utils.js";
 
 const AI_HOLD_VH = 0.36;
 
 const VS = `
-attribute vec2 aP;
-uniform float uLift;
-varying vec2 vUv;
-varying float vShade;
-varying float vBack;
-varying float vHide;
+attribute vec2 aUv;
+attribute vec4 aCol;
+attribute float aH;
+uniform float uP;
+uniform float uTime;
+varying vec4 vCol;
 void main(){
-  vUv = aP;
-  vHide = 0.0;
-  vBack = 0.0;
-  vec2 pos = vec2(aP.x * 2.0 - 1.0, aP.y * 2.0 - 1.0);
-  vec2 br = vec2(1.0, -1.0);
-  vec2 peelDir = normalize(vec2(-1.0, 1.0));
-  vec2 fromBr = pos - br;
-  float along = dot(fromBr, peelDir);
-  vec2 lat = fromBr - peelDir * along;
-
-  float R = 0.28;
-  float front = mix(-0.12, 2.828427 + 3.3 * R, uLift);
-  float s = front - along;
-  float z = 0.0;
-  vec3 n = vec3(0.0, 0.0, 1.0);
-
-  if (s > 0.0 && uLift > 0.001) {
-    float theta = s / R;
-    if (theta >= 3.12) {
-      vHide = 1.0;
-      gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
-      return;
-    }
-    float newAlong = front - R * sin(theta);
-    z = R * (1.0 - cos(theta));
-    pos = br + peelDir * newAlong + lat;
-    n = vec3(-peelDir * sin(theta), cos(theta));
-    if (theta > 1.5708) vBack = 1.0;
-  }
-
-  float rip = sin(aP.x * 11.0 + uLift * 8.0) * 0.5
-            + sin(aP.y * 15.0 - aP.x * 3.0 + uLift * 10.0) * 0.35;
-  z += rip * 0.018 * uLift;
-  n.x += rip * 0.16;
-  n = normalize(n);
-  vShade = 0.55 + 0.45 * max(dot(n, normalize(vec3(-0.28, 0.38, 0.88))), 0.0);
-
-  float zCam = 2.55;
-  float persp = zCam / max(0.18, zCam - z);
-  gl_Position = vec4(pos * persp, z * 0.12 * persp, 1.0);
+  vec2 home = vec2(aUv.x * 2.0 - 1.0, (1.0 - aUv.y) * 2.0 - 1.0);
+  float delay = aH * 0.55;
+  float local = clamp((uP - delay * 0.4) / 0.72, 0.0, 1.0);
+  local = local * local * (3.0 - 2.0 * local);
+  // 反向：散开向上飘（案例 gravity 正值是往下沉沙）
+  vec2 scatter = vec2((aH * 2.0 - 1.0) * 1.15, 0.35 + aH * 1.55);
+  float swirl = sin(uTime * 0.9 + aH * 6.2832) * 0.12 * local;
+  float drift = sin(uTime * 1.4 + aH * 12.0) * 0.03 * local;
+  vec2 pos = home + scatter * local + vec2(swirl + drift, drift * 0.6);
+  float fade = mix(1.0, 0.0, clamp((local - 0.55) / 0.45, 0.0, 1.0));
+  vCol = vec4(aCol.rgb, aCol.a * fade);
+  gl_PointSize = mix(2.6, 1.05, local);
+  gl_Position = vec4(pos, 0.0, 1.0);
 }`;
 
 const FS = `
-precision highp float;
-varying vec2 vUv;
-varying float vShade;
-varying float vBack;
-varying float vHide;
-uniform sampler2D uTex;
-uniform float uAlpha;
+precision mediump float;
+varying vec4 vCol;
 void main(){
-  if (vHide > 0.5) discard;
-  vec3 col = texture2D(uTex, vUv).rgb;
-  col *= mix(1.0, vShade, 0.35);
-  col += vec3(0.12, 0.08, 0.2) * pow(vShade, 6.0) * 0.25;
-  col = mix(col, col * 0.22, vBack);
-  gl_FragColor = vec4(col, uAlpha);
+  vec2 p = gl_PointCoord - 0.5;
+  float d = dot(p, p);
+  if (d > 0.25) discard;
+  float a = vCol.a * smoothstep(0.25, 0.04, d);
+  if (a < 0.01) discard;
+  gl_FragColor = vec4(vCol.rgb, a);
 }`;
 
 export function mount() {
@@ -94,7 +61,7 @@ export function mount() {
   const view = document.createElement("canvas");
   view.id = "ai-curtain-view";
   view.style.cssText =
-    "position:fixed;left:0;right:0;top:0;bottom:0;width:100vw;height:100vh;z-index:180;pointer-events:none;display:none;";
+    "position:fixed;inset:0;width:100vw;height:100vh;z-index:180;pointer-events:none;display:none;";
   document.body.appendChild(view);
   const vctx = view.getContext("2d", { alpha: true });
 
@@ -109,7 +76,6 @@ export function mount() {
     return () => {};
   }
 
-  const COLS = 64, ROWS = 48;
   function compile(type, src) {
     const s = gl.createShader(type);
     gl.shaderSource(s, src);
@@ -131,44 +97,45 @@ export function mount() {
     view.remove();
     return () => {};
   }
+  for (const name of ["uP", "uTime"]) U[name] = gl.getUniformLocation(prog, name);
 
-  const verts = [];
-  const idx = [];
-  for (let r = 0; r <= ROWS; r++) {
-    for (let c = 0; c <= COLS; c++) {
-      verts.push(c / COLS, r / ROWS);
-    }
-  }
-  for (let r = 0; r < ROWS; r++) {
-    for (let c = 0; c < COLS; c++) {
-      const a = r * (COLS + 1) + c;
-      idx.push(a, a + 1, a + COLS + 1, a + 1, a + COLS + 2, a + COLS + 1);
-    }
-  }
-  const vbuf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
-  const ibuf = gl.createBuffer();
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.STATIC_DRAW);
-  const aP = gl.getAttribLocation(prog, "aP");
-  gl.enableVertexAttribArray(aP);
-  gl.vertexAttribPointer(aP, 2, gl.FLOAT, false, 0, 0);
+  const buf = gl.createBuffer();
+  let particleCount = 0;
+  const STRIDE = 7 * 4;
 
-  const tex = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, tex);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([10, 5, 20, 255]));
-  for (const name of ["uLift", "uAlpha", "uTex"]) {
-    U[name] = gl.getUniformLocation(prog, name);
+  function uploadParticles(shot) {
+    const sctx = shot.getContext("2d", { willReadFrequently: true });
+    const W = shot.width;
+    const H = shot.height;
+    const img = sctx.getImageData(0, 0, W, H).data;
+    const step = Math.max(2, Math.round(Math.min(W, H) / 220));
+    const list = [];
+    for (let y = 0; y < H; y += step) {
+      for (let x = 0; x < W; x += step) {
+        const i = (y * W + x) * 4;
+        const a = img[i + 3];
+        if (a < 12) continue;
+        const hash = Math.abs(Math.sin(x * 12.9898 + y * 78.233) * 43758.5453) % 1;
+        list.push(x / W, y / H, img[i] / 255, img[i + 1] / 255, img[i + 2] / 255, a / 255, hash);
+      }
+    }
+    particleCount = list.length / 7;
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list), gl.STATIC_DRAW);
+    const locUv = gl.getAttribLocation(prog, "aUv");
+    const locCol = gl.getAttribLocation(prog, "aCol");
+    const locH = gl.getAttribLocation(prog, "aH");
+    gl.enableVertexAttribArray(locUv);
+    gl.vertexAttribPointer(locUv, 2, gl.FLOAT, false, STRIDE, 0);
+    gl.enableVertexAttribArray(locCol);
+    gl.vertexAttribPointer(locCol, 4, gl.FLOAT, false, STRIDE, 8);
+    gl.enableVertexAttribArray(locH);
+    gl.vertexAttribPointer(locH, 1, gl.FLOAT, false, STRIDE, 24);
   }
-  gl.uniform1i(U.uTex, 0);
 
   let captured = false;
   let capturing = false;
+  const t0 = performance.now();
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
@@ -209,9 +176,7 @@ export function mount() {
         });
       })
       .then((shot) => {
-        gl.bindTexture(gl.TEXTURE_2D, tex);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, shot);
+        uploadParticles(shot);
         captured = true;
         capturing = false;
         sticky.classList.add("is-curtain-on");
@@ -230,30 +195,25 @@ export function mount() {
     if (!on) {
       captured = false;
       capturing = false;
+      particleCount = 0;
       sticky.classList.remove("is-curtain-on");
       view.style.display = "none";
       return;
     }
-    if (!captured) return;
+    if (!captured || particleCount < 1) return;
 
     view.style.display = "block";
     const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-    const lift = ease;
-    const alpha = 1 - clamp((p - 0.96) / 0.04, 0, 1);
-
     gl.useProgram(prog);
-    gl.uniform1f(U.uLift, lift);
-    gl.uniform1f(U.uAlpha, alpha);
-    gl.enable(gl.DEPTH_TEST);
-    gl.depthFunc(gl.LEQUAL);
-    gl.disable(gl.CULL_FACE);
+    gl.uniform1f(U.uP, ease);
+    gl.uniform1f(U.uTime, (performance.now() - t0) / 1000);
+    gl.disable(gl.DEPTH_TEST);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.drawArrays(gl.POINTS, 0, particleCount);
     vctx.clearRect(0, 0, view.width, view.height);
     vctx.drawImage(glc, 0, 0, view.width, view.height);
   }
