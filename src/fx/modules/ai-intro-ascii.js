@@ -12,10 +12,14 @@ export const AI_HOLD_VH = 0.36;
 /** Scroll window that dissolves the intro so `.ai-lab-work` leaks through. */
 export const AI_EXIT_VH = 0.48;
 
-/** Cap so it stays a field, not a carpet. Density via count, not glyph scale. */
-export const MAX_GLYPHS = 1600;
-/** One size for squares and pluses — Park: 不要有大有小. */
-export const GLYPH_SIZE = 7;
+/** Uniform cell — Park: 不要有大有小. */
+export const CELL = 7;
+const BAYER8 = [
+  0, 32, 8, 40, 2, 34, 10, 42, 48, 16, 56, 24, 50, 18, 58, 26, 12, 44, 4, 36,
+  14, 46, 6, 38, 60, 28, 52, 20, 62, 30, 54, 22, 3, 35, 11, 43, 1, 33, 9, 41,
+  51, 19, 59, 27, 49, 17, 57, 25, 15, 47, 7, 39, 13, 45, 5, 37, 63, 31, 55, 23,
+  61, 29, 53, 21,
+];
 
 function hash(i) {
   let x = Math.imul((i | 0) ^ 0x9e3779b9, 0x85ebca6b);
@@ -28,28 +32,29 @@ function smoothstep(a, b, t) {
   return x * x * (3 - 2 * x);
 }
 
-function buildGlyphs(w, h) {
-  const maxN = clamp(Math.round((w * h) / 820), 980, MAX_GLYPHS);
-  const glyphs = [];
-  for (let i = 0; i < maxN; i++) {
-    const k = hash(i + 9);
-    glyphs.push({
-      x: hash(i * 2 + 1) * w,
-      y: hash(i * 2 + 3) * h,
-      plus: k > 0.5,
-      vx: (hash(i + 31) - 0.5) * 42,
-      vy: (hash(i + 37) - 0.5) * 36,
-      phase: hash(i + 8) * 1024,
-      blink: 2.2 + hash(i + 4) * 4.4,
-      flip: 3.1 + hash(i + 6) * 6.2,
-      kick: 0.45 + hash(i + 12) * 0.9,
-      drop: 0.06 + hash(i + 15) * 0.78,
-      fall: 40 + hash(i + 19) * 260,
-      drift: (hash(i + 23) - 0.5) * 48,
-      kickId: -1,
-    });
-  }
-  return glyphs;
+function vnoise(x, y) {
+  const ix = Math.floor(x);
+  const iy = Math.floor(y);
+  const fx = x - ix;
+  const fy = y - iy;
+  const ux = fx * fx * (3 - 2 * fx);
+  const uy = fy * fy * (3 - 2 * fy);
+  const a = hash(ix * 13 + iy * 47);
+  const b = hash((ix + 1) * 13 + iy * 47);
+  const c = hash(ix * 13 + (iy + 1) * 47);
+  const d = hash((ix + 1) * 13 + (iy + 1) * 47);
+  return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+}
+
+/** Large organic masses + empty void (reference: dithered blobs, not wallpaper). */
+function field(cx, cy, t) {
+  const x = cx * 0.028 + t * 0.16;
+  const y = cy * 0.028 - t * 0.09;
+  const n =
+    vnoise(x, y) * 0.5 +
+    vnoise(x * 2.05 + 9, y * 2.05 - t * 0.07) * 0.32 +
+    vnoise(x * 4.2 + t * 0.11, y * 4.2) * 0.18;
+  return n * n * n * 1.65;
 }
 
 function exitProgress(track) {
@@ -63,8 +68,8 @@ function exitProgress(track) {
 }
 
 /**
- * Uniform-size square / plus field, randomly placed, randomly wandering.
- * Intro CSS background stays opaque at rest.
+ * Ordered-dither square field: organic dense masses, empty void, copy stays clean.
+ * Noise crawls in place — glyphs do not fly. Intro CSS background stays opaque.
  */
 export function mount() {
   const track =
@@ -84,10 +89,31 @@ export function mount() {
   let drawnOut = false;
   let cssW = 0;
   let cssH = 0;
-  let glyphs = [];
+  let cols = 0;
+  let rows = 0;
+  let hole = null;
   let ctx = null;
   let lastDraw = 0;
   let reduceCanvas = shouldReduceFx() || prefersReducedMotion();
+
+  function measureHole() {
+    const copy = document.getElementById("ai-lab-intro-copy");
+    if (!copy) return null;
+    const cr = copy.getBoundingClientRect();
+    const sr = sticky.getBoundingClientRect();
+    if (cr.width < 8 || cr.height < 8) return null;
+    return {
+      l: cr.left - sr.left - 48,
+      t: cr.top - sr.top - 36,
+      r: cr.right - sr.left + 48,
+      b: cr.bottom - sr.top + 40,
+    };
+  }
+
+  function inHole(x, y) {
+    if (!hole) return false;
+    return x > hole.l && x < hole.r && y > hole.t && y < hole.b;
+  }
 
   function resize() {
     if (!canvas || !ctx) return;
@@ -95,15 +121,20 @@ export function mount() {
     const w = Math.max(1, Math.round(rect.width));
     const h = Math.max(1, Math.round(rect.height));
     const dpr = Math.min(1.5, window.devicePixelRatio || 1);
-    if (w === cssW && h === cssH && canvas.width === Math.round(w * dpr)) return;
+    const same =
+      w === cssW && h === cssH && canvas.width === Math.round(w * dpr);
     cssW = w;
     cssH = h;
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    glyphs = buildGlyphs(w, h);
+    if (!same) {
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    cols = Math.ceil(w / CELL) + 1;
+    rows = Math.ceil(h / CELL) + 1;
+    hole = measureHole();
     drawnOut = false;
     draw(typeof performance !== "undefined" ? performance.now() : 0);
   }
@@ -118,7 +149,7 @@ export function mount() {
   }
 
   function draw(now) {
-    if (!ctx || !cssW) return;
+    if (!ctx || !cssW || !cols) return;
     ctx.clearRect(0, 0, cssW, cssH);
     if (p >= 0.995) {
       drawnOut = true;
@@ -126,50 +157,38 @@ export function mount() {
     }
 
     const t = (now || 0) * 0.001;
-    const dt = lastDraw ? Math.min(0.05, Math.max(0, (now - lastDraw) * 0.001)) : 0.016;
-    const size = GLYPH_SIZE;
-    const arm = size * 0.5;
-    const thick = 1.4;
+    const bias = p * 0.72;
+    const dot = CELL * 0.72;
+    const inset = (CELL - dot) * 0.5;
+    const arm = CELL * 0.28;
+    const thick = Math.max(1, CELL * 0.14);
 
-    for (let i = 0; i < glyphs.length; i++) {
-      const g = glyphs[i];
-      const kickId = (t * g.kick) | 0;
-      if (kickId !== g.kickId) {
-        g.kickId = kickId;
-        g.vx = (hash(i + kickId * 9 + 31) - 0.5) * 52;
-        g.vy = (hash(i + kickId * 11 + 37) - 0.5) * 46;
-        if (hash(i + kickId * 3) > 0.74) {
-          g.x = hash(i + kickId * 5 + 1) * cssW;
-          g.y = hash(i + kickId * 7 + 3) * cssH;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = c * CELL + inset;
+        const y = r * CELL + inset;
+        if (inHole(x + CELL * 0.5, y + CELL * 0.5)) continue;
+        const n = field(c, r, t);
+        const b = (BAYER8[(c & 7) + ((r & 7) << 3)] + 0.5) / 64;
+        const dense = n > b + 0.12 + bias;
+        const sparse =
+          !dense &&
+          ((c + r * 3) & 7) === 0 &&
+          hash(c * 13 + r * 29) > 0.55 &&
+          n + 0.08 > b + bias;
+        if (!dense && !sparse) continue;
+        /* ~40% plus, slowly flipping as the field flows. */
+        const plus = hash(c * 31 + r * 17 + ((t * 1.6) | 0)) > 0.6;
+        const a = dense ? 0.4 : 0.2;
+        ctx.fillStyle = "rgba(168,160,196," + a.toFixed(3) + ")";
+        if (plus) {
+          const cx = c * CELL + CELL * 0.5;
+          const cy = r * CELL + CELL * 0.5;
+          ctx.fillRect(cx - arm, cy - thick * 0.5, arm * 2, thick);
+          ctx.fillRect(cx - thick * 0.5, cy - arm, thick, arm * 2);
+        } else {
+          ctx.fillRect(x, y, dot, dot);
         }
-      }
-      g.x += g.vx * dt;
-      g.y += g.vy * dt;
-      if (g.x < -size) g.x += cssW + size * 2;
-      else if (g.x > cssW + size) g.x -= cssW + size * 2;
-      if (g.y < -size) g.y += cssH + size * 2;
-      else if (g.y > cssH + size) g.y -= cssH + size * 2;
-
-      g.plus = hash(i + ((t * g.flip) | 0) * 17) > 0.5;
-      if (hash(i + ((t * g.blink) | 0) * 13) < 0.16) continue;
-
-      const local = clamp((p - g.drop) / 0.3, 0, 1);
-      let a = 0.42;
-      if (local > 0) a *= 1 - local;
-      if (a < 0.04) continue;
-      let x = g.x;
-      let y = g.y;
-      if (local > 0) {
-        const fall = local * local;
-        y += fall * g.fall;
-        x += local * g.drift;
-      }
-      ctx.fillStyle = "rgba(168,160,196," + a.toFixed(3) + ")";
-      if (g.plus) {
-        ctx.fillRect(x - arm, y - thick * 0.5, arm * 2, thick);
-        ctx.fillRect(x - thick * 0.5, y - arm, thick, arm * 2);
-      } else {
-        ctx.fillRect(x - size * 0.5, y - size * 0.5, size, size);
       }
     }
     drawnOut = false;
@@ -190,8 +209,12 @@ export function mount() {
       running = false;
       return;
     }
-    draw(now);
+    if (lastDraw && now - lastDraw < 32) {
+      raf = requestAnimationFrame(loop);
+      return;
+    }
     lastDraw = now;
+    draw(now);
     raf = requestAnimationFrame(loop);
   }
 

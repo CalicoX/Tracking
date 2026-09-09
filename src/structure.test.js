@@ -251,10 +251,10 @@ describe("React landing structure (gating)", () => {
     const css = read("styles/landing.css");
     expect(css).toMatch(/--ascii-copy/);
     expect(css).toMatch(/is-ascii-out/);
-    expect(ascii).toMatch(/MAX_GLYPHS = 1600/);
-    expect(ascii).toMatch(/GLYPH_SIZE = 7/);
-    expect(ascii).toMatch(/buildGlyphs/);
+    expect(ascii).toMatch(/CELL = 7/);
+    expect(ascii).toMatch(/BAYER8/);
     expect(ascii).toMatch(/fillRect/);
+    expect(ascii).toMatch(/inHole/);
     expect(css).not.toMatch(
       /is-ascii-on\s*>\s*\.ai-lab-intro\s*\{[^}]*background:\s*transparent/
     );
