@@ -126,7 +126,7 @@ export function mount() {
     const W = shot.width;
     const H = shot.height;
     const img = sctx.getImageData(0, 0, W, H).data;
-    const step = Math.max(3, Math.round(Math.min(W, H) / 160));
+    const step = Math.max(2, Math.round(Math.min(W, H) / 280));
     const list = [];
     const corners = [
       [-1, -1],
@@ -216,7 +216,6 @@ export function mount() {
         uploadParticles(shot);
         captured = true;
         capturing = false;
-        sticky.classList.add("is-curtain-on");
         draw();
       })
       .catch((err) => {
@@ -235,21 +234,17 @@ export function mount() {
   function draw() {
     const { p, pinned } = progress();
     if (pinned && !captured && !capturing) captureCloth();
-    const on = captured && p > 0.0001 && p < 0.999;
+    const scattering = p > 0.0001;
+    sticky.classList.toggle("is-curtain-on", captured && scattering);
+    const on = captured && scattering && p < 0.999;
     if (!on) {
+      view.style.display = "none";
       if (!pinned) {
         captured = false;
         capturing = false;
         vertCount = 0;
-        sticky.classList.remove("is-curtain-on");
       }
-      view.style.display = "none";
-      if (p >= 0.999) {
-        sticky.classList.add("is-curtain-on");
-        view.style.display = "none";
-      }
-      if (p <= 0.0001 || p >= 0.999) stopRaf();
-      else if (captured && !raf) raf = requestAnimationFrame(loop);
+      stopRaf();
       return;
     }
 
@@ -260,7 +255,8 @@ export function mount() {
     bindAttribs();
     gl.uniform1f(U.uP, ease);
     gl.uniform1f(U.uTime, (performance.now() - t0) / 1000);
-    gl.uniform2f(U.uGrain, 0.012, 0.012 * (window.innerWidth / Math.max(1, window.innerHeight)));
+    const grain = 0.0032;
+    gl.uniform2f(U.uGrain, grain, grain * (window.innerWidth / Math.max(1, window.innerHeight)));
     gl.disable(gl.DEPTH_TEST);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);

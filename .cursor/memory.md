@@ -47,7 +47,7 @@
 ## AI intro → work 过渡（2026-09-08 Park 重做：窗帘）
 
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载；`#ai-zoom-layer`/`--ai-veil`/`is-ai-zooming` 相关 CSS 成死代码（同步删过 structure.test 的 zoom 断言段）。`.ai-word-ai` 仍留在 eyebrow JSX 里（无害）。
-- **替代：滚动粒子消散（去掉布料）** `src/fx/modules/ai-curtain.js`。对照 [canvasui particle-scroll](https://canvasui.dev/docs/components/particle-scroll)：原版是线下是沙、往下滚再聚回去；**Park 要反向**——intro 先完整，往下滚打成沙粒向上散开，露出 `.ai-lab-work`。html2canvas 抓当前 intro，采样成 **四边形粒子**（`gl.POINTS` 在本站合成/IAB 经常看不见——Park 报过没效果）。钉住就开始抓图，rAF 循环漂。`is-curtain-on` 藏真 DOM + sticky 底透明。hold 0.36 → 0.48 屏 scrub。可见层 2D blit。别再布料掀开 / peelDir / 叠两层。
+- **替代：滚动粒子消散（去掉布料）** `src/fx/modules/ai-curtain.js`。对照 [canvasui particle-scroll](https://canvasui.dev/docs/components/particle-scroll)：原版是线下是沙、往下滚再聚回去；**Park 要反向**——intro 先完整，往下滚打成沙粒向上散开，露出 `.ai-lab-work`。html2canvas 抓当前 intro，采样成 **四边形粒子**（`gl.POINTS` 看不见）。**颗粒要小**：`uGrain≈0.0032`，采样 step≈min边/280（Park 报过粒子太大）。**回滚**：`is-curtain-on` 只在 `p>0` 时开——hold 阶段必须把 intro 交还给 DOM，倒滚才能聚回去（钉住就藏 intro 会卡死回不去）。hold 0.36 → 0.48 屏 scrub。可见层 2D blit。
 - Footer 顶部分割线已删（`border-top:0` + `.site-footer::before { display:none }`），不要再加 1px 线。
 
 ## AI 二字遮罩（已退役，勿复活）
