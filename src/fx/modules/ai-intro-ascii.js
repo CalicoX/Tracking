@@ -14,41 +14,12 @@ export const AI_HOLD_VH = 0.36;
 /** Scroll window that dissolves the intro so `.ai-lab-work` leaks through. */
 export const AI_EXIT_VH = 0.48;
 
-const FIELD_W = 160;
-const FIELD_H = 90;
-const GRAIN_TILE = 128;
+const FIELD_W = 256;
+const FIELD_H = 144;
 
 function smoothstep(a, b, t) {
   const x = Math.max(0, Math.min(1, (t - a) / Math.max(b - a, 1e-6)));
   return x * x * (3 - 2 * x);
-}
-
-function hash21(x, y) {
-  let n = Math.imul((x | 0) ^ 0x9e3779b9, 0x85ebca6b);
-  n = Math.imul(n ^ ((y | 0) * 0xc2b2ae35), 0x27d4eb2d);
-  return ((n ^ (n >>> 16)) >>> 0) / 4294967296;
-}
-
-function makeGrainTile() {
-  const c = document.createElement("canvas");
-  c.width = GRAIN_TILE;
-  c.height = GRAIN_TILE;
-  const g = c.getContext("2d");
-  if (!g) return c;
-  const img = g.createImageData(GRAIN_TILE, GRAIN_TILE);
-  const d = img.data;
-  for (let y = 0; y < GRAIN_TILE; y++) {
-    for (let x = 0; x < GRAIN_TILE; x++) {
-      const v = (hash21(x, y) * 255) | 0;
-      const i = (y * GRAIN_TILE + x) * 4;
-      d[i] = v;
-      d[i + 1] = v;
-      d[i + 2] = v;
-      d[i + 3] = 48;
-    }
-  }
-  g.putImageData(img, 0, 0);
-  return c;
 }
 
 function exitProgress(track) {
@@ -94,7 +65,6 @@ export function mount() {
   field.height = FIELD_H;
   const fieldCtx = field.getContext("2d", { willReadFrequently: true });
   const fieldImg = fieldCtx ? fieldCtx.createImageData(FIELD_W, FIELD_H) : null;
-  const grainTile = makeGrainTile();
 
   function resize() {
     if (!canvas || !ctx) return;
@@ -152,17 +122,6 @@ export function mount() {
     fieldCtx.putImageData(fieldImg, 0, 0);
     ctx.imageSmoothingEnabled = true;
     ctx.drawImage(field, 0, 0, cssW, cssH);
-    ctx.save();
-    ctx.globalCompositeOperation = "overlay";
-    ctx.globalAlpha = 0.22;
-    const ox = ((t * 37) | 0) % GRAIN_TILE;
-    const oy = ((t * 23) | 0) % GRAIN_TILE;
-    for (let y = -GRAIN_TILE; y < cssH + GRAIN_TILE; y += GRAIN_TILE) {
-      for (let x = -GRAIN_TILE; x < cssW + GRAIN_TILE; x += GRAIN_TILE) {
-        ctx.drawImage(grainTile, x + ox, y + oy);
-      }
-    }
-    ctx.restore();
     drawnOut = false;
   }
 

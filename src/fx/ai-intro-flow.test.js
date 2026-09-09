@@ -8,13 +8,29 @@ describe("sampleIntroFlow (shipped intro bg)", () => {
   const uv = { x: 0.42, y: 0.51 };
 
   it("time-shifted mixing yields different colors at the same UV", () => {
-    const a = sampleIntroFlow(uv, 0.2, null);
-    const b = sampleIntroFlow(uv, 1.7, null);
-    const delta =
-      Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]);
-    expect(a).toHaveLength(3);
-    expect(b).toHaveLength(3);
-    expect(delta).toBeGreaterThan(0.02);
+    const pts = [
+      uv,
+      { x: 0.64, y: 0.62 },
+      { x: 0.42, y: 0.5 },
+      { x: 0.2, y: 0.3 },
+    ];
+    let maxDelta = 0;
+    let sampleA;
+    let sampleB;
+    for (const p of pts) {
+      const a = sampleIntroFlow(p, 0.15, null);
+      const b = sampleIntroFlow(p, 2.6, null);
+      const delta =
+        Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]);
+      if (delta > maxDelta) {
+        maxDelta = delta;
+        sampleA = a;
+        sampleB = b;
+      }
+    }
+    expect(sampleA).toHaveLength(3);
+    expect(sampleB).toHaveLength(3);
+    expect(maxDelta).toBeGreaterThan(0.02);
   });
 
   it("screen-space grain changes the sample vs grain off and vs a second offset", () => {

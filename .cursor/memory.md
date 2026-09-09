@@ -46,7 +46,7 @@
 
 ## AI intro → work 过渡（2026-09-09）
 
-- **现用：流动渐变 + 屏空间噪点**（Park 要 shaders.com Synthesis 那种感觉）。`sampleIntroFlow(uv,t,grainUv)` 在 `ai-intro-flow-sample.js`；mount 仍走 `aiIntroAscii` / `#ai-intro-ascii`。色斑按 Mesh Gradient 轨迹 `sin/cos(t)` 混色，grain 用像素坐标（Paper GrainGradient：grain 不跟渐变缩放）。低分辨率场再 stretch + overlay 噪点贴图。Bayer ASCII 团块退役。shaders.com 该 collection 是 Pro 门（Unlock with Pro），HTTP 抓取 SSRF 拦了，不装 `@paper-design/shaders`。idle 仍不透明；hold 0.36 / exit 0.48；≤640 / hidden / off-screen 停 rAF。
+- **现用：Synthesis 栈**（看的是 shaders.com payload 原理，不是截图像素）。底 `#08071a` + `WaveDistortion`(299°) + 两条 `SineWave` 辉光（`#0582e8` 右下、`#f00e94` 中左，softness≈0.55）screen 合成 + `FilmGrain` 0.07 偏暗部。`sampleIntroFlow` 在 `ai-intro-flow-sample.js`。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明；hold 0.36 / exit 0.48；≤640 / hidden 停环。
 - **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；canvas 只画点、不铺半透明径向。CSS 暗底 + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
 - **退场**：钉住 hold 0.36vh → 0.48vh 里文案先淡、网点变稀，再 `--intro-rest-op` 整层抬走，露出 `.ai-lab-work`。回滚倒放。≤640 canvas `display:none`，叠排不走遮罩。
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
