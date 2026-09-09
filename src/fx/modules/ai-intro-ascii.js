@@ -32,6 +32,20 @@ function smoothstep(a, b, t) {
   return x * x * (3 - 2 * x);
 }
 
+function vnoise(x, y) {
+  const ix = Math.floor(x);
+  const iy = Math.floor(y);
+  const fx = x - ix;
+  const fy = y - iy;
+  const ux = fx * fx * (3 - 2 * fx);
+  const uy = fy * fy * (3 - 2 * fy);
+  const a = hash(ix * 13 + iy * 47);
+  const b = hash((ix + 1) * 13 + iy * 47);
+  const c = hash(ix * 13 + (iy + 1) * 47);
+  const d = hash((ix + 1) * 13 + (iy + 1) * 47);
+  return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+}
+
 const BLOBS = (function () {
   const out = [];
   for (let i = 0; i < 8; i++) {
@@ -43,6 +57,10 @@ const BLOBS = (function () {
       r: 0.075 + hash(i * 3 + 4) * 0.07,
       vx: sx * (0.09 + hash(i * 7 + 1) * 0.08),
       vy: sy * (0.06 + hash(i * 7 + 3) * 0.07),
+      stretch: 0.55 + hash(i * 9 + 2) * 0.9,
+      rot: hash(i * 11 + 4) * Math.PI,
+      lobes: 2 + ((hash(i * 13 + 5) * 3) | 0),
+      phase: hash(i * 15 + 6) * Math.PI * 2,
     });
   }
   return out;
@@ -52,26 +70,41 @@ function wrap1(x) {
   return x - Math.floor(x);
 }
 
-function wrapDist(a, b) {
-  let d = Math.abs(a - b);
-  return d > 0.5 ? 1 - d : d;
+function wrapSigned(a, b) {
+  let d = a - b;
+  if (d > 0.5) d -= 1;
+  if (d < -0.5) d += 1;
+  return d;
 }
 
-/** Moving blobs: core packed, outside empty, dither only on the rim. */
+/** Irregular drifting masses — not round pills. */
 function field(cx, cy, t, cols, rows) {
   const nx = cx / Math.max(cols, 1);
   const ny = cy / Math.max(rows, 1);
+  const chew = vnoise(nx * 16 + t * 0.14, ny * 16);
+  const chew2 = vnoise(nx * 31 - t * 0.09, ny * 31 + 6);
   let m = 0;
   for (let i = 0; i < BLOBS.length; i++) {
     const b = BLOBS[i];
     const bx = wrap1(b.x + t * b.vx);
     const by = wrap1(b.y + t * b.vy);
-    const dx = wrapDist(nx, bx);
-    const dy = wrapDist(ny, by);
-    const d = Math.sqrt(dx * dx + dy * dy) / b.r;
-    if (d < 1) m += (1 - d) * (1 - d);
+    let dx = wrapSigned(nx, bx);
+    let dy = wrapSigned(ny, by);
+    const cs = Math.cos(b.rot);
+    const sn = Math.sin(b.rot);
+    const rx = (dx * cs + dy * sn) / b.stretch;
+    const ry = (-dx * sn + dy * cs) * b.stretch;
+    const ang = Math.atan2(ry, rx);
+    const dist = Math.sqrt(rx * rx + ry * ry);
+    const lobe = 0.62 + 0.48 * Math.sin(ang * b.lobes + b.phase + t * 0.35);
+    const r = b.r * lobe * (0.72 + 0.5 * chew);
+    const d = dist / Math.max(r, 0.02);
+    if (d >= 1.05) continue;
+    let v = 1 - Math.min(d, 1);
+    v = v * v * (0.4 + 0.85 * chew2);
+    m += v;
   }
-  return smoothstep(0.12, 0.55, clamp(m, 0, 1.4));
+  return smoothstep(0.1, 0.48, clamp(m, 0, 1.5));
 }
 
 function exitProgress(track) {
