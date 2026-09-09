@@ -258,6 +258,7 @@ describe("React landing structure (gating)", () => {
     expect(gl).toMatch(/createIntroFlowGl/);
     expect(gl).toMatch(/getContext\("webgl"/);
     expect(gl).toMatch(/addGlow/);
+    expect(gl).toMatch(/punchLin/);
     expect(gl).toMatch(/GRAIN_AMT \* 0\.1/);
     expect(gl).toMatch(/12\.9898/);
     expect(gl).not.toMatch(/gUv \* 0\.5/);

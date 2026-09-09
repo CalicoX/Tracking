@@ -84,12 +84,17 @@ function linearToSrgb(c) {
   return c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055;
 }
 
-/** Additive linear glow. pow() kills the gray-purple fringe of a soft mask. */
+/** Additive glow. Punch chroma (not luma) so washes stay neon without blasting the center. */
+function punchLin(lin) {
+  const y = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+  return lin.map((c) => clamp01(y + (c - y) * 1.85));
+}
 function addGlow(base, col, a) {
   const k = clamp01(a) ** 1.28;
+  const glow = punchLin(col.map(srgbToLinear)).map((c) => c * k * 0.7);
   const out = [0, 0, 0];
   for (let i = 0; i < 3; i++) {
-    out[i] = clamp01(linearToSrgb(srgbToLinear(base[i]) + srgbToLinear(col[i]) * k * 0.58));
+    out[i] = clamp01(linearToSrgb(srgbToLinear(base[i]) + glow[i]));
   }
   return out;
 }

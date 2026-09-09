@@ -33,10 +33,15 @@ vec3 srgbToLin(vec3 c){
 vec3 linToSrgb(vec3 c){
   return mix(c * 12.92, 1.055 * pow(max(c, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c));
 }
-/* Additive linear glow. pow() kills the gray-purple fringe of a soft mask. */
+/* Additive glow. Punch chroma (not luma) so washes stay neon without blasting the center. */
+vec3 punchLin(vec3 lin){
+  float y = dot(lin, vec3(0.2126, 0.7152, 0.0722));
+  return clamp(y + (lin - vec3(y)) * 1.85, 0.0, 1.0);
+}
 vec3 addGlow(vec3 base, vec3 col, float a){
   a = pow(clamp(a, 0.0, 1.0), 1.28);
-  return clamp(linToSrgb(srgbToLin(base) + srgbToLin(col) * a * 0.58), 0.0, 1.0);
+  vec3 glow = punchLin(srgbToLin(col)) * a * 0.7;
+  return clamp(linToSrgb(srgbToLin(base) + glow), 0.0, 1.0);
 }
 
 vec2 waveDistort(vec2 uv, float aspect, float t){
