@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-09（AI intro 背景改流动渐变+噪点；Bayer 团块退役）
+最后更新：2026-09-09（AI intro 背景换成 shaders.com Synthesis 1 官方组件树）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -46,8 +46,8 @@
 
 ## AI intro → work 过渡（2026-09-09）
 
-- **现用：Synthesis 栈**（看的是 shaders.com payload 原理，不是截图像素）。底 `#08071a` + `WaveDistortion`(299°) + 两条 `SineWave` 辉光（`#0582e8` 右下、`#f00e94` 中左，softness≈0.55）screen 合成 + `FilmGrain` 0.07 偏暗部。`sampleIntroFlow` 在 `ai-intro-flow-sample.js`。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明；hold 0.36 / exit 0.48；≤640 / hidden 停环。
-- **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；canvas 只画点、不铺半透明径向。CSS 暗底 + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
+- **现用：shaders.com Synthesis 1 官方树**（`c91ae513-d656-4f32-933f-fdcd579495e2`，preview API XOR `shaders-preview-key` 解出；水印 ImageTexture 丢掉）。挂 `shaders/react`：`FilmGrain(0.07)` 包 `WaveDistortion(angle 299 / strength 1 / frequency 0.3 / speed 0.2 / sine / stretch)` 包 `SolidColor #08071a` + 两道 `SineWave` `normal-oklch`（蓝 `#0582e8` pos 0.654/0.673 amp 0.36 thick 0.72 speed 0.3；粉 `#f00e94` pos 0.605/0.514 amp 0.17 thick 0.35 speed 0.5；softness 0.55/0.54，frequency 都是 0.2）。参数在 `ai-intro-synthesis-preset.js`，React 树在 `AiIntroSynthesis.jsx`。站点 definition 是扁平 5 兄弟，`createShader` 必须嵌套 children，别平行挂 Distortion/Grain。无 WebGPU 才走 `sampleIntroFlow`（同参 + RGB lerp，不是 screen）。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明（CSS `#08071a`）；hold 0.36 / exit 0.48；≤640 / hidden 停环。
+- **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；CSS 底锁 `#08071a` + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
 - **退场**：钉住 hold 0.36vh → 0.48vh 里文案先淡、网点变稀，再 `--intro-rest-op` 整层抬走，露出 `.ai-lab-work`。回滚倒放。≤640 canvas `display:none`，叠排不走遮罩。
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
 - **滚动粒子消散** `src/fx/modules/ai-curtain.js` 对照 canvasui particle-scroll，**09-09 太卡卸挂载**：`useLandingEffects` **不再** `mountNamed("aiCurtain")`（文件保留）。不要复活 html2canvas / html-in-canvas 整页打沙。Coverage 地球看不见停 rAF。

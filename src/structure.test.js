@@ -237,6 +237,8 @@ describe("React landing structure (gating)", () => {
     expect(fx).not.toMatch(/mountNamed\("aiCurtain"\)/);
     const ascii = read("fx/modules/ai-intro-ascii.js");
     const sample = read("fx/modules/ai-intro-flow-sample.js");
+    const preset = read("fx/modules/ai-intro-synthesis-preset.js");
+    const synth = read("fx/modules/AiIntroSynthesis.jsx");
     expect(ascii).toMatch(/export function mount\s*\(/);
     expect(ascii).toMatch(/AI_HOLD_VH = 0\.36/);
     expect(ascii).toMatch(/AI_EXIT_VH = 0\.48/);
@@ -245,17 +247,30 @@ describe("React landing structure (gating)", () => {
     expect(ascii).toMatch(/document\.hidden/);
     expect(ascii).toMatch(/shouldReduceFx|isMobileLayout/);
     expect(ascii).toMatch(/sampleIntroFlow/);
+    expect(ascii).toMatch(/AiIntroSynthesis/);
     expect(sample).toMatch(/export function sampleIntroFlow/);
     expect(sample).toMatch(/grainTerm/);
+    expect(preset).toMatch(/c91ae513-d656-4f32-933f-fdcd579495e2/);
+    expect(preset).toMatch(/#08071a/);
+    expect(preset).toMatch(/#0582e8/);
+    expect(preset).toMatch(/#f00e94/);
+    expect(preset).toMatch(/normal-oklch/);
+    expect(synth).toMatch(/from ["']shaders\/react["']/);
+    expect(synth).toMatch(/FilmGrain/);
+    expect(synth).toMatch(/WaveDistortion/);
+    expect(synth).toMatch(/SineWave/);
+    expect(synth).toMatch(/SolidColor/);
     expect(ascii).not.toMatch(/import\(["']html2canvas["']\)/);
     expect(ascii).not.toMatch(/drawElementImage/);
     expect(ascii).not.toMatch(/getContext\("webgl/);
     expect(ascii).not.toMatch(/BAYER8/);
+    expect(ascii).not.toMatch(/ImageTexture/);
     const jsx = read("components/sections/AiLab.jsx");
     expect(jsx).toMatch(/ai-intro-ascii/);
     const css = read("styles/landing.css");
     expect(css).toMatch(/--ascii-copy/);
     expect(css).toMatch(/is-ascii-out/);
+    expect(css).toMatch(/\.ai-lab-intro\s*\{[^}]*background:\s*#08071a/);
     expect(css).not.toMatch(
       /is-ascii-on\s*>\s*\.ai-lab-intro\s*\{[^}]*background:\s*transparent/
     );

@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import {
   hookLenisWhenReady,
   isMobileLayout,
@@ -35,9 +36,14 @@ function exitProgress(track) {
   return Math.max(0, Math.min((scrolled - holdPx) / Math.max(exitPx, 1), 1));
 }
 
+function canWebGpu() {
+  return typeof navigator !== "undefined" && !!navigator.gpu;
+}
+
 /**
- * Flowing multi-color gradient + screen-space grain on the AI intro.
- * Bayer ASCII blobs retired as the hero look. Intro CSS background stays opaque.
+ * Official Synthesis 1 on the AI intro (shaders/react).
+ * CPU sampleIntroFlow is only the no-WebGPU stand-in.
+ * Intro CSS background stays opaque (#08071a).
  */
 export function mount() {
   const track =
@@ -45,11 +51,14 @@ export function mount() {
     document.getElementById("ai-letter-track");
   const sticky = document.getElementById("ai-letter-sticky");
   const intro = document.getElementById("ai-lab-intro");
-  const canvas = document.getElementById("ai-intro-ascii");
+  const host = document.getElementById("ai-intro-ascii");
   if (!track || !sticky || !intro) return () => {};
   if (sticky.dataset.fxAscii) return () => {};
   sticky.dataset.fxAscii = "1";
 
+  let disposed = false;
+  let reactRoot = null;
+  let gpuOn = false;
   let raf = 0;
   let running = false;
   let visible = false;
@@ -58,6 +67,7 @@ export function mount() {
   let cssW = 0;
   let cssH = 0;
   let ctx = null;
+  let canvas = null;
   let lastDraw = 0;
   let reduceCanvas = shouldReduceFx() || prefersReducedMotion();
   const field = document.createElement("canvas");
@@ -66,7 +76,16 @@ export function mount() {
   const fieldCtx = field.getContext("2d", { willReadFrequently: true });
   const fieldImg = fieldCtx ? fieldCtx.createImageData(FIELD_W, FIELD_H) : null;
 
-  function resize() {
+  function applyExit(progress) {
+    const copy = 1 - smoothstep(0.0, 0.36, progress);
+    const rest = 1 - smoothstep(0.48, 1, progress);
+    intro.style.setProperty("--ascii-copy", copy.toFixed(3));
+    intro.style.setProperty("--intro-rest-op", rest.toFixed(3));
+    sticky.classList.toggle("is-ascii-on", !reduceCanvas);
+    sticky.classList.toggle("is-ascii-out", progress >= 0.98);
+  }
+
+  function resizeFallback() {
     if (!canvas || !ctx) return;
     const rect = sticky.getBoundingClientRect();
     const w = Math.max(1, Math.round(rect.width));
@@ -82,15 +101,6 @@ export function mount() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawnOut = false;
     draw(typeof performance !== "undefined" ? performance.now() : 0);
-  }
-
-  function applyExit(progress) {
-    const copy = 1 - smoothstep(0.0, 0.36, progress);
-    const rest = 1 - smoothstep(0.48, 1, progress);
-    intro.style.setProperty("--ascii-copy", copy.toFixed(3));
-    intro.style.setProperty("--intro-rest-op", rest.toFixed(3));
-    sticky.classList.toggle("is-ascii-on", !reduceCanvas);
-    sticky.classList.toggle("is-ascii-out", progress >= 0.98);
   }
 
   function draw(now) {
@@ -150,7 +160,7 @@ export function mount() {
   }
 
   function startLoop() {
-    if (reduceCanvas || !visible) return;
+    if (gpuOn || reduceCanvas || !visible || !ctx) return;
     if (typeof document !== "undefined" && document.hidden) return;
     running = true;
     if (!raf) raf = requestAnimationFrame(loop);
@@ -164,6 +174,68 @@ export function mount() {
     }
   }
 
+  function unmountGpu() {
+    if (!reactRoot) return;
+    try {
+      reactRoot.unmount();
+    } catch (e) {
+      /* ignore */
+    }
+    reactRoot = null;
+    gpuOn = false;
+  }
+
+  function startFallback() {
+    if (disposed || reduceCanvas || !host) return;
+    unmountGpu();
+    if (ctx) {
+      startLoop();
+      return;
+    }
+    canvas = host.tagName === "CANVAS" ? host : host.querySelector("canvas");
+    if (!canvas) {
+      canvas = document.createElement("canvas");
+      canvas.className = "ai-intro-ascii-fallback";
+      canvas.setAttribute("aria-hidden", "true");
+      host.appendChild(canvas);
+    }
+    ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return;
+    sticky.classList.add("is-ascii-on");
+    resizeFallback();
+    startLoop();
+  }
+
+  async function startGpu() {
+    if (disposed || reduceCanvas || !host || !canWebGpu()) {
+      startFallback();
+      return;
+    }
+    try {
+      const [{ createRoot }, { default: AiIntroSynthesis }] = await Promise.all([
+        import("react-dom/client"),
+        import("./AiIntroSynthesis.jsx"),
+      ]);
+      if (disposed || reduceCanvas) return;
+      reactRoot = createRoot(host);
+      reactRoot.render(
+        createElement(AiIntroSynthesis, {
+          onReady() {
+            if (disposed) return;
+            gpuOn = true;
+            sticky.classList.add("is-ascii-on");
+          },
+          onUnavailable(reason) {
+            console.warn("[ai-intro] Synthesis GPU unavailable:", reason);
+            if (!disposed) startFallback();
+          },
+        })
+      );
+    } catch (err) {
+      startFallback();
+    }
+  }
+
   function onScroll() {
     if (isMobileLayout()) {
       p = 0;
@@ -174,7 +246,7 @@ export function mount() {
     }
     p = exitProgress(track);
     applyExit(p);
-    if (reduceCanvas) return;
+    if (reduceCanvas || gpuOn) return;
     if (p < 0.995) drawnOut = false;
     if (visible && !document.hidden) startLoop();
   }
@@ -183,28 +255,27 @@ export function mount() {
     reduceCanvas = shouldReduceFx() || prefersReducedMotion() || isMobileLayout();
     if (reduceCanvas) {
       stopLoop();
+      unmountGpu();
       sticky.classList.remove("is-ascii-on");
-      if (canvas) {
-        canvas.style.display = "none";
-        if (ctx && cssW) ctx.clearRect(0, 0, cssW, cssH);
-      }
+      if (host) host.style.display = "none";
+      if (ctx && cssW) ctx.clearRect(0, 0, cssW, cssH);
       onScroll();
       return;
     }
-    if (canvas) canvas.style.display = "";
+    if (host) host.style.display = "";
+    if (gpuOn) {
+      onScroll();
+      return;
+    }
     if (ctx) {
-      resize();
+      resizeFallback();
       drawnOut = false;
       onScroll();
       startLoop();
+      return;
     }
-  }
-
-  if (canvas) {
-    ctx = canvas.getContext("2d", { alpha: false });
-    if (!ctx) reduceCanvas = true;
-  } else {
-    reduceCanvas = true;
+    startGpu();
+    onScroll();
   }
 
   const unLenis = hookLenisWhenReady(onScroll);
@@ -255,8 +326,8 @@ export function mount() {
   let ro = null;
   if (typeof ResizeObserver !== "undefined") {
     ro = new ResizeObserver(() => {
-      if (reduceCanvas) return;
-      resize();
+      if (reduceCanvas || gpuOn) return;
+      resizeFallback();
       drawnOut = false;
       if (!running) draw(performance.now());
     });
@@ -269,7 +340,9 @@ export function mount() {
   onScroll();
 
   return function dispose() {
+    disposed = true;
     stopLoop();
+    unmountGpu();
     unLenis();
     if (io) io.disconnect();
     document.removeEventListener("visibilitychange", onVis);

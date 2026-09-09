@@ -1,18 +1,27 @@
 import { clamp } from "../utils.js";
+import {
+  DISTORT,
+  FLOW_BACK,
+  GRAIN_BIAS,
+  GRAIN_STRENGTH,
+  WAVE_A,
+  WAVE_B,
+  WAVE_BLUE,
+  WAVE_PINK,
+} from "./ai-intro-synthesis-preset.js";
 
 /**
- * Synthesis 1 stack (shaders.com collection payload, not Pro GLSL):
- * SolidColor #08071a
- * → WaveDistortion (angle 299°, sine)
- * → two SineWave glows (#0582e8, #f00e94), OKLCH-ish / screen mix
- * → FilmGrain strength 0.07, bias toward dark
+ * CPU stand-in of Synthesis 1 when WebGPU is unavailable.
+ * Official look is shaders/react (OKLCH waves + WaveDistortion + FilmGrain).
  */
 
-export const FLOW_BACK = [0.031, 0.027, 0.102]; // #08071a
-export const WAVE_BLUE = [0.02, 0.51, 0.91]; // #0582e8
-export const WAVE_PINK = [0.941, 0.055, 0.58]; // #f00e94
-export const GRAIN_STRENGTH = 0.07;
-export const GRAIN_BIAS = 2;
+export {
+  FLOW_BACK,
+  GRAIN_BIAS,
+  GRAIN_STRENGTH,
+  WAVE_BLUE,
+  WAVE_PINK,
+};
 
 function clamp01(n) {
   return clamp(n, 0, 1);
@@ -65,8 +74,9 @@ export function sineWave(uv, t, w) {
   const rad = (w.angle * Math.PI) / 180;
   const ca = Math.cos(rad);
   const sa = Math.sin(rad);
-  const dx = uv.x - w.pos.x;
-  const dy = uv.y - w.pos.y;
+  const pos = w.position || w.pos;
+  const dx = uv.x - pos.x;
+  const dy = uv.y - pos.y;
   const x = dx * ca + dy * sa;
   const y = -dx * sa + dy * ca;
   const wave =
@@ -75,44 +85,18 @@ export function sineWave(uv, t, w) {
   return 1 - smoothstep(0, Math.max(w.softness, 1e-4), dist);
 }
 
-function screenMix(base, col, a) {
+/** normal blend (official waves use normal-oklch; RGB lerp is the CPU stand-in). */
+function normalMix(base, col, a) {
   const k = clamp01(a);
   return [
-    1 - (1 - base[0]) * (1 - col[0] * k),
-    1 - (1 - base[1]) * (1 - col[1] * k),
-    1 - (1 - base[2]) * (1 - col[2] * k),
+    base[0] + (col[0] - base[0]) * k,
+    base[1] + (col[1] - base[1]) * k,
+    base[2] + (col[2] - base[2]) * k,
   ];
 }
 
-const DISTORT = {
-  angle: 299,
-  frequency: 0.85,
-  strength: 0.42,
-  speed: 0.55,
-  edges: "stretch",
-};
-
-const WAVE_A = {
-  color: WAVE_BLUE,
-  pos: { x: 0.64, y: 0.62 },
-  angle: 12,
-  amplitude: 0.38,
-  frequency: 0.38,
-  speed: 0.62,
-  thickness: 0.92,
-  softness: 0.55,
-};
-
-const WAVE_B = {
-  color: WAVE_PINK,
-  pos: { x: 0.42, y: 0.5 },
-  angle: 77,
-  amplitude: 0.42,
-  frequency: 0.34,
-  speed: 0.48,
-  thickness: 0.86,
-  softness: 0.54,
-};
+const WAVE_A_CPU = { ...WAVE_A, color: WAVE_BLUE, pos: WAVE_A.position };
+const WAVE_B_CPU = { ...WAVE_B, color: WAVE_PINK, pos: WAVE_B.position };
 
 /**
  * Time-shifted Synthesis stack (no grain).
@@ -123,10 +107,8 @@ const WAVE_B = {
 export function flowingGradient(uv, t) {
   const d = waveDistort(uv, t, DISTORT);
   let rgb = FLOW_BACK.slice();
-  const a = sineWave(d, t, WAVE_A);
-  const b = sineWave(d, t, WAVE_B);
-  rgb = screenMix(rgb, WAVE_A.color, a);
-  rgb = screenMix(rgb, WAVE_B.color, b);
+  rgb = normalMix(rgb, WAVE_A_CPU.color, sineWave(d, t, WAVE_A_CPU));
+  rgb = normalMix(rgb, WAVE_B_CPU.color, sineWave(d, t, WAVE_B_CPU));
   return rgb;
 }
 

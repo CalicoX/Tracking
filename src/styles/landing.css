@@ -5661,10 +5661,8 @@
       text-align: center;
       overflow: hidden;
       isolation: isolate;
-      background:
-        radial-gradient(ellipse 80% 55% at 50% 42%, rgba(88, 40, 140, 0.2), transparent 65%),
-        radial-gradient(ellipse 50% 40% at 80% 20%, rgba(76, 29, 149, 0.12), transparent 55%),
-        linear-gradient(180deg, #0a0514 0%, #0e081c 48%, #090412 100%);
+      /* Synthesis 1 SolidColor — stay opaque (don't clear when shader mounts) */
+      background: #08071a;
       transition: none;
       z-index: 1;
     }
@@ -5679,7 +5677,9 @@
       pointer-events: none;
       opacity: var(--intro-fade, 1);
     }
-    .ai-intro-ascii {
+    .ai-intro-ascii,
+    .ai-intro-ascii .shader,
+    .ai-intro-ascii canvas {
       position: absolute;
       inset: 0;
       z-index: 0;
