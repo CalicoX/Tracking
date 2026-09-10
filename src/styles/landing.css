@@ -5778,7 +5778,13 @@
           ellipse 72% 58% at 50% 48%,
           rgba(8, 7, 26, 0.72) 0%,
           rgba(8, 7, 26, 0.38) 46%,
-          transparent 78%
+          transparent 70%
+        ),
+        radial-gradient(
+          ellipse 88% 78% at 50% 50%,
+          transparent 30%,
+          rgba(8, 7, 26, 0.48) 62%,
+          rgba(8, 7, 26, 0.82) 100%
         );
     }
     .ai-lab-intro-inner {

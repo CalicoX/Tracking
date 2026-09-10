@@ -66,3 +66,10 @@ export const GRAIN = {
 
 export const GRAIN_STRENGTH = GRAIN.strength;
 export const GRAIN_BIAS = GRAIN.bias;
+
+/* Park 09-10：减少亮色范围。官方 wave 数字不动，只在绘制时收覆盖、加快衰减。 */
+export const GLOW_SPREAD = 0.56;
+export const GLOW_POW = 1.55;
+export const VIGNETTE_INNER = 0.34;
+export const VIGNETTE_OUTER = 0.9;
+export const VIGNETTE_AMT = 0.6;

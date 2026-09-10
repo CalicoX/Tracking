@@ -1,7 +1,12 @@
 import {
   DISTORT,
   FLOW_BACK,
+  GLOW_POW,
+  GLOW_SPREAD,
   GRAIN_STRENGTH,
+  VIGNETTE_AMT,
+  VIGNETTE_INNER,
+  VIGNETTE_OUTER,
   WAVE_A,
   WAVE_B,
   WAVE_BLUE,
@@ -38,7 +43,7 @@ vec3 punchLin(vec3 lin){
   return clamp(y + (lin - vec3(y)) * 1.85, 0.0, 1.0);
 }
 vec3 addGlow(vec3 base, vec3 col, float a){
-  a = pow(clamp(a, 0.0, 1.0), 1.28);
+  a = pow(clamp(a, 0.0, 1.0), ${GLOW_POW.toFixed(4)});
   vec3 glow = punchLin(srgbToLin(col)) * a * 0.7;
   return clamp(linToSrgb(srgbToLin(base) + glow), 0.0, 1.0);
 }
@@ -63,8 +68,8 @@ float sineMask(vec2 uv, vec2 pos, float angle, float freq, float amp, float thic
   vec2 r = vec2(d.x * ca - d.y * sa, d.x * sa + d.y * ca);
   float wave = sin(r.x * freq * TAU + anim) * amp;
   float dist = abs(r.y - wave);
-  float ht = thick * 0.5;
-  float hs = soft * 0.5;
+  float ht = thick * 0.5 * ${GLOW_SPREAD.toFixed(4)};
+  float hs = soft * 0.5 * ${GLOW_SPREAD.toFixed(4)};
   return 1.0 - smoothstep(ht - hs, ht + hs, dist);
 }
 
@@ -105,6 +110,9 @@ void main(){
   );
   rgb = addGlow(rgb, BLUE, a1);
   rgb = addGlow(rgb, PINK, a2);
+  float vig = smoothstep(${VIGNETTE_INNER.toFixed(4)}, ${VIGNETTE_OUTER.toFixed(4)},
+    length((uv - vec2(0.5)) * vec2(1.12, 1.0)));
+  rgb = mix(rgb, BACK, vig * ${VIGNETTE_AMT.toFixed(4)});
 
   /* 1 CSS px (official viewport). Authored 0.07 — official also *0.1 is invisible here. */
   float lum = clamp(dot(rgb, vec3(0.2126, 0.7152, 0.0722)), 0.0, 1.0);

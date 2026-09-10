@@ -2,8 +2,13 @@ import { clamp } from "../utils.js";
 import {
   DISTORT,
   FLOW_BACK,
+  GLOW_POW,
+  GLOW_SPREAD,
   GRAIN_BIAS,
   GRAIN_STRENGTH,
+  VIGNETTE_AMT,
+  VIGNETTE_INNER,
+  VIGNETTE_OUTER,
   WAVE_A,
   WAVE_B,
   WAVE_BLUE,
@@ -71,8 +76,8 @@ export function sineWave(uv, t, w, viewport = DEFAULT_VIEW) {
   const ry = dx * sa + dy * ca;
   const wave = Math.sin(rx * w.frequency * TAU + t * w.speed) * w.amplitude;
   const dist = Math.abs(ry - wave);
-  const halfT = w.thickness * 0.5;
-  const halfS = w.softness * 0.5;
+  const halfT = w.thickness * 0.5 * GLOW_SPREAD;
+  const halfS = w.softness * 0.5 * GLOW_SPREAD;
   return 1 - smoothstep(halfT - halfS, halfT + halfS, dist);
 }
 
@@ -90,7 +95,7 @@ function punchLin(lin) {
   return lin.map((c) => clamp01(y + (c - y) * 1.85));
 }
 function addGlow(base, col, a) {
-  const k = clamp01(a) ** 1.28;
+  const k = clamp01(a) ** GLOW_POW;
   const glow = punchLin(col.map(srgbToLinear)).map((c) => c * k * 0.7);
   const out = [0, 0, 0];
   for (let i = 0; i < 3; i++) {
@@ -108,7 +113,15 @@ export function flowingGradient(uv, t, viewport = DEFAULT_VIEW) {
   let rgb = FLOW_BACK.slice();
   rgb = addGlow(rgb, WAVE_A_CPU.color, sineWave(d, t, WAVE_A_CPU, viewport));
   rgb = addGlow(rgb, WAVE_B_CPU.color, sineWave(d, t, WAVE_B_CPU, viewport));
-  return rgb;
+  const dx = (uv.x - 0.5) * 1.12;
+  const dy = uv.y - 0.5;
+  const vig = smoothstep(VIGNETTE_INNER, VIGNETTE_OUTER, Math.hypot(dx, dy));
+  const k = vig * VIGNETTE_AMT;
+  return [
+    rgb[0] + (FLOW_BACK[0] - rgb[0]) * k,
+    rgb[1] + (FLOW_BACK[1] - rgb[1]) * k,
+    rgb[2] + (FLOW_BACK[2] - rgb[2]) * k,
+  ];
 }
 
 export function sampleIntroFlow(uv, t, grainUv = null, viewport = DEFAULT_VIEW) {
