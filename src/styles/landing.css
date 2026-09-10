@@ -3175,7 +3175,7 @@
     .features-section .feature-cta .btn-demo {
       flex: 0 1 auto;
     }
-    /* body row: left copy centered as a fixed-height block; CTA pinned inside it */
+    /* 左栏文案+CTA 是一块：list 锁最宽展开高，CTA 跟在后面 24px */
     .feature-layout {
       display: grid;
       grid-template-columns: minmax(340px, 42%) minmax(0, 1fr);
@@ -3189,7 +3189,7 @@
     .feature-side-wrap {
       min-width: 0;
       min-height: 0;
-      height: var(--feature-side-h, auto);
+      height: auto;
       max-height: 100%;
       display: flex;
       flex-direction: column;
@@ -3205,9 +3205,9 @@
       max-height: none;
       overflow: visible;
       background: transparent;
-      flex: 1 1 auto;
+      flex: 0 0 auto;
       min-height: 0;
-      height: 100%;
+      height: auto;
     }
     .feature-list {
       display: grid;
@@ -3217,15 +3217,14 @@
       align-content: start;
       grid-auto-rows: auto;
       box-sizing: border-box;
-      height: auto;
+      height: var(--feature-list-h, auto);
     }
     .feature-list.is-measuring .feature-desc,
     .feature-list.is-measuring .feature-points {
       transition: none !important;
     }
-    /* 钉在左栏底，切换手风琴时坐标不变 */
     .feature-side .feature-cta {
-      margin-top: auto;
+      margin-top: 24px;
       padding-top: 0;
     }
     /* right: clipped viewport; height set by JS to panelH, then centered */
@@ -3713,14 +3712,14 @@
     .feature-points {
       transition: grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
     }
-    /* 左栏手风琴下方的 CTA 组。margin 只留 auto，24px 会把钉底顶掉 */
+    /* 左栏手风琴下方的 CTA 组。跟文字一组，间距 24；list 已锁高所以按钮不跑 */
     .feature-side .feature-cta {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
       justify-content: flex-start;
-      margin-top: auto;
+      margin-top: 24px;
       padding: 0;
     }
     .feature-side .feature-cta .btn-switch,

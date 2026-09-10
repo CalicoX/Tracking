@@ -294,6 +294,7 @@ export function mount() {
           if (panelsCol) panelsCol.style.height = "";
           section.style.removeProperty("--feature-panel-h");
           section.style.removeProperty("--feature-side-h");
+          section.style.removeProperty("--feature-list-h");
           panels.forEach(function (p) {
             p.style.height = "";
             p.style.removeProperty("--fp-blur");
@@ -338,18 +339,16 @@ export function mount() {
         track.style.height = stickyH + travelPx + "px";
       }
 
-      /* Lock left column to the tallest expanded accordion so CTA does not
-         move, then CSS centers that shorter block (full panelH sits too high). */
+      /* Lock accordion list to the tallest expanded height so the CTA
+         (24px below the list) stays put. Copy + buttons stay one block. */
       function measureSideHeight() {
         var list = section.querySelector(".feature-list");
-        var cta = section.querySelector(".feature-side .feature-cta");
-        var wrap = section.querySelector(".feature-side-wrap");
-        if (!list || !cta) return;
+        if (!list) return;
         var prev = [];
         buttons.forEach(function (b) {
           prev.push(b.classList.contains("active"));
         });
-        if (wrap) wrap.style.height = "auto";
+        list.style.height = "auto";
         list.classList.add("is-measuring");
         var maxH = 0;
         buttons.forEach(function (b, i) {
@@ -357,17 +356,17 @@ export function mount() {
             x.classList.toggle("active", j === i);
           });
           void list.offsetHeight;
-          var h = list.getBoundingClientRect().height + cta.getBoundingClientRect().height;
+          var h = list.getBoundingClientRect().height;
           if (h > maxH) maxH = h;
         });
         buttons.forEach(function (b, i) {
           b.classList.toggle("active", prev[i]);
         });
         list.classList.remove("is-measuring");
-        if (wrap) wrap.style.height = "";
-        var sideH = Math.round(maxH + 24);
-        if (panelH) sideH = Math.min(panelH, sideH);
-        section.style.setProperty("--feature-side-h", sideH + "px");
+        list.style.height = "";
+        var listH = Math.round(maxH);
+        if (panelH) listH = Math.min(panelH, listH);
+        section.style.setProperty("--feature-list-h", listH + "px");
       }
 
       function stridePx() {
