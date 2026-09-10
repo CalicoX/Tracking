@@ -4291,6 +4291,27 @@
       height: auto;
       transform-style: preserve-3d;
     }
+    .feature-stage[data-theme="branded"] .fx-mock {
+      height: 100%;
+      width: 100%;
+    }
+    .fx-hero-page {
+      width: 100%;
+      max-width: 540px;
+      height: 100%;
+      max-height: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 18px;
+      -webkit-mask-image: linear-gradient(#000 76%, transparent);
+      mask-image: linear-gradient(#000 76%, transparent);
+    }
+    .fx-hero-page .browser {
+      max-width: none;
+    }
+    .fx-hero-page .os-look {
+      display: none;
+    }
 
     /* Last-mile — light cards, no stage chrome */
     .fx-lm-mail,
@@ -11074,6 +11095,9 @@
       .fx-br-stage {
         max-width: min(540px, 100%);
       }
+      .fx-hero-page {
+        max-width: min(540px, 100%);
+      }
       .fx-br-form {
         min-width: min(280px, 100%);
         flex: 1 1 auto;
@@ -11598,6 +11622,9 @@
 
       /* Branded: keep desktop side-overlap, but don't stretch the form.
          Track CTA stays readable; color wheel stays inside the column. */
+      .fx-hero-page {
+        max-width: 400px;
+      }
       .fx-br-stage {
         width: max-content;
         max-width: 100%;
@@ -12013,6 +12040,11 @@
         position: absolute;
         right: 8px;
         top: 10px;
+      }
+      .fx-hero-page {
+        max-width: 100%;
+        height: 340px;
+        max-height: 340px;
       }
       .fx-br-stage {
         flex-direction: row;

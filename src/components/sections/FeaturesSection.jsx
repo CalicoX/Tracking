@@ -1,3 +1,5 @@
+import HeroTrackingMock from "../HeroTrackingMock.jsx";
+
 /** Presentational section: FeaturesSection */
 export default function FeaturesSection() {
   return (
@@ -65,50 +67,18 @@ export default function FeaturesSection() {
                 </div>{/* /.feature-side-wrap */}
                 <div className="feature-panels-col">
                   <div className="feature-panels" id="feature-panels">
-                  {/* 0 · Branded tracking page — AURA form + recommendations + color wheel */}
+                  {/* 0 · Branded tracking page — same OGL mock as the hero */}
                   <article className="feature-panel is-active" data-feature="0" id="feature-panel-0" role="tabpanel" aria-labelledby="feature-tab-0">
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 1, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                          <div className="fx-br-stage">
-                            <div className="fx-glass fx-br-form">
-                              <div className="fx-br-accent" />
-                              <div className="fx-br-brand">
-                                <span className="fx-br-mark">A</span>
-                                <span className="fx-br-shop">AURA</span>
-                                <span className="fx-br-dots" aria-hidden="true">
-                                  <i /><i /><i />
-                                </span>
-                              </div>
-                              <h4>Track your order</h4>
-                              <span className="fx-br-label">Order number</span>
-                              <div className="fx-br-field" />
-                              <span className="fx-br-label">Email</span>
-                              <div className="fx-br-field" />
-                              <span className="fx-br-cta">Track</span>
-                              <div className="fx-br-status">
-                                <i />
-                                <span>On the way · Thu 4–6pm</span>
-                                <em>Live</em>
-                              </div>
-                              <div className="fx-br-store">Visit store</div>
+                            <div className="fx-hero-page">
+                              <HeroTrackingMock />
                             </div>
-                            <div className="fx-glass fx-br-recs">
-                              <strong>You may also like</strong>
-                              <span className="fx-br-recs-sub">From this order</span>
-                              <div className="fx-br-grid">
-                                <img src="/assets/products/earbuds.jpg" alt="" />
-                                <img src="/assets/products/case.jpg" alt="" />
-                                <img src="/assets/products/tips.jpg" alt="" />
-                                <img src="/assets/products/earbuds.jpg" alt="" style={{ objectPosition: "70% 40%" }} />
-                              </div>
-                            </div>
-                            <div className="fx-br-wheel" />
-                          </div>
                           </div>
                         </div>
-</div>
+                      </div>
                     </div>
                   </article>
                   {/* 1 · Branded email notification — 17TRACK email + tracking info card + carrier tiles */}

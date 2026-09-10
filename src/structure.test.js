@@ -140,9 +140,9 @@ describe("React landing structure (gating)", () => {
     expect(features).toMatch(/feature-desc/);
     expect(features).toMatch(/Last-mile Carrier/);
     expect(features).toMatch(/Package #1/);
-    expect(features).toMatch(/You may also like/);
-    expect(features).toMatch(/Visit store/);
-    expect(features).toMatch(/fx-br-brand/);
+    expect(features).toMatch(/HeroTrackingMock/);
+    expect(features).toMatch(/fx-hero-page/);
+    expect(features).not.toMatch(/fx-br-brand/);
     const impact = read("components/sections/ImpactBand.jsx");
     expect(impact).toMatch(/business-impact|data-impact/);
     const dock = read("components/layout/ProductDock.jsx");
@@ -342,8 +342,9 @@ describe("React landing structure (gating)", () => {
     const i1024feat = css.indexOf("/* 769–1024 two-column Features");
     expect(i1024feat).toBeGreaterThan(-1);
     const block1024feat = css.slice(i1024feat, i1024feat + 900);
-    expect(block1024feat).toMatch(/\.fx-br-form/);
+    expect(block1024feat).toMatch(/\.fx-hero-page/);
     expect(block1024feat).toMatch(/min-width:\s*min\(280px/);
+    expect(block768).toMatch(/\.fx-hero-page/);
     expect(block768).toMatch(/\.fx-br-form/);
     expect(block768).toMatch(/width:\s*264px/);
     expect(block768).toMatch(/margin-left:\s*-24px/);
