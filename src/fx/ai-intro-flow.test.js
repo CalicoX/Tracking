@@ -56,7 +56,8 @@ describe("sampleIntroFlow (shipped intro bg)", () => {
     const gl = readFileSync(join(process.cwd(), "src/fx/modules/ai-intro-flow-gl.js"), "utf8");
     const ascii = readFileSync(join(process.cwd(), "src/fx/modules/ai-intro-ascii.js"), "utf8");
     expect(gl).toMatch(/inkField/);
-    expect(gl).toMatch(/uTrail\[10\]/);
+    expect(gl).toMatch(/uTrail\[16\]/);
+    expect(gl).toMatch(/flowDir/);
     expect(gl).toMatch(/setPointer/);
     expect(gl).not.toMatch(/inkCol/);
     expect(ascii).toMatch(/pointermove/);

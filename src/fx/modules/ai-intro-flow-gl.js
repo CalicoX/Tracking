@@ -27,7 +27,8 @@ uniform float uDpr;
 uniform vec2 uMouse;
 uniform vec2 uVel;
 uniform float uInk;
-uniform vec2 uTrail[10];
+uniform vec2 uFlow;
+uniform vec2 uTrail[16];
 
 const float TAU = 6.28318530718;
 const vec3 BACK = vec3(${FLOW_BACK[0]}, ${FLOW_BACK[1]}, ${FLOW_BACK[2]});
@@ -84,37 +85,65 @@ float filmGrain(vec2 pixel){
 }
 
 float inkField(vec2 uv){
+  if (uInk < 0.001) return 0.0;
   float m = 0.0;
-  float spd = length(uVel);
-  for (int i = 0; i < 9; i++){
+  float spd = length(uVel) + length(uFlow);
+  for (int i = 0; i < 15; i++){
     vec2 a = uTrail[i];
     vec2 b = uTrail[i + 1];
     vec2 pa = uv - a;
     vec2 ba = b - a;
     float h = clamp(dot(pa, ba) / max(dot(ba, ba), 1e-5), 0.0, 1.0);
     float d = length(pa - ba * h);
-    float w = mix(0.2, 0.07, float(i) / 9.0) + spd * 0.28;
+    float w = mix(0.34, 0.11, float(i) / 15.0) + spd * 0.55;
     m = max(m, exp(-(d * d) / max(w * w, 1e-6)));
   }
   vec2 hm = uv - uMouse;
-  m = max(m, exp(-dot(hm, hm) / 0.018));
-  return pow(m * uInk, 0.62);
+  m = max(m, exp(-dot(hm, hm) / 0.05));
+  return pow(clamp(m * uInk, 0.0, 1.0), 0.48);
+}
+
+vec2 flowDir(vec2 uv, float t){
+  vec2 acc = vec2(0.0);
+  float wsum = 0.0;
+  for (int i = 0; i < 15; i++){
+    vec2 a = uTrail[i];
+    vec2 b = uTrail[i + 1];
+    vec2 pa = uv - a;
+    vec2 ba = b - a;
+    float h = clamp(dot(pa, ba) / max(dot(ba, ba), 1e-5), 0.0, 1.0);
+    float d = length(pa - ba * h);
+    float w = mix(0.34, 0.11, float(i) / 15.0);
+    float k = exp(-(d * d) / max(w * w, 1e-6));
+    vec2 tang = normalize(ba + vec2(1e-5, 0.0));
+    vec2 nrm = vec2(tang.y, -tang.x);
+    acc += (tang * 0.42 + nrm * 0.95) * k;
+    wsum += k;
+  }
+  vec2 wake = wsum > 0.0 ? acc / wsum : vec2(0.0);
+  vec2 c1 = vec2(
+    sin(uv.y * 8.5 + t * 1.15 + uv.x * 3.2),
+    cos(uv.x * 7.5 - t * 0.95 + uv.y * 4.1)
+  );
+  vec2 c2 = vec2(
+    cos(uv.y * 13.0 - t * 1.55 + uFlow.x * 4.0),
+    sin(uv.x * 12.0 + t * 1.35 + uFlow.y * 4.0)
+  );
+  return wake * 1.55 + uFlow * 1.15 + uVel * 0.65 + c1 * 0.28 + c2 * 0.16;
 }
 
 void main(){
   vec2 res = max(uRes, vec2(1.0));
   vec2 uv = gl_FragCoord.xy / res;
   float aspect = res.x / res.y;
-  float ink = inkField(uv);
-  vec2 swirl = vec2(uVel.y, -uVel.x);
-  vec2 fromM = uv - uMouse;
-  float n = filmGrain(uv * res * 0.07 + uTime * 28.0);
-  vec2 flowUv = uv
-    + swirl * ink * 0.62
-    - uVel * ink * 0.85
-    + normalize(fromM + vec2(1e-4)) * ink * 0.07
-    + vec2(n, -n) * ink * 0.045;
-  vec2 dUv = waveDistort(flowUv, aspect, uTime);
+  vec2 p = uv;
+  if (uInk > 0.001) {
+    for (int s = 0; s < 5; s++){
+      float k = inkField(p) * (1.0 - float(s) * 0.08);
+      p -= flowDir(p, uTime) * k * 0.16;
+    }
+  }
+  vec2 dUv = waveDistort(p, aspect, uTime + inkField(p) * 0.55);
 
   vec3 rgb = BACK;
   float a1 = sineMask(
@@ -212,12 +241,13 @@ export function createIntroFlowGl(canvas, sizeEl) {
   const uMouse = gl.getUniformLocation(prog, "uMouse");
   const uVel = gl.getUniformLocation(prog, "uVel");
   const uInk = gl.getUniformLocation(prog, "uInk");
+  const uFlow = gl.getUniformLocation(prog, "uFlow");
   const uTrail0 = gl.getUniformLocation(prog, "uTrail[0]");
 
   let cssW = 0;
   let cssH = 0;
   let dpr = 1;
-  const TRAIL_N = 10;
+  const TRAIL_N = 16;
   const trail = new Float32Array(TRAIL_N * 2);
   for (let i = 0; i < TRAIL_N; i++) {
     trail[i * 2] = 0.5;
@@ -231,6 +261,8 @@ export function createIntroFlowGl(canvas, sizeEl) {
   let prevY = 0.5;
   let velX = 0;
   let velY = 0;
+  let flowX = 0;
+  let flowY = 0;
   let ink = 0;
   let hovering = false;
   let armed = false;
@@ -257,26 +289,35 @@ export function createIntroFlowGl(canvas, sizeEl) {
   }
 
   function stepInk() {
-    if (hovering) ink += (1 - ink) * 0.2;
-    else ink *= 0.955;
-    if (ink < 0.002) {
+    if (hovering) ink += (1 - ink) * 0.14;
+    else ink *= 0.988;
+    if (ink < 0.0015) {
       ink = 0;
       armed = hovering ? armed : false;
     }
     prevX = mouseX;
     prevY = mouseY;
-    mouseX += (targetX - mouseX) * 0.42;
-    mouseY += (targetY - mouseY) * 0.42;
+    mouseX += (targetX - mouseX) * 0.22;
+    mouseY += (targetY - mouseY) * 0.22;
     velX = mouseX - prevX;
     velY = mouseY - prevY;
-    trail[0] += (mouseX - trail[0]) * 0.55;
-    trail[1] += (mouseY - trail[1]) * 0.55;
+    flowX += velX * 2.4;
+    flowY += velY * 2.4;
+    flowX *= 0.968;
+    flowY *= 0.968;
+    trail[0] += (mouseX - trail[0]) * 0.2;
+    trail[1] += (mouseY - trail[1]) * 0.2;
     for (let i = 1; i < TRAIL_N; i++) {
       const ox = (i - 1) * 2;
       const ix = i * 2;
-      trail[ix] += (trail[ox] - trail[ix]) * 0.38;
-      trail[ix + 1] += (trail[ox + 1] - trail[ix + 1]) * 0.38;
+      const follow = 0.09 + (1 - i / TRAIL_N) * 0.05;
+      trail[ix] += (trail[ox] - trail[ix]) * follow;
+      trail[ix + 1] += (trail[ox + 1] - trail[ix + 1]) * follow;
     }
+  }
+
+  function isFlowing() {
+    return ink > 0.002 || hovering;
   }
 
   function resize() {
@@ -310,6 +351,7 @@ export function createIntroFlowGl(canvas, sizeEl) {
     gl.uniform1f(uDpr, dpr);
     gl.uniform2f(uMouse, mouseX, mouseY);
     gl.uniform2f(uVel, velX, velY);
+    gl.uniform2f(uFlow, flowX, flowY);
     gl.uniform1f(uInk, ink);
     if (uTrail0) gl.uniform2fv(uTrail0, trail);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -321,5 +363,5 @@ export function createIntroFlowGl(canvas, sizeEl) {
   }
 
   resize();
-  return { draw, resize, dispose, setPointer };
+  return { draw, resize, dispose, setPointer, isFlowing };
 }

@@ -171,7 +171,8 @@ export function mount() {
       running = false;
       return;
     }
-    if (lastDraw && now - lastDraw < 32) {
+    var minDt = glApi && glApi.isFlowing && glApi.isFlowing() ? 0 : 32;
+    if (lastDraw && now - lastDraw < minDt) {
       raf = requestAnimationFrame(loop);
       return;
     }
