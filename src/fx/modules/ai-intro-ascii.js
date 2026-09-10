@@ -20,6 +20,13 @@ const FIELD_H = 144;
 const MATRIX_GLYPHS = "+*#=-.|:";
 const MATRIX_ROWS = 42;
 const MATRIX_COLS = 88;
+const CELL_W = 16;
+const CELL_H = 22;
+const FONT_PX = 14;
+const EMPTY_PCT = 62;
+const SLIDE_RADIUS = 260;
+const SLIDE_PUSH = 48;
+const SLIDE_DRAG = 5.2;
 
 function smoothstep(a, b, t) {
   const x = Math.max(0, Math.min(1, (t - a) / Math.max(b - a, 1e-6)));
@@ -75,14 +82,26 @@ export function mount() {
   const matrixA = matrix && matrix.querySelector(".ai-intro-matrix-a");
   const matrixB = matrix && matrix.querySelector(".ai-intro-matrix-b");
   let matrixFilled = false;
+  let matrixKey = "";
+  let matrixFx = null;
+  let ptrTx = 0;
+  let ptrTy = 0;
+  let ptrMx = 0;
+  let ptrMy = 0;
+  let ptrVx = 0;
+  let ptrVy = 0;
+  let ptrInf = 0;
+  let ptrHover = false;
 
-  function makeMatrix(seed) {
+  function makeMatrix(seed, rows, cols) {
+    const rr = rows || MATRIX_ROWS;
+    const cc = cols || MATRIX_COLS;
     let out = "";
     let s = seed | 0;
-    for (let r = 0; r < MATRIX_ROWS; r++) {
-      for (let c = 0; c < MATRIX_COLS; c++) {
+    for (let r = 0; r < rr; r++) {
+      for (let c = 0; c < cc; c++) {
         s = (Math.imul(s, 1664525) + 1013904223) | 0;
-        if ((s >>> 0) % 100 < 64) out += " ";
+        if ((s >>> 0) % 100 < EMPTY_PCT) out += " ";
         else out += MATRIX_GLYPHS[(Math.abs(s) + r * 17 + c * 31) % MATRIX_GLYPHS.length];
       }
       out += "\n";
@@ -91,12 +110,20 @@ export function mount() {
   }
 
   function fillMatrix() {
-    if (matrixFilled || !matrixA || !matrixB || isMobileLayout()) return;
-    const a = makeMatrix(42);
-    const b = makeMatrix(917);
+    if (!matrixA || !matrixB || isMobileLayout()) return;
+    const rect = sticky.getBoundingClientRect();
+    const w = Math.max(1, rect.width || window.innerWidth || 1);
+    const h = Math.max(1, rect.height || window.innerHeight || 1);
+    const cols = Math.max(MATRIX_COLS, Math.ceil(w / CELL_W) + 8);
+    const rows = Math.max(MATRIX_ROWS, Math.ceil((h * 2.15) / CELL_H) + 4);
+    const key = cols + "x" + rows;
+    if (matrixFilled && matrixKey === key) return;
+    const a = makeMatrix(42, rows, cols);
+    const b = makeMatrix(917, rows, cols);
     matrixA.textContent = a + a;
     matrixB.textContent = b + b;
     matrixFilled = true;
+    matrixKey = key;
   }
 
   function clearMatrix() {
@@ -104,6 +131,189 @@ export function mount() {
     if (matrixA) matrixA.textContent = "";
     if (matrixB) matrixB.textContent = "";
     matrixFilled = false;
+    matrixKey = "";
+  }
+
+  function glyphIndex(col, row, seed) {
+    let s = Math.imul(col + seed, 1664525) + Math.imul(row + 17, 1013904223);
+    s = s | 0;
+    if ((s >>> 0) % 100 < EMPTY_PCT) return -1;
+    return (Math.abs(s) + row * 17 + col * 31) % MATRIX_GLYPHS.length;
+  }
+
+  function makeAtlas(color, dpr) {
+    const n = MATRIX_GLYPHS.length;
+    const cw = Math.max(1, Math.ceil(CELL_W * dpr));
+    const ch = Math.max(1, Math.ceil(CELL_H * dpr));
+    const sheet = document.createElement("canvas");
+    sheet.width = cw * n;
+    sheet.height = ch;
+    const g = sheet.getContext("2d");
+    if (!g) return null;
+    g.font =
+      "500 " +
+      Math.round(FONT_PX * dpr) +
+      'px ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace';
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    g.fillStyle = color;
+    for (let i = 0; i < n; i++) {
+      g.fillText(MATRIX_GLYPHS[i], (i + 0.5) * cw, ch * 0.56);
+    }
+    return { sheet, cw, ch };
+  }
+
+  function destroyMatrixFx() {
+    if (!matrixFx) return;
+    if (matrixFx.canvas && matrixFx.canvas.parentNode) {
+      matrixFx.canvas.parentNode.removeChild(matrixFx.canvas);
+    }
+    if (matrix) matrix.classList.remove("is-live");
+    matrixFx = null;
+  }
+
+  function ensureMatrixFx() {
+    if (matrixFx) return matrixFx;
+    if (!matrix || reduceCanvas) return null;
+    const c = document.createElement("canvas");
+    c.className = "ai-intro-matrix-fx";
+    c.setAttribute("aria-hidden", "true");
+    matrix.appendChild(c);
+    const c2 = c.getContext("2d", { alpha: true });
+    if (!c2) {
+      if (c.parentNode) c.parentNode.removeChild(c);
+      return null;
+    }
+    matrixFx = {
+      canvas: c,
+      ctx: c2,
+      atlasA: null,
+      atlasB: null,
+      cssW: 0,
+      cssH: 0,
+      dpr: 1,
+    };
+    matrix.classList.add("is-live");
+    return matrixFx;
+  }
+
+  function resizeMatrix() {
+    const fx = ensureMatrixFx();
+    if (!fx) return;
+    const rect = sticky.getBoundingClientRect();
+    const w = Math.max(1, Math.round(rect.width));
+    const h = Math.max(1, Math.round(rect.height));
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (w === fx.cssW && h === fx.cssH && fx.dpr === dpr && fx.atlasA) return;
+    fx.cssW = w;
+    fx.cssH = h;
+    fx.dpr = dpr;
+    fx.canvas.width = Math.round(w * dpr);
+    fx.canvas.height = Math.round(h * dpr);
+    fx.canvas.style.width = w + "px";
+    fx.canvas.style.height = h + "px";
+    fx.atlasA = makeAtlas("rgb(214,205,255)", dpr);
+    fx.atlasB = makeAtlas("rgb(168,180,204)", dpr);
+    if (!ptrHover && ptrInf < 0.01) {
+      ptrTx = w * 0.5;
+      ptrTy = h * 0.5;
+      ptrMx = ptrTx;
+      ptrMy = ptrTy;
+    }
+  }
+
+  function drawMatrixLayer(fx, atlas, seed, driftPx, alpha) {
+    if (!atlas) return;
+    const ctx = fx.ctx;
+    const w = fx.cssW;
+    const h = fx.cssH;
+    const cols = Math.ceil(w / CELL_W) + 3;
+    const rows = Math.ceil(h / CELL_H) + 3;
+    const rowShift = Math.floor(driftPx / CELL_H);
+    const yOff = driftPx - rowShift * CELL_H;
+    const mx = ptrMx;
+    const my = ptrMy;
+    const vx = ptrVx;
+    const vy = ptrVy;
+    const inf = ptrInf;
+    const r2 = SLIDE_RADIUS * SLIDE_RADIUS;
+    for (let r = -1; r < rows; r++) {
+      const y0 = r * CELL_H - yOff;
+      const row = r + rowShift;
+      for (let c = -1; c < cols; c++) {
+        const gi = glyphIndex(c, row, seed);
+        if (gi < 0) continue;
+        const x0 = c * CELL_W;
+        let ox = 0;
+        let oy = 0;
+        let lit = alpha;
+        if (inf > 0.01) {
+          const dx = x0 - mx;
+          const dy = y0 - my;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < r2) {
+            const d = Math.sqrt(d2) || 1;
+            const fall = 1 - d / SLIDE_RADIUS;
+            const f = fall * fall * inf;
+            ox = (dx / d) * SLIDE_PUSH * f + vx * SLIDE_DRAG * f;
+            oy = (dy / d) * SLIDE_PUSH * f + vy * SLIDE_DRAG * f;
+            lit = alpha * (1 + 0.7 * f);
+          }
+        }
+        ctx.globalAlpha = lit;
+        ctx.drawImage(
+          atlas.sheet,
+          gi * atlas.cw,
+          0,
+          atlas.cw,
+          atlas.ch,
+          (x0 + ox) * fx.dpr,
+          (y0 + oy) * fx.dpr,
+          atlas.cw,
+          atlas.ch
+        );
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawMatrix(now) {
+    if (reduceCanvas || p >= 0.995) return;
+    const fx = matrixFx;
+    if (!fx || !fx.ctx || !fx.cssW) return;
+    const lerp = ptrHover ? 0.22 : 0.12;
+    const pmx = ptrMx;
+    const pmy = ptrMy;
+    ptrMx += (ptrTx - ptrMx) * lerp;
+    ptrMy += (ptrTy - ptrMy) * lerp;
+    ptrVx = ptrVx * 0.8 + (ptrMx - pmx);
+    ptrVy = ptrVy * 0.8 + (ptrMy - pmy);
+    const vlen = Math.hypot(ptrVx, ptrVy);
+    if (vlen > 48) {
+      ptrVx *= 48 / vlen;
+      ptrVy *= 48 / vlen;
+    }
+    ptrInf += ((ptrHover ? 1 : 0) - ptrInf) * (ptrHover ? 0.2 : 0.08);
+    if (ptrInf < 0.002 && !ptrHover) ptrInf = 0;
+    fx.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    fx.ctx.clearRect(0, 0, fx.canvas.width, fx.canvas.height);
+    fx.ctx.imageSmoothingEnabled = false;
+    const t = now || 0;
+    drawMatrixLayer(fx, fx.atlasA, 42, (t * 0.014) % (CELL_H * 64), 1);
+    drawMatrixLayer(fx, fx.atlasB, 917, -((t * 0.009) % (CELL_H * 64)), 0.42);
+  }
+
+  function onPointerMove(e) {
+    if (reduceCanvas || isMobileLayout()) return;
+    const rect = sticky.getBoundingClientRect();
+    ptrTx = e.clientX - rect.left;
+    ptrTy = e.clientY - rect.top;
+    ptrHover = true;
+    if (visible && !running) startLoop();
+  }
+
+  function onPointerLeave() {
+    ptrHover = false;
   }
 
   function applyExit(progress) {
@@ -181,6 +391,9 @@ export function mount() {
     const fade = Math.max(0, 1 - p * 0.35);
     if (p >= 0.995) {
       if (ctx && cssW) ctx.clearRect(0, 0, cssW, cssH);
+      if (matrixFx && matrixFx.ctx) {
+        matrixFx.ctx.clearRect(0, 0, matrixFx.canvas.width, matrixFx.canvas.height);
+      }
       drawnOut = true;
       return;
     }
@@ -188,9 +401,10 @@ export function mount() {
       glApi.resize();
       glApi.draw(now, fade);
       drawnOut = false;
-      return;
+    } else {
+      drawFallback(now);
     }
-    drawFallback(now);
+    drawMatrix(now);
   }
 
   function loop(now) {
@@ -208,7 +422,7 @@ export function mount() {
       running = false;
       return;
     }
-    var minDt = 32;
+    var minDt = ptrHover || ptrInf > 0.02 ? 16 : 32;
     if (lastDraw && now - lastDraw < minDt) {
       raf = requestAnimationFrame(loop);
       return;
@@ -221,7 +435,7 @@ export function mount() {
   function startLoop() {
     if (reduceCanvas || !visible) return;
     if (typeof document !== "undefined" && document.hidden) return;
-    if (!glApi && !ctx) return;
+    if (!glApi && !ctx && !matrixFx) return;
     running = true;
     if (!raf) raf = requestAnimationFrame(loop);
   }
@@ -259,11 +473,10 @@ export function mount() {
 
   function startVisual() {
     if (reduceCanvas) return;
-    if (glApi || ctx) {
-      startLoop();
-      return;
+    if (!glApi && !ctx) {
+      if (!startGl()) startFallback();
     }
-    if (!startGl()) startFallback();
+    resizeMatrix();
     startLoop();
   }
 
@@ -286,6 +499,7 @@ export function mount() {
     reduceCanvas = shouldReduceFx() || prefersReducedMotion() || isMobileLayout();
     if (reduceCanvas) {
       stopLoop();
+      destroyMatrixFx();
       sticky.classList.remove("is-ascii-on");
       host.style.display = "none";
       if (isMobileLayout()) clearMatrix();
@@ -332,6 +546,8 @@ export function mount() {
     }
   }
   document.addEventListener("visibilitychange", onVis);
+  intro.addEventListener("pointermove", onPointerMove, { passive: true });
+  intro.addEventListener("pointerleave", onPointerLeave, { passive: true });
 
   const mq640 = window.matchMedia("(max-width: 640px)");
   const mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -350,6 +566,8 @@ export function mount() {
       if (reduceCanvas) return;
       if (glApi) glApi.resize();
       else resizeFallback();
+      resizeMatrix();
+      fillMatrix();
       drawnOut = false;
       if (!running) draw(performance.now());
     });
@@ -366,6 +584,9 @@ export function mount() {
     unLenis();
     if (io) io.disconnect();
     document.removeEventListener("visibilitychange", onVis);
+    intro.removeEventListener("pointermove", onPointerMove);
+    intro.removeEventListener("pointerleave", onPointerLeave);
+    destroyMatrixFx();
     if (mq640.removeEventListener) {
       mq640.removeEventListener("change", onBp);
       mqReduce.removeEventListener("change", onBp);

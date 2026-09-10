@@ -58,8 +58,9 @@ describe("sampleIntroFlow (shipped intro bg)", () => {
     expect(gl).not.toMatch(/inkField/);
     expect(gl).not.toMatch(/uTrail/);
     expect(gl).not.toMatch(/setPointer/);
-    expect(ascii).not.toMatch(/setPointer/);
-    expect(ascii).not.toMatch(/pointermove/);
+    expect(ascii).not.toMatch(/inkField/);
+    expect(ascii).toMatch(/pointermove/);
+    expect(ascii).toMatch(/ai-intro-matrix-fx/);
     expect(ascii).toMatch(/fillMatrix/);
     expect(ascii).toMatch(/MATRIX_GLYPHS/);
   });
