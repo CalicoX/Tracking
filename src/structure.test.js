@@ -389,6 +389,8 @@ describe("React landing structure (gating)", () => {
     const explore = read("components/sections/ExploreMore.jsx");
     expect(explore).toMatch(/returns-ui-photo/);
     expect(explore).toMatch(/returns-scene\.jpg/);
+    expect(explore).toMatch(/returns-ui-thumb/);
+    expect(explore).toMatch(/returns-ui-thumb">\s*<img src="\/assets\/returns-scene\.jpg"/);
   });
 
   it("responsive-fx is sync-mounted before async heavy FX in useLandingEffects", () => {

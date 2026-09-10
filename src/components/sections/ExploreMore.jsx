@@ -42,11 +42,7 @@ export default function ExploreMore() {
                     <div className="returns-ui-list">
                       <div className="returns-ui-item is-active" data-product="sneakers">
                         <div className="returns-ui-thumb">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M3 15.5c1.5-3.5 5-5.5 9-5.5 2.2 0 4 .7 5.5 1.8L21 14"/>
-                            <path d="M3 15.5h15.5a2.5 2.5 0 010 5H6.2c-1.8 0-3.2-1.4-3.2-3.2 0-.6.2-1.2.5-1.8z"/>
-                            <path d="M8 12.2c.6-1 1.6-1.7 2.8-1.7"/>
-                          </svg>
+                          <img src="/assets/returns-scene.jpg" alt="" />
                         </div>
                         <div className="returns-ui-meta">
                           <span className="name">Sneakers</span>

@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-10（Park：去掉 ASCII）
+最后更新：2026-09-10（Explore Returns 卡 Sneakers 圆标改背景实物鞋）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -87,6 +87,7 @@
 ## ExploreMore
 
 - 在 **Credentials 后面**、BottomCta 前面。不要放回 AI Lab 后。白底 Returns/API 两卡不变。
+- Returns 卡 Sneakers 圆标（09-10）：`.returns-ui-thumb` 用 `/assets/returns-scene.jpg` 裁切左下实物鞋（img 210×158 / left -13 / top -108），不要 bag SVG。
 
 ## 人
 
@@ -158,6 +159,7 @@
 - **CTA 并排是全站决策（09-01 核对）**：returns 把手机 CTA 从 640 全宽堆叠撤回并排（两颗各吃一半 `flex:1 1 0`），tracking-react 本就并排（≤480 块 `max-width:220`、无 640 堆叠），无需跟进。不要再做 CTA 全宽/竖排。
 - 不要给 AI intro 背景加鼠标 ink flow / 尾迹扰动 / 跟手色带（Park 09-10 否掉，已卸）。
 - 不要把 ASCII 字场加回 intro（Park 09-10：去掉 ascii）。`.ai-intro-matrix` / matrix canvas / 鼠标推开都不要复活。
+- 不要给 Explore Returns 卡 Sneakers 圆标用 bag SVG（Park：换成背景实物图）。`.returns-ui-thumb` 用 `returns-scene.jpg` 裁切左下那双鞋。
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
 - 不要在 375 把 Explore Returns 排成左右栏（Park：上下布局）。
