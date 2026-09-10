@@ -95,12 +95,12 @@ float inkField(vec2 uv){
     vec2 ba = b - a;
     float h = clamp(dot(pa, ba) / max(dot(ba, ba), 1e-5), 0.0, 1.0);
     float d = length(pa - ba * h);
-    float w = mix(0.34, 0.11, float(i) / 15.0) + spd * 0.55;
+    float w = mix(0.22, 0.08, float(i) / 15.0) + spd * 0.28;
     m = max(m, exp(-(d * d) / max(w * w, 1e-6)));
   }
   vec2 hm = uv - uMouse;
-  m = max(m, exp(-dot(hm, hm) / 0.05));
-  return pow(clamp(m * uInk, 0.0, 1.0), 0.48);
+  m = max(m, exp(-dot(hm, hm) / 0.028));
+  return pow(clamp(m * uInk, 0.0, 1.0), 0.55);
 }
 
 vec2 flowDir(vec2 uv, float t){
@@ -113,23 +113,22 @@ vec2 flowDir(vec2 uv, float t){
     vec2 ba = b - a;
     float h = clamp(dot(pa, ba) / max(dot(ba, ba), 1e-5), 0.0, 1.0);
     float d = length(pa - ba * h);
-    float w = mix(0.34, 0.11, float(i) / 15.0);
+    float w = mix(0.22, 0.08, float(i) / 15.0);
     float k = exp(-(d * d) / max(w * w, 1e-6));
     vec2 tang = normalize(ba + vec2(1e-5, 0.0));
     vec2 nrm = vec2(tang.y, -tang.x);
-    acc += (tang * 0.42 + nrm * 0.95) * k;
+    acc += (tang * 0.55 + nrm * 0.38) * k;
     wsum += k;
   }
   vec2 wake = wsum > 0.0 ? acc / wsum : vec2(0.0);
   vec2 c1 = vec2(
-    sin(uv.y * 8.5 + t * 1.15 + uv.x * 3.2),
-    cos(uv.x * 7.5 - t * 0.95 + uv.y * 4.1)
+    sin(uv.y * 8.5 + t * 0.7 + uv.x * 3.2),
+    cos(uv.x * 7.5 - t * 0.55 + uv.y * 4.1)
   );
-  vec2 c2 = vec2(
-    cos(uv.y * 13.0 - t * 1.55 + uFlow.x * 4.0),
-    sin(uv.x * 12.0 + t * 1.35 + uFlow.y * 4.0)
-  );
-  return wake * 1.55 + uFlow * 1.15 + uVel * 0.65 + c1 * 0.28 + c2 * 0.16;
+  vec2 dir = wake * 0.55 + uFlow * 0.42 + uVel * 0.28 + c1 * 0.08;
+  float mag = length(dir);
+  if (mag > 0.35) dir *= 0.35 / mag;
+  return dir;
 }
 
 void main(){
@@ -140,10 +139,10 @@ void main(){
   if (uInk > 0.001) {
     for (int s = 0; s < 5; s++){
       float k = inkField(p) * (1.0 - float(s) * 0.08);
-      p -= flowDir(p, uTime) * k * 0.16;
+      p -= flowDir(p, uTime) * k * 0.055;
     }
   }
-  vec2 dUv = waveDistort(p, aspect, uTime + inkField(p) * 0.55);
+  vec2 dUv = waveDistort(p, aspect, uTime + inkField(p) * 0.16);
 
   vec3 rgb = BACK;
   float a1 = sineMask(
@@ -301,10 +300,10 @@ export function createIntroFlowGl(canvas, sizeEl) {
     mouseY += (targetY - mouseY) * 0.22;
     velX = mouseX - prevX;
     velY = mouseY - prevY;
-    flowX += velX * 2.4;
-    flowY += velY * 2.4;
-    flowX *= 0.968;
-    flowY *= 0.968;
+    flowX += velX * 1.05;
+    flowY += velY * 1.05;
+    flowX *= 0.94;
+    flowY *= 0.94;
     trail[0] += (mouseX - trail[0]) * 0.2;
     trail[1] += (mouseY - trail[1]) * 0.2;
     for (let i = 1; i < TRAIL_N; i++) {
