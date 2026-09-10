@@ -292,6 +292,26 @@ export function mount() {
   }
   document.addEventListener("visibilitychange", onVis);
 
+  function pointerUv(e) {
+    const r = intro.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return null;
+    return {
+      x: (e.clientX - r.left) / r.width,
+      y: 1 - (e.clientY - r.top) / r.height,
+    };
+  }
+  function onPtrMove(e) {
+    if (reduceCanvas || !glApi || !glApi.setPointer) return;
+    const uv = pointerUv(e);
+    if (!uv) return;
+    glApi.setPointer(uv.x, uv.y, true);
+  }
+  function onPtrLeave() {
+    if (glApi && glApi.setPointer) glApi.setPointer(0.5, 0.5, false);
+  }
+  intro.addEventListener("pointermove", onPtrMove, { passive: true });
+  intro.addEventListener("pointerleave", onPtrLeave);
+
   const mq640 = window.matchMedia("(max-width: 640px)");
   const mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
   const onBp = () => syncCanvasMode();
@@ -325,6 +345,8 @@ export function mount() {
     unLenis();
     if (io) io.disconnect();
     document.removeEventListener("visibilitychange", onVis);
+    intro.removeEventListener("pointermove", onPtrMove);
+    intro.removeEventListener("pointerleave", onPtrLeave);
     if (mq640.removeEventListener) {
       mq640.removeEventListener("change", onBp);
       mqReduce.removeEventListener("change", onBp);

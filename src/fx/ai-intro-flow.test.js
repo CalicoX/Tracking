@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import {
   sampleIntroFlow,
@@ -48,5 +50,15 @@ describe("sampleIntroFlow (shipped intro bg)", () => {
     expect(vsOff).toBeGreaterThan(0.01);
     expect(vsShift).toBeGreaterThan(0.01);
     expect(grainTerm(12, 40)).not.toBe(grainTerm(13, 40));
+  });
+
+  it("GL ink flow rides the existing pink/blue glows", () => {
+    const gl = readFileSync(join(process.cwd(), "src/fx/modules/ai-intro-flow-gl.js"), "utf8");
+    const ascii = readFileSync(join(process.cwd(), "src/fx/modules/ai-intro-ascii.js"), "utf8");
+    expect(gl).toMatch(/inkRibbon/);
+    expect(gl).toMatch(/uTrail\[10\]/);
+    expect(gl).toMatch(/setPointer/);
+    expect(ascii).toMatch(/pointermove/);
+    expect(ascii).toMatch(/setPointer/);
   });
 });

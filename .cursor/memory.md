@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-10（AI intro 亮色范围收小：GLOW_SPREAD 0.56 + pow 1.55 + 外圈 vignette；官方 wave 数字不动）
+最后更新：2026-09-10（AI intro 鼠标 ink flow：轨迹拖粉蓝高亮，卷走现有辉光；≤640 / reduced-motion 不跟）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -46,7 +46,7 @@
 
 ## AI intro → work 过渡（2026-09-09）
 
-- **现用：自己写的 WebGL 背景**（`ai-intro-flow-gl.js`），参数来自 Synthesis 1 公开 API（`c91ae513`）：底 `#08071a` + 两道正弦辉光（蓝 `#0582e8` pos 0.654/0.673 amp 0.36 thick 0.72 speed 0.3；粉 `#f00e94` pos 0.605/0.514 amp 0.17 thick 0.35 speed 0.5）+ WaveDistortion 299°/strength 1/freq 0.3/speed 0.2（位移 ×0.5）。**混合走线性叠加 `addGlow`**（mask^1.28，增益 0.7，`punchLin` 色度 ×1.85）——只加饱和、少加亮度；1.18 无 punch 会亮到字看不清，0.58 无 punch 又灰（Park 09-09）。OKLab / screen 往藏青里混会脏成灰紫。不要为了饱和把 veil 再削薄。**Grain**：1 **CSS** 像素（`gl_FragCoord/uDpr`，对齐官方 `uv*viewport`）+ hash12 + 作者强度 **0.07**。官方 runtime 还乘 `×0.1`（≈0.007）再加 bias 2、中心 veil 0.72，等于没噪点（Park 09-10「怎么还是没有」）。不要半分辨率第二层（太粗）。不要再为了「跟官方一字不差」把 ×0.1 加回来。canvas DPR 上限 2。**veil 中心 0.72 / 0.38** 留着给字，09-10 外加一层外圈压暗（透明到 30%、边 0.82）把亮色收进中间。绘制侧 `GLOW_SPREAD=0.56`、`GLOW_POW=1.55`、vignette 0.34→0.9×0.6——官方 thickness/amp 别改。别用 0.14（字看不清），也别用 `rgba(8,4,18)`。**点穿**：`.ai-letter-sticky .ai-lab-intro` 必须 `pointer-events:auto`（AI 遮罩退役后案例在 z-index 0，intro 写 none 会点到下面）；`is-ascii-out` 才 none。≤640 叠排不走这层。`shaders` npm 已卸。无 GL 才走 `sampleIntroFlow`（同公式）。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明（CSS `#08071a`）；hold 0.36 / exit 0.48；≤640 / hidden 停环。
+- **现用：自己写的 WebGL 背景**（`ai-intro-flow-gl.js`），参数来自 Synthesis 1 公开 API（`c91ae513`）：底 `#08071a` + 两道正弦辉光（蓝 `#0582e8` pos 0.654/0.673 amp 0.36 thick 0.72 speed 0.3；粉 `#f00e94` pos 0.605/0.514 amp 0.17 thick 0.35 speed 0.5）+ WaveDistortion 299°/strength 1/freq 0.3/speed 0.2（位移 ×0.5）。**混合走线性叠加 `addGlow`**（mask^1.28，增益 0.7，`punchLin` 色度 ×1.85）——只加饱和、少加亮度；1.18 无 punch 会亮到字看不清，0.58 无 punch 又灰（Park 09-09）。OKLab / screen 往藏青里混会脏成灰紫。不要为了饱和把 veil 再削薄。**Grain**：1 **CSS** 像素（`gl_FragCoord/uDpr`，对齐官方 `uv*viewport`）+ hash12 + 作者强度 **0.07**。官方 runtime 还乘 `×0.1`（≈0.007）再加 bias 2、中心 veil 0.72，等于没噪点（Park 09-10「怎么还是没有」）。不要半分辨率第二层（太粗）。不要再为了「跟官方一字不差」把 ×0.1 加回来。canvas DPR 上限 2。**veil 中心 0.72 / 0.38** 留着给字，09-10 外加一层外圈压暗（透明到 30%、边 0.82）把亮色收进中间。绘制侧 `GLOW_SPREAD=0.56`、`GLOW_POW=1.55`、vignette 0.34→0.9×0.6——官方 thickness/amp 别改。别用 0.14（字看不清），也别用 `rgba(8,4,18)`。**点穿**：`.ai-letter-sticky .ai-lab-intro` 必须 `pointer-events:auto`（AI 遮罩退役后案例在 z-index 0，intro 写 none 会点到下面）；`is-ascii-out` 才 none。**鼠标 ink flow（09-10）**：intro 上 pointermove，10 点 ribbon 跟手，把现有蓝/粉辉光沿轨迹卷走并加亮（`inkRibbon` + swirl/advection）。离开后 ink 衰减。画在 canvas 上、veil/字下面。≤640 / reduced-motion 不跟。官方 wave 数字不动。≤640 叠排不走这层。`shaders` npm 已卸。无 GL 才走 `sampleIntroFlow`（同公式）。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明（CSS `#08071a`）；hold 0.36 / exit 0.48；≤640 / hidden 停环。
 - **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；CSS 底锁 `#08071a` + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
 - **退场**：钉住 hold 0.36vh → 0.48vh 里文案先淡、网点变稀，再 `--intro-rest-op` 整层抬走，露出 `.ai-lab-work`。回滚倒放。≤640 canvas `display:none`，叠排不走遮罩。
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
