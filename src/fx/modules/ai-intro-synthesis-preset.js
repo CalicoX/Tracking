@@ -72,4 +72,4 @@ export const GLOW_SPREAD = 0.56;
 export const GLOW_POW = 1.55;
 export const VIGNETTE_INNER = 0.34;
 export const VIGNETTE_OUTER = 0.9;
-export const VIGNETTE_AMT = 0.6;
+export const VIGNETTE_AMT = 0.7;

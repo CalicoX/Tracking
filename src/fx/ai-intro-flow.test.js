@@ -60,5 +60,7 @@ describe("sampleIntroFlow (shipped intro bg)", () => {
     expect(gl).not.toMatch(/setPointer/);
     expect(ascii).not.toMatch(/setPointer/);
     expect(ascii).not.toMatch(/pointermove/);
+    expect(ascii).toMatch(/fillMatrix/);
+    expect(ascii).toMatch(/MATRIX_GLYPHS/);
   });
 });

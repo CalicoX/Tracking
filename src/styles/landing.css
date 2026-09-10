@@ -5695,6 +5695,62 @@
     .ai-letter-sticky.is-ascii-on .ai-intro-dots {
       visibility: hidden;
     }
+    /* Faint ASCII over the flow — keep when GL is on. Dark, sparse, edges only. */
+    .ai-intro-matrix {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.22;
+      mix-blend-mode: screen;
+      -webkit-mask-image: radial-gradient(
+        ellipse 78% 64% at 50% 48%,
+        transparent 16%,
+        #000 40%,
+        #000 58%,
+        transparent 86%
+      );
+      mask-image: radial-gradient(
+        ellipse 78% 64% at 50% 48%,
+        transparent 16%,
+        #000 40%,
+        #000 58%,
+        transparent 86%
+      );
+    }
+    .ai-intro-matrix-layer {
+      position: absolute;
+      left: -5%;
+      width: 110%;
+      margin: 0;
+      padding: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      letter-spacing: 0.12em;
+      white-space: pre;
+      color: rgba(196, 181, 253, 0.62);
+      user-select: none;
+    }
+    .ai-intro-matrix-a {
+      top: 0;
+      animation: ai-intro-matrix-drift 48s linear infinite;
+    }
+    .ai-intro-matrix-b {
+      top: 0;
+      opacity: 0.42;
+      color: rgba(148, 163, 184, 0.28);
+      animation: ai-intro-matrix-drift-rev 68s linear infinite;
+    }
+    @keyframes ai-intro-matrix-drift {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-50%); }
+    }
+    @keyframes ai-intro-matrix-drift-rev {
+      from { transform: translateY(-50%); }
+      to   { transform: translateY(0); }
+    }
     .ai-letter-sticky.is-ascii-on .ai-title-particles {
       display: none !important;
     }
@@ -5763,7 +5819,9 @@
     @media (prefers-reduced-motion: reduce) {
       .ai-stream-layer-a,
       .ai-stream-layer-b,
-      .ai-intro-dots {
+      .ai-intro-dots,
+      .ai-intro-matrix-a,
+      .ai-intro-matrix-b {
         animation: none;
       }
     }
@@ -5771,20 +5829,20 @@
     .ai-intro-veil {
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 2;
       pointer-events: none;
       background:
         radial-gradient(
           ellipse 72% 58% at 50% 48%,
-          rgba(8, 7, 26, 0.72) 0%,
-          rgba(8, 7, 26, 0.38) 46%,
+          rgba(8, 7, 26, 0.78) 0%,
+          rgba(8, 7, 26, 0.46) 46%,
           transparent 70%
         ),
         radial-gradient(
           ellipse 88% 78% at 50% 50%,
           transparent 30%,
-          rgba(8, 7, 26, 0.48) 62%,
-          rgba(8, 7, 26, 0.82) 100%
+          rgba(8, 7, 26, 0.58) 62%,
+          rgba(8, 7, 26, 0.88) 100%
         );
     }
     .ai-lab-intro-inner {
@@ -11657,7 +11715,8 @@
       /* FX 降级线 = 640（2026-09-01 断点并档对齐 API：768 平板吃完整桌面 FX） */
       .bottom-cta-shader,
       .ai-intro-rail,
-      .ai-intro-ascii {
+      .ai-intro-ascii,
+      .ai-intro-matrix {
         display: none !important;
       }
 

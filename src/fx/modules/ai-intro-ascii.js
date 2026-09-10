@@ -17,6 +17,9 @@ export const AI_EXIT_VH = 0.48;
 
 const FIELD_W = 256;
 const FIELD_H = 144;
+const MATRIX_GLYPHS = "+*#=-.|:";
+const MATRIX_ROWS = 42;
+const MATRIX_COLS = 88;
 
 function smoothstep(a, b, t) {
   const x = Math.max(0, Math.min(1, (t - a) / Math.max(b - a, 1e-6)));
@@ -68,6 +71,40 @@ export function mount() {
   field.height = FIELD_H;
   const fieldCtx = field.getContext("2d", { willReadFrequently: true });
   const fieldImg = fieldCtx ? fieldCtx.createImageData(FIELD_W, FIELD_H) : null;
+  const matrix = document.getElementById("ai-intro-matrix");
+  const matrixA = matrix && matrix.querySelector(".ai-intro-matrix-a");
+  const matrixB = matrix && matrix.querySelector(".ai-intro-matrix-b");
+  let matrixFilled = false;
+
+  function makeMatrix(seed) {
+    let out = "";
+    let s = seed | 0;
+    for (let r = 0; r < MATRIX_ROWS; r++) {
+      for (let c = 0; c < MATRIX_COLS; c++) {
+        s = (Math.imul(s, 1664525) + 1013904223) | 0;
+        if ((s >>> 0) % 100 < 64) out += " ";
+        else out += MATRIX_GLYPHS[(Math.abs(s) + r * 17 + c * 31) % MATRIX_GLYPHS.length];
+      }
+      out += "\n";
+    }
+    return out;
+  }
+
+  function fillMatrix() {
+    if (matrixFilled || !matrixA || !matrixB || isMobileLayout()) return;
+    const a = makeMatrix(42);
+    const b = makeMatrix(917);
+    matrixA.textContent = a + a;
+    matrixB.textContent = b + b;
+    matrixFilled = true;
+  }
+
+  function clearMatrix() {
+    if (!matrixFilled) return;
+    if (matrixA) matrixA.textContent = "";
+    if (matrixB) matrixB.textContent = "";
+    matrixFilled = false;
+  }
 
   function applyExit(progress) {
     const copy = 1 - smoothstep(0.0, 0.36, progress);
@@ -251,10 +288,13 @@ export function mount() {
       stopLoop();
       sticky.classList.remove("is-ascii-on");
       host.style.display = "none";
+      if (isMobileLayout()) clearMatrix();
+      else fillMatrix();
       onScroll();
       return;
     }
     host.style.display = "";
+    fillMatrix();
     startVisual();
     onScroll();
   }
@@ -336,6 +376,7 @@ export function mount() {
     if (ro) ro.disconnect();
     else window.removeEventListener("resize", onBp);
     if (glApi) glApi.dispose();
+    clearMatrix();
     sticky.classList.remove("is-ascii-on", "is-ascii-out");
     intro.style.removeProperty("--ascii-copy");
     intro.style.removeProperty("--intro-rest-op");
