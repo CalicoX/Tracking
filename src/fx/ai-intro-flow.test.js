@@ -52,15 +52,13 @@ describe("sampleIntroFlow (shipped intro bg)", () => {
     expect(grainTerm(12, 40)).not.toBe(grainTerm(13, 40));
   });
 
-  it("GL ink flow disturbs the existing field instead of painting a stroke", () => {
+  it("does not mount mouse ink flow on the intro field", () => {
     const gl = readFileSync(join(process.cwd(), "src/fx/modules/ai-intro-flow-gl.js"), "utf8");
     const ascii = readFileSync(join(process.cwd(), "src/fx/modules/ai-intro-ascii.js"), "utf8");
-    expect(gl).toMatch(/inkField/);
-    expect(gl).toMatch(/uTrail\[16\]/);
-    expect(gl).toMatch(/flowDir/);
-    expect(gl).toMatch(/setPointer/);
-    expect(gl).not.toMatch(/inkCol/);
-    expect(ascii).toMatch(/pointermove/);
-    expect(ascii).toMatch(/setPointer/);
+    expect(gl).not.toMatch(/inkField/);
+    expect(gl).not.toMatch(/uTrail/);
+    expect(gl).not.toMatch(/setPointer/);
+    expect(ascii).not.toMatch(/setPointer/);
+    expect(ascii).not.toMatch(/pointermove/);
   });
 });
