@@ -272,18 +272,13 @@ describe("React landing structure (gating)", () => {
     expect(ascii).not.toMatch(/ImageTexture/);
     const jsx = read("components/sections/AiLab.jsx");
     expect(jsx).toMatch(/ai-intro-ascii/);
-    expect(jsx).toMatch(/ai-intro-matrix/);
-    expect(ascii).toMatch(/fillMatrix/);
-    expect(ascii).toMatch(/MATRIX_GLYPHS/);
-    expect(ascii).toMatch(/\+\+\+■/);
-    expect(ascii).toMatch(/pointermove/);
-    expect(ascii).toMatch(/ai-intro-matrix-fx/);
+    expect(jsx).not.toMatch(/ai-intro-matrix/);
+    expect(ascii).not.toMatch(/fillMatrix/);
+    expect(ascii).not.toMatch(/MATRIX_GLYPHS/);
+    expect(ascii).not.toMatch(/pointermove/);
+    expect(ascii).not.toMatch(/ai-intro-matrix-fx/);
     const css = read("styles/landing.css");
-    expect(css).toMatch(/\.ai-intro-matrix/);
-    expect(css).toMatch(/\.ai-intro-matrix-fx/);
-    expect(css).not.toMatch(
-      /\.ai-intro-matrix\s*\{[^}]*(-webkit-)?mask-image/
-    );
+    expect(css).not.toMatch(/\.ai-intro-matrix/);
     expect(css).toMatch(/rgba\(8, 7, 26, 0\.78\)/);
     expect(css).toMatch(/--ascii-copy/);
     expect(css).toMatch(/is-ascii-out/);

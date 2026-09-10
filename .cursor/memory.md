@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-10（ASCII 压暗、略加密、字符改方块/+）
+最后更新：2026-09-10（Park：去掉 ASCII）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -46,7 +46,7 @@
 
 ## AI intro → work 过渡（2026-09-09）
 
-- **现用：自己写的 WebGL 背景**（`ai-intro-flow-gl.js`），参数来自 Synthesis 1 公开 API（`c91ae513`）：底 `#08071a` + 两道正弦辉光（蓝 `#0582e8` pos 0.654/0.673 amp 0.36 thick 0.72 speed 0.3；粉 `#f00e94` pos 0.605/0.514 amp 0.17 thick 0.35 speed 0.5）+ WaveDistortion 299°/strength 1/freq 0.3/speed 0.2（位移 ×0.5）。**混合走线性叠加 `addGlow`**（mask^1.28，增益 0.7，`punchLin` 色度 ×1.85）——只加饱和、少加亮度；1.18 无 punch 会亮到字看不清，0.58 无 punch 又灰（Park 09-09）。OKLab / screen 往藏青里混会脏成灰紫。不要为了饱和把 veil 再削薄。**Grain**：1 **CSS** 像素（`gl_FragCoord/uDpr`，对齐官方 `uv*viewport`）+ hash12 + 作者强度 **0.07**。官方 runtime 还乘 `×0.1`（≈0.007）再加 bias 2、中心 veil 0.72，等于没噪点（Park 09-10「怎么还是没有」）。不要半分辨率第二层（太粗）。不要再为了「跟官方一字不差」把 ×0.1 加回来。canvas DPR 上限 2。**veil 中心 0.78 / 0.46** 给字，外圈 0.58→0.88 再压暗一点（Park 09-10：暗一点点）。绘制侧 `GLOW_SPREAD=0.56`、`GLOW_POW=1.55`、vignette 0.34→0.9×0.7——官方 thickness/amp 别改。别用 0.14 当中心 veil（字看不清），也别用 `rgba(8,4,18)`。**ASCII 底纹（09-10 铺满 + 鼠标滑动；同日压暗加密）**：去掉径向 mask（中圈挖空/边缘淡出不要了，Park：要铺满）。桌面走 canvas `.ai-intro-matrix-fx`（字符 `+++■□#+█▓▒#`，偏 +/方块，空 50%，cell 13×17）铺满 intro；veil 之上 z 3 + `screen` + **opacity 0.2**（0.46 太亮 Park 否了），glyph 色 `rgb(118,112,148)` / 底层 `rgb(78,86,108)`。鼠标在 **ASCII 层**滑动：径向推开 + 速度拖尾（`pointermove` 在 intro 上），不是 GL 色带。无 canvas / reduced-motion 才回两层 pre（`fillMatrix` 按视口算行列）。GL 开着也留 ASCII，不要被 `is-ascii-on` 藏掉。≤640 跟 flow canvas 一起 `display:none`。不要做成厚雪花噪 / Bayer。不要再把 opacity 拉回 0.46。**点穿**：`.ai-letter-sticky .ai-lab-intro` 必须 `pointer-events:auto`（AI 遮罩退役后案例在 z-index 0，intro 写 none 会点到下面）；`is-ascii-out` 才 none。**GL 鼠标 ink flow 仍退役（09-10 Park：还是不对，不要 ink flow）**：不要往 `ai-intro-flow-gl.js` 挂 `inkField` / `uTrail` / 平流扰动 / addGlow 色带。背景只走官方 wave + 时间。`ai-intro-flow.test` 锁 GL 不复活 ink，但 ASCII 的 `pointermove` 是要的。≤640 叠排不走这层。`shaders` npm 已卸。无 GL 才走 `sampleIntroFlow`（同公式）。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明（CSS `#08071a`）；hold 0.36 / exit 0.48；≤640 / hidden 停环。
+- **现用：自己写的 WebGL 背景**（`ai-intro-flow-gl.js`），参数来自 Synthesis 1 公开 API（`c91ae513`）：底 `#08071a` + 两道正弦辉光（蓝 `#0582e8` pos 0.654/0.673 amp 0.36 thick 0.72 speed 0.3；粉 `#f00e94` pos 0.605/0.514 amp 0.17 thick 0.35 speed 0.5）+ WaveDistortion 299°/strength 1/freq 0.3/speed 0.2（位移 ×0.5）。**混合走线性叠加 `addGlow`**（mask^1.28，增益 0.7，`punchLin` 色度 ×1.85）——只加饱和、少加亮度；1.18 无 punch 会亮到字看不清，0.58 无 punch 又灰（Park 09-09）。OKLab / screen 往藏青里混会脏成灰紫。不要为了饱和把 veil 再削薄。**Grain**：1 **CSS** 像素（`gl_FragCoord/uDpr`，对齐官方 `uv*viewport`）+ hash12 + 作者强度 **0.07**。官方 runtime 还乘 `×0.1`（≈0.007）再加 bias 2、中心 veil 0.72，等于没噪点（Park 09-10「怎么还是没有」）。不要半分辨率第二层（太粗）。不要再为了「跟官方一字不差」把 ×0.1 加回来。canvas DPR 上限 2。**veil 中心 0.78 / 0.46** 给字，外圈 0.58→0.88 再压暗一点（Park 09-10：暗一点点）。绘制侧 `GLOW_SPREAD=0.56`、`GLOW_POW=1.55`、vignette 0.34→0.9×0.7——官方 thickness/amp 别改。别用 0.14 当中心 veil（字看不清），也别用 `rgba(8,4,18)`。**ASCII 底纹已卸（09-10 Park：去掉 ascii）**：`.ai-intro-matrix` / matrix canvas / `fillMatrix` / 鼠标滑动全部删了。intro 只留 Synthesis GL 流 + veil。`ai-intro-ascii.js` 仍挂 flow（id `#ai-intro-ascii` 是 GL 宿主，别改名误删）。structure.test 锁 jsx/css 不许 `.ai-intro-matrix` 回来。**点穿**：`.ai-letter-sticky .ai-lab-intro` 必须 `pointer-events:auto`（AI 遮罩退役后案例在 z-index 0，intro 写 none 会点到下面）；`is-ascii-out` 才 none。**GL 鼠标 ink flow 仍退役（09-10 Park：还是不对，不要 ink flow）**：不要往 `ai-intro-flow-gl.js` 挂 `inkField` / `uTrail` / 平流扰动 / addGlow 色带。背景只走官方 wave + 时间。`ai-intro-flow.test` 锁不复活。≤640 叠排不走这层。`shaders` npm 已卸。无 GL 才走 `sampleIntroFlow`（同公式）。不要 Mesh 色斑平均、不要厚 overlay 雪花噪。idle 不透明（CSS `#08071a`）；hold 0.36 / exit 0.48；≤640 / hidden 停环。
 - **idle 不许透明**（Park 截图：案例从标题后面透出来）。`.is-ascii-on` **不要** 把 `.ai-lab-intro` `background: transparent`；CSS 底锁 `#08071a` + `.ai-intro-veil` 留着（只藏 streams/dots）。structure.test 锁了这条。
 - **退场**：钉住 hold 0.36vh → 0.48vh 里文案先淡、网点变稀，再 `--intro-rest-op` 整层抬走，露出 `.ai-lab-work`。回滚倒放。≤640 canvas `display:none`，叠排不走遮罩。
 - **AI 字母遮罩退役**（Park：去掉 AI 遮罩）：`ai-letter-zoom.js` 文件保留但不再挂载。
@@ -156,9 +156,8 @@
 
 - **footer 同步 API 版（08-31，landing.css 末尾）**：>640 保持 brand 左 + nav 右（≤1024 nav 2×2、brand max-width 480）；≤640 才上下堆叠 + 链接两列均分（右列起点在行中线，`.site-footer-nav` 必须 `width:100%`，否则列方向 main 里 flex:1 1 0 收缩到内容宽）。规则放文件末尾按源顺序覆盖旧 ≤560 块。
 - **CTA 并排是全站决策（09-01 核对）**：returns 把手机 CTA 从 640 全宽堆叠撤回并排（两颗各吃一半 `flex:1 1 0`），tracking-react 本就并排（≤480 块 `max-width:220`、无 640 堆叠），无需跟进。不要再做 CTA 全宽/竖排。
-- 不要给 AI intro 背景加鼠标 ink flow / 尾迹扰动 / 跟手色带（Park 09-10 否掉，已卸）。鼠标滑动只做在 ASCII canvas，别加回 GL。
-- 不要给 `.ai-intro-matrix` 加回径向 mask 挖空/边缘淡出（Park 09-10：ascii 要铺满）。
-- 不要把 ASCII 亮度拉回 opacity 0.46 / 浅紫 `rgb(214,205,255)`（Park：太亮了）。字符用方块和 +，不要再以 `*.|:` 为主。
+- 不要给 AI intro 背景加鼠标 ink flow / 尾迹扰动 / 跟手色带（Park 09-10 否掉，已卸）。
+- 不要把 ASCII 字场加回 intro（Park 09-10：去掉 ascii）。`.ai-intro-matrix` / matrix canvas / 鼠标推开都不要复活。
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
 - 不要在 375 把 Explore Returns 排成左右栏（Park：上下布局）。

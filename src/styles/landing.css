@@ -5695,60 +5695,6 @@
     .ai-letter-sticky.is-ascii-on .ai-intro-dots {
       visibility: hidden;
     }
-    /* Faint ASCII over the flow — full bleed (no hole / edge mask). Mouse slide is canvas. */
-    .ai-intro-matrix {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-      overflow: hidden;
-      opacity: 0.2;
-      mix-blend-mode: screen;
-    }
-    .ai-intro-matrix-fx {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      pointer-events: none;
-    }
-    .ai-intro-matrix.is-live .ai-intro-matrix-layer {
-      display: none;
-    }
-    .ai-intro-matrix-layer {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      min-height: 200%;
-      margin: 0;
-      padding: 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      line-height: 17px;
-      letter-spacing: 0.04em;
-      white-space: pre;
-      color: rgba(148, 140, 180, 0.42);
-      user-select: none;
-    }
-    .ai-intro-matrix-a {
-      top: 0;
-      animation: ai-intro-matrix-drift 48s linear infinite;
-    }
-    .ai-intro-matrix-b {
-      top: 0;
-      opacity: 0.42;
-      color: rgba(148, 163, 184, 0.28);
-      animation: ai-intro-matrix-drift-rev 68s linear infinite;
-    }
-    @keyframes ai-intro-matrix-drift {
-      from { transform: translateY(0); }
-      to   { transform: translateY(-50%); }
-    }
-    @keyframes ai-intro-matrix-drift-rev {
-      from { transform: translateY(-50%); }
-      to   { transform: translateY(0); }
-    }
     .ai-letter-sticky.is-ascii-on .ai-title-particles {
       display: none !important;
     }
@@ -5817,9 +5763,7 @@
     @media (prefers-reduced-motion: reduce) {
       .ai-stream-layer-a,
       .ai-stream-layer-b,
-      .ai-intro-dots,
-      .ai-intro-matrix-a,
-      .ai-intro-matrix-b {
+      .ai-intro-dots {
         animation: none;
       }
     }
@@ -11713,8 +11657,7 @@
       /* FX 降级线 = 640（2026-09-01 断点并档对齐 API：768 平板吃完整桌面 FX） */
       .bottom-cta-shader,
       .ai-intro-rail,
-      .ai-intro-ascii,
-      .ai-intro-matrix {
+      .ai-intro-ascii {
         display: none !important;
       }
 
