@@ -293,6 +293,7 @@ export function mount() {
           track.style.height = "";
           if (panelsCol) panelsCol.style.height = "";
           section.style.removeProperty("--feature-panel-h");
+          section.style.removeProperty("--feature-side-h");
           panels.forEach(function (p) {
             p.style.height = "";
             p.style.removeProperty("--fp-blur");
@@ -325,6 +326,7 @@ export function mount() {
           panelsCol.style.height = panelH + "px";
           section.style.setProperty("--feature-panel-h", panelH + "px");
         }
+        measureSideHeight();
 
         /*
          * Travel = first-panel hold (iso gather/spread/flatten + dwell)
@@ -334,6 +336,38 @@ export function mount() {
         var holdStart = Math.round(stride * 0.32);
         travelPx = Math.max(1, Math.round(holdStart + (n - 1) * stride));
         track.style.height = stickyH + travelPx + "px";
+      }
+
+      /* Lock left column to the tallest expanded accordion so CTA does not
+         move, then CSS centers that shorter block (full panelH sits too high). */
+      function measureSideHeight() {
+        var list = section.querySelector(".feature-list");
+        var cta = section.querySelector(".feature-side .feature-cta");
+        var wrap = section.querySelector(".feature-side-wrap");
+        if (!list || !cta) return;
+        var prev = [];
+        buttons.forEach(function (b) {
+          prev.push(b.classList.contains("active"));
+        });
+        if (wrap) wrap.style.height = "auto";
+        list.classList.add("is-measuring");
+        var maxH = 0;
+        buttons.forEach(function (b, i) {
+          buttons.forEach(function (x, j) {
+            x.classList.toggle("active", j === i);
+          });
+          void list.offsetHeight;
+          var h = list.getBoundingClientRect().height + cta.getBoundingClientRect().height;
+          if (h > maxH) maxH = h;
+        });
+        buttons.forEach(function (b, i) {
+          b.classList.toggle("active", prev[i]);
+        });
+        list.classList.remove("is-measuring");
+        if (wrap) wrap.style.height = "";
+        var sideH = Math.round(maxH + 24);
+        if (panelH) sideH = Math.min(panelH, sideH);
+        section.style.setProperty("--feature-side-h", sideH + "px");
       }
 
       function stridePx() {
