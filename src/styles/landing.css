@@ -3079,20 +3079,18 @@
     }
 
     /*
-     * Features — sticky frame model
-     * 1. Module hits header → whole frame sticks (title + left + right viewport)
-     * 2. Keep scrolling → right stack moves (scroll feel); left switches
-     * 3. Past last panel → frame unsticks, module scrolls away together
+     * Features — DeepSeek Harness scroll-spy
+     * Left: all items expanded, scroll with the page.
+     * Right: sticky, vertically centered; panels crossfade (opacity 500ms).
+     * Active = left item that contains the viewport midline.
      */
     .features-section {
       position: relative;
       background: var(--bg-subtle);
       --feature-pin-top: var(--topbar-h, 64px);
-      --feature-pin-gap: 36px;
-      --feature-panel-gap: 24px;
-      --feature-n: 3;
-      --feature-visual-h: calc(100vh - var(--feature-pin-top) - 96px);
-      /* no top border / shadow that reads as a seam */
+      --feature-sticky-top: 20vh;
+      --feature-n: 4;
+      --feature-visual-h: min(640px, 72vh);
       border-top: none;
       box-shadow: none;
     }
@@ -3102,27 +3100,20 @@
       padding-top: var(--sec-y);
       padding-bottom: var(--sec-y);
     }
-    /* tall track: sticky frame height + travel for (n) panels */
     .feature-scroll {
       position: relative;
-      height: calc(
-        100vh - var(--feature-pin-top) + (var(--feature-n) - 0.15) * (100vh - var(--feature-pin-top))
-      );
-      min-height: 240vh;
+      height: auto;
+      min-height: 0;
     }
-    /* pinned UI — nothing in here rides up after stick */
     .feature-sticky {
-      position: sticky;
-      top: var(--feature-pin-top);
-      height: calc(100vh - var(--feature-pin-top));
-      max-height: calc(100vh - var(--feature-pin-top));
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      box-sizing: border-box;
-      overflow: hidden;
-      background: var(--bg-subtle);
-      padding: 20px 0 16px;
+      position: relative;
+      top: auto;
+      height: auto;
+      max-height: none;
+      display: block;
+      overflow: visible;
+      background: transparent;
+      padding: 0;
     }
     .features-section .section-head {
       position: relative; /* inside sticky frame — not sticky itself */
@@ -3175,26 +3166,23 @@
     .features-section .feature-cta .btn-demo {
       flex: 0 1 auto;
     }
-    /* body row: left copy + right mock — both vertically centered in sticky */
     .feature-layout {
       display: grid;
-      grid-template-columns: minmax(340px, 42%) minmax(0, 1fr);
+      grid-template-columns: minmax(280px, 42%) minmax(0, 1fr);
       gap: 24px 56px;
-      align-items: center;
-      flex: 1 1 auto;
+      align-items: start;
       min-height: 0;
       width: 100%;
-      align-content: center;
     }
     .feature-side-wrap {
       min-width: 0;
       min-height: 0;
       height: auto;
-      max-height: 100%;
+      max-height: none;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-self: center;
+      justify-content: flex-start;
+      align-self: stretch;
     }
     .feature-side {
       display: flex;
@@ -3211,7 +3199,7 @@
     }
     .feature-list {
       display: grid;
-      gap: 8px;
+      gap: 0;
       width: 100%;
       padding-top: 0;
       align-content: start;
@@ -3219,60 +3207,57 @@
       box-sizing: border-box;
       height: auto;
     }
-    /* CTA 贴着手风琴，间距收紧；整组在 sticky 里垂直居中 */
     .feature-side .feature-cta {
-      margin-top: 24px;
-      padding-top: 0;
+      margin-top: 8px;
+      padding: 8px 0 24px;
     }
-    /* right: clipped viewport; height set by JS to panelH, then centered */
     .feature-panels-col {
-      position: relative;
+      position: sticky;
+      top: var(--feature-sticky-top, 20vh);
       min-width: 0;
       min-height: 0;
-      height: var(--feature-panel-h, auto);
-      max-height: 100%;
-      align-self: center;
-      overflow: hidden;
-      /* no top/bottom mask fade */
+      height: auto;
+      max-height: none;
+      align-self: start;
+      overflow: visible;
       -webkit-mask-image: none;
       mask-image: none;
     }
     .feature-panels {
-      display: flex;
-      flex-direction: column;
-      gap: var(--feature-panel-gap);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
       min-width: 0;
       position: relative;
       z-index: 1;
       padding-bottom: 0;
-      will-change: transform;
-      transform: translate3d(0, 0, 0);
+      transform: none;
     }
     .feature-panel {
+      grid-area: 1 / 1;
       margin: 0;
-      scroll-margin-top: 0;
       min-height: 0;
-      flex: 0 0 auto;
-      /* each panel fills the viewport column height */
-      height: 100%;
-      opacity: 1;
+      height: auto;
+      opacity: 0;
       transform: none;
       position: relative;
+      z-index: 0;
+      pointer-events: none;
+      filter: none;
+      will-change: opacity;
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .feature-panel.is-active {
+      opacity: 1;
       z-index: 1;
-      /* progressive blur while scrolling out — driven by --fp-blur / --fp-op */
-      --fp-blur: 0px;
-      --fp-op: 1;
-      filter: blur(var(--fp-blur));
-      opacity: var(--fp-op);
-      will-change: filter, opacity;
-      transition: none;
+      pointer-events: auto;
     }
     .feature-panel.is-active .feature-visual {
       /* no outer shadow — clipped by .feature-panels-col overflow */
       box-shadow: none;
     }
     .feature-panel .feature-visual {
-      height: 100%;
+      height: auto;
       min-height: 0;
       box-sizing: border-box;
     }
@@ -3620,35 +3605,38 @@
       border: 0;
       border-radius: 0;
       background: transparent;
-      padding: 6px 4px 6px 0;
+      padding: 11vh 4px 11vh 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 6px;
+      justify-content: center;
+      gap: 16px;
       text-align: left;
       width: 100%;
       max-width: 100%;
       height: auto;
-      min-height: 0;
+      min-height: 35vh;
       min-width: 0;
       box-sizing: border-box;
       overflow: visible;
       cursor: pointer;
       box-shadow: none;
-      opacity: 1;
+      opacity: 0.3;
       transform: none;
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .feature:hover {
       background: transparent;
       box-shadow: none;
     }
     .feature.active {
-      gap: 8px;
-      padding-top: 6px;
-      padding-bottom: 6px;
+      gap: 16px;
+      padding-top: 11vh;
+      padding-bottom: 11vh;
       background: transparent;
       box-shadow: none;
       transform: none;
+      opacity: 1;
     }
     /* Park：切换时其他标题不许动。padding/gap 全状态一致（active 不再加高） */
     .feature-list {
@@ -3689,25 +3677,17 @@
       color: transparent;
       -webkit-text-fill-color: transparent;
     }
-    /* 卖点描述：active 才展开。坑：0fr 收展必须套真实子元素，p 里是裸文本收不住，用 max-height */
+    /* 全展开：desc / bullets 不再收起（DeepSeek 左栏） */
     .feature .feature-desc {
       margin: 0;
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition:
-        max-height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-        margin 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.7s ease;
-    }
-    .feature.active .feature-desc {
-      margin: 8px 0 0;
-      max-height: 220px;
+      max-height: none;
+      overflow: visible;
       opacity: 1;
     }
-    /* feature-points（bullets）同步放慢，跟 desc 同节奏 */
-    .feature-points {
-      transition: grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    .feature.active .feature-desc {
+      margin: 0;
+      max-height: none;
+      opacity: 1;
     }
     /* 左栏手风琴下方的 CTA 组 */
     .feature-side .feature-cta {
@@ -3802,12 +3782,11 @@
     }
     .feature-points {
       display: grid;
-      grid-template-rows: 0fr;
+      grid-template-rows: 1fr;
       opacity: 1;
-      overflow: hidden;
-      pointer-events: none;
+      overflow: visible;
+      pointer-events: auto;
       transform: none;
-      transition: grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .feature.active .feature-points {
       grid-template-rows: 1fr;
@@ -10667,6 +10646,8 @@
         overflow: visible;
       }
       .feature-panels-col {
+        position: relative;
+        top: auto;
         height: auto;
         overflow: visible;
         min-height: 0;
@@ -10674,6 +10655,12 @@
       .feature-panels {
         gap: 0;
         transform: none !important;
+      }
+      .feature-list .feature,
+      .feature-list .feature.active {
+        min-height: 0;
+        padding: 14px 14px 12px;
+        opacity: 1;
       }
       /*
        * Mobile accordion: only the active visual — stacking all panels
@@ -11958,6 +11945,8 @@
         background: transparent;
         box-shadow: none;
         padding: 0;
+        min-height: 0;
+        opacity: 1;
       }
       .feature-list .feature .feature-points {
         grid-template-rows: 1fr !important;
@@ -11971,10 +11960,12 @@
       .feature-panel[data-feature="1"] .feature-visual { grid-area: 3 / 1; }
       .feature-list .feature[data-feature="2"] { grid-area: 6 / 1; }
       .feature-panel[data-feature="2"] .feature-visual { grid-area: 5 / 1; }
+      .feature-list .feature[data-feature="3"] { grid-area: 8 / 1; }
+      .feature-panel[data-feature="3"] .feature-visual { grid-area: 7 / 1; }
       .feature-list .feature {
         margin-bottom: 28px;
       }
-      .feature-list .feature[data-feature="2"] {
+      .feature-list .feature[data-feature="3"] {
         margin-bottom: 0;
       }
       .fx-lm-cluster,

@@ -130,7 +130,7 @@ describe("React landing structure (gating)", () => {
     expect(fx).toMatch(/bottom-cta|bottomCta/);
     const features = read("components/sections/FeaturesSection.jsx");
     expect(features).toMatch(/feature-scroll|id="feature-scroll"/);
-    // 09-08 文案：4 个卖点标签（手风琴，首字母大写），不再锁旧三块标题
+    // 09-08 文案：4 个卖点标签（全展开 scroll-spy，首字母大写）
     expect(features).toMatch(/Branded Tracking Page/);
     expect(features).toMatch(/Branded Email Notification/);
     expect(features).toMatch(/Split-Order Management/);
@@ -371,7 +371,7 @@ describe("React landing structure (gating)", () => {
     const inline = read("fx/modules/landing-inline.js");
     expect(inline).toMatch(/mqMobile\.matches/);
     expect(inline).toMatch(/max-width: 640px/);
-    expect(inline).toMatch(/Accordion/);
+    expect(inline).toMatch(/innerHeight \/ 2/);
     expect(inline).toMatch(/reduce \|\| phone/);
     expect(inline).not.toMatch(/setTilt/);
     expect(css).toMatch(/returns-ui-photo/);

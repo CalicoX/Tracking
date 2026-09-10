@@ -231,55 +231,30 @@ export function mount() {
 
 
     /*
-     * Features sticky-frame:
-     * 1) Module hits header → frame sticks (title + left + right viewport stay)
-     * 2) Continue scroll → right stack translates; left switches; leaving panels blur
-     * 3) Past last panel → sticky ends; whole module scrolls away
+     * Features — DeepSeek Harness scroll-spy
+     * Left items stay expanded. Viewport midline picks the current module.
+     * Right visuals are stacked and crossfade (CSS opacity 500ms).
+     * ≤640: phone stack, no sticky spy.
      */
     (function () {
       var section = document.getElementById("key-features");
       var track = document.getElementById("feature-scroll");
-      var sticky = track ? track.querySelector(".feature-sticky") : null;
       var panelsRoot = document.getElementById("feature-panels");
       var panelsCol = panelsRoot ? panelsRoot.closest(".feature-panels-col") : null;
-      var topbarEl = document.querySelector(".topbar");
-      var buttons = document.querySelectorAll(".feature-list .feature[data-feature]");
+      var buttons = Array.prototype.slice.call(
+        document.querySelectorAll(".feature-list .feature[data-feature]")
+      );
       var panels = panelsRoot
         ? Array.prototype.slice.call(panelsRoot.querySelectorAll(".feature-panel[data-feature]"))
         : [];
-      if (!section || !track || !sticky || !panelsRoot || !panels.length || !buttons.length) return;
+      if (!section || !track || !panelsRoot || !panels.length || !buttons.length) return;
 
       var n = panels.length;
       var current = -1;
-      var clickUnlockTimer = 0;
       var mqMobile = window.matchMedia("(max-width: 640px)");
-      var panelGap = 28;
-      var panelH = 0;
-      var travelPx = 1;
-      var lastP = -1;
       var rafTick = 0;
 
       section.style.setProperty("--feature-n", String(n));
-
-      function measureTopbar() {
-        if (!topbarEl) return 64;
-        var th = Math.max(
-          Math.ceil(topbarEl.getBoundingClientRect().height),
-          Math.ceil(topbarEl.offsetHeight || 0),
-          56
-        );
-        document.documentElement.style.setProperty("--topbar-h", th + "px");
-        section.style.setProperty("--feature-pin-top", th + "px");
-        return th;
-      }
-
-      function pinTop() {
-        return (
-          parseFloat(getComputedStyle(section).getPropertyValue("--feature-pin-top")) ||
-          parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--topbar-h")) ||
-          64
-        );
-      }
 
       function pageScrollY() {
         if (window.__lenis && typeof window.__lenis.scroll === "number") {
@@ -288,69 +263,16 @@ export function mount() {
         return window.pageYOffset || document.documentElement.scrollTop || 0;
       }
 
-      function measureLayout() {
+      function fitStickyTop() {
+        if (!panelsCol) return;
         if (mqMobile.matches) {
-          track.style.height = "";
-          if (panelsCol) panelsCol.style.height = "";
-          section.style.removeProperty("--feature-panel-h");
-          panels.forEach(function (p) {
-            p.style.height = "";
-            p.style.removeProperty("--fp-blur");
-            p.style.removeProperty("--fp-op");
-          });
-          panelsRoot.style.transform = "";
-          travelPx = 1;
+          panelsCol.style.top = "";
+          section.style.removeProperty("--feature-sticky-top");
           return;
         }
-        measureTopbar();
-        var gap =
-          parseFloat(getComputedStyle(section).getPropertyValue("--feature-panel-gap")) || 28;
-        panelGap = gap;
-
-        /*
-         * Panel height fills leftover sticky space under the section head
-         * (left copy + right visual sit in that band).
-         */
-        var stickyH = sticky.offsetHeight || Math.max(320, window.innerHeight - pinTop());
-        var headEl = sticky.querySelector(".section-head");
-        var headH = headEl ? headEl.getBoundingClientRect().height : 120;
-        var padY = 36; /* sticky padding-top 20 + padding-bottom 16 */
-        var avail = Math.max(320, stickyH - headH - padY);
-        panelH = Math.round(avail);
-
-        panels.forEach(function (p) {
-          p.style.height = panelH + "px";
-        });
-        if (panelsCol) {
-          panelsCol.style.height = panelH + "px";
-          section.style.setProperty("--feature-panel-h", panelH + "px");
-        }
-
-        /*
-         * Travel = first-panel hold (iso gather/spread/flatten + dwell)
-         * + (n-1) strides. Last panel centers, then page keeps scrolling.
-         */
-        var stride = panelH + panelGap;
-        var holdStart = Math.round(stride * 0.32);
-        travelPx = Math.max(1, Math.round(holdStart + (n - 1) * stride));
-        track.style.height = stickyH + travelPx + "px";
-      }
-
-      function stridePx() {
-        return panelH + panelGap;
-      }
-
-      function holdStartPx() {
-        return Math.round(stridePx() * 0.32);
-      }
-
-      /** 0 = just pinned, 1 = last panel centered → sticky unsticks immediately after */
-      function scrollProgress() {
-        var pt = pinTop();
-        var travel = Math.max(1, travelPx);
-        var rect = track.getBoundingClientRect();
-        var scrolled = Math.min(travel, Math.max(0, pt - rect.top));
-        return scrolled / travel;
+        var h = panelsCol.offsetHeight || 0;
+        var top = Math.max(0, Math.round((window.innerHeight - h) / 2));
+        section.style.setProperty("--feature-sticky-top", top + "px");
       }
 
       function setActive(idx) {
@@ -365,17 +287,10 @@ export function mount() {
         });
         panels.forEach(function (p, i) {
           p.classList.toggle("is-active", i === idx);
-          var stage = p.querySelector(".feature-stage");
-          if (stage && mqMobile.matches) {
-            stage.style.setProperty("--fx-c", i === idx ? "1" : "0");
-            stage.style.setProperty("--fx-iso", "0");
-            stage.style.setProperty("--fx-spread", "0");
-          }
         });
         alignActiveMock();
       }
 
-      /* Park：图/文水平中心对齐——短内容面板（Conversion 卡）mock 中心平移到面板中心 */
       function alignActiveMock() {
         if (mqMobile.matches) return;
         var p = panels[current];
@@ -385,148 +300,61 @@ export function mount() {
         if (!mock || !pr.height) return;
         var mr = mock.getBoundingClientRect();
         if (!mr.height) return;
-        var shift = (pr.top + pr.height / 2) - (mr.top + mr.height / 2);
+        var shift = pr.top + pr.height / 2 - (mr.top + mr.height / 2);
         p.style.setProperty("--mock-shift", shift.toFixed(1) + "px");
       }
 
-      /**
-       * Map scroll progress → continuous index 0..n-1
-       * brief start hold at 0; at p≈1 continuous = n-1 and sticky ends
-       */
-      function continuousFromProgress(p) {
-        if (n <= 1) return 0;
-        var stride = stridePx();
-        var hold = holdStartPx();
-        var y = Math.max(0, Math.min(1, p)) * travelPx;
-        var y2 = Math.max(0, y - hold);
-        var continuous = y2 / Math.max(1, stride);
-        return Math.min(n - 1, Math.max(0, continuous));
-      }
-
-      function progressToIndex(p) {
-        return Math.min(n - 1, Math.max(0, Math.round(continuousFromProgress(p))));
-      }
-
-      /** scroll progress that places panel idx fully in view */
-      function indexToProgress(idx) {
-        if (n <= 1) return 0;
-        var stride = stridePx();
-        var hold = holdStartPx();
-        var i = Math.max(0, Math.min(n - 1, idx));
-        var y = hold + i * stride;
-        return Math.max(0, Math.min(1, y / Math.max(1, travelPx)));
-      }
-
-      function applyProgress(p) {
+      function syncFromMidline() {
         if (mqMobile.matches) return;
-        if (!panelH || panelH < 80) measureLayout();
-        p = Math.max(0, Math.min(1, p));
-        lastP = p;
-
-        var continuous = continuousFromProgress(p);
-        setActive(progressToIndex(p));
-
-        var stride = panelH + panelGap;
-        var y = -continuous * stride;
-        panelsRoot.style.transform = "translate3d(0, " + y.toFixed(2) + "px, 0)";
-
-        /*
-         * Blur only when LEAVING the center band.
-         * |offset| ≈ 0 (scrolled to middle of a panel) → sharpest.
-         */
-        panels.forEach(function (panel, i) {
-          var offset = continuous - i;
-          var leave = Math.abs(offset);
-          var blurPx = 0;
-          var op = 1;
-          /* fully clear within ±0.28 of center; then ramp blur outward */
-          if (leave > 0.28) {
-            var t = Math.min(1, (leave - 0.28) / 0.72);
-            var ease = t * t;
-            blurPx = ease * 16;
-            op = 1 - ease * 0.55;
+        var mid = window.innerHeight / 2;
+        var i;
+        for (i = 0; i < buttons.length; i++) {
+          var r = buttons[i].getBoundingClientRect();
+          if (r.top <= mid && r.bottom > mid) {
+            setActive(i);
+            return;
           }
-          panel.style.setProperty("--fp-blur", blurPx.toFixed(2) + "px");
-          panel.style.setProperty("--fp-op", Math.max(0.35, op).toFixed(3));
-
-          /* 1 when centered, 0 when far — panel blur only. Illustrations stay flat. */
-          var c = Math.max(0, 1 - leave);
-          c = c * c * (3 - 2 * c); /* smoothstep */
-          var stage = panel.querySelector(".feature-stage");
-          if (stage) {
-            stage.style.setProperty("--fx-c", c.toFixed(3));
-            stage.style.setProperty("--fx-iso", "0");
-            stage.style.setProperty("--fx-spread", "1");
-          }
-        });
-      }
-
-      function onScroll() {
-        if (mqMobile.matches) {
-          /* Accordion mode: only active panel is visible — no scroll-spy switching */
-          return;
         }
-        /* always follow real scroll — including during click-driven scrollTo */
-        applyProgress(scrollProgress());
-      }
-
-      /* rAF poll — reliable with Lenis (native scroll events may not fire) */
-      function tick() {
-        rafTick = requestAnimationFrame(tick);
-        if (mqMobile.matches) return;
-        var p = scrollProgress();
-        if (Math.abs(p - lastP) > 0.0005) applyProgress(p);
-      }
-
-      function finishClickAnim() {
-        if (clickUnlockTimer) {
-          clearTimeout(clickUnlockTimer);
-          clickUnlockTimer = 0;
-        }
-        /* snap UI to true scroll position after animation */
-        applyProgress(scrollProgress());
       }
 
       function scrollToFeature(idx) {
         if (idx < 0 || idx >= n) return;
+        var el = buttons[idx];
+        if (!el) return;
         if (mqMobile.matches) {
-          /* Accordion: swap visible panel in place (no long scroll stack) */
-          setActive(idx);
-          var panel = panels[idx];
-          if (panel) {
-            try {
-              panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            } catch (e) {
-              /* ignore */
-            }
+          try {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          } catch (e) {
+            /* ignore */
           }
+          setActive(idx);
           return;
         }
-
-        measureLayout();
-        var pt = pinTop();
-        var travel = Math.max(1, travelPx);
-        var pageY = pageScrollY();
-        var trackTop = track.getBoundingClientRect().top + pageY;
-        var p = indexToProgress(idx);
-        var target = trackTop - pt + p * travel;
-
-        /*
-         * Scroll-only navigation: do NOT applyProgress(p) here.
-         * Panels / left nav follow scroll progress as the page animates.
-         */
-        if (clickUnlockTimer) clearTimeout(clickUnlockTimer);
-        /* safety unlock — Lenis onComplete can miss */
-        clickUnlockTimer = setTimeout(finishClickAnim, 1600);
-
+        var rect = el.getBoundingClientRect();
+        var target = pageScrollY() + rect.top + rect.height / 2 - window.innerHeight / 2;
         if (window.__lenis && typeof window.__lenis.scrollTo === "function") {
-          window.__lenis.scrollTo(target, {
-            duration: 1.25,
-            onComplete: finishClickAnim,
-          });
+          window.__lenis.scrollTo(target, { duration: 0.9 });
         } else {
           window.scrollTo({ top: target, behavior: "smooth" });
-          setTimeout(finishClickAnim, 1300);
+        }
+      }
+
+      function onScroll() {
+        syncFromMidline();
+      }
+
+      function tick() {
+        rafTick = requestAnimationFrame(tick);
+        if (!mqMobile.matches) syncFromMidline();
+      }
+
+      function onResize() {
+        fitStickyTop();
+        if (mqMobile.matches) {
+          if (current < 0) setActive(0);
+        } else {
+          syncFromMidline();
+          alignActiveMock();
         }
       }
 
@@ -538,39 +366,26 @@ export function mount() {
         });
       });
 
-      function onResize() {
-        measureLayout();
-        onScroll();
-        if (mqMobile.matches) {
-          /* ensure a panel stays visible in accordion mode */
-          if (current < 0) setActive(0);
-          else setActive(current);
-        }
-      }
-
       if (window.__lenis && typeof window.__lenis.on === "function") {
         window.__lenis.on("scroll", onScroll);
       }
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onResize, { passive: true });
-      if (mqMobile.addEventListener) {
-        mqMobile.addEventListener("change", onResize);
-      } else if (mqMobile.addListener) {
-        mqMobile.addListener(onResize);
-      }
+      if (mqMobile.addEventListener) mqMobile.addEventListener("change", onResize);
+      else if (mqMobile.addListener) mqMobile.addListener(onResize);
 
       if (typeof ResizeObserver !== "undefined") {
-        if (topbarEl) new ResizeObserver(onResize).observe(topbarEl);
         if (panelsCol) new ResizeObserver(onResize).observe(panelsCol);
-        new ResizeObserver(onResize).observe(sticky);
+        buttons.forEach(function (b) {
+          new ResizeObserver(fitStickyTop).observe(b);
+        });
       }
 
-      measureLayout();
       setActive(0);
-      if (!mqMobile.matches) applyProgress(0);
+      fitStickyTop();
       requestAnimationFrame(function () {
-        measureLayout();
-        onScroll();
+        fitStickyTop();
+        syncFromMidline();
         if (!rafTick) rafTick = requestAnimationFrame(tick);
       });
 
