@@ -5702,7 +5702,7 @@
       z-index: 3;
       pointer-events: none;
       overflow: hidden;
-      opacity: 0.46;
+      opacity: 0.2;
       mix-blend-mode: screen;
     }
     .ai-intro-matrix-fx {
@@ -5725,10 +5725,10 @@
       padding: 0;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
       font-size: 12px;
-      line-height: 16px;
-      letter-spacing: 0.08em;
+      line-height: 17px;
+      letter-spacing: 0.04em;
       white-space: pre;
-      color: rgba(196, 181, 253, 0.62);
+      color: rgba(148, 140, 180, 0.42);
       user-select: none;
     }
     .ai-intro-matrix-a {

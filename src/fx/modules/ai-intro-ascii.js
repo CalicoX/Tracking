@@ -17,13 +17,13 @@ export const AI_EXIT_VH = 0.48;
 
 const FIELD_W = 256;
 const FIELD_H = 144;
-const MATRIX_GLYPHS = "+*#=-.|:";
+const MATRIX_GLYPHS = "+++■□#+█▓▒#";
 const MATRIX_ROWS = 42;
 const MATRIX_COLS = 88;
-const CELL_W = 16;
-const CELL_H = 22;
-const FONT_PX = 14;
-const EMPTY_PCT = 62;
+const CELL_W = 13;
+const CELL_H = 17;
+const FONT_PX = 12;
+const EMPTY_PCT = 50;
 const SLIDE_RADIUS = 260;
 const SLIDE_PUSH = 48;
 const SLIDE_DRAG = 5.2;
@@ -212,8 +212,8 @@ export function mount() {
     fx.canvas.height = Math.round(h * dpr);
     fx.canvas.style.width = w + "px";
     fx.canvas.style.height = h + "px";
-    fx.atlasA = makeAtlas("rgb(214,205,255)", dpr);
-    fx.atlasB = makeAtlas("rgb(168,180,204)", dpr);
+    fx.atlasA = makeAtlas("rgb(118,112,148)", dpr);
+    fx.atlasB = makeAtlas("rgb(78,86,108)", dpr);
     if (!ptrHover && ptrInf < 0.01) {
       ptrTx = w * 0.5;
       ptrTy = h * 0.5;
@@ -257,7 +257,7 @@ export function mount() {
             const f = fall * fall * inf;
             ox = (dx / d) * SLIDE_PUSH * f + vx * SLIDE_DRAG * f;
             oy = (dy / d) * SLIDE_PUSH * f + vy * SLIDE_DRAG * f;
-            lit = alpha * (1 + 0.7 * f);
+            lit = alpha * (1 + 0.35 * f);
           }
         }
         ctx.globalAlpha = lit;

@@ -63,5 +63,7 @@ describe("sampleIntroFlow (shipped intro bg)", () => {
     expect(ascii).toMatch(/ai-intro-matrix-fx/);
     expect(ascii).toMatch(/fillMatrix/);
     expect(ascii).toMatch(/MATRIX_GLYPHS/);
+    expect(ascii).toMatch(/\+\+\+■/);
+    expect(ascii).toMatch(/EMPTY_PCT = 50/);
   });
 });
