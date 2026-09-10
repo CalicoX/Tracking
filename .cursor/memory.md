@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-10（Explore Returns 卡 Sneakers 圆标改背景实物鞋）
+最后更新：2026-09-10（Sneakers 圆标缩小取景，整双鞋进圈）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -87,7 +87,7 @@
 ## ExploreMore
 
 - 在 **Credentials 后面**、BottomCta 前面。不要放回 AI Lab 后。白底 Returns/API 两卡不变。
-- Returns 卡 Sneakers 圆标（09-10）：`.returns-ui-thumb` 用 `/assets/returns-scene.jpg` 裁切左下实物鞋（img 210×158 / left -13 / top -108），不要 bag SVG。
+- Returns 卡 Sneakers 圆标（09-10）：`.returns-ui-thumb` 用 `/assets/returns-scene.jpg` 裁切左下实物鞋（img 128×96 / left 0 / top -54）。Park：不要裁太近把鞋切掉。不要 bag SVG。
 
 ## 人
 

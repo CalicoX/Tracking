@@ -9472,11 +9472,11 @@
     }
     .returns-ui-thumb img {
       position: absolute;
-      width: 210px;
-      height: 158px;
+      width: 128px;
+      height: 96px;
       max-width: none;
-      left: -13px;
-      top: -108px;
+      left: 0;
+      top: -54px;
       object-fit: fill;
       pointer-events: none;
     }
