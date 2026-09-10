@@ -81,57 +81,59 @@ export default function FeaturesSection() {
                       </div>
                     </div>
                   </article>
-                  {/* 1 · Branded email notification — inbox + delay/exception + trigger + WISMO */}
+                  {/* 1 · Branded email — merchant letter (fig 2) + custom flow (fig 3), light cards */}
                   <article className="feature-panel" data-feature="1" id="feature-panel-1" role="tabpanel" aria-labelledby="feature-tab-1">
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                          <div className="fx-lm-cluster">
-                            <div className="fx-glass fx-lm-mail">
-                              <div className="fx-lm-mail-head">
-                                <img className="fx-lm-mail-avatar" src="/assets/shopify-app-icon.png" alt="" />
-                                <div className="fx-lm-mail-from">
-                                  <strong>17TRACK</strong>
-                                  <span>notify@17track.net</span>
+                          <div className="fx-em-scene">
+                            <div className="fx-glass fx-em-letter">
+                              <div className="fx-em-letter-head">
+                                <span className="fx-em-logo">A</span>
+                                <div className="fx-em-addrs">
+                                  <span>From: shipping@yourstore.com</span>
+                                  <span>to: customer@123.com</span>
                                 </div>
-                                <time>10:24 AM</time>
                               </div>
-                              <p className="fx-lm-mail-subject">Out for delivery today · 2–4pm</p>
-                              <p className="fx-lm-mail-body">Your USPS package is out for delivery. We'll update you if anything changes.</p>
-                              <div className="fx-em-alerts">
-                                <span className="is-on">Delivered</span>
-                                <span>Delay</span>
-                                <span>Exception</span>
-                              </div>
+                              <h4 className="fx-em-letter-title">Your order has a delivery exception.</h4>
+                              <p className="fx-em-letter-hi">Hi Sam,</p>
+                              <p className="fx-em-letter-body">Your order is undergoing an unusual shipping condition. Please contact the carrier as soon as possible to resolve the issue.</p>
+                              <span className="fx-em-cta">
+                                Track order
+                                <i className="fx-em-cursor" aria-hidden="true">
+                                  <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#111" stroke="#fff" strokeWidth="1.2" d="M4.2 3.4l14.2 9.1-6.4 1.5 3.7 7.2-2.6 1.3-3.8-7.3-5.1 4.8z"/></svg>
+                                </i>
+                              </span>
+                              <dl className="fx-em-meta">
+                                <div><dt>Tracking number</dt><dd>927489****7658100581</dd></div>
+                                <div><dt>Carrier</dt><dd>USPS</dd></div>
+                                <div><dt>Carrier phone</dt><dd>+0 321 3278 321</dd></div>
+                              </dl>
+                              <span className="fx-em-warn" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none"><path d="M12 4.2 21 20H3L12 4.2Z" fill="currentColor"/><path d="M12 10v5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="17.2" r="1" fill="#fff"/></svg>
+                              </span>
                             </div>
-                            <div className="fx-glass fx-em-list">
-                              <div className="fx-em-row">
-                                <i className="fx-em-dot is-delay" />
-                                <div>
-                                  <strong>Delay alert</strong>
-                                  <span>New ETA · Thu 4–6pm</span>
-                                </div>
-                                <time>8:02 AM</time>
+                            <div className="fx-glass fx-em-flow">
+                              <span className="fx-em-flow-ico" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.7"/><circle cx="18" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.7"/><circle cx="12" cy="18" r="2.2" stroke="currentColor" strokeWidth="1.7"/><path d="M8 6h8M7.2 8.1 10.6 16M16.8 8.1 13.4 16" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></svg>
+                              </span>
+                              <h4>Create flow</h4>
+                              <p>When to send email</p>
+                              <div className="fx-em-flow-row">
+                                <span>Delay alert</span>
+                                <em>is</em>
+                                <span>More than 24h</span>
                               </div>
-                              <div className="fx-em-row">
-                                <i className="fx-em-dot is-ex" />
-                                <div>
-                                  <strong>Exception</strong>
-                                  <span>Address needs a confirm</span>
-                                </div>
-                                <time>Yesterday</time>
-                              </div>
-                              <p className="fx-em-more">19 notification scenarios</p>
-                            </div>
-                            <div className="fx-em-foot">
-                              <div className="fx-glass fx-em-trigger">
-                                <span>Custom trigger</span>
-                                <strong>If delayed &gt; 24h → Email + SMS</strong>
-                              </div>
-                              <div className="fx-glass fx-em-wismo">
-                                <strong>−95%</strong>
-                                <span>WISMO inquiries</span>
+                              <div className="fx-em-flow-line" aria-hidden="true" />
+                              <div className="fx-em-filters">
+                                <span className="fx-em-add">+ Add filters</span>
+                                <ul>
+                                  <li className="is-on">Origin carrier</li>
+                                  <li>Destination carrier</li>
+                                  <li>Origin</li>
+                                  <li>Destination</li>
+                                </ul>
                               </div>
                             </div>
                           </div>

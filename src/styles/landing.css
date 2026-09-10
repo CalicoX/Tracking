@@ -4628,142 +4628,278 @@
       width: 26px;
       height: 26px;
     }
-    .fx-em-list,
-    .fx-em-trigger,
-    .fx-em-wismo {
+    .fx-em-scene {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 8px 8px 12px 0;
+      box-sizing: border-box;
+    }
+    .fx-em-letter,
+    .fx-em-flow {
       position: relative;
       left: auto;
       top: auto;
       color: #0f172a;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
-      box-shadow: none;
+      box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 18px 40px -24px rgba(15, 23, 42, 0.18);
       opacity: 1;
       transform: none;
     }
-    .fx-em-list {
+    .fx-em-letter {
       width: 100%;
-    }
-    .fx-em-alerts {
+      padding: 18px 22px 22px;
+      overflow: visible;
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      padding: 2px 12px 12px;
+      flex-direction: column;
+      align-items: stretch;
     }
-    .fx-em-alerts span {
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 10.5px;
-      font-weight: 650;
-      letter-spacing: 0.01em;
-      background: #f1f5f9;
-      color: #64748b;
-    }
-    .fx-em-alerts span.is-on {
-      background: #dcfce7;
-      color: #15803d;
-    }
-    .fx-em-list {
-      padding: 6px 4px 10px;
-      overflow: hidden;
-    }
-    .fx-em-row {
+    .fx-em-letter-head {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
+      gap: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.07);
     }
-    .fx-em-row + .fx-em-row {
-      border-top: 1px solid rgba(15, 23, 42, 0.06);
-    }
-    .fx-em-dot {
-      width: 8px;
-      height: 8px;
+    .fx-em-letter .fx-em-logo {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      flex: 0 0 8px;
+      flex: 0 0 44px;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      background: #c026d3;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.02em;
     }
-    .fx-em-dot.is-delay { background: #d97706; }
-    .fx-em-dot.is-ex { background: #e11d48; }
-    .fx-em-row div {
+    .fx-em-addrs {
       min-width: 0;
       flex: 1;
     }
-    .fx-em-row strong {
+    .fx-em-addrs span {
       display: block;
-      font-size: 13px;
+      margin: 0;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: #334155;
+      font-weight: 500;
+    }
+    .fx-em-letter-title {
+      margin: 0 0 14px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      color: #0f172a;
+      text-align: center;
+    }
+    .fx-em-letter-hi {
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #334155;
+      text-align: center;
+    }
+    .fx-em-letter-body {
+      margin: 0 auto 18px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #64748b;
+      max-width: 34em;
+      text-align: center;
+    }
+    .fx-em-letter .fx-em-cta {
+      position: relative;
+      display: flex;
+      align-self: center;
+      width: max-content;
+      align-items: center;
+      justify-content: center;
+      min-width: 148px;
+      height: 40px;
+      padding: 0 22px;
+      margin: 4px auto 18px;
+      border-radius: 999px;
+      background: #3b82f6;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+    .fx-em-cursor {
+      position: absolute;
+      right: -6px;
+      bottom: -10px;
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 2px rgba(15, 23, 42, 0.25));
+    }
+    .fx-em-meta {
+      margin: 0;
+      display: grid;
+      gap: 4px;
+      font-size: 12.5px;
+      color: #64748b;
+    }
+    .fx-em-meta div {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+    .fx-em-meta dt {
+      font-weight: 500;
+    }
+    .fx-em-meta dt::after {
+      content: ":";
+    }
+    .fx-em-meta dd {
+      margin: 0;
+      font-weight: 650;
+      color: #334155;
+    }
+    .fx-em-warn {
+      position: absolute;
+      top: 118px;
+      right: -12px;
+      z-index: 4;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(160deg, #fb923c, #ea580c);
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(234, 88, 12, 0.35);
+    }
+    .fx-em-warn svg {
+      width: 26px;
+      height: 26px;
+    }
+    .fx-em-flow {
+      position: relative;
+      z-index: 3;
+      width: min(268px, 100%);
+      margin: -28px 0 0 auto;
+      padding: 16px 16px 14px 18px;
+    }
+    .fx-em-flow-ico {
+      position: absolute;
+      left: -22px;
+      top: 18px;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #86efac;
+      color: #065f46;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.28);
+    }
+    .fx-em-flow-ico svg {
+      width: 22px;
+      height: 22px;
+    }
+    .fx-em-flow h4 {
+      margin: 0 0 4px 28px;
+      font-size: 15px;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: #0f172a;
     }
-    .fx-em-row span {
-      display: block;
-      margin-top: 1px;
-      font-size: 11.5px;
-      line-height: 1.35;
+    .fx-em-flow > p {
+      margin: 0 0 10px 28px;
+      font-size: 12px;
+      font-weight: 500;
       color: #64748b;
     }
-    .fx-em-row time {
+    .fx-em-flow-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 0 12px;
+    }
+    .fx-em-flow-row span {
+      flex: 1 1 0;
+      min-width: 0;
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: #f8fafc;
+      font-size: 11.5px;
+      font-weight: 550;
+      color: #334155;
+      display: flex;
+      align-items: center;
+    }
+    .fx-em-flow-row em {
       flex: 0 0 auto;
+      font-style: normal;
       font-size: 11px;
       font-weight: 500;
       color: #94a3b8;
     }
-    .fx-em-more {
-      margin: 2px 12px 4px;
-      font-size: 11.5px;
-      font-weight: 650;
+    .fx-em-flow-line {
+      width: 2px;
+      height: 14px;
+      margin: 0 0 8px 18px;
+      border-radius: 2px;
+      background: repeating-linear-gradient(
+        #22c55e 0 4px,
+        transparent 4px 7px
+      );
+    }
+    .fx-em-filters {
+      position: relative;
+    }
+    .fx-em-flow .fx-em-add {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      height: 28px;
+      margin: 0;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(37, 99, 235, 0.28);
       color: #2563eb;
-      letter-spacing: -0.01em;
-    }
-    .fx-em-foot {
-      display: flex;
-      align-items: stretch;
-      gap: 12px;
-    }
-    .fx-em-trigger,
-    .fx-em-wismo {
-      padding: 12px 14px;
-    }
-    .fx-em-trigger {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-    .fx-em-trigger span,
-    .fx-em-wismo span {
-      display: block;
-      font-size: 10.5px;
+      font-size: 12px;
       font-weight: 650;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #64748b;
+      background: #fff;
     }
-    .fx-em-trigger strong {
-      display: block;
-      margin-top: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.35;
-      color: #0f172a;
+    .fx-em-filters ul {
+      position: relative;
+      left: 0;
+      top: 8px;
+      z-index: 4;
+      margin: 0;
+      padding: 6px;
+      list-style: none;
+      width: 188px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 12px 28px -16px rgba(15, 23, 42, 0.28);
     }
-    .fx-em-wismo {
-      flex: 0 0 132px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .fx-em-wismo strong {
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      color: #2563eb;
-    }
-    .fx-em-wismo span {
-      margin-top: 6px;
-      text-transform: none;
-      letter-spacing: -0.01em;
+    .fx-em-filters li {
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 12.5px;
       font-weight: 500;
+      color: #334155;
+    }
+    .fx-em-filters li.is-on {
+      background: #f1f5f9;
+      font-weight: 650;
     }
 
     /* Split-order — mail above, tracking card below (same stack as last-mile) */
@@ -5338,9 +5474,8 @@
       .feature-stage[data-theme="lastmile"] .fx-lm-card,
       .feature-stage[data-theme="lastmile"] .fx-lm-carriers,
       .feature-stage[data-theme="lastmile"] .fx-lm-phone,
-      .feature-stage[data-theme="lastmile"] .fx-em-list,
-      .feature-stage[data-theme="lastmile"] .fx-em-trigger,
-      .feature-stage[data-theme="lastmile"] .fx-em-wismo,
+      .feature-stage[data-theme="lastmile"] .fx-em-letter,
+      .feature-stage[data-theme="lastmile"] .fx-em-flow,
       .feature-stage[data-theme="split"] .fx-so-mail,
       .feature-stage[data-theme="split"] .fx-so-card,
       .feature-stage[data-theme="branded"] .fx-br-form,
@@ -5417,11 +5552,25 @@
         width: 100%;
         margin: 0 0 10px;
       }
-      .fx-em-foot {
-        flex-wrap: wrap;
+      .fx-em-scene {
+        padding: 0;
+        max-width: 100%;
       }
-      .fx-em-wismo {
-        flex: 1 1 110px;
+      .fx-em-letter {
+        padding-bottom: 20px;
+      }
+      .fx-em-flow {
+        position: relative;
+        width: 100%;
+        margin: 16px 0 0;
+      }
+      .fx-em-flow-ico {
+        left: 14px;
+        top: -18px;
+      }
+      .fx-em-warn {
+        right: 12px;
+        top: 18px;
       }
       .fx-lm-card {
         left: auto;
@@ -11235,7 +11384,8 @@
         gap: 24px 32px;
       }
       .fx-lm-cluster,
-      .fx-so-cluster {
+      .fx-so-cluster,
+      .fx-em-scene {
         max-width: 400px;
       }
       .fx-br-stage {
@@ -11769,6 +11919,9 @@
       /* Branded: keep desktop side-overlap, but don't stretch the form.
          Track CTA stays readable; color wheel stays inside the column. */
       .fx-hero-page {
+        max-width: 400px;
+      }
+      .fx-em-scene {
         max-width: 400px;
       }
       .fx-br-stage {
