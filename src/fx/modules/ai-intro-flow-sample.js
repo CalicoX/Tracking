@@ -116,6 +116,7 @@ export function sampleIntroFlow(uv, t, grainUv = null, viewport = DEFAULT_VIEW) 
   if (!grainUv) return rgb;
   const n = grainTerm(grainUv.x, grainUv.y);
   const lum = Math.min(1, Math.max(0, 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]));
-  const g = n * Math.pow(1 - lum + 1e-6, GRAIN_BIAS) * GRAIN_STRENGTH * 0.1;
+  const dark = Math.pow(1 - lum + 1e-6, 0.7);
+  const g = n * (0.82 * 0.65 + dark * 0.35) * GRAIN_STRENGTH;
   return [clamp01(rgb[0] + g), clamp01(rgb[1] + g), clamp01(rgb[2] + g)];
 }

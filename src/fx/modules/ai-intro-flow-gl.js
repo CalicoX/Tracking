@@ -1,7 +1,6 @@
 import {
   DISTORT,
   FLOW_BACK,
-  GRAIN_BIAS,
   GRAIN_STRENGTH,
   WAVE_A,
   WAVE_B,
@@ -19,13 +18,13 @@ precision highp float;
 uniform vec2 uRes;
 uniform float uTime;
 uniform float uFade;
+uniform float uDpr;
 
 const float TAU = 6.28318530718;
 const vec3 BACK = vec3(${FLOW_BACK[0]}, ${FLOW_BACK[1]}, ${FLOW_BACK[2]});
 const vec3 BLUE = vec3(${WAVE_BLUE[0]}, ${WAVE_BLUE[1]}, ${WAVE_BLUE[2]});
 const vec3 PINK = vec3(${WAVE_PINK[0]}, ${WAVE_PINK[1]}, ${WAVE_PINK[2]});
 const float GRAIN_AMT = ${GRAIN_STRENGTH.toFixed(4)};
-const float GRAIN_POW = ${GRAIN_BIAS.toFixed(4)};
 
 vec3 srgbToLin(vec3 c){
   return mix(c / 12.92, pow((c + 0.055) / 1.055, vec3(2.4)), step(0.04045, c));
@@ -70,8 +69,9 @@ float sineMask(vec2 uv, vec2 pos, float angle, float freq, float amp, float thic
 }
 
 float filmGrain(vec2 pixel){
-  float n = fract(sin(dot(pixel, vec2(12.9898, 78.233))) * 43758.5453);
-  return n * 2.0 - 1.0;
+  vec3 p3 = fract(vec3(pixel.xyx) * 0.1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.x + p3.y) * p3.z) * 2.0 - 1.0;
 }
 
 void main(){
@@ -106,9 +106,10 @@ void main(){
   rgb = addGlow(rgb, BLUE, a1);
   rgb = addGlow(rgb, PINK, a2);
 
-  /* Official FilmGrain: 1 device px, bias 2, strength*0.1. Don't CSS-cell / 2-octave. */
+  /* 1 CSS px (official viewport). Authored 0.07 — official also *0.1 is invisible here. */
   float lum = clamp(dot(rgb, vec3(0.2126, 0.7152, 0.0722)), 0.0, 1.0);
-  float grain = filmGrain(gl_FragCoord.xy) * pow(1.0 - lum + 1e-6, GRAIN_POW) * GRAIN_AMT * 0.1;
+  float dark = pow(1.0 - lum + 1e-6, 0.7);
+  float grain = filmGrain(gl_FragCoord.xy / max(uDpr, 1.0)) * mix(0.82, dark, 0.35) * GRAIN_AMT;
   rgb = clamp(rgb + grain, 0.0, 1.0);
   gl_FragColor = vec4(rgb * uFade, 1.0);
 }
@@ -168,15 +169,17 @@ export function createIntroFlowGl(canvas, sizeEl) {
   const uRes = gl.getUniformLocation(prog, "uRes");
   const uTime = gl.getUniformLocation(prog, "uTime");
   const uFade = gl.getUniformLocation(prog, "uFade");
+  const uDpr = gl.getUniformLocation(prog, "uDpr");
 
   let cssW = 0;
   let cssH = 0;
+  let dpr = 1;
 
   function resize() {
     const rect = (sizeEl || canvas).getBoundingClientRect();
     const w = Math.max(1, Math.round(rect.width));
     const h = Math.max(1, Math.round(rect.height));
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    dpr = Math.min(2, window.devicePixelRatio || 1);
     const pw = Math.round(w * dpr);
     const ph = Math.round(h * dpr);
     if (w === cssW && h === cssH && canvas.width === pw) return false;
@@ -199,6 +202,7 @@ export function createIntroFlowGl(canvas, sizeEl) {
     gl.uniform2f(uRes, canvas.width, canvas.height);
     gl.uniform1f(uTime, (now || 0) * 0.001);
     gl.uniform1f(uFade, fade);
+    gl.uniform1f(uDpr, dpr);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 

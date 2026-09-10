@@ -45,8 +45,8 @@ describe("sampleIntroFlow (shipped intro bg)", () => {
       Math.abs(g0[0] - g1[0]) +
       Math.abs(g0[1] - g1[1]) +
       Math.abs(g0[2] - g1[2]);
-    expect(vsOff).toBeGreaterThan(0.0003);
-    expect(vsShift).toBeGreaterThan(0.0003);
+    expect(vsOff).toBeGreaterThan(0.01);
+    expect(vsShift).toBeGreaterThan(0.01);
     expect(grainTerm(12, 40)).not.toBe(grainTerm(13, 40));
   });
 });
