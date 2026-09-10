@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-10（Features 改 DeepSeek 式：左全展开 + 中线切项 + 右图 500ms 淡入）
+最后更新：2026-09-10（Features 滚法试过一版，Park 否掉，已还原到 e2ab0f8 手风琴）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -9,7 +9,7 @@
 - **TrustBand**：副标行（Post-purchase infrastructure…）已删，只留 Trusted by 100,000+ 标题。
 - **ImpactBand**：Loyalty lift 3.3→**3.5**。
 - **ProductDock**：`Order Tracking / 17RETURNS / Tracking API`（Topbar 顶栏未动）。
-- **Features（#key-features）**：section-head 整块删了；**4 项** Title Case（Branded Tracking Page / Branded Email Notification / Split-Order Management / Conversion & Loyalty）。**09-10 Park 改 DeepSeek Harness 式**（https://www.deepseek.com/harness/en/）：左栏**全部展开**（desc + bullets 常显，不再手风琴收起），每项 `min-height:35vh` + `padding:11vh 0`，非当前 opacity 0.3、当前 1（500ms）；左栏随页滚，**视口中线**命中哪项哪项 active；点击该项 `scrollTo` 把其中心对齐视口中线（走 Lenis）。右栏 **sticky 垂直居中**（`--feature-sticky-top` = `(100vh-图高)/2`），四张图叠同一格，**opacity 500ms 交叉淡入**，不要再 translate 栈 / blur。不要复活整框 sticky + 人造 track 高度。h3 仍全状态同一字号，激活只变渐变色+700。左栏 CTA 在四项之后（Start Free Trial + Book A Demo），不再钉底。≤640 仍叠排（文+图交错，`display:contents`），conversion 也占一格（7/8）。右侧顺序：0=branded、1=lastmile、2=split、3=conversion 占位卡。**Credentials 与 ExploreMore 之间不要 border-bottom**。structure.test 锁 4 标签 + `data-feature="4"` 禁止 + 中线 `innerHeight / 2`。
+- **Features（#key-features）**：section-head 整块删了；手风琴 3→**4 项**，h3=**首字母大写**标签（Branded Tracking Page / Branded Email Notification / Split-Order Management / Conversion & Loyalty，Park 定稿 Title Case，测试同步锁这套）+ `.feature-desc` 一句描述（active 展开）。**坑：desc 收展必须用 max-height，不能用 grid-template-rows 0fr——0fr 只收得住真实子元素（如 .feature-points-inner），p 里是裸文本会留一块隐形占位（Park 红框标过「怎么空了这么多」）**。**手风琴动效定案（Park 否掉「动来动去/弹一下」两轮后）**：h3 全状态同一字号 clamp(18px,16.6px+0.4vw,23px)，激活只变渐变色+700，只留 color 0.3s 过渡；.feature 的 padding/gap transition 整个删掉；feature-list/feature-side-wrap/feature-side 全部顶对齐。紧凑度：list gap 8、激活项 padding 6。**09-09 垂直居中（Park 红框空档）**：手风琴+CTA 收成内容高（CTA `margin-top:24px`，不再 `auto` 钉底），`.feature-layout` `align-items:center`，左栏 wrap `height:auto` 不再锁 `--feature-panel-h`；list 的 `padding-top:56px` 去掉。右栏 mock 同样垂直居中（`.feature-visual` `align-content:center`，last-mile 从贴底改居中）。**图/文水平中心**：landing-inline `alignActiveMock()` 在 setActive 时量激活面板 `.fx-mock` 中心 vs 面板中心写 `--mock-shift`。**切换节奏**：desc max-height/margin/opacity 0.7s、bullets grid-rows 0.7s（0.45 太快 Park 否过）。**Credentials 的 border-bottom 分割线已删**（Park 红框，与 ExploreMore 之间不要线）。**左栏手风琴下方有 CTA 组**（`.feature-side .feature-cta`，Start Free Trial + Book A Demo）。**左栏高度固定（Park：切换/滚动时 CTA 不许动）**：feature-side-wrap `height: var(--feature-panel-h)`（JS 设在 section 上、与右栏面板同高）、列表和 wrap 全顶对齐、CTA `margin-top:auto` 钉底——切换时 CTA 坐标恒定（实测 598 不变）。注意 3713 附近后写的同名规则别再带 margin（会反超钉底）。右侧面板按新顺序重排：0=branded（AURA 表单）、1=lastmile（邮件+追踪卡）、2=split、3=conversion **静态占位卡**（`.fx-cv-card`：16% 渐变数字+4 bullets+「Animation artwork coming next batch」注记，动画图下一批换）。landing-inline 的 tab 接线按 panels.length 泛化，4 项无需动 JS。structure.test 已改锁 4 个新标签 + `data-feature="4"` 禁止。
 - **AiLab intro**：标题 `Tracking Is Getting Smarter. So is the Customer Journey.`——**没有 AI 字了，AI 缩放特效的缩放源挪到新 eyebrow** `AI-POWERED POST-PURCHASE EXPERIENCE`（`.ai-intro-eyebrow`，AI 二字仍包 `.ai-word-ai`，ai-letter-zoom 靠它取 Range 墨水框）。eyebrow 里非 AI 部分包了 `.ai-eyebrow-rest`，is-ai-zooming 时藏掉防重影。agent 卡 lead=AI will automatically generate a template…based on this page；5 步=Reading brand site / Understanding brand story / Extracting visual style / Designing custom page / Fine-tuning & applying（ai-lab.js 的 orb labels 数组是独立玩票文案，未动）。
 - **ExploreMore**：h2=Find the Right Solution for Your Business；两卡 h3=产品名（17RETURNS / Tracking Developer API）+ 新增 `.explore-card-headline` 标题行（Turn Returns Into Revenue and Growth / Power Your Systems With Global Tracking Visibility）+ 文档描述句；链接 Explore 17RETURNS / Explore Tracking API。卡内 mock 未动。
 - **BottomCta → Growing LTV**：eyebrow `Top Global Carriers Coverage` + h2 `Growing LTV along the way` + 副标 + `.bottom-cta-data` 五项数据条（4,000+ Carriers / 9+30 Status / 99.9% Accuracy / 95%+ Recognition / 99.9% SLA）+ 双 CTA。黑底 shader 未动。
@@ -201,6 +201,7 @@
 - 不要把 letter-sticky 里的示例模块 inset 0 铺满 100vh（Park：这一块没居中；贴顶栏）。
 - 不要钉住后立刻缩放标题 AI（Park：停一下再缩放）。也不要把 hold 拉回一整屏（Park：钉住的时间太长了；现 0.36 屏）。
 - 不要给 Features 插图做 isometric 聚拢/散开/铺平（Park：去掉这个动画，直接平铺）。
+- 不要把 Features 改成左栏全展开 + 视口中线切项 + 右图 sticky 淡入（09-10 试过，Park 否掉并还原到 e2ab0f8 手风琴）。
 - 不要在 768 把 Features 改成三块平铺 / display:contents（Park：保留左边 sticky 手风琴）。
 - 不要在 768 把 Features 改成上图下文（Park：还是左右布局）。
 - 不要用 `@media (max-width: 768px)` 或 `html.is-reduce-fx` 关掉 Hero 绘制 overlay（Park：768 保留动画以及渐隐）。

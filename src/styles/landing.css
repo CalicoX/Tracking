@@ -3079,18 +3079,20 @@
     }
 
     /*
-     * Features — DeepSeek Harness scroll-spy
-     * Left: all items expanded, scroll with the page.
-     * Right: sticky, vertically centered; panels crossfade (opacity 500ms).
-     * Active = left item that contains the viewport midline.
+     * Features — sticky frame model
+     * 1. Module hits header → whole frame sticks (title + left + right viewport)
+     * 2. Keep scrolling → right stack moves (scroll feel); left switches
+     * 3. Past last panel → frame unsticks, module scrolls away together
      */
     .features-section {
       position: relative;
       background: var(--bg-subtle);
       --feature-pin-top: var(--topbar-h, 64px);
-      --feature-sticky-top: 20vh;
-      --feature-n: 4;
-      --feature-visual-h: min(640px, 72vh);
+      --feature-pin-gap: 36px;
+      --feature-panel-gap: 24px;
+      --feature-n: 3;
+      --feature-visual-h: calc(100vh - var(--feature-pin-top) - 96px);
+      /* no top border / shadow that reads as a seam */
       border-top: none;
       box-shadow: none;
     }
@@ -3100,20 +3102,27 @@
       padding-top: var(--sec-y);
       padding-bottom: var(--sec-y);
     }
+    /* tall track: sticky frame height + travel for (n) panels */
     .feature-scroll {
       position: relative;
-      height: auto;
-      min-height: 0;
+      height: calc(
+        100vh - var(--feature-pin-top) + (var(--feature-n) - 0.15) * (100vh - var(--feature-pin-top))
+      );
+      min-height: 240vh;
     }
+    /* pinned UI — nothing in here rides up after stick */
     .feature-sticky {
-      position: relative;
-      top: auto;
-      height: auto;
-      max-height: none;
-      display: block;
-      overflow: visible;
-      background: transparent;
-      padding: 0;
+      position: sticky;
+      top: var(--feature-pin-top);
+      height: calc(100vh - var(--feature-pin-top));
+      max-height: calc(100vh - var(--feature-pin-top));
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+      background: var(--bg-subtle);
+      padding: 20px 0 16px;
     }
     .features-section .section-head {
       position: relative; /* inside sticky frame — not sticky itself */
@@ -3166,26 +3175,26 @@
     .features-section .feature-cta .btn-demo {
       flex: 0 1 auto;
     }
+    /* body row: left copy + right mock — both vertically centered in sticky */
     .feature-layout {
       display: grid;
-      grid-template-columns: minmax(280px, 42%) minmax(0, 1fr);
+      grid-template-columns: minmax(340px, 42%) minmax(0, 1fr);
       gap: 24px 56px;
-      align-items: start;
+      align-items: center;
+      flex: 1 1 auto;
       min-height: 0;
       width: 100%;
+      align-content: center;
     }
     .feature-side-wrap {
       min-width: 0;
       min-height: 0;
       height: auto;
-      max-height: none;
+      max-height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      align-self: stretch;
-      /* Tail room so the last item can sit on the midline and the sticky
-         mock can travel down next to it (no spacer = card stuck high). */
-      padding-bottom: 46vh;
+      justify-content: center;
+      align-self: center;
     }
     .feature-side {
       display: flex;
@@ -3202,72 +3211,68 @@
     }
     .feature-list {
       display: grid;
-      gap: 0;
+      gap: 8px;
       width: 100%;
-      padding-top: 22vh;
-      padding-bottom: 0;
+      padding-top: 0;
       align-content: start;
       grid-auto-rows: auto;
       box-sizing: border-box;
       height: auto;
     }
+    /* CTA 贴着手风琴，间距收紧；整组在 sticky 里垂直居中 */
     .feature-side .feature-cta {
-      margin-top: 8px;
-      padding: 8px 0 24px;
+      margin-top: 24px;
+      padding-top: 0;
     }
+    /* right: clipped viewport; height set by JS to panelH, then centered */
     .feature-panels-col {
-      position: sticky;
-      top: var(--topbar-h, 64px);
+      position: relative;
       min-width: 0;
       min-height: 0;
-      height: calc(100vh - var(--topbar-h, 64px));
-      max-height: none;
-      display: flex;
-      align-items: flex-start;
-      align-self: start;
-      overflow: visible;
+      height: var(--feature-panel-h, auto);
+      max-height: 100%;
+      align-self: center;
+      overflow: hidden;
+      /* no top/bottom mask fade */
       -webkit-mask-image: none;
       mask-image: none;
     }
     .feature-panels {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      align-items: center;
-      gap: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--feature-panel-gap);
       min-width: 0;
-      width: 100%;
       position: relative;
       z-index: 1;
       padding-bottom: 0;
-      transform: translateY(var(--feature-visual-y, 0px));
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
     }
     .feature-panel {
-      grid-area: 1 / 1;
-      align-self: center;
-      width: 100%;
       margin: 0;
+      scroll-margin-top: 0;
       min-height: 0;
-      height: auto;
-      opacity: 0;
+      flex: 0 0 auto;
+      /* each panel fills the viewport column height */
+      height: 100%;
+      opacity: 1;
       transform: none;
       position: relative;
-      z-index: 0;
-      pointer-events: none;
-      filter: none;
-      will-change: opacity;
-      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .feature-panel.is-active {
-      opacity: 1;
       z-index: 1;
-      pointer-events: auto;
+      /* progressive blur while scrolling out — driven by --fp-blur / --fp-op */
+      --fp-blur: 0px;
+      --fp-op: 1;
+      filter: blur(var(--fp-blur));
+      opacity: var(--fp-op);
+      will-change: filter, opacity;
+      transition: none;
     }
     .feature-panel.is-active .feature-visual {
       /* no outer shadow — clipped by .feature-panels-col overflow */
       box-shadow: none;
     }
     .feature-panel .feature-visual {
-      height: auto;
+      height: 100%;
       min-height: 0;
       box-sizing: border-box;
     }
@@ -3615,38 +3620,35 @@
       border: 0;
       border-radius: 0;
       background: transparent;
-      padding: 11vh 4px 11vh 0;
+      padding: 6px 4px 6px 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      justify-content: center;
-      gap: 16px;
+      gap: 6px;
       text-align: left;
       width: 100%;
       max-width: 100%;
       height: auto;
-      min-height: 35vh;
+      min-height: 0;
       min-width: 0;
       box-sizing: border-box;
       overflow: visible;
       cursor: pointer;
       box-shadow: none;
-      opacity: 0.3;
+      opacity: 1;
       transform: none;
-      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .feature:hover {
       background: transparent;
       box-shadow: none;
     }
     .feature.active {
-      gap: 16px;
-      padding-top: 11vh;
-      padding-bottom: 11vh;
+      gap: 8px;
+      padding-top: 6px;
+      padding-bottom: 6px;
       background: transparent;
       box-shadow: none;
       transform: none;
-      opacity: 1;
     }
     /* Park：切换时其他标题不许动。padding/gap 全状态一致（active 不再加高） */
     .feature-list {
@@ -3687,17 +3689,25 @@
       color: transparent;
       -webkit-text-fill-color: transparent;
     }
-    /* 全展开：desc / bullets 不再收起（DeepSeek 左栏） */
+    /* 卖点描述：active 才展开。坑：0fr 收展必须套真实子元素，p 里是裸文本收不住，用 max-height */
     .feature .feature-desc {
       margin: 0;
-      max-height: none;
-      overflow: visible;
-      opacity: 1;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition:
+        max-height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        margin 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.7s ease;
     }
     .feature.active .feature-desc {
-      margin: 0;
-      max-height: none;
+      margin: 8px 0 0;
+      max-height: 220px;
       opacity: 1;
+    }
+    /* feature-points（bullets）同步放慢，跟 desc 同节奏 */
+    .feature-points {
+      transition: grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
     }
     /* 左栏手风琴下方的 CTA 组 */
     .feature-side .feature-cta {
@@ -3714,8 +3724,10 @@
       flex: 0 1 auto;
     }
     /* Conversion & Loyalty 占位卡（动画图下一批）：静态、无 iso */
+    /* --mock-shift：landing-inline.alignActiveMock 量出的图文中心差，切换时缓动对齐 */
     .feature-panel .fx-mock {
-      translate: none;
+      transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      translate: 0 var(--mock-shift, 0px);
     }
     .feature-stage[data-theme="conversion"] .fx-cv-card {
       display: flex;
@@ -3790,11 +3802,12 @@
     }
     .feature-points {
       display: grid;
-      grid-template-rows: 1fr;
+      grid-template-rows: 0fr;
       opacity: 1;
-      overflow: visible;
-      pointer-events: auto;
+      overflow: hidden;
+      pointer-events: none;
       transform: none;
+      transition: grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .feature.active .feature-points {
       grid-template-rows: 1fr;
@@ -10652,15 +10665,8 @@
         height: auto;
         max-height: none;
         overflow: visible;
-        padding-bottom: 0;
-      }
-      .feature-list {
-        padding-top: 0;
-        padding-bottom: 0;
       }
       .feature-panels-col {
-        position: relative;
-        top: auto;
         height: auto;
         overflow: visible;
         min-height: 0;
@@ -10668,12 +10674,6 @@
       .feature-panels {
         gap: 0;
         transform: none !important;
-      }
-      .feature-list .feature,
-      .feature-list .feature.active {
-        min-height: 0;
-        padding: 14px 14px 12px;
-        opacity: 1;
       }
       /*
        * Mobile accordion: only the active visual — stacking all panels
@@ -11958,8 +11958,6 @@
         background: transparent;
         box-shadow: none;
         padding: 0;
-        min-height: 0;
-        opacity: 1;
       }
       .feature-list .feature .feature-points {
         grid-template-rows: 1fr !important;
@@ -11973,12 +11971,10 @@
       .feature-panel[data-feature="1"] .feature-visual { grid-area: 3 / 1; }
       .feature-list .feature[data-feature="2"] { grid-area: 6 / 1; }
       .feature-panel[data-feature="2"] .feature-visual { grid-area: 5 / 1; }
-      .feature-list .feature[data-feature="3"] { grid-area: 8 / 1; }
-      .feature-panel[data-feature="3"] .feature-visual { grid-area: 7 / 1; }
       .feature-list .feature {
         margin-bottom: 28px;
       }
-      .feature-list .feature[data-feature="3"] {
+      .feature-list .feature[data-feature="2"] {
         margin-bottom: 0;
       }
       .fx-lm-cluster,
