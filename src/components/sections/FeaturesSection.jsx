@@ -81,7 +81,7 @@ export default function FeaturesSection() {
                       </div>
                     </div>
                   </article>
-                  {/* 1 · Branded email notification — 17TRACK email + tracking info card + carrier tiles */}
+                  {/* 1 · Branded email notification — inbox + delay/exception + trigger + WISMO */}
                   <article className="feature-panel" data-feature="1" id="feature-panel-1" role="tabpanel" aria-labelledby="feature-tab-1">
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="lastmile" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
@@ -98,57 +98,46 @@ export default function FeaturesSection() {
                                 <time>10:24 AM</time>
                               </div>
                               <p className="fx-lm-mail-subject">Out for delivery today · 2–4pm</p>
-                              <p className="fx-lm-mail-body">USPS last-mile is live on this shipment. Tap to call the carrier if you need to redirect.</p>
-                            </div>
-                            <div className="fx-glass fx-lm-card">
-                              <h4>Tracking info</h4>
-                              <div className="fx-lm-ship">
-                                <div className="fx-lm-row">
-                                  <img className="fx-lm-logo" src="/assets/carriers/ups.svg?v=2" alt="" />
-                                  <div className="fx-lm-meta">
-                                    <strong>UPS</strong>
-                                    <span>1ZH814****5355558</span>
-                                  </div>
-                                  <span className="fx-lm-ico" title="Call carrier">
-                                    <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 3.8h2.4l1.2 3-1.6 1.1a12.4 12.4 0 0 0 6.7 6.7l1.1-1.6 3 1.2v2.4c0 .7-.6 1.4-1.4 1.4A14.2 14.2 0 0 1 5.8 5.2c0-.8.7-1.4 1.4-1.4Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/></svg>
-                                  </span>
-                                </div>
-                                <div className="fx-lm-arrow" aria-hidden="true">
-                                  <svg viewBox="0 0 16 20" fill="none"><path d="M8 2v14M3 12l5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                                </div>
-                                <div className="fx-lm-row">
-                                  <img className="fx-lm-logo" src="/assets/carriers/usps.svg?v=2" alt="" />
-                                  <div className="fx-lm-meta">
-                                    <strong>USPS <em className="fx-lm-badge">Last-mile Carrier</em></strong>
-                                    <span>927489****7658100581329…</span>
-                                  </div>
-                                  <span className="fx-lm-ico" title="Copy">
-                                    <svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.7"/><path d="M5 16V5.8A1.8 1.8 0 0 1 6.8 4H16" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></svg>
-                                  </span>
-                                </div>
+                              <p className="fx-lm-mail-body">Your USPS package is out for delivery. We'll update you if anything changes.</p>
+                              <div className="fx-em-alerts">
+                                <span className="is-on">Delivered</span>
+                                <span>Delay</span>
+                                <span>Exception</span>
                               </div>
-                              <div className="fx-lm-event">
-                                <time>14 Apr, 2024<span>23:45</span></time>
+                            </div>
+                            <div className="fx-glass fx-em-list">
+                              <div className="fx-em-row">
+                                <i className="fx-em-dot is-delay" />
                                 <div>
-                                  <strong>In Transit</strong>
-                                  <span>CLEVELAND OH DISTRIBUTION CENTER, Departed USPS Regional Facility</span>
+                                  <strong>Delay alert</strong>
+                                  <span>New ETA · Thu 4–6pm</span>
                                 </div>
+                                <time>8:02 AM</time>
                               </div>
-                              <div className="fx-glass fx-lm-phone">
-                                <svg viewBox="0 0 24 24" fill="none"><path d="M7.1 3.6h2.6l1.3 3.2-1.8 1.2a13.2 13.2 0 0 0 7.2 7.2l1.2-1.8 3.2 1.3v2.6c0 .8-.7 1.5-1.5 1.5A15.4 15.4 0 0 1 5.6 5.1c0-.8.7-1.5 1.5-1.5Z" fill="currentColor"/></svg>
+                              <div className="fx-em-row">
+                                <i className="fx-em-dot is-ex" />
+                                <div>
+                                  <strong>Exception</strong>
+                                  <span>Address needs a confirm</span>
+                                </div>
+                                <time>Yesterday</time>
                               </div>
+                              <p className="fx-em-more">19 notification scenarios</p>
                             </div>
-                            <div className="fx-lm-carriers">
-                              <img src="/assets/carriers/ups.svg?v=2" alt="" />
-                              <img src="/assets/carriers/usps.svg?v=2" alt="" />
-                              <img src="/assets/carriers/dhl.svg?v=2" alt="" />
-                              <img src="/assets/carriers/dpd.svg?v=2" alt="" />
-                              <img src="/assets/carriers/gls.svg?v=2" alt="" />
+                            <div className="fx-em-foot">
+                              <div className="fx-glass fx-em-trigger">
+                                <span>Custom trigger</span>
+                                <strong>If delayed &gt; 24h → Email + SMS</strong>
+                              </div>
+                              <div className="fx-glass fx-em-wismo">
+                                <strong>−95%</strong>
+                                <span>WISMO inquiries</span>
+                              </div>
                             </div>
                           </div>
                           </div>
                         </div>
-</div>
+                      </div>
                     </div>
                   </article>
                   {/* 2 · Split-order management — split email + Package #1/#2/#3 card */}

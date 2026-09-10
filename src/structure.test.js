@@ -138,7 +138,8 @@ describe("React landing structure (gating)", () => {
     expect(features).not.toMatch(/Proactive notifications/);
     expect(features).not.toMatch(/data-feature="4"/);
     expect(features).toMatch(/feature-desc/);
-    expect(features).toMatch(/Last-mile Carrier/);
+    expect(features).toMatch(/19 notification scenarios/);
+    expect(features).toMatch(/notify@17track.net/);
     expect(features).toMatch(/Package #1/);
     expect(features).toMatch(/HeroTrackingMock/);
     expect(features).toMatch(/fx-hero-page/);
