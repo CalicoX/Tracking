@@ -3175,26 +3175,26 @@
     .features-section .feature-cta .btn-demo {
       flex: 0 1 auto;
     }
-    /* body row: left copy + right mock — both vertically centered in sticky */
+    /* body row: left copy + right mock — same height, CTA pinned */
     .feature-layout {
       display: grid;
       grid-template-columns: minmax(340px, 42%) minmax(0, 1fr);
       gap: 24px 56px;
-      align-items: center;
+      align-items: stretch;
       flex: 1 1 auto;
       min-height: 0;
       width: 100%;
-      align-content: center;
+      align-content: start;
     }
     .feature-side-wrap {
       min-width: 0;
       min-height: 0;
-      height: auto;
+      height: var(--feature-panel-h, auto);
       max-height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-self: center;
+      justify-content: flex-start;
+      align-self: stretch;
     }
     .feature-side {
       display: flex;
@@ -3205,9 +3205,9 @@
       max-height: none;
       overflow: visible;
       background: transparent;
-      flex: 0 0 auto;
+      flex: 1 1 auto;
       min-height: 0;
-      height: auto;
+      height: 100%;
     }
     .feature-list {
       display: grid;
@@ -3219,9 +3219,9 @@
       box-sizing: border-box;
       height: auto;
     }
-    /* CTA 贴着手风琴，间距收紧；整组在 sticky 里垂直居中 */
+    /* 钉在左栏底，切换手风琴时坐标不变 */
     .feature-side .feature-cta {
-      margin-top: 24px;
+      margin-top: auto;
       padding-top: 0;
     }
     /* right: clipped viewport; height set by JS to panelH, then centered */
@@ -3709,14 +3709,14 @@
     .feature-points {
       transition: grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
     }
-    /* 左栏手风琴下方的 CTA 组 */
+    /* 左栏手风琴下方的 CTA 组。margin 只留 auto，24px 会把钉底顶掉 */
     .feature-side .feature-cta {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
       justify-content: flex-start;
-      margin-top: 24px;
+      margin-top: auto;
       padding: 0;
     }
     .feature-side .feature-cta .btn-switch,
@@ -10665,6 +10665,10 @@
         height: auto;
         max-height: none;
         overflow: visible;
+        flex: 0 0 auto;
+      }
+      .feature-side .feature-cta {
+        margin-top: 24px;
       }
       .feature-panels-col {
         height: auto;
