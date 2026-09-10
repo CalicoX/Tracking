@@ -263,15 +263,23 @@ export function mount() {
         return window.pageYOffset || document.documentElement.scrollTop || 0;
       }
 
-      function fitStickyTop() {
+      function pinVisualToActive() {
         if (!panelsCol) return;
         if (mqMobile.matches) {
-          panelsCol.style.top = "";
           section.style.removeProperty("--feature-sticky-top");
           return;
         }
-        var h = panelsCol.offsetHeight || 0;
-        var top = Math.max(0, Math.round((window.innerHeight - h) / 2));
+        var item = buttons[current] || buttons[0];
+        if (!item) return;
+        var h = panelsCol.getBoundingClientRect().height;
+        if (!h) return;
+        var ir = item.getBoundingClientRect();
+        var topbar =
+          parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--topbar-h")) ||
+          64;
+        var desired = ir.top + ir.height / 2 - h / 2;
+        var minTop = topbar + 12;
+        var top = Math.round(Math.max(minTop, desired));
         section.style.setProperty("--feature-sticky-top", top + "px");
       }
 
@@ -288,20 +296,7 @@ export function mount() {
         panels.forEach(function (p, i) {
           p.classList.toggle("is-active", i === idx);
         });
-        alignActiveMock();
-      }
-
-      function alignActiveMock() {
-        if (mqMobile.matches) return;
-        var p = panels[current];
-        if (!p) return;
-        var pr = p.getBoundingClientRect();
-        var mock = p.querySelector(".fx-mock");
-        if (!mock || !pr.height) return;
-        var mr = mock.getBoundingClientRect();
-        if (!mr.height) return;
-        var shift = pr.top + pr.height / 2 - (mr.top + mr.height / 2);
-        p.style.setProperty("--mock-shift", shift.toFixed(1) + "px");
+        pinVisualToActive();
       }
 
       function syncFromMidline() {
@@ -312,9 +307,11 @@ export function mount() {
           var r = buttons[i].getBoundingClientRect();
           if (r.top <= mid && r.bottom > mid) {
             setActive(i);
+            pinVisualToActive();
             return;
           }
         }
+        pinVisualToActive();
       }
 
       function scrollToFeature(idx) {
@@ -349,12 +346,11 @@ export function mount() {
       }
 
       function onResize() {
-        fitStickyTop();
         if (mqMobile.matches) {
+          pinVisualToActive();
           if (current < 0) setActive(0);
         } else {
           syncFromMidline();
-          alignActiveMock();
         }
       }
 
@@ -377,14 +373,14 @@ export function mount() {
       if (typeof ResizeObserver !== "undefined") {
         if (panelsCol) new ResizeObserver(onResize).observe(panelsCol);
         buttons.forEach(function (b) {
-          new ResizeObserver(fitStickyTop).observe(b);
+          new ResizeObserver(pinVisualToActive).observe(b);
         });
       }
 
       setActive(0);
-      fitStickyTop();
+      pinVisualToActive();
       requestAnimationFrame(function () {
-        fitStickyTop();
+        pinVisualToActive();
         syncFromMidline();
         if (!rafTick) rafTick = requestAnimationFrame(tick);
       });

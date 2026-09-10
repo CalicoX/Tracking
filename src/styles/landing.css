@@ -3183,6 +3183,9 @@
       flex-direction: column;
       justify-content: flex-start;
       align-self: stretch;
+      /* Tail room so the last item can sit on the midline and the sticky
+         mock can travel down next to it (no spacer = card stuck high). */
+      padding-bottom: 46vh;
     }
     .feature-side {
       display: flex;
@@ -3201,7 +3204,8 @@
       display: grid;
       gap: 0;
       width: 100%;
-      padding-top: 0;
+      padding-top: 22vh;
+      padding-bottom: 0;
       align-content: start;
       grid-auto-rows: auto;
       box-sizing: border-box;
@@ -3213,11 +3217,13 @@
     }
     .feature-panels-col {
       position: sticky;
-      top: var(--feature-sticky-top, 20vh);
+      top: var(--topbar-h, 64px);
       min-width: 0;
       min-height: 0;
-      height: auto;
+      height: calc(100vh - var(--topbar-h, 64px));
       max-height: none;
+      display: flex;
+      align-items: flex-start;
       align-self: start;
       overflow: visible;
       -webkit-mask-image: none;
@@ -3226,15 +3232,19 @@
     .feature-panels {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
+      align-items: center;
       gap: 0;
       min-width: 0;
+      width: 100%;
       position: relative;
       z-index: 1;
       padding-bottom: 0;
-      transform: none;
+      transform: translateY(var(--feature-visual-y, 0px));
     }
     .feature-panel {
       grid-area: 1 / 1;
+      align-self: center;
+      width: 100%;
       margin: 0;
       min-height: 0;
       height: auto;
@@ -3704,10 +3714,8 @@
       flex: 0 1 auto;
     }
     /* Conversion & Loyalty 占位卡（动画图下一批）：静态、无 iso */
-    /* --mock-shift：landing-inline.alignActiveMock 量出的图文中心差，切换时缓动对齐 */
     .feature-panel .fx-mock {
-      transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-      translate: 0 var(--mock-shift, 0px);
+      translate: none;
     }
     .feature-stage[data-theme="conversion"] .fx-cv-card {
       display: flex;
@@ -10644,6 +10652,11 @@
         height: auto;
         max-height: none;
         overflow: visible;
+        padding-bottom: 0;
+      }
+      .feature-list {
+        padding-top: 0;
+        padding-bottom: 0;
       }
       .feature-panels-col {
         position: relative;
