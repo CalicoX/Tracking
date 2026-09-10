@@ -83,7 +83,7 @@ float filmGrain(vec2 pixel){
   return fract((p3.x + p3.y) * p3.z) * 2.0 - 1.0;
 }
 
-float inkRibbon(vec2 uv){
+float inkField(vec2 uv){
   float m = 0.0;
   float spd = length(uVel);
   for (int i = 0; i < 9; i++){
@@ -93,23 +93,27 @@ float inkRibbon(vec2 uv){
     vec2 ba = b - a;
     float h = clamp(dot(pa, ba) / max(dot(ba, ba), 1e-5), 0.0, 1.0);
     float d = length(pa - ba * h);
-    float w = mix(0.078, 0.02, float(i) / 9.0) + spd * 0.16;
+    float w = mix(0.2, 0.07, float(i) / 9.0) + spd * 0.28;
     m = max(m, exp(-(d * d) / max(w * w, 1e-6)));
   }
   vec2 hm = uv - uMouse;
-  m = max(m, exp(-dot(hm, hm) / 0.0048));
-  return m * uInk;
+  m = max(m, exp(-dot(hm, hm) / 0.018));
+  return pow(m * uInk, 0.62);
 }
 
 void main(){
   vec2 res = max(uRes, vec2(1.0));
   vec2 uv = gl_FragCoord.xy / res;
   float aspect = res.x / res.y;
-  float ink = inkRibbon(uv);
+  float ink = inkField(uv);
   vec2 swirl = vec2(uVel.y, -uVel.x);
-  vec2 flowUv = uv + swirl * ink * 0.28 - uVel * ink * 0.22;
-  float n = filmGrain(uv * res * 0.08 + uTime * 40.0);
-  flowUv += vec2(n, -n) * ink * 0.014;
+  vec2 fromM = uv - uMouse;
+  float n = filmGrain(uv * res * 0.07 + uTime * 28.0);
+  vec2 flowUv = uv
+    + swirl * ink * 0.62
+    - uVel * ink * 0.85
+    + normalize(fromM + vec2(1e-4)) * ink * 0.07
+    + vec2(n, -n) * ink * 0.045;
   vec2 dUv = waveDistort(flowUv, aspect, uTime);
 
   vec3 rgb = BACK;
@@ -137,14 +141,9 @@ void main(){
   );
   rgb = addGlow(rgb, BLUE, a1);
   rgb = addGlow(rgb, PINK, a2);
-  float mixP = clamp(a2 / max(a1 + a2, 0.08), 0.0, 1.0);
-  vec3 inkCol = mix(BLUE, PINK, mixP);
-  rgb = addGlow(rgb, inkCol, ink * 0.92);
-  rgb = addGlow(rgb, BLUE, a1 * ink * 0.5);
-  rgb = addGlow(rgb, PINK, a2 * ink * 0.62);
   float vig = smoothstep(${VIGNETTE_INNER.toFixed(4)}, ${VIGNETTE_OUTER.toFixed(4)},
     length((uv - vec2(0.5)) * vec2(1.12, 1.0)));
-  rgb = mix(rgb, BACK, vig * ${VIGNETTE_AMT.toFixed(4)} * (1.0 - ink * 0.55));
+  rgb = mix(rgb, BACK, vig * ${VIGNETTE_AMT.toFixed(4)});
 
   /* 1 CSS px (official viewport). Authored 0.07 — official also *0.1 is invisible here. */
   float lum = clamp(dot(rgb, vec3(0.2126, 0.7152, 0.0722)), 0.0, 1.0);

@@ -5918,12 +5918,12 @@
       /* 整体渐变：铺在整行标题上，单词用同一 background-size/position 对齐 */
       --title-grad: linear-gradient(
         105deg,
-        #f5f3ff 0%,
-        #e9d5ff 14%,
-        #c4b5fd 32%,
-        #a78bfa 48%,
-        #c026d3 72%,
-        #e879f9 100%
+        #ffffff 0%,
+        #ffffff 26%,
+        #f3e8ff 48%,
+        #ddd6fe 66%,
+        #c4b5fd 82%,
+        #8b5cf6 100%
       );
       color: transparent;
     }
