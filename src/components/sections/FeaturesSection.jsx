@@ -199,23 +199,91 @@ export default function FeaturesSection() {
 </div>
                     </div>
                   </article>
-                  {/* 3 · Conversion & Loyalty — static placeholder, animation artwork next batch */}
+                  {/* 3 · Conversion & Loyalty — 结账卡（AI 预购 EDD + 一键结账）+ 推荐卡（智能推荐 / 再触达 / 复购率） */}
                   <article className="feature-panel" data-feature="3" id="feature-panel-3" role="tabpanel" aria-labelledby="feature-tab-3">
                     <div className="feature-visual">
-                      <div className="feature-stage" data-theme="conversion">
+                      <div className="feature-stage" data-theme="conversion" style={{ ['--fx-c']: 1, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                            <div className="fx-glass fx-cv-card">
-                              <span className="fx-cv-eyebrow">Conversion &amp; Loyalty</span>
-                              <strong className="fx-cv-metric">16%</strong>
-                              <span className="fx-cv-metric-label">Higher repurchase rate</span>
-                              <ul className="fx-cv-list">
-                                <li>AI-Powered pre&amp;post-purchase EDD</li>
-                                <li>One-Click Checkout</li>
-                                <li>Smart Product Recommendations</li>
-                                <li>Re-engagement Opportunities</li>
-                              </ul>
-                              <span className="fx-cv-note">Animation artwork coming next batch</span>
+                            <div className="fx-cv-scene">
+                              {/* 结账卡：AI-Powered pre-purchase EDD + One-Click Checkout */}
+                              <div className="fx-glass fx-cv-card">
+                                <div className="fx-cv-bar">
+                                  <span className="fx-cv-bar-title">Your cart</span>
+                                  <span className="fx-cv-bar-meta">1 item</span>
+                                </div>
+                                <div className="fx-cv-item">
+                                  <span className="fx-cv-thumb is-product">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                      <path d="M3.8 8.3 12 4l8.2 4.3v7.4L12 20l-8.2-4.3z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
+                                      <path d="M3.8 8.3 12 12.6l8.2-4.3M12 12.6V20" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
+                                    </svg>
+                                  </span>
+                                  <div className="fx-cv-item-txt">
+                                    <strong>Wireless Earbuds Pro</strong>
+                                    <span>Qty 1 · Free shipping</span>
+                                  </div>
+                                  <span className="fx-cv-item-price">$129.00</span>
+                                </div>
+                                <div className="fx-cv-eda">
+                                  <span className="fx-cv-eda-tag">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                      <path d="M12 3.2l1.75 4.35L18.1 9.3l-4.35 1.75L12 15.4l-1.75-4.35L5.9 9.3l4.35-1.75z" fill="currentColor"/>
+                                      <path d="M18.4 14.8l.75 1.85 1.85.75-1.85.75-.75 1.85-.75-1.85-1.85-.75 1.85-.75z" fill="currentColor" opacity=".65"/>
+                                    </svg>
+                                    AI estimate
+                                  </span>
+                                  <strong>Arrives Tue, Mar 23 – Mar 30</strong>
+                                </div>
+                                <span className="fx-cv-pay">
+                                  Buy now
+                                  <em>1-tap checkout</em>
+                                </span>
+                              </div>
+                              {/* 推荐卡：Smart Product Recommendations + Re-engagement + 复购率 */}
+                              <div className="fx-glass fx-cv-recs">
+                                <h4>You may also like</h4>
+                                <ul className="fx-cv-recs-list">
+                                  <li>
+                                    <span className="fx-cv-thumb is-tips">
+                                      <svg viewBox="0 0 24 24" fill="none">
+                                        <circle cx="9.6" cy="9.4" r="3.1" stroke="currentColor" strokeWidth="1.6"/>
+                                        <path d="M9.6 12.5v6.2a1.9 1.9 0 0 0 1.9 1.9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+                                        <circle cx="17.2" cy="8.6" r="2.3" stroke="currentColor" strokeWidth="1.6"/>
+                                      </svg>
+                                    </span>
+                                    <div className="fx-cv-recs-txt">
+                                      <strong>Sport Ear Tips</strong>
+                                      <span>3 sizes</span>
+                                    </div>
+                                    <span className="fx-cv-item-price">$19.00</span>
+                                  </li>
+                                  <li>
+                                    <span className="fx-cv-thumb is-case">
+                                      <svg viewBox="0 0 24 24" fill="none">
+                                        <rect x="4.4" y="6.8" width="15.2" height="10.4" rx="3.2" stroke="currentColor" strokeWidth="1.6"/>
+                                        <path d="M9.6 12h4.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+                                      </svg>
+                                    </span>
+                                    <div className="fx-cv-recs-txt">
+                                      <strong>Charging Case</strong>
+                                      <span>Matte black</span>
+                                    </div>
+                                    <span className="fx-cv-item-price">$39.00</span>
+                                  </li>
+                                </ul>
+                                <span className="fx-cv-again">
+                                  <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M19.2 12a7.2 7.2 0 1 1-2.2-5.2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
+                                    <path d="M19.6 4.6v4.6h-4.6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+                                  </svg>
+                                  Buy it again
+                                </span>
+                                <div className="fx-cv-metric">
+                                  <strong>16%</strong>
+                                  <span>Higher repurchase rate</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
