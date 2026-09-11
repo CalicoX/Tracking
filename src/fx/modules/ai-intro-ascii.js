@@ -108,8 +108,8 @@ export function mount() {
   let glyphEnter = 0;
 
   function applyExit(progress) {
-    const copy = 1 - smoothstep(0.0, 0.36, progress);
-    const rest = 1 - smoothstep(0.48, 1, progress);
+    const copy = 1 - smoothstep(0.68, 1, progress);
+    const rest = 1 - smoothstep(0.82, 1, progress);
     intro.style.setProperty("--ascii-copy", copy.toFixed(3));
     intro.style.setProperty("--intro-rest-op", rest.toFixed(3));
     sticky.classList.toggle("is-ascii-on", !reduceCanvas);
