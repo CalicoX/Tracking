@@ -20,6 +20,8 @@ export default function AiLab() {
         <div className="ai-letter-track" id="ai-lab-intro-track">
           <div className="ai-letter-sticky" id="ai-letter-sticky">
           <div className="ai-lab-intro" id="ai-lab-intro">
+            <div className="ai-intro-persp">
+            <div className="ai-intro-shell">
             {/* Flow canvas is idle-cheap 2D; SVG streams stay as 640 / no-JS fallback */}
             <div className="ai-intro-bg" aria-hidden="true">
               <canvas id="ai-intro-ascii" className="ai-intro-ascii" aria-hidden="true"></canvas>
@@ -47,12 +49,6 @@ export default function AiLab() {
                 <div className="ai-intro-dots"></div>
               </div>
               <div className="ai-intro-veil"></div>
-              {/* 渐进式模糊：离中心越远越糊；--pblur 随滚入降到 0 = 逐渐清晰 */}
-              <div className="ai-intro-pblur" aria-hidden="true">
-                <i className="ai-pblur-band ai-pblur-3"></i>
-                <i className="ai-pblur-band ai-pblur-2"></i>
-                <i className="ai-pblur-band ai-pblur-1"></i>
-              </div>
             </div>
             <div className="ai-lab-intro-inner" id="ai-lab-intro-inner">
               {/* blur/fade only this block — pills stay sharp outside */}
@@ -82,6 +78,18 @@ export default function AiLab() {
                 </h2>
                 <p className="lead ai-reveal delay-2">AI brings smarter prediction, personalization, and engagement to the post-purchase journey — from delivery estimates and intelligent tracking experiences to opportunities that drive repeat purchase.</p>
               </div>
+            </div>
+            </div>
+            </div>
+            <div className="ai-intro-pblur" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <b />
             </div>
           </div>
 

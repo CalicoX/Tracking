@@ -69,13 +69,7 @@
 ## AI intro 整板块的透视 + 渐进模糊（2026-09-11 Park：滚动拉伸->收窄、模糊->清晰）
 
 - **Park 两轮澄清**：①「滚动拉伸->收窄，模糊->清晰」我先做在 ASCII 画布上（scaleX + 均匀 blur），他说「我说的不是 ascii 拉伸模糊，是整个这个板块」；给了张手机实拍图（整屏内容拉伸后弹回）。② 我改 scaleX + backdrop 渐进带，他说「是那种透视拉伸；是整体的渐进式模糊，现在没有渐进式模糊，也没有整体模糊」。
-- **透视（现在这版）**：`.ai-lab-intro` 是 `perspective: 1100px`（origin 50% 46%）+ `preserve-3d`；内容层 `.ai-lab-intro-inner` 走 `rotateX(var(--intro-tilt) * 14deg) translateZ(var(--intro-tilt) * -60px)`——滚入时整块向后倒（近大远小），随滚动立起来。**这是 CSS 3D，不是 scaleX**（scaleX 是平面拉宽，Park 否掉）。
-- **渐进模糊不能走 backdrop-filter（大坑）**：我第一版用三条 `-webkit-backdrop-filter` + 径向遮罩的带子，**完全没效果**——`.ai-lab-intro` 自己有 `filter: blur(...)`，祖先一有 filter，backdrop-filter 就只采样到那一层，采样不到背景。Park 报「现在没有渐进式模糊，也没有整体模糊」就是这个原因（而且 structure.test 会拦 `backdrop-filter` 写在 `-webkit-` 前面的顺序，别写反）。**现在的做法**：
-  - 内容层 `.ai-lab-intro-inner` 自带 `filter: blur(calc(var(--pblur) * 3px))` = 整体模糊；
-  - `.ai-intro-pblur` 三层 `.ai-pblur-band`（底色 `#08071a` 的暗遮罩 + 径向 mask，离中心越远 `--pband-op` 越大：0.5 / 0.34 / 0.22）叠在内容上 = **离中心越远越暗越糊**的渐进感；
-  - 变量在模块 `onScroll()` 里写：`--intro-tilt` / `--pblur` 都是 `1 - glyphC`，钉住位为 0 = 全清晰。降级（≤640 / reduce）时 removeProperty 复位。
-- **层级**：`.ai-intro-pblur` z-index 3，在 veil(2) 之上。**stick 容器别加 overflow-x: clip**——我加过，会把透视后倒的内容顶部裁掉（已撤）。
-- **插入点**：`.ai-intro-pblur` 在 `AiLab.jsx` 的 `.ai-intro-bg` 里、`.ai-intro-veil` 之后；`structure.test` 对这块有 `is-ascii-on` / `--ascii-copy` / `#08071a` 等断言，别动那些选择器。
+- **透视 + 渐进糊（2026-09-11 同步 API Duo）**：进屏顶铰链 `rotateX-` 最大 78 + perspective 920；离开底边折 `rotateX+`、糊贴顶。糊是 kennethnym 7 层 `backdrop-filter`（`.ai-intro-pblur` 是 intro 里、3D 壳的兄弟）。**祖先不能有 filter**——旧的 inner `filter:blur` + 14deg tilt 已撤。行程跟 letter-track 现有 hold 0.36 / exit 0.48，不另加 sticky。≤640 / reduce 定格。模块 `ai-duo-unfold.js`。
 
 
 - **必须一起改的地方**：① `draw()` 第一行调 `drawGlyph(now)`；② 循环停止条件带 `&& glyphC <= 0.004`；③ `syncCanvasMode()` 降级时把画布 `display: none`；④ `dispose()` 移除画布；⑤ `.ai-intro-aiglyph` 加进 ≤640 那条 `display: none` 列表；⑥ 层级 `z-index: 3`（在 veil(2) 之上），放 veil 下面会被中心的 0.78 压没。

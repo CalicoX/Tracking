@@ -197,6 +197,7 @@ describe("React landing structure (gating)", () => {
       "ai-lab.js",
       "ai-curtain.js",
       "ai-intro-ascii.js",
+      "ai-duo-unfold.js",
       "hero-draw.js",
     ]) {
       const mod = read(`fx/modules/${name}`);
@@ -241,6 +242,12 @@ describe("React landing structure (gating)", () => {
   it("AI intro flowing gradient + grain (no html2canvas)", () => {
     const fx = read("fx/useLandingEffects.js");
     expect(fx).toMatch(/mountNamed\("aiIntroAscii"\)/);
+    expect(fx).toMatch(/aiDuoUnfold|ai-duo-unfold/);
+    expect(read("fx/modules/ai-duo-unfold.js")).toMatch(/export function mount/);
+    expect(read("fx/modules/ai-duo-unfold.js")).toMatch(/--ai-duo/);
+    expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-persp/);
+    expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-shell/);
+    expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-pblur/);
     expect(fx).not.toMatch(/mountNamed\("aiCurtain"\)/);
     const ascii = read("fx/modules/ai-intro-ascii.js");
     const sample = read("fx/modules/ai-intro-flow-sample.js");
