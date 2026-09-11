@@ -246,26 +246,24 @@ export default function FeaturesSection() {
                               </div>
                               {/* 推荐卡：Smart Product Recommendations + Re-engagement + 复购率 */}
                               <div className="fx-glass fx-cv-recs">
-                                <h4>You may also like</h4>
+                                <h4>Recommended For You</h4>
+                                <p className="fx-cv-recs-sub">You might also like</p>
                                 <ul className="fx-cv-recs-list">
                                   <li>
                                     <img className="fx-cv-thumb" src="/assets/products/earbuds.jpg" alt="" />
                                     <strong>Sport Ear Tips</strong>
                                     <span className="fx-cv-item-price">$19.00</span>
+                                    <span className="fx-cv-add">Add to Cart</span>
+                                    <span className="fx-cv-buy">Buy Now</span>
                                   </li>
                                   <li>
                                     <img className="fx-cv-thumb" src="/assets/products/case.jpg" alt="" />
                                     <strong>Charging Case</strong>
                                     <span className="fx-cv-item-price">$39.00</span>
+                                    <span className="fx-cv-add">Add to Cart</span>
+                                    <span className="fx-cv-buy">Buy Now</span>
                                   </li>
                                 </ul>
-                                <span className="fx-cv-again">
-                                  <svg viewBox="0 0 24 24" fill="none">
-                                    <path d="M19.2 12a7.2 7.2 0 1 1-2.2-5.2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
-                                    <path d="M19.6 4.6v4.6h-4.6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-                                  </svg>
-                                  Buy it again
-                                </span>
                                 <div className="fx-cv-metric">
                                   <strong>16%</strong>
                                   <span>Higher repurchase rate</span>

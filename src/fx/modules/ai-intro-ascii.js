@@ -25,10 +25,15 @@ const GLYPH_CELL_MIN = 11;
 const GLYPH_CELL_MAX = 16;
 const GLYPH_TARGET_VW = 0.46;
 const GLYPH_TARGET_MAX = 520;
-const GLYPH_EDGE_CHARS = ["█", "▓", "+"];
-const GLYPH_FILL_CHARS = ["·", ".", ":", "+"];
-const GLYPH_EDGE_COLORS = ["#c4b5fd", "#a78bfa", "#e879f9"];
-const GLYPH_FILL_COLORS = ["#6d5bd0", "#4c3fa8", "#7c6bd6"];
+/* 实体填充：整格都画（▓/█ 为主），不是只描边 */
+const GLYPH_BASE_CHARS = ["▓", "█", "▒"];
+const GLYPH_BASE_COLORS = ["#7c6bd6", "#6d5bd0", "#8b5cf6"];
+/* 流动亮带：一道自上而下的亮带扫过字形，每列错开，亮带处换更亮的字符/颜色 */
+const GLYPH_HOT_CHARS = ["█", "▀"];
+const GLYPH_HOT_COLORS = ["#ddd6fe", "#c4b5fd", "#e9d5ff", "#f0abfc"];
+const GLYPH_BAND_W = 0.13;
+const GLYPH_BAND_SPEED = 0.16;
+const GLYPH_BAND_PEAK = 0.66;
 
 function clamp01(v) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -96,7 +101,6 @@ export function mount() {
   let glyphH = 0;
   let glyphSizeKey = "";
   let glyphC = 0;
-  let glyphDrawn = -1;
 
   function applyExit(progress) {
     const copy = 1 - smoothstep(0.0, 0.36, progress);
@@ -241,6 +245,8 @@ export function mount() {
     const originX = (w - cols * cell) / 2;
     const originY = (h - rows * cell) / 2;
     const diag = Math.sqrt(w * w + h * h);
+    const gridTop = originY;
+    const gridH = Math.max(1, rows * cell);
     const cells = [];
     for (let cy = 0; cy < rows; cy++) {
       for (let cx = 0; cx < cols; cx++) {
@@ -254,22 +260,24 @@ export function mount() {
         const y = originY + (cy + 0.5) * cell;
         const ang = Math.atan2(y - h / 2, x - w / 2) + (Math.random() - 0.5) * 0.9;
         const dist = (0.22 + Math.random() * 0.8) * diag;
-        const pool = edge ? GLYPH_EDGE_CHARS : GLYPH_FILL_CHARS;
-        const palette = edge ? GLYPH_EDGE_COLORS : GLYPH_FILL_COLORS;
         cells.push({
           x: x,
           y: y,
           ox: Math.cos(ang) * dist,
           oy: Math.sin(ang) * dist,
-          ch: pool[(Math.random() * pool.length) | 0],
-          color: palette[(Math.random() * palette.length) | 0],
-          a: edge ? 0.46 + Math.random() * 0.26 : 0.12 + Math.random() * 0.12,
+          col: cx,
+          /* 亮带用的归一化高度（字形框内 0..1） */
+          ny: (y - gridTop) / gridH,
+          ch: GLYPH_BASE_CHARS[(Math.random() * GLYPH_BASE_CHARS.length) | 0],
+          color: GLYPH_BASE_COLORS[(Math.random() * GLYPH_BASE_COLORS.length) | 0],
+          hot: GLYPH_HOT_COLORS[(Math.random() * GLYPH_HOT_COLORS.length) | 0],
+          /* 实体：底子就亮一点，描边格再高一些 */
+          base: (edge ? 0.26 : 0.19) + Math.random() * 0.08,
           d: Math.random() * 0.38,
         });
       }
     }
     glyphCells = cells;
-    glyphDrawn = -1;
   }
 
   function sizeGlyphCanvas() {
@@ -283,14 +291,13 @@ export function mount() {
     glyphCanvas.style.width = glyphW + "px";
     glyphCanvas.style.height = glyphH + "px";
     glyphCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    glyphDrawn = -1;
   }
 
-  function drawGlyph() {
+  /* 实体 + 流动：整格都画，亮带自上而下扫（每列错开），滚动进度只管归位/散开。 */
+  function drawGlyph(now) {
     if (!glyphCtx || !glyphCells || !glyphCells.length) return;
-    if (Math.abs(glyphC - glyphDrawn) < 0.003) return;
-    glyphDrawn = glyphC;
     const g = glyphCtx;
+    const tt = (now || 0) * 0.001;
     g.clearRect(0, 0, glyphW, glyphH);
     if (glyphC <= 0.004) return;
     g.font = `${Math.round(glyphCell * 1.02)}px Menlo, SFMono-Regular, ui-monospace, Consolas, monospace`;
@@ -298,11 +305,23 @@ export function mount() {
     g.textBaseline = "middle";
     for (let i = 0; i < glyphCells.length; i++) {
       const c = glyphCells[i];
-      const t = smoothstep(c.d, c.d + 0.6, glyphC);
-      if (t <= 0.008) continue;
-      g.globalAlpha = c.a * t;
-      g.fillStyle = c.color;
-      g.fillText(c.ch, c.x + c.ox * (1 - t), c.y + c.oy * (1 - t));
+      const s = smoothstep(c.d, c.d + 0.6, glyphC);
+      if (s <= 0.008) continue;
+      let d = c.ny - ((tt * GLYPH_BAND_SPEED + c.col * 0.055) % 1);
+      d -= Math.round(d);
+      const near = 1 - Math.min(1, Math.abs(d) / GLYPH_BAND_W);
+      const flow = near * near;
+      g.globalAlpha = (c.base + flow * (GLYPH_BAND_PEAK - c.base)) * s;
+      g.fillStyle = flow > 0.5 ? c.hot : c.color;
+      g.fillText(
+        flow > 0.72
+          ? GLYPH_HOT_CHARS[0]
+          : flow > 0.3
+            ? GLYPH_HOT_CHARS[1]
+            : c.ch,
+        c.x + c.ox * (1 - s),
+        c.y + c.oy * (1 - s)
+      );
     }
     g.globalAlpha = 1;
   }
@@ -322,7 +341,7 @@ export function mount() {
   }
 
   function draw(now) {
-    drawGlyph();
+    drawGlyph(now);
     const fade = Math.max(0, 1 - p * 0.35);
     if (p >= 0.995) {
       if (ctx && cssW) ctx.clearRect(0, 0, cssW, cssH);

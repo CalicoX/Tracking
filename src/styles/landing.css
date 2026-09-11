@@ -3776,7 +3776,7 @@
     .feature-stage[data-theme="conversion"] .fx-cv-recs {
       z-index: 1;
       margin: -10px 0 0;
-      padding: 16px 16px 12px;
+      padding: 12px 14px 10px;
     }
     .fx-cv-bar {
       display: flex;
@@ -3951,11 +3951,17 @@
       background: rgba(255, 255, 255, 0.2);
     }
     .fx-cv-scene .fx-cv-recs h4 {
-      margin: 0 0 10px;
-      font-size: 14px;
+      margin: 0;
+      font-size: 16px;
       font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.03em;
       color: #0f172a;
+    }
+    .fx-cv-scene .fx-cv-recs-sub {
+      margin: 2px 0 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #94a3b8;
     }
     .fx-cv-recs-list {
       list-style: none;
@@ -3969,19 +3975,20 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      gap: 6px;
+      gap: 0;
       margin: 0;
     }
     .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
       flex: none;
       width: 100%;
-      height: 72px;
+      height: 58px;
       aspect-ratio: auto;
-      border-radius: 10px;
+      border-radius: 8px;
+      margin: 0 0 6px;
     }
     .fx-cv-scene .fx-cv-recs-list strong {
       display: block;
-      margin: 0;
+      margin: 0 0 4px;
       font-size: 12.5px;
       font-weight: 600;
       letter-spacing: -0.01em;
@@ -3989,34 +3996,41 @@
       line-height: 1.3;
     }
     .fx-cv-scene .fx-cv-recs-list .fx-cv-item-price {
-      font-size: 13px;
+      display: block;
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
     }
-    /* 再触达 */
-    .fx-cv-scene .fx-cv-again {
-      display: inline-flex;
+    .fx-cv-scene .fx-cv-add,
+    .fx-cv-scene .fx-cv-buy {
+      display: flex;
       align-items: center;
-      gap: 6px;
-      margin: 10px 0 0;
-      height: 30px;
-      padding: 0 12px;
-      border-radius: 9px;
-      border: 1px solid rgba(37, 99, 235, 0.28);
-      background: #fff;
-      color: #2563eb;
-      font-size: 12.5px;
+      justify-content: center;
+      height: 26px;
+      margin: 0 0 5px;
+      border-radius: 7px;
+      font-size: 11.5px;
       font-weight: 650;
     }
-    .fx-cv-scene .fx-cv-again svg {
-      width: 14px;
-      height: 14px;
+    .fx-cv-scene .fx-cv-add {
+      background: #2563eb;
+      color: #fff;
+    }
+    .fx-cv-scene .fx-cv-buy {
+      margin-bottom: 0;
+      border: 1px solid #2563eb;
+      background: #fff;
+      color: #2563eb;
     }
     /* 复购率 */
     .fx-cv-metric {
       display: flex;
       align-items: baseline;
       gap: 8px;
-      margin: 10px 0 0;
-      padding: 10px 0 0;
+      margin: 8px 0 0;
+      padding: 8px 0 0;
       border-top: 1px solid rgba(15, 23, 42, 0.07);
     }
     .fx-cv-scene .fx-cv-metric strong {
