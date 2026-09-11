@@ -53,7 +53,11 @@
 - **滚动粒子消散** `src/fx/modules/ai-curtain.js` 对照 canvasui particle-scroll，**09-09 太卡卸挂载**：`useLandingEffects` **不再** `mountNamed("aiCurtain")`（文件保留）。不要复活 html2canvas / html-in-canvas 整页打沙。Coverage 地球看不见停 rAF。
 - Footer 顶部分割线已删（`border-top:0` + `.site-footer::before { display:none }`），不要再加 1px 线。
 
-## AI intro 的「AI 轮廓 ASCII」水印（2026-09-11 Park 五轮定案）
+## AI intro 的「AI」粒子水印（2026-09-11 Park：ASCII 换成粒子）
+
+- 仍是大「AI」轮廓、滚入汇聚 / 滚出散开、紫罗兰、汇聚后残余扰动、按墨迹盒居中。**不再画 ASCII 方块/加号**，格点改成圆点粒子（晕 + 实心核）。实现仍在 `ai-intro-ascii.js` 的 `.ai-intro-aiglyph` 画布，不新开模块。格更密（cell 约 5–7）。不要复活 matrix / fillMatrix / 鼠标跟随。
+
+## AI intro 的「AI 轮廓 ASCII」水印（2026-09-11 已换成粒子，下面是旧定案）
 
 - **Park 原话演进**（按顺序，别再往回走）：要 AI 二字轮廓的 Ascii 背景 pattern → 整屏水印但「不能太大」+「滚入汇聚、滚出散开」→「太小了 / 太亮了 / ascii 码样式不够丰富」→「没有居中」→「应该是和背景有那种反差的效果」→「**不要反差了**」→「汇聚后还是有一些扰动的效果」→「可以再大一点」→「字符再小一点」→「再暗一点」。**最终 = 大字形 + 小字符 + 很暗 + 紫罗兰实体（不做明暗反差）+ 描边提亮/内部压暗（字形要「明显」）+ 严格居中 + 汇聚后仍有残余扰动。**
 - **挂在已有模块里，不新开模块**：实现在 `src/fx/modules/ai-intro-ascii.js`（同一个 rAF 循环 / IO / 降级 / dispose 都现成，不用动 `FX_LOADERS` 和 perf/structure 测试）。画布由 `ensureGlyphCanvas()` 自建（`.ai-intro-aiglyph`）插进 `.ai-intro-bg`，**AiLab.jsx 一行没改**。
