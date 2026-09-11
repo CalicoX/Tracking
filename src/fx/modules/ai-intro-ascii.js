@@ -22,9 +22,9 @@ const FIELD_H = 144;
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
 const GLYPH_CELL_MIN = 3.2;
 const GLYPH_CELL_MAX = 4;
-const GLYPH_TARGET_VW = 0.72;
-const GLYPH_TARGET_MAX = 880;
-const GLYPH_TARGET_VH = 1;
+const GLYPH_TARGET_VW = 0.88;
+const GLYPH_TARGET_MAX = 1180;
+const GLYPH_TARGET_VH = 1.08;
 const GLYPH_LIGHT_COLORS = ["#3d3478", "#4a3d96"];
 const GLYPH_MID_COLORS = ["#5b4bb0", "#6d5bd0"];
 const GLYPH_HEAVY_COLORS = ["#7c6bd6", "#8b5cf6"];
