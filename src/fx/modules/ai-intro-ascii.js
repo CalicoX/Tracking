@@ -39,6 +39,9 @@ const GLYPH_BAND_SPEED = 0.16;
 const GLYPH_CHAR_MORPH = 1.6;
 const GLYPH_ALPHA_BASE = 0.05;
 const GLYPH_ALPHA_GAIN = 0.2;
+/* 字形描边单独一档：描边亮、内部暗，AI 才「明显」（Park 09-11「不够明显」） */
+const GLYPH_EDGE_ALPHA_BASE = 0.32;
+const GLYPH_EDGE_ALPHA_GAIN = 0.16;
 /* 汇聚完成后的残余扰动：每格绕落点小幅摆动 + 亮度微闪（Park：汇聚后还要有扰动感） */
 const GLYPH_DRIFT = 0.3;
 const GLYPH_FLICKER = 0.14;
@@ -298,8 +301,9 @@ export function mount() {
           ny: (y - gridTop) / gridH,
           /* 稳定随机相位：决定这一格落到哪个字符/颜色 */
           r: r0,
-          /* 亮度基准（0..1），描边格略高；实际亮度再叠上流动亮带 */
-          base: (edge ? 0.14 : 0.1) + Math.random() * 0.05,
+          /* 是不是字形描边格：描边提亮、内部压暗，字形才「明显」（Park 09-11） */
+          edge: edge,
+          base: (edge ? 0.3 : 0.08) + Math.random() * 0.05,
           d: Math.random() * 0.38,
         });
       }
@@ -338,8 +342,8 @@ export function mount() {
       d -= Math.round(d);
       const near = 1 - Math.min(1, Math.abs(d) / GLYPH_BAND_W);
       const flow = near * near;
-      /* 0..1 亮度 → 字符档位 + 透明度；字符本身随时间在档内滚动，所以纹理会「流动」 */
-      const lvl = Math.min(1, c.base * 2.4 + flow * 0.9);
+      /* 描边格额外抬一档，保证字形轮廓清楚 */
+      const lvl = Math.min(1, c.base * 2.4 + flow * 0.9 + (c.edge ? 0.3 : 0));
       const heavy = lvl > 0.6;
       const mid = !heavy && lvl > 0.32;
       const pool = heavy
@@ -360,7 +364,11 @@ export function mount() {
         GLYPH_DRIFT;
       const jy = Math.cos(tt * 1.33 + ph * 1.7) * glyphCell * GLYPH_DRIFT * 0.8;
       const flick = 1 - GLYPH_FLICKER * (0.5 + 0.5 * Math.sin(tt * 2.3 + ph * 3));
-      g.globalAlpha = (GLYPH_ALPHA_BASE + lvl * GLYPH_ALPHA_GAIN) * flick * s;
+      /* 描边用固定高亮（只占很少格，所以整体不会「太亮」），内部继续压暗 */
+      const alpha = c.edge
+        ? GLYPH_EDGE_ALPHA_BASE + flow * GLYPH_EDGE_ALPHA_GAIN
+        : GLYPH_ALPHA_BASE + lvl * GLYPH_ALPHA_GAIN;
+      g.globalAlpha = alpha * flick * s;
       g.fillStyle = palette[(c.r * palette.length) | 0];
       g.fillText(
         pool[((tt * GLYPH_CHAR_MORPH + c.r * 9) | 0) % pool.length],
