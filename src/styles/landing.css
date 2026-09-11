@@ -3754,8 +3754,8 @@
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
       box-shadow:
-        0 1px 2px rgba(15, 23, 42, 0.04),
-        0 18px 40px -24px rgba(15, 23, 42, 0.18);
+        0 2px 5px rgba(15, 23, 42, 0.05),
+        0 24px 52px -16px rgba(15, 23, 42, 0.3);
       opacity: 1;
       transform: none;
     }
@@ -4826,17 +4826,20 @@
     .fx-em-scene {
       position: relative;
       width: 100%;
-      /* 上限 660：邮件卡稳定在 ~410 宽，1440 也不会被拉成横卡 */
-      max-width: 660px;
+      /* 上限 696（含左右 18 内边距 = 内容 660）：邮件卡稳定在 ~410 宽，1440 也不会被拉成横卡。
+         内边距是给卡片投影留的量——>1024 时 scene 会和右栏同宽，不留就被 overflow 裁掉。 */
+      max-width: 696px;
       margin: 0 auto;
-      padding: 8px 0 12px;
+      padding: 8px 18px 24px;
       box-sizing: border-box;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .fx-em-letter,
-    .fx-em-flow-card {
+    /* 选择器必须带 [data-theme]：不带会被 .feature-stage[data-theme="lastmile"] .fx-glass
+       （0,3,0）抢走 box-shadow，只剩 1px 描边影（Park 09-11：投影应该大一些）。 */
+    .feature-stage[data-theme="lastmile"] .fx-em-letter,
+    .feature-stage[data-theme="lastmile"] .fx-em-flow-card {
       position: relative;
       left: auto;
       top: auto;
@@ -4844,8 +4847,8 @@
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
       box-shadow:
-        0 1px 2px rgba(15, 23, 42, 0.04),
-        0 18px 40px -24px rgba(15, 23, 42, 0.18);
+        0 2px 5px rgba(15, 23, 42, 0.05),
+        0 24px 52px -16px rgba(15, 23, 42, 0.3);
       opacity: 1;
       transform: none;
     }

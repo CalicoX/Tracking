@@ -145,7 +145,10 @@
 - **flow 是单面板**（Park 09-11：「create flow 合并为一个面板」，之前拆成两张卡的方案已否）：一张 `.fx-em-flow-card` 里依次是 `.fx-em-flow-head`（绿标 + `Create flow` / `When to send email`）→ `.fx-em-flow-row`（`Exception is Detected`）→ `.fx-em-flow-link`（2px 绿色虚线 + 上下绿点，`margin: 10px 0 10px auto` 靠右）→ `+ Add filters` → `.fx-em-filter-list`（下拉，`width: 100%`，**现在是普通文档流，不再绝对定位外伸**）。
 - **左右内边距必须一样（Park 圈过）**：卡 padding 固定 `16px 18px 18px`，**不许为了给图标让位把左边加大**。绿标 `flex: 0 0 44px` 放在 `.fx-em-flow-head` 里当行内第一格，所以下面 `Exception` 行、`+ Add filters`、下拉列表的左边线全在 18px 上；右边线也全落在内容右边（`width: 100%`）。
 - **警告标在邮件右上角**（`top: -8px; right: -14px`）：右沿中段会被 flow 压住。**别再往上抬**（`-16px` 在 1280×720 下会被裁）。
-- **尺寸事实（改这块前先看这个）**：桌面右栏 1440 约 751px、1280 约 659px；`--feature-panel-h = 100vh − 64(topbar) − 120(head 兜底) − 36`，**1280×720 只有 495px**。整组现在 477px 高（邮件卡 457），是故意卡在这个预算里的；警告标能露出来要求整组 ≤ 479。**再加内容，矮屏就会被 `.feature-panels-col` 的 `overflow: hidden` 裁掉。**
+- **卡片投影的大坑（2026-09-11 Park：投影应该大一些）**：邮件卡 / flow 卡的 `box-shadow` 必须写成 `.feature-stage[data-theme="lastmile"] .fx-em-letter` 这种带主题前缀的选择器。只写 `.fx-em-letter, .fx-em-flow-card`（0,1,0）会被 `.feature-stage[data-theme="lastmile"] .fx-glass`（0,3,0）抢走，实际只剩 `0 1px 2px rgba(15,23,42,.04)` 一圈描边影（第二条被 `--fx-iso: 0` 归零），看着完全没立体感。现值：`0 2px 5px rgba(15,23,42,.05), 0 24px 52px -16px rgba(15,23,42,.3)`（conversion 两张卡同一档）。
+- **`.fx-em-scene` 的 `padding: 8px 18px 24px` + `max-width: 696px` 是给投影留量的**：>1024 时 scene 会和右栏同宽（1280 时 659），两边贴死，投影会被 `.feature-panels-col` 的 `overflow: hidden` 切掉。所以从 660 抬到 696、内容仍是 660。
+- **尺寸事实（改这块前先看这个）**：桌面右栏 1440 约 751px、1280 约 659px；`--feature-panel-h = 100vh − 64(topbar) − 120(head 兜底) − 36`，**1280×720 只有 495px**。>1024 左右排整组 489px 高（邮件卡 457），刚好卡住；警告标要露出来要求 ≤ 479。**再加内容，矮屏就会被 `.feature-panels-col` 的 `overflow: hidden` 裁掉。**
+- **≤1024 竖排档的高是个已知缺口**：竖排整组 **734px**，而 1024×768 的窗口 panel 只有 **547px** → **flow 卡会被整块裁掉**（实测 mock 底边比 panel 底边低 385px）。窗口高约 1000px 以上（panel ≈ 780）才放得下。Park 平时窗口够高所以没报，但这是真缺口；要根治只能给竖排整组加 `transform: scale()`（窄屏按列宽/整组高算缩放），别再靠调字号硬压。
 - **≤1024 回竖排紧凑档**：`@media (max-width: 1024px)` 块放在主 `.fx-em-*` 块之后、原 ≤640 块**之前**（源顺序：后面的 ≤640 才能接住）。邮件 100%、flow `margin: 18px 0 0`、字号回落一档（标题 18 / 正文 13）、图标缩到 40。**原因：768 时右栏只剩约 324px，左右排撑不开。** ≤640 再缩（图标 34、警告标 40）并收进卡内——scene 那时 padding 为 0，往外伸会被 `.feature-visual` 的 `overflow: hidden` 裁掉。**641–1024 且窗口矮（如 1024×768）时整组仍会超出 panel 高度被裁**，这是旧版就有的，不是这轮引入的。
 
 ## Returns Hero（移动端）
