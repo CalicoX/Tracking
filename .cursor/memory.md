@@ -53,20 +53,20 @@
 - **滚动粒子消散** `src/fx/modules/ai-curtain.js` 对照 canvasui particle-scroll，**09-09 太卡卸挂载**：`useLandingEffects` **不再** `mountNamed("aiCurtain")`（文件保留）。不要复活 html2canvas / html-in-canvas 整页打沙。Coverage 地球看不见停 rAF。
 - Footer 顶部分割线已删（`border-top:0` + `.site-footer::before { display:none }`），不要再加 1px 线。
 
-## AI intro 的「AI 轮廓 ASCII」水印（2026-09-11 Park 三轮定案）
+## AI intro 的「AI 轮廓 ASCII」水印（2026-09-11 Park 五轮定案）
 
-- **Park 原话演进**：要 AI 二字轮廓的 Ascii 背景 pattern → 整屏水印但「不能太大」+「滚入汇聚、滚出散开」→ 「太小了 / 太亮了 / ascii 码样式不够丰富」→ 「没有居中」→ 「应该是和背景有那种反差的效果」→ **「不要反差了」** → 「汇聚后还是有一些扰动的效果」。所以最终：**大、压暗、字符丰富、严格居中、紫罗兰实体（不要明暗反差）、汇聚后有残余扰动**。
-- **挂在已有模块里，不新开模块**：实现在 `src/fx/modules/ai-intro-ascii.js`（同一个 rAF 循环 / IO / 降级判断 / dispose 都现成，不用动 `FX_LOADERS` 和 perf/structure 测试）。画布由 `ensureGlyphCanvas()` 自建（`.ai-intro-aiglyph`）插进 `.ai-intro-bg`，**AiLab.jsx 一行没改**。
-- **画法**：离屏画布 `700 fs Inter` 画 "AI" → `getImageData` 读 alpha → 按 `cell` 网格取格点 = 字形墨迹；**所有墨迹格都画**（实体，不是只描边）。
-- **居中必须按实测墨迹包围盒**（Park 报过「没有居中」）：canvas 的 `textBaseline:"middle"` 是 em 盒中点，**不是大写字母的视觉中心**，直接按画布中心对齐会整体偏低几十 px。做法是先扫 alpha 求 ink bbox，再以 `inkX0/inkY0 + cols/rows` 建网格、把 `cols*cell × rows*cell` 居中。实测 1303 视口下 ink 中心 (658,382) vs 视口中心 (656,384) ✓。
-- **尺寸**：`GLYPH_TARGET_VW = 0.6`、`GLYPH_TARGET_MAX = 720`、再被 `h*0.8` 压；格 `clamp(w/80, 12, 18)`。1303 视口下字形 558×436。
+- **Park 原话演进**（按顺序，别再往回走）：要 AI 二字轮廓的 Ascii 背景 pattern → 整屏水印但「不能太大」+「滚入汇聚、滚出散开」→「太小了 / 太亮了 / ascii 码样式不够丰富」→「没有居中」→「应该是和背景有那种反差的效果」→「**不要反差了**」→「汇聚后还是有一些扰动的效果」→「可以再大一点」→「字符再小一点」→「再暗一点」。**最终 = 大字形 + 小字符 + 很暗 + 紫罗兰实体（不做明暗反差）+ 严格居中 + 汇聚后仍有残余扰动。**
+- **挂在已有模块里，不新开模块**：实现在 `src/fx/modules/ai-intro-ascii.js`（同一个 rAF 循环 / IO / 降级 / dispose 都现成，不用动 `FX_LOADERS` 和 perf/structure 测试）。画布由 `ensureGlyphCanvas()` 自建（`.ai-intro-aiglyph`）插进 `.ai-intro-bg`，**AiLab.jsx 一行没改**。
+- **画法**：离屏画布 `700 fs Inter` 画 "AI" → `getImageData` 读 alpha → 按 `cell` 网格取格点 = 字形墨迹，**所有墨迹格都画**（实体，不是只描边）。
+- **居中必须按实测墨迹包围盒**（Park 报过「没有居中」）：canvas 的 `textBaseline:"middle"` 是 em 盒中点、**不是大写字母的视觉中心**，按画布中心对齐会整体偏几十 px。做法：先扫 alpha 求 ink bbox，再用 `inkX0/inkY0 + cols/rows` 建网格、把 `cols*cell × rows*cell` 居中。实测 1297 视口下 ink 中心 (649,382) vs 视口中心 (648,384) ✓。
+- **尺寸定案**：`GLYPH_TARGET_VW = 0.72`、`GLYPH_TARGET_MAX = 880`、`GLYPH_TARGET_VH = 1`（三者的最小值就是 "AI" 的目标宽），格 `glyphCellSize = clamp(w/120, 9, 13)`。1297×768 实测字形 692×541（占宽 53%、占高 70%）。**字号（cell）和字形是两个独立旋钮**：Park 要「字形更大、字符更小」，所以调 VW/VH 放大字形、调 cell 公式调字符大小。
 - **字符集（Park：样式要更丰富）**：按亮度分三档，档内还随时间换字（`GLYPH_CHAR_MORPH = 1.6` 次/秒，每格 `c.r` 相位不同）——轻 `· . : ; + - '`、中 `+ = o x % ░ ▒ v n`、重 `█ ▓ ▌ ▐ ▀ ▄ # 8 X @ & W M`；颜色对应 `#5b4bb0/#6d5bd0`、`#7c6bd6/#8b5cf6`、`#a78bfa/#c4b5fd/#e9d5ff/#e879f9`。**字符画在 Menlo 等宽字体上**（`${cell*1.02}px`），否则方块宽窄不齐。
-- **亮度定案（Park：太亮了）**：`alpha = (GLYPH_ALPHA_BASE 0.09 + lvl * GLYPH_ALPHA_GAIN 0.3) * flicker * s`，lvl = `base*2.4 + flow*0.9`，base 0.10–0.19。**别调回 peak 0.66 那一档**（那版就是「太亮了」）。**也不要改成暗色实体做「和背景反差」——Park 09-11 明确否掉**（我当时用 `#171236` 那套 + 让亮带把覆盖挖开，被否）。
-- **流动 = 亮带 + 换字两件事**：亮带 `ny` 对 `(t*0.16 + col*0.055)%1` 的环形距离决定（`GLYPH_BAND_W = 0.13`，每列错开所以是斜向流动）；字符本身也随时间换。
-- **汇聚后的残余扰动（Park 最后一条要求）**：每格绕落点做两个正弦叠加的小幅摆动（`GLYPH_DRIFT = 0.3` 格）＋亮度微闪（`GLYPH_FLICKER = 0.14`），相位用每格的 `c.r`，所以是「整片微微扰动」不是整齐摆动。**别为了「稳」把它删掉。**
+- **亮度定案（「太亮了」→「再暗一点」）**：`alpha = (GLYPH_ALPHA_BASE 0.05 + lvl * GLYPH_ALPHA_GAIN 0.2) * flicker * s`，`lvl = base*2.4 + flow*0.9`，base 0.10–0.19，实测 maxAlpha ≈ 0.43。**别再调回 peak 0.66 那一档**（那版就是「太亮了」）；**也不要做「和背景反差」的暗色实体**（我用 `#171236` + 让亮带把覆盖挖开那版被 Park 明确否掉：「不要反差了」）。
+- **流动 = 亮带 + 换字两件事**：亮带由 `ny` 对 `(t*0.16 + col*0.055)%1` 的环形距离决定（`GLYPH_BAND_W = 0.13`，每列错开 → 斜向流动）；字符本身也随时间换。
+- **汇聚后的残余扰动（Park 明确要）**：每格绕落点做两个正弦叠加的小幅摆动（`GLYPH_DRIFT = 0.3` 个格）＋亮度微闪（`GLYPH_FLICKER = 0.14`），相位用每格的 `c.r`，所以是「整片微微扰动」而不是整齐摆动。**别为了「稳」删掉它。**
 - **动效 = 滚动驱动 + 常驻扰动**：`glyphC = enter × (1 - exit)`，`enter = clamp01(1 - trackTop/vh)`，`exit` 复用模块已有的 `exitProgress(track)`。`drawGlyph(now)` **每帧重画**，所以停留期 rAF 循环必须继续跑（停止条件别只写 `p >= 0.995`）。**没有鼠标跟随**（09-10 否掉的正是那个）。
-- **必须一起改的地方**：① `draw()` 第一行调 `drawGlyph(now)`；② 循环停止条件带 `&& glyphC <= 0.004`；③ `syncCanvasMode()` 降级时把画布 `display: none`；④ `dispose()` 移除画布；⑤ `.ai-intro-aiglyph` 加进 ≤640 那条 `display: none` 列表。
-- **血泪坑**：我在 `buildGlyphField()` 里多写了一个同名 `const boxH` → SyntaxError → 整个模块加载失败、画布根本没建出来，而 **vitest 只把这些文件当文本读（断言正则）、不会执行模块**，55 项照样全绿。**改完 fx/modules 下的模块一定跑 `npx vite build`**（它真编译），再上浏览器确认。
+- **必须一起改的地方**：① `draw()` 第一行调 `drawGlyph(now)`；② 循环停止条件带 `&& glyphC <= 0.004`；③ `syncCanvasMode()` 降级时把画布 `display: none`；④ `dispose()` 移除画布；⑤ `.ai-intro-aiglyph` 加进 ≤640 那条 `display: none` 列表；⑥ 层级 `z-index: 3`（在 veil(2) 之上），放 veil 下面会被中心的 0.78 压没。
+- **两个血泪坑**：① 我在 `buildGlyphField()` 里多写了一个同名 `const boxH` → SyntaxError → 整个模块加载失败、画布根本没建出来，而 **vitest 只把这些文件当文本读（断言正则）、不执行模块**，55 项照样全绿 → **改完 fx/modules 一定跑 `npx vite build`**（它真编译）。② 这个会话里 dev server 的 HMR 反复卡成「整页空白 / 模块不挂载」（`.ai-intro-aiglyph` 查不到、`sticky.dataset.fxAscii` 为 null），**表现像代码 bug，其实是 HMR 挂了**——`tab.reload()` 或整页重新导航就好，别去改代码。
 
 ## AI 二字遮罩（已退役，勿复活）
 

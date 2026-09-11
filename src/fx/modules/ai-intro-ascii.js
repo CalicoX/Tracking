@@ -21,26 +21,34 @@ const FIELD_H = 144;
 /* ——— AI 二字的 ASCII 轮廓水印：滚入汇聚、滚出散开 ———
    面积收着做（约视宽 40% 上限 520），压在 veil 之上、文案之下。
    纯 2D fillText，格子由离屏 "AI" 字形的像素 alpha 反解，描边格密、内部格稀。 */
-const GLYPH_CELL_MIN = 11;
-const GLYPH_CELL_MAX = 16;
-const GLYPH_TARGET_VW = 0.46;
-const GLYPH_TARGET_MAX = 520;
-/* 实体填充：整格都画（▓/█ 为主），不是只描边 */
-const GLYPH_BASE_CHARS = ["▓", "█", "▒"];
-const GLYPH_BASE_COLORS = ["#7c6bd6", "#6d5bd0", "#8b5cf6"];
-/* 流动亮带：一道自上而下的亮带扫过字形，每列错开，亮带处换更亮的字符/颜色 */
-const GLYPH_HOT_CHARS = ["█", "▀"];
-const GLYPH_HOT_COLORS = ["#ddd6fe", "#c4b5fd", "#e9d5ff", "#f0abfc"];
+const GLYPH_CELL_MIN = 9;
+const GLYPH_CELL_MAX = 13;
+const GLYPH_TARGET_VW = 0.72;
+const GLYPH_TARGET_MAX = 880;
+const GLYPH_TARGET_VH = 1;
+/* 字符按亮度分三档（Park：ascii 样式要更丰富），档内还随时间换字 */
+const GLYPH_LIGHT_CHARS = ["·", ".", ":", ";", "+", "-", "'"];
+const GLYPH_MID_CHARS = ["+", "=", "o", "x", "%", "░", "▒", "v", "n"];
+const GLYPH_HEAVY_CHARS = ["█", "▓", "▌", "▐", "▀", "▄", "#", "8", "X", "@", "&", "W", "M"];
+/* 紫罗兰实体（Park 09-11：不要和背景反差）：底子按字符档位给透明度，亮带扫过提亮 */
+const GLYPH_LIGHT_COLORS = ["#5b4bb0", "#6d5bd0"];
+const GLYPH_MID_COLORS = ["#7c6bd6", "#8b5cf6"];
+const GLYPH_HEAVY_COLORS = ["#a78bfa", "#c4b5fd", "#e9d5ff", "#e879f9"];
 const GLYPH_BAND_W = 0.13;
 const GLYPH_BAND_SPEED = 0.16;
-const GLYPH_BAND_PEAK = 0.66;
+const GLYPH_CHAR_MORPH = 1.6;
+const GLYPH_ALPHA_BASE = 0.05;
+const GLYPH_ALPHA_GAIN = 0.2;
+/* 汇聚完成后的残余扰动：每格绕落点小幅摆动 + 亮度微闪（Park：汇聚后还要有扰动感） */
+const GLYPH_DRIFT = 0.3;
+const GLYPH_FLICKER = 0.14;
 
 function clamp01(v) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
 }
 
 function glyphCellSize(w) {
-  return Math.round(Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 95)));
+  return Math.round(Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 120)));
 }
 
 function smoothstep(a, b, t) {
@@ -199,7 +207,7 @@ export function mount() {
     glyphH = h;
     glyphCell = cell;
 
-    const targetW = Math.min(w * GLYPH_TARGET_VW, GLYPH_TARGET_MAX, h * 0.62);
+    const targetW = Math.min(w * GLYPH_TARGET_VW, GLYPH_TARGET_MAX, h * GLYPH_TARGET_VH);
     const font = (size) =>
       `700 ${size}px Inter, "Helvetica Neue", Arial, sans-serif`;
     const probe = document.createElement("canvas");
@@ -211,8 +219,8 @@ export function mount() {
     pctx.font = font(baseFs);
     const unit = pctx.measureText("AI").width / baseFs || 1.1;
     const fs = Math.max(20, targetW / unit);
-    const boxW = Math.max(8, Math.ceil(targetW) + 6);
-    const boxH = Math.max(8, Math.ceil(fs * 1.1) + 6);
+    const boxW = Math.max(8, Math.ceil(targetW) + cell * 3);
+    const boxH = Math.max(8, Math.ceil(fs * 1.5));
     probe.width = boxW;
     probe.height = boxH;
     pctx = probe.getContext("2d");
@@ -232,12 +240,31 @@ export function mount() {
     if (!img) return;
     const mask = img.data;
 
-    const cols = Math.max(1, Math.floor(boxW / cell));
-    const rows = Math.max(1, Math.floor(boxH / cell));
+    /* canvas 的 middle 基线不等于字形视觉中心，必须扫出墨迹包围盒再据此居中 */
+    let inkX0 = boxW;
+    let inkY0 = boxH;
+    let inkX1 = -1;
+    let inkY1 = -1;
+    for (let y = 0; y < boxH; y++) {
+      for (let x = 0; x < boxW; x++) {
+        if (mask[(y * boxW + x) * 4 + 3] > 60) {
+          if (x < inkX0) inkX0 = x;
+          if (x > inkX1) inkX1 = x;
+          if (y < inkY0) inkY0 = y;
+          if (y > inkY1) inkY1 = y;
+        }
+      }
+    }
+    if (inkX1 < 0) return;
+    const inkW = inkX1 - inkX0 + 1;
+    const inkH = inkY1 - inkY0 + 1;
+
+    const cols = Math.max(1, Math.floor(inkW / cell));
+    const rows = Math.max(1, Math.floor(inkH / cell));
     const inked = (cx, cy) => {
       if (cx < 0 || cy < 0 || cx >= cols || cy >= rows) return false;
-      const px = Math.round((cx + 0.5) * cell);
-      const py = Math.round((cy + 0.5) * cell);
+      const px = inkX0 + Math.round((cx + 0.5) * cell);
+      const py = inkY0 + Math.round((cy + 0.5) * cell);
       if (px >= boxW || py >= boxH) return false;
       return mask[(py * boxW + px) * 4 + 3] > 60;
     };
@@ -260,6 +287,7 @@ export function mount() {
         const y = originY + (cy + 0.5) * cell;
         const ang = Math.atan2(y - h / 2, x - w / 2) + (Math.random() - 0.5) * 0.9;
         const dist = (0.22 + Math.random() * 0.8) * diag;
+        const r0 = Math.random();
         cells.push({
           x: x,
           y: y,
@@ -268,11 +296,10 @@ export function mount() {
           col: cx,
           /* 亮带用的归一化高度（字形框内 0..1） */
           ny: (y - gridTop) / gridH,
-          ch: GLYPH_BASE_CHARS[(Math.random() * GLYPH_BASE_CHARS.length) | 0],
-          color: GLYPH_BASE_COLORS[(Math.random() * GLYPH_BASE_COLORS.length) | 0],
-          hot: GLYPH_HOT_COLORS[(Math.random() * GLYPH_HOT_COLORS.length) | 0],
-          /* 实体：底子就亮一点，描边格再高一些 */
-          base: (edge ? 0.26 : 0.19) + Math.random() * 0.08,
+          /* 稳定随机相位：决定这一格落到哪个字符/颜色 */
+          r: r0,
+          /* 亮度基准（0..1），描边格略高；实际亮度再叠上流动亮带 */
+          base: (edge ? 0.14 : 0.1) + Math.random() * 0.05,
           d: Math.random() * 0.38,
         });
       }
@@ -311,16 +338,34 @@ export function mount() {
       d -= Math.round(d);
       const near = 1 - Math.min(1, Math.abs(d) / GLYPH_BAND_W);
       const flow = near * near;
-      g.globalAlpha = (c.base + flow * (GLYPH_BAND_PEAK - c.base)) * s;
-      g.fillStyle = flow > 0.5 ? c.hot : c.color;
+      /* 0..1 亮度 → 字符档位 + 透明度；字符本身随时间在档内滚动，所以纹理会「流动」 */
+      const lvl = Math.min(1, c.base * 2.4 + flow * 0.9);
+      const heavy = lvl > 0.6;
+      const mid = !heavy && lvl > 0.32;
+      const pool = heavy
+        ? GLYPH_HEAVY_CHARS
+        : mid
+          ? GLYPH_MID_CHARS
+          : GLYPH_LIGHT_CHARS;
+      const palette = heavy
+        ? GLYPH_HEAVY_COLORS
+        : mid
+          ? GLYPH_MID_COLORS
+          : GLYPH_LIGHT_COLORS;
+      /* 残余扰动：两个不同频率的正弦叠加，每格相位不同，所以是「整片微微扰动」而不是整齐摆动 */
+      const ph = c.r * 6.283;
+      const jx =
+        (Math.sin(tt * 1.7 + ph) * 0.72 + Math.sin(tt * 0.63 + ph * 2.1) * 0.42) *
+        glyphCell *
+        GLYPH_DRIFT;
+      const jy = Math.cos(tt * 1.33 + ph * 1.7) * glyphCell * GLYPH_DRIFT * 0.8;
+      const flick = 1 - GLYPH_FLICKER * (0.5 + 0.5 * Math.sin(tt * 2.3 + ph * 3));
+      g.globalAlpha = (GLYPH_ALPHA_BASE + lvl * GLYPH_ALPHA_GAIN) * flick * s;
+      g.fillStyle = palette[(c.r * palette.length) | 0];
       g.fillText(
-        flow > 0.72
-          ? GLYPH_HOT_CHARS[0]
-          : flow > 0.3
-            ? GLYPH_HOT_CHARS[1]
-            : c.ch,
-        c.x + c.ox * (1 - s),
-        c.y + c.oy * (1 - s)
+        pool[((tt * GLYPH_CHAR_MORPH + c.r * 9) | 0) % pool.length],
+        c.x + c.ox * (1 - s) + jx * s,
+        c.y + c.oy * (1 - s) + jy * s
       );
     }
     g.globalAlpha = 1;
