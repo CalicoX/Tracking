@@ -62,6 +62,8 @@ export function mount() {
     intro.style.setProperty("--ai-blur", blur.toFixed(4));
     intro.classList.toggle("is-leaving", leaving);
     intro.classList.toggle("is-duo-settled", enter > 0.992 && !leaving);
+    const sticky = intro.closest(".ai-letter-sticky");
+    if (sticky) sticky.classList.toggle("is-leaving", leaving);
 
     if (leaving) {
       const pitch = leave * 54;
@@ -138,5 +140,6 @@ export function mount() {
     shell.style.transform = "";
     shell.style.transformOrigin = "";
     intro.classList.remove("is-leaving");
+    intro.closest(".ai-letter-sticky")?.classList.remove("is-leaving");
   };
 }

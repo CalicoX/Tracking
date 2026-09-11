@@ -6543,6 +6543,18 @@
     .ai-lab-intro.is-leaving .ai-intro-persp {
       perspective-origin: 50% 100%;
     }
+
+    /* 倒下时透视外的空位漏出后面的案例，不要黑底 */
+    .ai-lab-intro.is-leaving {
+      background: transparent;
+    }
+    .ai-letter-sticky:has(.ai-lab-intro.is-leaving),
+    .ai-letter-sticky.is-leaving {
+      background: transparent;
+    }
+    .ai-lab-intro.is-leaving .ai-intro-pblur {
+      display: none;
+    }
     .ai-intro-shell {
       position: absolute;
       inset: 0;
