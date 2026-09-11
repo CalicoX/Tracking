@@ -22,21 +22,21 @@ const FIELD_H = 144;
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
 const GLYPH_CELL_MIN = 2.8;
 const GLYPH_CELL_MAX = 3.5;
-const GLYPH_TARGET_VW = 0.98;
-const GLYPH_TARGET_MAX = 1400;
-const GLYPH_TARGET_VH = 1.18;
-const GLYPH_LIGHT_COLORS = ["#3d3478", "#4a3d96"];
-const GLYPH_MID_COLORS = ["#5b4bb0", "#6d5bd0"];
-const GLYPH_HEAVY_COLORS = ["#7c6bd6", "#8b5cf6"];
+const GLYPH_TARGET_VW = 0.88;
+const GLYPH_TARGET_MAX = 1280;
+const GLYPH_TARGET_VH = 0.76;
+const GLYPH_LIGHT_COLORS = ["#4a3d96", "#5b4bb0"];
+const GLYPH_MID_COLORS = ["#6d5bd0", "#7c6bd6"];
+const GLYPH_HEAVY_COLORS = ["#8b5cf6", "#a78bfa"];
 const GLYPH_BAND_W = 0.13;
 const GLYPH_BAND_SPEED = 0.16;
-/* 细砂要看得见：上一档 0.3px + 低 alpha 等于没了。无晕、点约 1px。 */
-const GLYPH_BODY_ALPHA = 0.14;
-const GLYPH_EDGE_ALPHA = 0.2;
-const GLYPH_BAND_ALPHA = 0.07;
-/* 汇聚完成后的残余扰动：0.85 / 1.65 都还不够，放到约 2.4 格 */
-const GLYPH_DRIFT = 2.4;
-const GLYPH_FLICKER = 0.28;
+/* 轮廓要比内部亮，不然细砂看不出 AI */
+const GLYPH_BODY_ALPHA = 0.18;
+const GLYPH_EDGE_ALPHA = 0.4;
+const GLYPH_BAND_ALPHA = 0.1;
+/* 扰动保留，但太大字形会散 */
+const GLYPH_DRIFT = 1.2;
+const GLYPH_FLICKER = 0.2;
 
 function clamp01(v) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -49,12 +49,34 @@ function glyphCellSize(w) {
 /** 板状衬线 I：上下横板 + 中竖，不靠 Inter 那根细棍。 */
 function drawSlabI(ctx, cx, top, bot) {
   const h = Math.max(1, bot - top);
-  const stem = h * 0.17;
-  const slabW = h * 0.7;
-  const slabH = h * 0.145;
+  const stem = h * 0.18;
+  const slabW = h * 0.74;
+  const slabH = h * 0.155;
   ctx.fillRect(cx - slabW / 2, top, slabW, slabH);
   ctx.fillRect(cx - slabW / 2, bot - slabH, slabW, slabH);
   ctx.fillRect(cx - stem / 2, top, stem, h);
+}
+
+/** 和 I 同重量的几何 A，Inter 细笔画在细砂里会散掉。 */
+function drawPlateA(ctx, cx, top, bot) {
+  const h = Math.max(1, bot - top);
+  const w = h * 0.8;
+  const t = h * 0.155;
+  const left = cx - w / 2;
+  const right = cx + w / 2;
+  ctx.save();
+  ctx.lineJoin = "miter";
+  ctx.miterLimit = 8;
+  ctx.lineCap = "butt";
+  ctx.strokeStyle = ctx.fillStyle;
+  ctx.lineWidth = t;
+  ctx.beginPath();
+  ctx.moveTo(left + t * 0.15, bot - t * 0.15);
+  ctx.lineTo(cx, top + t * 0.28);
+  ctx.lineTo(right - t * 0.15, bot - t * 0.15);
+  ctx.stroke();
+  ctx.fillRect(left + w * 0.24, top + h * 0.58, w * 0.52, t);
+  ctx.restore();
 }
 
 function smoothstep(a, b, t) {
@@ -215,41 +237,24 @@ export function mount() {
     glyphCell = cell;
 
     const targetW = Math.min(w * GLYPH_TARGET_VW, GLYPH_TARGET_MAX, h * GLYPH_TARGET_VH);
-    const font = (size) =>
-      `700 ${size}px Inter, "Helvetica Neue", Arial, sans-serif`;
+    const capH = Math.max(48, targetW / 1.72);
+    const boxW = Math.max(8, Math.ceil(targetW) + cell * 4);
+    const boxH = Math.max(8, Math.ceil(capH * 1.25));
     const probe = document.createElement("canvas");
-    probe.width = 8;
-    probe.height = 8;
-    let pctx = probe.getContext("2d");
-    if (!pctx) return;
-    const baseFs = 100;
-    pctx.font = font(baseFs);
-    const a0 = pctx.measureText("A");
-    const cap0 = Math.max(8, a0.actualBoundingBoxAscent || baseFs * 0.72);
-    const pair0 = a0.width + cap0 * 0.28 + cap0 * 0.7;
-    const unit = pair0 / baseFs || 1.1;
-    const fs = Math.max(20, targetW / unit);
-    const boxW = Math.max(8, Math.ceil(targetW) + cell * 3);
-    const boxH = Math.max(8, Math.ceil(fs * 1.5));
     probe.width = boxW;
     probe.height = boxH;
-    pctx = probe.getContext("2d");
+    const pctx = probe.getContext("2d");
     if (!pctx) return;
-    pctx.font = font(fs);
     pctx.fillStyle = "#fff";
-    pctx.textAlign = "left";
-    pctx.textBaseline = "alphabetic";
-    const am = pctx.measureText("A");
-    const aW = am.width;
-    const ascent = Math.max(8, am.actualBoundingBoxAscent || fs * 0.72);
-    const slabW = ascent * 0.7;
-    const gap = ascent * 0.28;
+    const aW = capH * 0.8;
+    const slabW = capH * 0.74;
+    const gap = capH * 0.36;
     const pairW = aW + gap + slabW;
     const left = (boxW - pairW) / 2;
-    const baseline = boxH / 2 + ascent / 2;
-    const capTop = baseline - ascent;
-    pctx.fillText("A", left, baseline);
-    drawSlabI(pctx, left + aW + gap + slabW / 2, capTop, baseline);
+    const top = (boxH - capH) / 2;
+    const bot = top + capH;
+    drawPlateA(pctx, left + aW / 2, top, bot);
+    drawSlabI(pctx, left + aW + gap + slabW / 2, top, bot);
 
     let img = null;
     try {
@@ -378,9 +383,9 @@ export function mount() {
         (c.edge ? GLYPH_EDGE_ALPHA : GLYPH_BODY_ALPHA) + flow * GLYPH_BAND_ALPHA;
       const x = c.x + c.ox * (1 - s) + jx * s;
       const y = c.y + c.oy * (1 - s) + jy * s;
-      const rad = Math.max(0.85, (c.edge ? 1.05 : 0.88) + flow * 0.18);
+      const rad = Math.max(0.85, (c.edge ? 1.22 : 0.9) + flow * 0.16);
       g.fillStyle = palette[(c.r * palette.length) | 0];
-      g.globalAlpha = Math.min(1, alpha * flick * s * 0.88);
+      g.globalAlpha = Math.min(1, alpha * flick * s * (c.edge ? 1.15 : 0.92));
       g.beginPath();
       g.arc(x, y, rad, 0, Math.PI * 2);
       g.fill();
