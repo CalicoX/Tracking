@@ -25,18 +25,18 @@ const GLYPH_CELL_MAX = 4;
 const GLYPH_TARGET_VW = 0.72;
 const GLYPH_TARGET_MAX = 880;
 const GLYPH_TARGET_VH = 1;
-const GLYPH_LIGHT_COLORS = ["#5b4bb0", "#6d5bd0"];
-const GLYPH_MID_COLORS = ["#7c6bd6", "#8b5cf6"];
-const GLYPH_HEAVY_COLORS = ["#9b87f5", "#a78bfa"];
+const GLYPH_LIGHT_COLORS = ["#3d3478", "#4a3d96"];
+const GLYPH_MID_COLORS = ["#5b4bb0", "#6d5bd0"];
+const GLYPH_HEAVY_COLORS = ["#7c6bd6", "#8b5cf6"];
 const GLYPH_BAND_W = 0.13;
 const GLYPH_BAND_SPEED = 0.16;
 /* 细砂要看得见：上一档 0.3px + 低 alpha 等于没了。无晕、点约 1px。 */
-const GLYPH_BODY_ALPHA = 0.22;
-const GLYPH_EDGE_ALPHA = 0.3;
-const GLYPH_BAND_ALPHA = 0.12;
-/* 汇聚完成后的残余扰动：每格绕落点小幅摆动 + 亮度微闪（Park：汇聚后还要有扰动感） */
-const GLYPH_DRIFT = 0.3;
-const GLYPH_FLICKER = 0.14;
+const GLYPH_BODY_ALPHA = 0.14;
+const GLYPH_EDGE_ALPHA = 0.2;
+const GLYPH_BAND_ALPHA = 0.07;
+/* 汇聚完成后的残余扰动：Park 要幅度再大一点 */
+const GLYPH_DRIFT = 0.85;
+const GLYPH_FLICKER = 0.22;
 
 function clamp01(v) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -342,10 +342,13 @@ export function mount() {
           : GLYPH_LIGHT_COLORS;
       const ph = c.r * 6.283;
       const jx =
-        (Math.sin(tt * 1.7 + ph) * 0.72 + Math.sin(tt * 0.63 + ph * 2.1) * 0.42) *
+        (Math.sin(tt * 1.7 + ph) * 0.86 + Math.sin(tt * 0.63 + ph * 2.1) * 0.58) *
         glyphCell *
         GLYPH_DRIFT;
-      const jy = Math.cos(tt * 1.33 + ph * 1.7) * glyphCell * GLYPH_DRIFT * 0.8;
+      const jy =
+        (Math.cos(tt * 1.33 + ph * 1.7) * 0.9 + Math.sin(tt * 0.91 + ph * 1.2) * 0.45) *
+        glyphCell *
+        GLYPH_DRIFT;
       const flick = 1 - GLYPH_FLICKER * (0.5 + 0.5 * Math.sin(tt * 2.3 + ph * 3));
       const alpha =
         (c.edge ? GLYPH_EDGE_ALPHA : GLYPH_BODY_ALPHA) + flow * GLYPH_BAND_ALPHA;
@@ -353,7 +356,7 @@ export function mount() {
       const y = c.y + c.oy * (1 - s) + jy * s;
       const rad = Math.max(0.85, (c.edge ? 1.05 : 0.88) + flow * 0.18);
       g.fillStyle = palette[(c.r * palette.length) | 0];
-      g.globalAlpha = Math.min(1, alpha * flick * s * 1.15);
+      g.globalAlpha = Math.min(1, alpha * flick * s * 0.88);
       g.beginPath();
       g.arc(x, y, rad, 0, Math.PI * 2);
       g.fill();
