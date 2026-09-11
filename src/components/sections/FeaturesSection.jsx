@@ -210,18 +210,18 @@ export default function FeaturesSection() {
                               <div className="fx-glass fx-cv-card">
                                 <div className="fx-cv-bar">
                                   <span className="fx-cv-bar-title">Your cart</span>
-                                  <span className="fx-cv-bar-meta">1 item</span>
+                                  <span className="fx-cv-bar-meta">Continue shopping</span>
+                                </div>
+                                <div className="fx-cv-cols">
+                                  <span>Product</span>
+                                  <span>Total</span>
                                 </div>
                                 <div className="fx-cv-item">
-                                  <span className="fx-cv-thumb is-product">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                      <path d="M3.8 8.3 12 4l8.2 4.3v7.4L12 20l-8.2-4.3z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
-                                      <path d="M3.8 8.3 12 12.6l8.2-4.3M12 12.6V20" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
-                                    </svg>
-                                  </span>
+                                  <img className="fx-cv-thumb" src="/assets/products/tips.jpg" alt="" />
                                   <div className="fx-cv-item-txt">
                                     <strong>Wireless Earbuds Pro</strong>
-                                    <span>Qty 1 · Free shipping</span>
+                                    <span>$129.00</span>
+                                    <span className="fx-cv-qty"><i>−</i><em>1</em><i>+</i></span>
                                   </div>
                                   <span className="fx-cv-item-price">$129.00</span>
                                 </div>
@@ -235,8 +235,12 @@ export default function FeaturesSection() {
                                   </span>
                                   <strong>Arrives Tue, Mar 23 – Mar 30</strong>
                                 </div>
+                                <div className="fx-cv-sub">
+                                  <span>Subtotal</span>
+                                  <strong>$129.00</strong>
+                                </div>
                                 <span className="fx-cv-pay">
-                                  Buy now
+                                  Check out
                                   <em>1-tap checkout</em>
                                 </span>
                               </div>
@@ -245,30 +249,13 @@ export default function FeaturesSection() {
                                 <h4>You may also like</h4>
                                 <ul className="fx-cv-recs-list">
                                   <li>
-                                    <span className="fx-cv-thumb is-tips">
-                                      <svg viewBox="0 0 24 24" fill="none">
-                                        <circle cx="9.6" cy="9.4" r="3.1" stroke="currentColor" strokeWidth="1.6"/>
-                                        <path d="M9.6 12.5v6.2a1.9 1.9 0 0 0 1.9 1.9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-                                        <circle cx="17.2" cy="8.6" r="2.3" stroke="currentColor" strokeWidth="1.6"/>
-                                      </svg>
-                                    </span>
-                                    <div className="fx-cv-recs-txt">
-                                      <strong>Sport Ear Tips</strong>
-                                      <span>3 sizes</span>
-                                    </div>
+                                    <img className="fx-cv-thumb" src="/assets/products/earbuds.jpg" alt="" />
+                                    <strong>Sport Ear Tips</strong>
                                     <span className="fx-cv-item-price">$19.00</span>
                                   </li>
                                   <li>
-                                    <span className="fx-cv-thumb is-case">
-                                      <svg viewBox="0 0 24 24" fill="none">
-                                        <rect x="4.4" y="6.8" width="15.2" height="10.4" rx="3.2" stroke="currentColor" strokeWidth="1.6"/>
-                                        <path d="M9.6 12h4.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-                                      </svg>
-                                    </span>
-                                    <div className="fx-cv-recs-txt">
-                                      <strong>Charging Case</strong>
-                                      <span>Matte black</span>
-                                    </div>
+                                    <img className="fx-cv-thumb" src="/assets/products/case.jpg" alt="" />
+                                    <strong>Charging Case</strong>
                                     <span className="fx-cv-item-price">$39.00</span>
                                   </li>
                                 </ul>

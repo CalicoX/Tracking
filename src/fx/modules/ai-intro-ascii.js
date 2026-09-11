@@ -18,6 +18,26 @@ export const AI_EXIT_VH = 0.48;
 const FIELD_W = 256;
 const FIELD_H = 144;
 
+/* ——— AI 二字的 ASCII 轮廓水印：滚入汇聚、滚出散开 ———
+   面积收着做（约视宽 40% 上限 520），压在 veil 之上、文案之下。
+   纯 2D fillText，格子由离屏 "AI" 字形的像素 alpha 反解，描边格密、内部格稀。 */
+const GLYPH_CELL_MIN = 11;
+const GLYPH_CELL_MAX = 16;
+const GLYPH_TARGET_VW = 0.46;
+const GLYPH_TARGET_MAX = 520;
+const GLYPH_EDGE_CHARS = ["█", "▓", "+"];
+const GLYPH_FILL_CHARS = ["·", ".", ":", "+"];
+const GLYPH_EDGE_COLORS = ["#c4b5fd", "#a78bfa", "#e879f9"];
+const GLYPH_FILL_COLORS = ["#6d5bd0", "#4c3fa8", "#7c6bd6"];
+
+function clamp01(v) {
+  return v < 0 ? 0 : v > 1 ? 1 : v;
+}
+
+function glyphCellSize(w) {
+  return Math.round(Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 95)));
+}
+
 function smoothstep(a, b, t) {
   const x = Math.max(0, Math.min(1, (t - a) / Math.max(b - a, 1e-6)));
   return x * x * (3 - 2 * x);
@@ -68,6 +88,15 @@ export function mount() {
   field.height = FIELD_H;
   const fieldCtx = field.getContext("2d", { willReadFrequently: true });
   const fieldImg = fieldCtx ? fieldCtx.createImageData(FIELD_W, FIELD_H) : null;
+  let glyphCanvas = null;
+  let glyphCtx = null;
+  let glyphCells = null;
+  let glyphCell = 11;
+  let glyphW = 0;
+  let glyphH = 0;
+  let glyphSizeKey = "";
+  let glyphC = 0;
+  let glyphDrawn = -1;
 
   function applyExit(progress) {
     const copy = 1 - smoothstep(0.0, 0.36, progress);
@@ -140,7 +169,160 @@ export function mount() {
     drawnOut = false;
   }
 
+  function ensureGlyphCanvas() {
+    if (glyphCanvas) return glyphCanvas;
+    const bg = host.parentNode;
+    if (!bg) return null;
+    glyphCanvas = document.createElement("canvas");
+    glyphCanvas.className = "ai-intro-aiglyph";
+    glyphCanvas.setAttribute("aria-hidden", "true");
+    bg.appendChild(glyphCanvas);
+    glyphCtx = glyphCanvas.getContext("2d");
+    return glyphCanvas;
+  }
+
+  /** 把 "AI" 光栅化成格点：描边格用密字符、内部格用稀字符，各带一个向外的散开位移。 */
+  function buildGlyphField() {
+    if (!sticky) return;
+    const rect = sticky.getBoundingClientRect();
+    const w = Math.max(1, Math.round(rect.width));
+    const h = Math.max(1, Math.round(rect.height));
+    const cell = glyphCellSize(w);
+    const key = w + "x" + h + "x" + cell;
+    if (key === glyphSizeKey) return;
+    glyphSizeKey = key;
+    glyphW = w;
+    glyphH = h;
+    glyphCell = cell;
+
+    const targetW = Math.min(w * GLYPH_TARGET_VW, GLYPH_TARGET_MAX, h * 0.62);
+    const font = (size) =>
+      `700 ${size}px Inter, "Helvetica Neue", Arial, sans-serif`;
+    const probe = document.createElement("canvas");
+    probe.width = 8;
+    probe.height = 8;
+    let pctx = probe.getContext("2d");
+    if (!pctx) return;
+    const baseFs = 100;
+    pctx.font = font(baseFs);
+    const unit = pctx.measureText("AI").width / baseFs || 1.1;
+    const fs = Math.max(20, targetW / unit);
+    const boxW = Math.max(8, Math.ceil(targetW) + 6);
+    const boxH = Math.max(8, Math.ceil(fs * 1.1) + 6);
+    probe.width = boxW;
+    probe.height = boxH;
+    pctx = probe.getContext("2d");
+    if (!pctx) return;
+    pctx.font = font(fs);
+    pctx.fillStyle = "#fff";
+    pctx.textAlign = "center";
+    pctx.textBaseline = "middle";
+    pctx.fillText("AI", boxW / 2, boxH / 2);
+
+    let img = null;
+    try {
+      img = pctx.getImageData(0, 0, boxW, boxH);
+    } catch (e) {
+      img = null;
+    }
+    if (!img) return;
+    const mask = img.data;
+
+    const cols = Math.max(1, Math.floor(boxW / cell));
+    const rows = Math.max(1, Math.floor(boxH / cell));
+    const inked = (cx, cy) => {
+      if (cx < 0 || cy < 0 || cx >= cols || cy >= rows) return false;
+      const px = Math.round((cx + 0.5) * cell);
+      const py = Math.round((cy + 0.5) * cell);
+      if (px >= boxW || py >= boxH) return false;
+      return mask[(py * boxW + px) * 4 + 3] > 60;
+    };
+
+    const originX = (w - cols * cell) / 2;
+    const originY = (h - rows * cell) / 2;
+    const diag = Math.sqrt(w * w + h * h);
+    const cells = [];
+    for (let cy = 0; cy < rows; cy++) {
+      for (let cx = 0; cx < cols; cx++) {
+        if (!inked(cx, cy)) continue;
+        const edge =
+          !inked(cx - 1, cy) ||
+          !inked(cx + 1, cy) ||
+          !inked(cx, cy - 1) ||
+          !inked(cx, cy + 1);
+        const x = originX + (cx + 0.5) * cell;
+        const y = originY + (cy + 0.5) * cell;
+        const ang = Math.atan2(y - h / 2, x - w / 2) + (Math.random() - 0.5) * 0.9;
+        const dist = (0.22 + Math.random() * 0.8) * diag;
+        const pool = edge ? GLYPH_EDGE_CHARS : GLYPH_FILL_CHARS;
+        const palette = edge ? GLYPH_EDGE_COLORS : GLYPH_FILL_COLORS;
+        cells.push({
+          x: x,
+          y: y,
+          ox: Math.cos(ang) * dist,
+          oy: Math.sin(ang) * dist,
+          ch: pool[(Math.random() * pool.length) | 0],
+          color: palette[(Math.random() * palette.length) | 0],
+          a: edge ? 0.46 + Math.random() * 0.26 : 0.12 + Math.random() * 0.12,
+          d: Math.random() * 0.38,
+        });
+      }
+    }
+    glyphCells = cells;
+    glyphDrawn = -1;
+  }
+
+  function sizeGlyphCanvas() {
+    if (!glyphCanvas || !glyphCtx || !glyphW || !glyphH) return;
+    const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+    const pw = Math.round(glyphW * dpr);
+    const ph = Math.round(glyphH * dpr);
+    if (glyphCanvas.width === pw && glyphCanvas.height === ph) return;
+    glyphCanvas.width = pw;
+    glyphCanvas.height = ph;
+    glyphCanvas.style.width = glyphW + "px";
+    glyphCanvas.style.height = glyphH + "px";
+    glyphCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    glyphDrawn = -1;
+  }
+
+  function drawGlyph() {
+    if (!glyphCtx || !glyphCells || !glyphCells.length) return;
+    if (Math.abs(glyphC - glyphDrawn) < 0.003) return;
+    glyphDrawn = glyphC;
+    const g = glyphCtx;
+    g.clearRect(0, 0, glyphW, glyphH);
+    if (glyphC <= 0.004) return;
+    g.font = `${Math.round(glyphCell * 1.02)}px Menlo, SFMono-Regular, ui-monospace, Consolas, monospace`;
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    for (let i = 0; i < glyphCells.length; i++) {
+      const c = glyphCells[i];
+      const t = smoothstep(c.d, c.d + 0.6, glyphC);
+      if (t <= 0.008) continue;
+      g.globalAlpha = c.a * t;
+      g.fillStyle = c.color;
+      g.fillText(c.ch, c.x + c.ox * (1 - t), c.y + c.oy * (1 - t));
+    }
+    g.globalAlpha = 1;
+  }
+
+  /** 滚入汇聚（enter 0→1），滚出散开（exit 1→0）。 */
+  function glyphProgress() {
+    const vh = window.innerHeight || 1;
+    const enter = clamp01(1 - track.getBoundingClientRect().top / vh);
+    return enter * (1 - exitProgress(track));
+  }
+
+  function startGlyph() {
+    if (reduceCanvas) return;
+    if (!ensureGlyphCanvas() || !glyphCtx) return;
+    buildGlyphField();
+    sizeGlyphCanvas();
+  }
+
   function draw(now) {
+    drawGlyph();
     const fade = Math.max(0, 1 - p * 0.35);
     if (p >= 0.995) {
       if (ctx && cssW) ctx.clearRect(0, 0, cssW, cssH);
@@ -167,7 +349,7 @@ export function mount() {
       running = false;
       return;
     }
-    if (p >= 0.995 && drawnOut) {
+    if (p >= 0.995 && drawnOut && glyphC <= 0.004) {
       running = false;
       return;
     }
@@ -222,6 +404,7 @@ export function mount() {
 
   function startVisual() {
     if (reduceCanvas) return;
+    startGlyph();
     if (glApi || ctx) {
       startLoop();
       return;
@@ -240,6 +423,7 @@ export function mount() {
     }
     p = exitProgress(track);
     applyExit(p);
+    glyphC = glyphProgress();
     if (reduceCanvas) return;
     if (p < 0.995) drawnOut = false;
     if (visible && !document.hidden) startLoop();
@@ -251,10 +435,12 @@ export function mount() {
       stopLoop();
       sticky.classList.remove("is-ascii-on");
       host.style.display = "none";
+      if (glyphCanvas) glyphCanvas.style.display = "none";
       onScroll();
       return;
     }
     host.style.display = "";
+    if (glyphCanvas) glyphCanvas.style.display = "";
     startVisual();
     onScroll();
   }
@@ -310,6 +496,8 @@ export function mount() {
       if (reduceCanvas) return;
       if (glApi) glApi.resize();
       else resizeFallback();
+      buildGlyphField();
+      sizeGlyphCanvas();
       drawnOut = false;
       if (!running) draw(performance.now());
     });
@@ -336,6 +524,13 @@ export function mount() {
     if (ro) ro.disconnect();
     else window.removeEventListener("resize", onBp);
     if (glApi) glApi.dispose();
+    if (glyphCanvas && glyphCanvas.parentNode) {
+      glyphCanvas.parentNode.removeChild(glyphCanvas);
+    }
+    glyphCanvas = null;
+    glyphCtx = null;
+    glyphCells = null;
+    glyphSizeKey = "";
     sticky.classList.remove("is-ascii-on", "is-ascii-out");
     intro.style.removeProperty("--ascii-copy");
     intro.style.removeProperty("--intro-rest-op");

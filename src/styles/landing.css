@@ -3771,79 +3771,121 @@
     }
     .fx-cv-bar {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
       gap: 10px;
-      margin: 0 0 10px;
+      margin: 0 0 8px;
     }
     .fx-cv-scene .fx-cv-bar-title {
-      font-size: 13px;
+      font-size: 20px;
       font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.03em;
       color: #0f172a;
     }
     .fx-cv-scene .fx-cv-bar-meta {
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 500;
+      color: #334155;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .fx-cv-cols {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0 6px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+      font-size: 10.5px;
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: #94a3b8;
     }
     .fx-cv-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 10px;
-      border-radius: 12px;
-      background: #f8fafc;
-      border: 1px solid rgba(15, 23, 42, 0.06);
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 10px 12px;
+      padding: 12px 0 10px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      background: none;
+      border-radius: 0;
     }
     .fx-cv-scene .fx-cv-thumb {
-      flex: 0 0 44px;
-      width: 44px;
-      height: 44px;
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
+      grid-row: 1;
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
       margin: 0;
-    }
-    .fx-cv-scene .fx-cv-thumb svg {
-      width: 24px;
-      height: 24px;
-    }
-    .fx-cv-scene .fx-cv-thumb.is-product {
-      background: linear-gradient(145deg, #dbeafe, #bfdbfe);
-      color: #1d4ed8;
-    }
-    .fx-cv-scene .fx-cv-thumb.is-tips {
-      background: linear-gradient(145deg, #d1fae5, #a7f3d0);
-      color: #047857;
-    }
-    .fx-cv-scene .fx-cv-thumb.is-case {
-      background: linear-gradient(145deg, #e0e7ff, #c7d2fe);
-      color: #4338ca;
+      object-fit: cover;
+      background: #f8fafc;
+      display: block;
     }
     .fx-cv-scene .fx-cv-item-txt {
-      flex: 1 1 auto;
       min-width: 0;
     }
     .fx-cv-scene .fx-cv-item-txt strong {
       display: block;
-      font-size: 13.5px;
-      font-weight: 650;
-      letter-spacing: -0.01em;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
       color: #0f172a;
     }
     .fx-cv-scene .fx-cv-item-txt span {
       display: block;
-      margin: 2px 0 0;
-      font-size: 12px;
+      margin: 4px 0 0;
+      font-size: 13px;
       font-weight: 500;
-      color: #64748b;
+      color: #334155;
+    }
+    .fx-cv-scene .fx-cv-qty {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 8px;
+      height: 32px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .fx-cv-scene .fx-cv-qty i,
+    .fx-cv-scene .fx-cv-qty em {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 32px;
+      margin: 0;
+      font-style: normal;
+      font-size: 13px;
+      font-weight: 500;
+      color: #0f172a;
+    }
+    .fx-cv-scene .fx-cv-qty em {
+      width: 22px;
+      border-left: 1px solid rgba(15, 23, 42, 0.08);
+      border-right: 1px solid rgba(15, 23, 42, 0.08);
     }
     .fx-cv-scene .fx-cv-item-price {
-      flex: 0 0 auto;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+    .fx-cv-sub {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      gap: 10px;
+      margin: 10px 0 0;
+    }
+    .fx-cv-scene .fx-cv-sub span {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .fx-cv-scene .fx-cv-sub strong {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       color: #0f172a;
     }
     /* AI 预购 EDD 条 */
@@ -3910,40 +3952,34 @@
       margin: 0;
       padding: 0;
       display: grid;
-      gap: 8px;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
     .fx-cv-recs-list li {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
       margin: 0;
     }
     .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
-      flex: 0 0 34px;
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
+      flex: none;
+      width: 100%;
+      height: 92px;
+      aspect-ratio: auto;
+      border-radius: 10px;
     }
-    .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb svg {
-      width: 19px;
-      height: 19px;
-    }
-    .fx-cv-scene .fx-cv-recs-txt {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-    .fx-cv-scene .fx-cv-recs-txt strong {
+    .fx-cv-scene .fx-cv-recs-list strong {
       display: block;
+      margin: 0;
       font-size: 12.5px;
       font-weight: 600;
+      letter-spacing: -0.01em;
       color: #0f172a;
+      line-height: 1.3;
     }
-    .fx-cv-scene .fx-cv-recs-txt span {
-      display: block;
-      margin: 1px 0 0;
-      font-size: 11.5px;
-      font-weight: 500;
-      color: #94a3b8;
+    .fx-cv-scene .fx-cv-recs-list .fx-cv-item-price {
+      font-size: 13px;
     }
     /* 再触达 */
     .fx-cv-scene .fx-cv-again {
@@ -6376,6 +6412,16 @@
       position: absolute;
       inset: 0;
       z-index: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    /* AI 二字 ASCII 轮廓水印：z-index 3 压在 veil(2) 之上、文案之前；滚入汇聚、滚出散开 */
+    .ai-intro-aiglyph {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
       display: block;
       width: 100%;
       height: 100%;
@@ -12364,7 +12410,8 @@
       /* FX 降级线 = 640（2026-09-01 断点并档对齐 API：768 平板吃完整桌面 FX） */
       .bottom-cta-shader,
       .ai-intro-rail,
-      .ai-intro-ascii {
+      .ai-intro-ascii,
+      .ai-intro-aiglyph {
         display: none !important;
       }
 
