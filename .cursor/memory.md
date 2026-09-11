@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-11（邮件插图：修流程图标 / 警告标 / 运单对齐）
+最后更新：2026-09-11（Features 邮件插图改左右排：邮件竖卡 + Create flow 两张卡压右沿）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -9,7 +9,7 @@
 - **TrustBand**：副标行（Post-purchase infrastructure…）已删，只留 Trusted by 100,000+ 标题。
 - **ImpactBand**：Loyalty lift 3.3→**3.5**。
 - **ProductDock**：`Order Tracking / 17RETURNS / Tracking API`（Topbar 顶栏未动）。
-- **Features（#key-features）**：section-head 整块删了；手风琴 3→**4 项**，h3=**首字母大写**标签（Branded Tracking Page / Branded Email Notification / Split-Order Management / Conversion & Loyalty，Park 定稿 Title Case，测试同步锁这套）+ `.feature-desc` 一句描述（active 展开）。**坑：desc 收展必须用 max-height，不能用 grid-template-rows 0fr——0fr 只收得住真实子元素（如 .feature-points-inner），p 里是裸文本会留一块隐形占位（Park 红框标过「怎么空了这么多」）**。**手风琴动效定案（Park 否掉「动来动去/弹一下」两轮后）**：h3 全状态同一字号 clamp(18px,16.6px+0.4vw,23px)，激活只变渐变色+700，只留 color 0.3s 过渡；.feature 的 padding/gap transition 整个删掉；feature-list/feature-side-wrap/feature-side 全部顶对齐。紧凑度：list gap 8、激活项 padding 6。**左栏是一块（Park：按钮和文字是一个整体，适当间距，按钮不许动）**：JS `measureSideHeight()` 把 `.feature-list` 锁成四项里最宽展开高（`--feature-list-h`），CTA 用 `margin-top:24px` 跟在 list 后面——不要 `auto` 拉到面板底（会拆开），也不要内容高不锁（按钮会跟手风琴跑）。整块在 layout 里垂直居中。量高时给 list 加 `is-measuring` 关 transition。不要锁满 `--feature-panel-h`（字会贴顶）。list 的 `padding-top:56px` 去掉。右栏 mock 同样垂直居中（`.feature-visual` `align-content:center`，last-mile 从贴底改居中）。**图/文水平中心**：landing-inline `alignActiveMock()` 在 setActive 时量激活面板 `.fx-mock` 中心 vs 面板中心写 `--mock-shift`。**切换节奏**：desc max-height/margin/opacity 0.7s、bullets grid-rows 0.7s（0.45 太快 Park 否过）。**Credentials 的 border-bottom 分割线已删**（Park 红框，与 ExploreMore 之间不要线）。**左栏手风琴下方有 CTA 组**（`.feature-side .feature-cta`，Start Free Trial + Book A Demo）。**左栏高度固定（Park：切换/滚动时 CTA 不许动）**：feature-side-wrap `height: var(--feature-panel-h)`（JS 设在 section 上、与右栏面板同高）、列表和 wrap 全顶对齐、CTA `margin-top:auto` 钉底——切换时 CTA 坐标恒定（实测 598 不变）。注意 3713 附近后写的同名规则别再带 margin（会反超钉底）。右侧面板按新顺序重排：0=branded（**首屏 OGL 追踪页**，`HeroTrackingMock` 包在 `.fx-hero-page`，无绘制动画 / 无 float 卡 / 藏 `.os-look`）、1=email（浅色品牌异常邮件 + Create flow：触发器必须是 Exception/Detected 跟信对上；flow 只轻叠右下角，不许挡住运单信息）、2=split、3=conversion **静态占位卡**（`.fx-cv-card`：16% 渐变数字+4 bullets+「Animation artwork coming next batch」注记，动画图下一批换）。landing-inline 的 tab 接线按 panels.length 泛化，4 项无需动 JS。structure.test 已改锁 4 个新标签 + `data-feature="4"` 禁止。
+- **Features（#key-features）**：section-head 整块删了；手风琴 3→**4 项**，h3=**首字母大写**标签（Branded Tracking Page / Branded Email Notification / Split-Order Management / Conversion & Loyalty，Park 定稿 Title Case，测试同步锁这套）+ `.feature-desc` 一句描述（active 展开）。**坑：desc 收展必须用 max-height，不能用 grid-template-rows 0fr——0fr 只收得住真实子元素（如 .feature-points-inner），p 里是裸文本会留一块隐形占位（Park 红框标过「怎么空了这么多」）**。**手风琴动效定案（Park 否掉「动来动去/弹一下」两轮后）**：h3 全状态同一字号 clamp(18px,16.6px+0.4vw,23px)，激活只变渐变色+700，只留 color 0.3s 过渡；.feature 的 padding/gap transition 整个删掉；feature-list/feature-side-wrap/feature-side 全部顶对齐。紧凑度：list gap 8、激活项 padding 6。**左栏是一块（Park：按钮和文字是一个整体，适当间距，按钮不许动）**：JS `measureSideHeight()` 把 `.feature-list` 锁成四项里最宽展开高（`--feature-list-h`），CTA 用 `margin-top:24px` 跟在 list 后面——不要 `auto` 拉到面板底（会拆开），也不要内容高不锁（按钮会跟手风琴跑）。整块在 layout 里垂直居中。量高时给 list 加 `is-measuring` 关 transition。不要锁满 `--feature-panel-h`（字会贴顶）。list 的 `padding-top:56px` 去掉。右栏 mock 同样垂直居中（`.feature-visual` `align-content:center`，last-mile 从贴底改居中）。**图/文水平中心**：landing-inline `alignActiveMock()` 在 setActive 时量激活面板 `.fx-mock` 中心 vs 面板中心写 `--mock-shift`。**切换节奏**：desc max-height/margin/opacity 0.7s、bullets grid-rows 0.7s（0.45 太快 Park 否过）。**Credentials 的 border-bottom 分割线已删**（Park 红框，与 ExploreMore 之间不要线）。**左栏手风琴下方有 CTA 组**（`.feature-side .feature-cta`，Start Free Trial + Book A Demo）。**左栏高度固定（Park：切换/滚动时 CTA 不许动）**：feature-side-wrap `height: var(--feature-panel-h)`（JS 设在 section 上、与右栏面板同高）、列表和 wrap 全顶对齐、CTA `margin-top:auto` 钉底——切换时 CTA 坐标恒定（实测 598 不变）。注意 3713 附近后写的同名规则别再带 margin（会反超钉底）。右侧面板按新顺序重排：0=branded（**首屏 OGL 追踪页**，`HeroTrackingMock` 包在 `.fx-hero-page`，无绘制动画 / 无 float 卡 / 藏 `.os-look`）、1=email（浅色品牌异常邮件竖卡 + Create flow，**09-11 已改左右排，见下面「Features 邮件插图」**：触发器必须是 Exception/Detected 跟信对上）、2=split、3=conversion **静态占位卡**（`.fx-cv-card`：16% 渐变数字+4 bullets+「Animation artwork coming next batch」注记，动画图下一批换）。landing-inline 的 tab 接线按 panels.length 泛化，4 项无需动 JS。structure.test 已改锁 4 个新标签 + `data-feature="4"` 禁止。
 - **AiLab intro**：标题 `Tracking Is Getting Smarter. So is the Customer Journey.`——字色 **白→紫**（`--title-grad` `#fff` 停到 26% 再落到 `#8b5cf6`，不要旧的浅灰紫→洋红，Park：不够亮）。**没有 AI 字了，AI 缩放特效的缩放源挪到新 eyebrow** `AI-POWERED POST-PURCHASE EXPERIENCE`（`.ai-intro-eyebrow`，AI 二字仍包 `.ai-word-ai`，ai-letter-zoom 靠它取 Range 墨水框）。eyebrow 里非 AI 部分包了 `.ai-eyebrow-rest`，is-ai-zooming 时藏掉防重影。agent 卡 lead=AI will automatically generate a template…based on this page；5 步=Reading brand site / Understanding brand story / Extracting visual style / Designing custom page / Fine-tuning & applying（ai-lab.js 的 orb labels 数组是独立玩票文案，未动）。
 - **ExploreMore**：h2=Find the Right Solution for Your Business；两卡 h3=产品名（17RETURNS / Tracking Developer API）+ 新增 `.explore-card-headline` 标题行（Turn Returns Into Revenue and Growth / Power Your Systems With Global Tracking Visibility）+ 文档描述句；链接 Explore 17RETURNS / Explore Tracking API。卡内 mock 未动。
 - **BottomCta → Growing LTV**：eyebrow `Top Global Carriers Coverage` + h2 `Growing LTV along the way` + 副标 + `.bottom-cta-data` 五项数据条（4,000+ Carriers / 9+30 Status / 99.9% Accuracy / 95%+ Recognition / 99.9% SLA）+ 双 CTA。黑底 shader 未动。
@@ -125,6 +125,16 @@
 - Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
 - Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。桌面推荐卡叠表单右沿 -24px + 色盘 -10px。表单按左边三条补内容：顶品牌条 AURA（身份）+ 色点；Track 下「On the way」自助状态（减客服）；「Visit store」（回访）；推荐卡副标 Second look。不要再只剩空表单。768 仍是叠法，只把三件缩小；不要把表单拉满、不要把推荐卡盖住 Track。≤480 **也要左右叠**：表单 208px、推荐卡 128px `margin-left:-22px`、色盘 40px `-8px`。不要改成上表单下推荐。3D 仍关掉。
 
+## Features 邮件插图（2026-09-11 Park 定案：左右排）
+
+- **构图（只有 >1024 才是左右排）**：`.fx-em-scene` flex 行、`max-width: 660px`；邮件卡 `flex: 0 0 62.4%`，flow 列 `44.2%` + `margin-left: -6.6%`（flow 右移压住邮件右沿约 43px，`z-index: 3` 压在上面）。**别把 scene 拉回 540 或撑满右栏。**
+- **邮件卡改竖比例**：411×457（比例 0.90，对齐参考图一的 0.85）。字号放大一档：title 22 / hi 15 / body 15 + `max-width: 17em`（走 4 行）/ meta 14 / addrs 14.5 / cta 15px·高 46；内边距 `30px 30px 32px`。**`max-width: 660px` 的作用就是让 1440 时邮件卡仍是 ~410 宽；放开到 724 会变横卡。**
+- **flow 拆两张卡**（对齐参考图二）：上卡 = 绿图标 + `Create flow` / `When to send email` / `Exception is Detected`；中间 `.fx-em-flow-link` = 2px 绿色虚线 + 上下各一颗绿点（`margin-right: 34px` 靠右）；下卡 = `+ Add filters`，**下拉 `.fx-em-filter-list` 是 `position: absolute` 浮层，压出下卡下沿、不占布局高度**。
+- **`.fx-em-flow` 的 `margin-bottom: 96px` 不是留白**：下拉浮层往邮件卡下方伸约 96px，把这截算进外边距，`align-items: center` 才让 flow 组的视觉重心和邮件卡齐平（不写 flow 看着偏低）。**≤1024 竖排块用 `margin: 18px 0 0` 重置它，别删那条。**
+- **警告标挪到邮件右上角**（`top: -16px; right: -14px`）：原来在右沿中段，会被 flow 压住。**绿图标 `left: -12px` 压 flow 卡左沿、垂直居中**；卡左内边距 52px 就是给它留的位，两者别改小。
+- **尺寸事实（改这块前先看这个）**：桌面右栏 1440 约 751px、1280 约 659px；`--feature-panel-h = 100vh − 64(topbar) − section-head 高 − 36`，1280×720 只有 495px。现在整组 477px 高，**是故意卡在这个预算里的——再加内容，矮屏会被 `.feature-panels-col` 的 `overflow: hidden` 裁掉**。
+- **≤1024 回竖排紧凑档**：新增的 `@media (max-width: 1024px)` 块放在主 `.fx-em-*` 块之后、原 ≤640 块**之前**（源顺序：后面的 ≤640 才能接住）。邮件 100%、flow `margin: 18px 0 0`、字号回落到旧档（18 / 13.5 / 12.5）。**原因：768 时右栏只剩约 324px，左右排根本撑不开。** ≤640 再把图标收进卡内左上（`left: 8px; top: 8px; translate: 0 0`）、警告标收进卡内右上，因为 scene 那时 padding 为 0，外伸会被 `.feature-visual` 的 `overflow: hidden` 裁掉。
+
 ## Returns Hero（移动端）
 
 - **≤768**：`.rt-hero-copy` 用 `display: contents` 拆开、h1/lead/cta 用 `order` 重排——h1、lead 居中；CTA（Free Trial + Book a Demo）**并排**挪到**插图下方**（`.rt-hero-cta` `order:4`，visual `order:3`）。DOM 不动。
@@ -164,6 +174,11 @@
 - 不要把 Features 第 2 块插图做成 17TRACK inbox 列表（Park：EMAIL 不长那样）。按品牌异常邮件 + Create flow 浅色卡叠，不要深色玻璃。
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
+- **不要把 Create flow 退回「一张 268px 小卡压在邮件右下角」**（Park 09-11 看图否掉：布局不合理）。现在是左右排 + 两张卡，见上面「Features 邮件插图」。
+- 不要把 Features 邮件插图在 >1024 改回上下两块（Park 09-11 定的是左右排、flow 压邮件右沿）。
+- 不要把警告标放回邮件右沿中段（会被 flow 压住），也不要让绿图标改到 `left` 正值以外自己乱调——52px 左内边距和 `left: -12px` 是一对。
+- 不要把 `.fx-em-scene` 的 `max-width` 放开到 660 以上（邮件卡会被拉成横卡，竖比例没了）。
+- 不要在 ≤1024 试着左右排（768 时右栏约 324px 撑不开）；也不要删掉 ≤1024 竖排块的 `margin: 18px 0 0`（会把桌面那条 `margin-bottom: 96px` 漏进竖排，两块之间空一大截）。
 - 不要在 375 把 Explore Returns 排成左右栏（Park：上下布局）。
 - 不要在 375 让 Explore CTA 贴着正文（`margin-top:auto` 在单列会变成 0；Park：间距没了）。
 - 不要让 375 Impact 标题比 Features 标题大一号。

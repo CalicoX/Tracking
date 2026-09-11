@@ -4628,16 +4628,21 @@
       width: 26px;
       height: 26px;
     }
+    /* Branded email：左右排。邮件卡（竖比例）在左，Create flow 列右移压住其右沿 */
     .fx-em-scene {
       position: relative;
       width: 100%;
-      max-width: 540px;
+      /* 上限 660：邮件卡稳定在 ~410 宽，1440 也不会被拉成横卡 */
+      max-width: 660px;
       margin: 0 auto;
-      padding: 8px 8px 12px 0;
+      padding: 8px 0 12px;
       box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .fx-em-letter,
-    .fx-em-flow {
+    .fx-em-flow-card {
       position: relative;
       left: auto;
       top: auto;
@@ -4650,9 +4655,12 @@
       opacity: 1;
       transform: none;
     }
+    /* 竖比例 ≈452×500：字号和内边距都按参考图一放大一档 */
     .fx-em-letter {
-      width: 100%;
-      padding: 18px 22px 22px;
+      flex: 0 0 62.4%;
+      width: 62.4%;
+      max-width: 100%;
+      padding: 30px 30px 32px;
       overflow: visible;
       display: flex;
       flex-direction: column;
@@ -4661,22 +4669,22 @@
     .fx-em-letter-head {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding-bottom: 14px;
-      margin-bottom: 16px;
+      gap: 14px;
+      padding-bottom: 18px;
+      margin-bottom: 22px;
       border-bottom: 1px solid rgba(15, 23, 42, 0.07);
     }
     .fx-em-letter .fx-em-logo {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      flex: 0 0 44px;
+      flex: 0 0 48px;
       display: grid;
       place-items: center;
       margin: 0;
       background: #c026d3;
       color: #fff;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
       line-height: 1;
       letter-spacing: 0.02em;
@@ -4688,33 +4696,33 @@
     .fx-em-addrs span {
       display: block;
       margin: 0;
-      font-size: 12.5px;
+      font-size: 14.5px;
       line-height: 1.45;
       color: #334155;
       font-weight: 500;
     }
     .fx-em-letter-title {
-      margin: 0 0 14px;
-      font-size: 18px;
+      margin: 0 0 18px;
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: -0.03em;
-      line-height: 1.25;
+      line-height: 1.22;
       color: #0f172a;
       text-align: center;
     }
     .fx-em-letter-hi {
-      margin: 0 0 8px;
-      font-size: 14px;
+      margin: 0 0 12px;
+      font-size: 15px;
       font-weight: 500;
       color: #334155;
       text-align: center;
     }
     .fx-em-letter-body {
-      margin: 0 auto 18px;
-      font-size: 13.5px;
-      line-height: 1.5;
+      margin: 0 auto 22px;
+      font-size: 15px;
+      line-height: 1.55;
       color: #64748b;
-      max-width: 34em;
+      max-width: 17em;
       text-align: center;
     }
     .fx-em-letter .fx-em-cta {
@@ -4724,14 +4732,14 @@
       width: max-content;
       align-items: center;
       justify-content: center;
-      min-width: 148px;
-      height: 40px;
-      padding: 0 22px;
-      margin: 4px auto 18px;
+      min-width: 168px;
+      height: 46px;
+      padding: 0 26px;
+      margin: 6px auto 26px;
       border-radius: 999px;
       background: #3b82f6;
       color: #fff;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 650;
       letter-spacing: -0.01em;
     }
@@ -4750,9 +4758,9 @@
       max-width: 100%;
       display: grid;
       grid-template-columns: auto auto;
-      column-gap: 8px;
-      row-gap: 5px;
-      font-size: 12.5px;
+      column-gap: 9px;
+      row-gap: 8px;
+      font-size: 14px;
       line-height: 1.35;
       color: #64748b;
       text-align: left;
@@ -4773,14 +4781,15 @@
       font-weight: 650;
       color: #0f172a;
     }
+    /* 右沿中段会被 flow 压住，警告标挪到邮件右上角 */
     .fx-em-letter .fx-em-warn {
       position: absolute;
-      top: 118px;
-      right: -12px;
+      top: -16px;
+      right: -14px;
       z-index: 4;
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
       display: grid;
       place-items: center;
       margin: 0;
@@ -4792,17 +4801,28 @@
       width: 26px;
       height: 26px;
     }
+    /* flow 列：两张卡 + 中间绿色虚线（对齐参考图二） */
     .fx-em-flow {
       position: relative;
       z-index: 3;
-      width: min(268px, 100%);
-      margin: -12px 4px 0 auto;
-      padding: 14px 14px 12px 16px;
+      flex: 0 0 44.2%;
+      width: 44.2%;
+      min-width: 0;
+      margin-left: -6.6%;
+      /* 下拉浮层往下伸出约 96px，把这段留进外边距，居中时视觉重心才和邮件卡齐平 */
+      margin-bottom: 96px;
+      display: flex;
+      flex-direction: column;
     }
+    .fx-em-flow-card {
+      padding: 16px 18px 16px 52px;
+    }
+    /* 绿色流程标：垂直居中压在卡左沿（52 的左内边距就是给它留的位） */
     .fx-em-flow .fx-em-flow-ico {
       position: absolute;
-      left: -22px;
-      top: 18px;
+      left: -12px;
+      top: 50%;
+      translate: 0 -50%;
       width: 44px;
       height: 44px;
       border-radius: 14px;
@@ -4817,16 +4837,16 @@
       width: 22px;
       height: 22px;
     }
-    .fx-em-flow h4 {
-      margin: 0 0 4px 28px;
-      font-size: 15px;
+    .fx-em-flow-card h4 {
+      margin: 0 0 3px;
+      font-size: 16px;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: #0f172a;
     }
-    .fx-em-flow > p {
-      margin: 0 0 10px 28px;
-      font-size: 12px;
+    .fx-em-flow .fx-em-flow-card > p {
+      margin: 0 0 12px;
+      font-size: 12.5px;
       font-weight: 500;
       color: #64748b;
     }
@@ -4834,17 +4854,17 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      margin: 0 0 12px;
+      margin: 0;
     }
     .fx-em-flow-row span {
       flex: 1 1 0;
       min-width: 0;
-      height: 32px;
+      height: 34px;
       padding: 0 10px;
       border-radius: 8px;
       border: 1px solid rgba(15, 23, 42, 0.1);
       background: #f8fafc;
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 550;
       color: #334155;
       display: flex;
@@ -4853,61 +4873,193 @@
     .fx-em-flow-row em {
       flex: 0 0 auto;
       font-style: normal;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 500;
       color: #94a3b8;
     }
-    .fx-em-flow-line {
+    .fx-em-flow-link {
+      align-self: flex-end;
+      flex: 0 0 24px;
       width: 2px;
-      height: 14px;
-      margin: 0 0 8px 18px;
-      border-radius: 2px;
+      height: 24px;
+      margin: 2px 34px 2px auto;
+      position: relative;
       background: repeating-linear-gradient(
         #22c55e 0 4px,
-        transparent 4px 7px
+        transparent 4px 8px
       );
     }
-    .fx-em-filters {
-      position: relative;
+    .fx-em-flow-link::before,
+    .fx-em-flow-link::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      translate: -50% 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+    .fx-em-flow-link::before {
+      top: -3px;
+    }
+    .fx-em-flow-link::after {
+      bottom: -3px;
+    }
+    .fx-em-flow-card-filters {
+      min-height: 62px;
     }
     .fx-em-flow .fx-em-add {
       display: inline-flex;
       align-items: center;
       width: max-content;
-      height: 28px;
+      height: 30px;
       margin: 0;
-      padding: 0 10px;
+      padding: 0 11px;
       border-radius: 8px;
       border: 1px solid rgba(37, 99, 235, 0.28);
       color: #2563eb;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 650;
       background: #fff;
     }
-    .fx-em-filters ul {
-      position: relative;
-      left: 0;
-      top: 8px;
+    /* 下拉是浮层：压出下卡下沿，不占布局高度（参考图二） */
+    .fx-em-filter-list {
+      position: absolute;
+      left: 44px;
+      top: 46px;
       z-index: 4;
       margin: 0;
       padding: 6px;
       list-style: none;
-      width: 188px;
+      width: min(230px, 78%);
       border-radius: 12px;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
       box-shadow: 0 12px 28px -16px rgba(15, 23, 42, 0.28);
     }
-    .fx-em-filters li {
-      padding: 6px 10px;
+    .fx-em-filter-list li {
+      padding: 7px 10px;
       border-radius: 8px;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 500;
       color: #334155;
     }
-    .fx-em-filters li.is-on {
+    .fx-em-filter-list li.is-on {
       background: #f1f5f9;
       font-weight: 650;
+    }
+
+    /* ≤1024：右栏放不下左右排（768 时右栏只剩约 324px）→ 回上下两块 + 紧凑字号。
+       放在这里是为了让后面的 ≤640 块按源顺序接住。 */
+    @media (max-width: 1024px) {
+      .fx-em-scene {
+        display: block;
+        max-width: 400px;
+        padding: 8px 0 12px;
+      }
+      .fx-em-letter {
+        flex: none;
+        width: 100%;
+        padding: 20px 22px 22px;
+      }
+      .fx-em-letter-head {
+        gap: 12px;
+        padding-bottom: 14px;
+        margin-bottom: 16px;
+      }
+      .fx-em-letter .fx-em-logo {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        font-size: 16px;
+      }
+      .fx-em-addrs span {
+        font-size: 12.5px;
+      }
+      .fx-em-letter-title {
+        margin: 0 0 14px;
+        font-size: 18px;
+        line-height: 1.25;
+      }
+      .fx-em-letter-hi {
+        margin: 0 0 8px;
+        font-size: 14px;
+      }
+      .fx-em-letter-body {
+        margin: 0 auto 18px;
+        font-size: 13.5px;
+        line-height: 1.5;
+        max-width: 34em;
+      }
+      .fx-em-letter .fx-em-cta {
+        min-width: 148px;
+        height: 40px;
+        padding: 0 22px;
+        margin: 4px auto 18px;
+        font-size: 14px;
+      }
+      .fx-em-meta {
+        column-gap: 8px;
+        row-gap: 5px;
+        font-size: 12.5px;
+      }
+      .fx-em-letter .fx-em-warn {
+        top: -14px;
+        right: -12px;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+      }
+      .fx-em-warn svg {
+        width: 24px;
+        height: 24px;
+      }
+      .fx-em-flow {
+        flex: none;
+        width: 100%;
+        margin: 18px 0 0;
+      }
+      .fx-em-flow-card {
+        padding: 14px 16px 14px 46px;
+      }
+      .fx-em-flow .fx-em-flow-ico {
+        left: -10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+      }
+      .fx-em-flow-ico svg {
+        width: 20px;
+        height: 20px;
+      }
+      .fx-em-flow-card h4 {
+        font-size: 15px;
+      }
+      .fx-em-flow .fx-em-flow-card > p {
+        margin: 0 0 10px;
+        font-size: 12px;
+      }
+      .fx-em-flow-row span {
+        height: 32px;
+        font-size: 11.5px;
+      }
+      .fx-em-flow-link {
+        margin: 2px 26px 2px auto;
+      }
+      .fx-em-flow .fx-em-add {
+        height: 28px;
+        padding: 0 10px;
+        font-size: 12px;
+      }
+      .fx-em-filter-list {
+        left: 38px;
+        top: 42px;
+        width: min(200px, 78%);
+      }
+      .fx-em-filter-list li {
+        font-size: 12.5px;
+      }
     }
 
     /* Split-order — mail above, tracking card below (same stack as last-mile) */
@@ -5483,7 +5635,7 @@
       .feature-stage[data-theme="lastmile"] .fx-lm-carriers,
       .feature-stage[data-theme="lastmile"] .fx-lm-phone,
       .feature-stage[data-theme="lastmile"] .fx-em-letter,
-      .feature-stage[data-theme="lastmile"] .fx-em-flow,
+      .feature-stage[data-theme="lastmile"] .fx-em-flow-card,
       .feature-stage[data-theme="split"] .fx-so-mail,
       .feature-stage[data-theme="split"] .fx-so-card,
       .feature-stage[data-theme="branded"] .fx-br-form,
@@ -5572,13 +5724,33 @@
         width: 100%;
         margin: 16px 0 0;
       }
-      .fx-em-flow-ico {
-        left: 14px;
-        top: -18px;
+      .fx-em-flow-card {
+        padding-left: 52px;
       }
-      .fx-em-warn {
-        right: 12px;
-        top: 18px;
+      /* 手机：图标收回卡内左上，避免压到上面的邮件卡 */
+      .fx-em-flow .fx-em-flow-ico {
+        left: 8px;
+        top: 8px;
+        translate: 0 0;
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+      }
+      .fx-em-flow-ico svg {
+        width: 18px;
+        height: 18px;
+      }
+      /* 手机：警告标也收回卡内，否则会被 .feature-visual 的 overflow:hidden 裁掉 */
+      .fx-em-letter .fx-em-warn {
+        right: 10px;
+        top: 14px;
+        width: 40px;
+        height: 40px;
+        border-radius: 13px;
+      }
+      .fx-em-warn svg {
+        width: 21px;
+        height: 21px;
       }
       .fx-lm-card {
         left: auto;
