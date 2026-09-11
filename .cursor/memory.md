@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-11（Conversion 插图：购物车真实样式 + 推荐实物图）
+最后更新：2026-09-11（Conversion：Cart 在上，Recommend 三列左右排）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -53,18 +53,20 @@
 - **滚动粒子消散** `src/fx/modules/ai-curtain.js` 对照 canvasui particle-scroll，**09-09 太卡卸挂载**：`useLandingEffects` **不再** `mountNamed("aiCurtain")`（文件保留）。不要复活 html2canvas / html-in-canvas 整页打沙。Coverage 地球看不见停 rAF。
 - Footer 顶部分割线已删（`border-top:0` + `.site-footer::before { display:none }`），不要再加 1px 线。
 
-## AI intro 的「AI 轮廓 ASCII」水印（2026-09-11 Park 点名要）
+## AI intro 的「AI 轮廓 ASCII」水印（2026-09-11 Park 三轮定案）
 
-- **Park 原话**：这个模块的背景，需要加入 AI 二字轮廓的 Ascii 背景 pattern；问完定案 = 整屏一枚 AI 水印但**不能太大**，动效 **滚入汇聚、滚出散开**。
-- **挂在已有模块里，不新开模块**：实现在 `src/fx/modules/ai-intro-ascii.js`（同一个 rAF 循环 / IO / 降级判断 / dispose 都现成，也不用动 `FX_LOADERS` 和 perf/structure 测试）。画布由模块 `ensureGlyphCanvas()` 自己建（`.ai-intro-aiglyph`）插进 `.ai-intro-bg`，所以 **AiLab.jsx 一行没改**。
-- **画法（09-11 二稿：Park 要「实体的，流动的」）**：离屏画布上用 `700 fs Inter` 画 "AI" → `getImageData` 读 alpha，按 `cell` 网格取格点 = 字形墨迹。**所有墨迹格都画**（实心，不再只描边），底子字符 `▓ █ ▒`、颜色 `#7c6bd6 / #6d5bd0 / #8b5cf6`、alpha 0.19–0.27（描边格再高 0.07）。字符画在 **Menlo 等宽**字体上（`${cell*1.02}px`），否则方块字符宽窄不齐。
-- **流动 = 一道亮带自上而下扫过字形**：每格亮度由 `ny`（字形框内归一化高度）和 `(t*GLYPH_BAND_SPEED + col*0.055) % 1` 的环形距离决定，`GLYPH_BAND_W = 0.13`、`SPEED = 0.16`（约 6s 走一遍）、峰值 `GLYPH_BAND_PEAK = 0.66`；亮带处换成 `█ ▀` 和 `#ddd6fe / #c4b5fd / #e9d5ff / #f0abfc`。**每列错开 0.055 所以是斜向流动、不是整排一起走。**
-- **`drawGlyph(now)` 每帧重画**（旧的 `|glyphC - glyphDrawn|` 脏检查已删——有它的话停住不动就没流动了）。所以**汇聚后的停留期 rAF 循环必须继续跑**，循环的停止条件别加回「p >= 0.995 就停」之外的东西。
-- **尺寸（Park：不能太大）**：`GLYPH_TARGET_VW = 0.46`、`GLYPH_TARGET_MAX = 520px`、再被 `h*0.62` 压一次；格 `clamp(w/95, 11, 16)`。实测 1024 视口下字形 425×341（约视宽 41%），1440 下约 520×380（36%）。**别再放大到 60%+，会压住标题的可读性。**
-- **动效 = 纯滚动驱动，没有 rAF 之外的东西**：`glyphC = enter × (1 - exit)`，`enter = clamp01(1 - trackTop/vh)`（滚入汇聚），`exit` 复用模块已有的 `exitProgress(track)`（滚出散开）。每个字符有一个向外随机的位移量 + 0..0.38 的随机延迟，`t = smoothstep(d, d+0.6, glyphC)` 驱动位置和透明度。**汇合/散开只靠滚动，没有鼠标跟随**（这正是 09-10 被否掉的那部分）。
-- **必须一起改的地方**：① `draw()` 里第一行调 `drawGlyph(now)`；② rAF 循环的停止条件加了 `&& glyphC <= 0.004`，否则散开还没播完循环就停了；③ `syncCanvasMode()` 降级时把这张画布 `display: none`；④ `dispose()` 移除画布。
-- **血泪坑（09-11 踩到）**：在 `buildGlyphField()` 里我多加了一个 `const boxH`，跟函数上面已有的 `boxH`（遮罩盒高）**重复声明 → SyntaxError → 整个模块加载失败 → 画布根本没建出来**。而 `vitest` 只把这些文件当**文本**读（断言正则），**不会执行模块**，所以 55 项全绿也发现不了。**改完 fx/modules 下的模块一定要跑一次 `npx vite build`**（它真编译），再上浏览器确认。
-- **层级**：`.ai-intro-aiglyph` `z-index: 3` 在 `.ai-intro-veil`（2）之上、`.ai-lab-intro-inner` 之下——放 veil 下面就全被中心的 0.78 压没了。≤640 加进 `.ai-intro-ascii` 那组的 `display: none`。
+- **Park 原话演进**：要 AI 二字轮廓的 Ascii 背景 pattern → 整屏水印但「不能太大」+「滚入汇聚、滚出散开」→ 「太小了 / 太亮了 / ascii 码样式不够丰富」→ 「没有居中」→ 「应该是和背景有那种反差的效果」→ **「不要反差了」** → 「汇聚后还是有一些扰动的效果」。所以最终：**大、压暗、字符丰富、严格居中、紫罗兰实体（不要明暗反差）、汇聚后有残余扰动**。
+- **挂在已有模块里，不新开模块**：实现在 `src/fx/modules/ai-intro-ascii.js`（同一个 rAF 循环 / IO / 降级判断 / dispose 都现成，不用动 `FX_LOADERS` 和 perf/structure 测试）。画布由 `ensureGlyphCanvas()` 自建（`.ai-intro-aiglyph`）插进 `.ai-intro-bg`，**AiLab.jsx 一行没改**。
+- **画法**：离屏画布 `700 fs Inter` 画 "AI" → `getImageData` 读 alpha → 按 `cell` 网格取格点 = 字形墨迹；**所有墨迹格都画**（实体，不是只描边）。
+- **居中必须按实测墨迹包围盒**（Park 报过「没有居中」）：canvas 的 `textBaseline:"middle"` 是 em 盒中点，**不是大写字母的视觉中心**，直接按画布中心对齐会整体偏低几十 px。做法是先扫 alpha 求 ink bbox，再以 `inkX0/inkY0 + cols/rows` 建网格、把 `cols*cell × rows*cell` 居中。实测 1303 视口下 ink 中心 (658,382) vs 视口中心 (656,384) ✓。
+- **尺寸**：`GLYPH_TARGET_VW = 0.6`、`GLYPH_TARGET_MAX = 720`、再被 `h*0.8` 压；格 `clamp(w/80, 12, 18)`。1303 视口下字形 558×436。
+- **字符集（Park：样式要更丰富）**：按亮度分三档，档内还随时间换字（`GLYPH_CHAR_MORPH = 1.6` 次/秒，每格 `c.r` 相位不同）——轻 `· . : ; + - '`、中 `+ = o x % ░ ▒ v n`、重 `█ ▓ ▌ ▐ ▀ ▄ # 8 X @ & W M`；颜色对应 `#5b4bb0/#6d5bd0`、`#7c6bd6/#8b5cf6`、`#a78bfa/#c4b5fd/#e9d5ff/#e879f9`。**字符画在 Menlo 等宽字体上**（`${cell*1.02}px`），否则方块宽窄不齐。
+- **亮度定案（Park：太亮了）**：`alpha = (GLYPH_ALPHA_BASE 0.09 + lvl * GLYPH_ALPHA_GAIN 0.3) * flicker * s`，lvl = `base*2.4 + flow*0.9`，base 0.10–0.19。**别调回 peak 0.66 那一档**（那版就是「太亮了」）。**也不要改成暗色实体做「和背景反差」——Park 09-11 明确否掉**（我当时用 `#171236` 那套 + 让亮带把覆盖挖开，被否）。
+- **流动 = 亮带 + 换字两件事**：亮带 `ny` 对 `(t*0.16 + col*0.055)%1` 的环形距离决定（`GLYPH_BAND_W = 0.13`，每列错开所以是斜向流动）；字符本身也随时间换。
+- **汇聚后的残余扰动（Park 最后一条要求）**：每格绕落点做两个正弦叠加的小幅摆动（`GLYPH_DRIFT = 0.3` 格）＋亮度微闪（`GLYPH_FLICKER = 0.14`），相位用每格的 `c.r`，所以是「整片微微扰动」不是整齐摆动。**别为了「稳」把它删掉。**
+- **动效 = 滚动驱动 + 常驻扰动**：`glyphC = enter × (1 - exit)`，`enter = clamp01(1 - trackTop/vh)`，`exit` 复用模块已有的 `exitProgress(track)`。`drawGlyph(now)` **每帧重画**，所以停留期 rAF 循环必须继续跑（停止条件别只写 `p >= 0.995`）。**没有鼠标跟随**（09-10 否掉的正是那个）。
+- **必须一起改的地方**：① `draw()` 第一行调 `drawGlyph(now)`；② 循环停止条件带 `&& glyphC <= 0.004`；③ `syncCanvasMode()` 降级时把画布 `display: none`；④ `dispose()` 移除画布；⑤ `.ai-intro-aiglyph` 加进 ≤640 那条 `display: none` 列表。
+- **血泪坑**：我在 `buildGlyphField()` 里多写了一个同名 `const boxH` → SyntaxError → 整个模块加载失败、画布根本没建出来，而 **vitest 只把这些文件当文本读（断言正则）、不会执行模块**，55 项照样全绿。**改完 fx/modules 下的模块一定跑 `npx vite build`**（它真编译），再上浏览器确认。
 
 ## AI 二字遮罩（已退役，勿复活）
 
@@ -143,7 +145,7 @@
 - **来源**：Park「这个模块，参考文案，进行重新绘制」。原来的 `.fx-cv-card` 静态占位卡（16% + 4 条 bullets + 「Animation artwork coming next batch」）已删，改成真插图。
 - **结构**：`.fx-cv-scene` 竖排两张卡，`max-width: 440px`。Park：不要图标方块，要用实物图；Cart 照真实 Shopify cart 样式。
   - 上卡 `.fx-cv-card`「Your cart」= Continue shopping + Product/Total + 实拍缩略图（`tips.jpg`）+ 数量步进 + 小计 + **AI estimate** + **Check out / 1-tap checkout**。第 3 块 `translate: 0`，不要被 `--mock-shift` 上推裁掉标题。
-  - 下卡 `.fx-cv-recs`「You may also like」= 两列实拍（`earbuds.jpg` / `case.jpg`）+ 价 → Buy it again → **16%**。
+  - 下卡 `.fx-cv-recs`：Park 要跟真实推荐 UI 同结构。**Cart 在上、Recommend 在下**；推荐是 **左右三列商品卡**（大图 + 标题 + 价 + Add to Cart + Buy Now），标题 Recommended For You / You might also like。实拍 `earbuds.jpg` / `case.jpg` / `tips.jpg`。
   - 两张卡**同宽、左右边线对齐**（Park 上一轮刚圈过「两边边距不一致」），只在下沿重叠 −10px：上卡 `z-index: 2`、下卡 1。
 - **只用 CSS/SVG 画，不放实拍图**：`public/assets/products/*.jpg` 全是耳机实拍（case.jpg 还是暖红调，跟品牌冷色不搭），而这一段其它插图（邮件 / Create flow / 拆单 / 追踪卡）本来就全是 UI mock，不放照片更统一。以后要加产品图，文件在 `public/assets/products/`。
 - **坑**：卡里的 `span` / `strong` 规则必须带 `.fx-cv-scene` 前缀，否则被 `.fx-glass span, .fx-glass p, .fx-glass strong` 按特异性抢掉字号和 margin（邮件卡踩过同一个坑）。

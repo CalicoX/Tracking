@@ -263,6 +263,13 @@ export default function FeaturesSection() {
                                     <span className="fx-cv-add">Add to Cart</span>
                                     <span className="fx-cv-buy">Buy Now</span>
                                   </li>
+                                  <li>
+                                    <img className="fx-cv-thumb" src="/assets/products/tips.jpg" alt="" />
+                                    <strong>Earbuds Pro</strong>
+                                    <span className="fx-cv-item-price">$129.00</span>
+                                    <span className="fx-cv-add">Add to Cart</span>
+                                    <span className="fx-cv-buy">Buy Now</span>
+                                  </li>
                                 </ul>
                                 <div className="fx-cv-metric">
                                   <strong>16%</strong>

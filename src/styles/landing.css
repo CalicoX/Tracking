@@ -3746,7 +3746,7 @@
     .fx-cv-scene {
       position: relative;
       width: 100%;
-      max-width: 440px;
+      max-width: 500px;
       margin: 0 auto;
       padding: 0;
       box-sizing: border-box;
@@ -3968,8 +3968,8 @@
       margin: 0;
       padding: 0;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
     }
     .fx-cv-recs-list li {
       display: flex;
@@ -3981,7 +3981,7 @@
     .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
       flex: none;
       width: 100%;
-      height: 58px;
+      height: 70px;
       aspect-ratio: auto;
       border-radius: 8px;
       margin: 0 0 6px;
@@ -4008,10 +4008,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 26px;
-      margin: 0 0 5px;
-      border-radius: 7px;
-      font-size: 11.5px;
+      height: 24px;
+      margin: 0 0 4px;
+      border-radius: 6px;
+      font-size: 10.5px;
       font-weight: 650;
     }
     .fx-cv-scene .fx-cv-add {
@@ -4029,8 +4029,8 @@
       display: flex;
       align-items: baseline;
       gap: 8px;
-      margin: 8px 0 0;
-      padding: 8px 0 0;
+      margin: 6px 0 0;
+      padding: 6px 0 0;
       border-top: 1px solid rgba(15, 23, 42, 0.07);
     }
     .fx-cv-scene .fx-cv-metric strong {
