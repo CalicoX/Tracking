@@ -20,8 +20,8 @@ const FIELD_H = 144;
 
 /* ——— AI 二字粒子水印：滚入汇聚、滚出散开 ———
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
-const GLYPH_CELL_MIN = 2.8;
-const GLYPH_CELL_MAX = 3.5;
+const GLYPH_CELL_MIN = 2.2;
+const GLYPH_CELL_MAX = 2.8;
 const GLYPH_TARGET_VH = 0.8;
 const GLYPH_LIGHT_COLORS = ["#4a3d96", "#5b4bb0"];
 const GLYPH_MID_COLORS = ["#6d5bd0", "#7c6bd6"];
@@ -31,16 +31,16 @@ const GLYPH_BAND_SPEED = 0.16;
 /* 不要描边提亮，全身同一档 */
 const GLYPH_DOT_ALPHA = 0.2;
 const GLYPH_BAND_ALPHA = 0.08;
-/* Park：扰动幅度大幅加大 */
-const GLYPH_DRIFT = 3.6;
-const GLYPH_FLICKER = 0.26;
+/* Park：扰动再加大 */
+const GLYPH_DRIFT = 5.4;
+const GLYPH_FLICKER = 0.28;
 
 function clamp01(v) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
 }
 
 function glyphCellSize(w) {
-  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 410));
+  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 520));
 }
 
 /** 板状衬线 I：上下横板 + 中竖，不靠 Inter 那根细棍。 */
