@@ -46,6 +46,17 @@ function glyphCellSize(w) {
   return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 360));
 }
 
+/** 板状衬线 I：上下横板 + 中竖，不靠 Inter 那根细棍。 */
+function drawSlabI(ctx, cx, top, bot) {
+  const h = Math.max(1, bot - top);
+  const stem = h * 0.17;
+  const slabW = h * 0.7;
+  const slabH = h * 0.145;
+  ctx.fillRect(cx - slabW / 2, top, slabW, slabH);
+  ctx.fillRect(cx - slabW / 2, bot - slabH, slabW, slabH);
+  ctx.fillRect(cx - stem / 2, top, stem, h);
+}
+
 function smoothstep(a, b, t) {
   const x = Math.max(0, Math.min(1, (t - a) / Math.max(b - a, 1e-6)));
   return x * x * (3 - 2 * x);
@@ -213,7 +224,10 @@ export function mount() {
     if (!pctx) return;
     const baseFs = 100;
     pctx.font = font(baseFs);
-    const unit = pctx.measureText("AI").width / baseFs || 1.1;
+    const a0 = pctx.measureText("A");
+    const cap0 = Math.max(8, a0.actualBoundingBoxAscent || baseFs * 0.72);
+    const pair0 = a0.width + cap0 * 0.28 + cap0 * 0.7;
+    const unit = pair0 / baseFs || 1.1;
     const fs = Math.max(20, targetW / unit);
     const boxW = Math.max(8, Math.ceil(targetW) + cell * 3);
     const boxH = Math.max(8, Math.ceil(fs * 1.5));
@@ -223,9 +237,19 @@ export function mount() {
     if (!pctx) return;
     pctx.font = font(fs);
     pctx.fillStyle = "#fff";
-    pctx.textAlign = "center";
-    pctx.textBaseline = "middle";
-    pctx.fillText("AI", boxW / 2, boxH / 2);
+    pctx.textAlign = "left";
+    pctx.textBaseline = "alphabetic";
+    const am = pctx.measureText("A");
+    const aW = am.width;
+    const ascent = Math.max(8, am.actualBoundingBoxAscent || fs * 0.72);
+    const slabW = ascent * 0.7;
+    const gap = ascent * 0.28;
+    const pairW = aW + gap + slabW;
+    const left = (boxW - pairW) / 2;
+    const baseline = boxH / 2 + ascent / 2;
+    const capTop = baseline - ascent;
+    pctx.fillText("A", left, baseline);
+    drawSlabI(pctx, left + aW + gap + slabW / 2, capTop, baseline);
 
     let img = null;
     try {
