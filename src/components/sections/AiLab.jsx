@@ -1,10 +1,43 @@
 /** Presentational section: AiLab */
-const AI_INTRO_TITLE =
-  "Tracking Is Getting Smarter. So is the Customer Journey.";
-const AI_INTRO_WORDS = AI_INTRO_TITLE.split(" ");
+const AI_INTRO_LINES = [
+  "Tracking Is Getting Smarter.",
+  "So is the Customer Journey.",
+];
+const AI_INTRO_TITLE = AI_INTRO_LINES.join(" ");
+const AI_INTRO_WORDS = AI_INTRO_LINES.flatMap((line) => line.split(" "));
 
 /** Eyebrow tag with a dedicated .ai-word-ai — ai-letter-zoom's knockout zoom
  * sources its origin from this element (title no longer contains "AI"). */
+function IntroTitle() {
+  let n = 0;
+  const total = AI_INTRO_WORDS.length;
+  return (
+    <h2 id="ai-intro-title" aria-label={AI_INTRO_TITLE}>
+      {AI_INTRO_LINES.map((line) => (
+        <span className="ai-title-line" key={line}>
+          {line.split(" ").map((w, wi) => {
+            const i = n++;
+            return (
+              <span key={i}>
+                {wi > 0 ? " " : null}
+                <span
+                  className={w === "AI" ? "ai-word ai-word-ai" : "ai-word"}
+                  style={{
+                    ["--i"]: String(i),
+                    ["--ri"]: String(total - 1 - i),
+                  }}
+                >
+                  {w}
+                </span>
+              </span>
+            );
+          })}
+        </span>
+      ))}
+    </h2>
+  );
+}
+
 function AiEyebrow() {
   return (
     <span className="ai-intro-eyebrow ai-reveal" aria-hidden="true">
@@ -60,22 +93,7 @@ export default function AiLab() {
                 </div>
                 {/* Pre-split .ai-word so CSS starts at opacity:0 before FX mounts
                     (avoids plain-text fallback flash + missed scroll stagger). */}
-                <h2 id="ai-intro-title" aria-label={AI_INTRO_TITLE}>
-                  {AI_INTRO_WORDS.map((w, i) => (
-                    <span key={i}>
-                      {i > 0 ? " " : null}
-                      <span
-                        className={w === "AI" ? "ai-word ai-word-ai" : "ai-word"}
-                        style={{
-                          ["--i"]: String(i),
-                          ["--ri"]: String(AI_INTRO_WORDS.length - 1 - i),
-                        }}
-                      >
-                        {w}
-                      </span>
-                    </span>
-                  ))}
-                </h2>
+                <IntroTitle />
                 <p className="lead ai-reveal delay-2">AI brings smarter prediction, personalization, and engagement to the post-purchase journey — from delivery estimates and intelligent tracking experiences to opportunities that drive repeat purchase.</p>
               </div>
             </div>

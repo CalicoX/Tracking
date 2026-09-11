@@ -34,9 +34,9 @@ const GLYPH_BAND_SPEED = 0.16;
 const GLYPH_BODY_ALPHA = 0.14;
 const GLYPH_EDGE_ALPHA = 0.2;
 const GLYPH_BAND_ALPHA = 0.07;
-/* 汇聚完成后的残余扰动：Park 要幅度再大一点 */
-const GLYPH_DRIFT = 0.85;
-const GLYPH_FLICKER = 0.22;
+/* 汇聚完成后的残余扰动：0.85 / 1.65 都还不够，放到约 2.4 格 */
+const GLYPH_DRIFT = 2.4;
+const GLYPH_FLICKER = 0.28;
 
 function clamp01(v) {
   return v < 0 ? 0 : v > 1 ? 1 : v;

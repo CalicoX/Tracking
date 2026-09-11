@@ -6870,10 +6870,13 @@
       animation: none;
       opacity: 1;
     }
+    .ai-lab-intro h2 .ai-title-line {
+      display: block;
+    }
     .ai-lab-intro h2 {
       position: relative;
       margin: 0 auto;
-      max-width: min(22ch, 100%);
+      max-width: min(16em, 100%);
       font-size: clamp(34px, calc(26.08px + 2.2vw), 56px);
       line-height: 1.12;
       letter-spacing: -0.035em;

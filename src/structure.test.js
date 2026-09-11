@@ -249,6 +249,13 @@ describe("React landing structure (gating)", () => {
     expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-persp/);
     expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-shell/);
     expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-pblur/);
+    expect(read("components/sections/AiLab.jsx")).toMatch(/ai-title-line/);
+    expect(read("components/sections/AiLab.jsx")).toMatch(
+      /Tracking Is Getting Smarter\./
+    );
+    expect(read("components/sections/AiLab.jsx")).toMatch(
+      /So is the Customer Journey\./
+    );
     expect(fx).not.toMatch(/mountNamed\("aiCurtain"\)/);
     const ascii = read("fx/modules/ai-intro-ascii.js");
     const sample = read("fx/modules/ai-intro-flow-sample.js");
