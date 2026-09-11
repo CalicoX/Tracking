@@ -20,8 +20,8 @@ const FIELD_H = 144;
 
 /* ——— AI 二字粒子水印：滚入汇聚、滚出散开 ———
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
-const GLYPH_CELL_MIN = 4;
-const GLYPH_CELL_MAX = 5;
+const GLYPH_CELL_MIN = 2.4;
+const GLYPH_CELL_MAX = 3;
 const GLYPH_TARGET_VW = 0.72;
 const GLYPH_TARGET_MAX = 880;
 const GLYPH_TARGET_VH = 1;
@@ -43,7 +43,7 @@ function clamp01(v) {
 }
 
 function glyphCellSize(w) {
-  return Math.round(Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 220)));
+  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 520));
 }
 
 function smoothstep(a, b, t) {
@@ -351,13 +351,9 @@ export function mount() {
         (c.edge ? GLYPH_EDGE_ALPHA : GLYPH_BODY_ALPHA) + flow * GLYPH_BAND_ALPHA;
       const x = c.x + c.ox * (1 - s) + jx * s;
       const y = c.y + c.oy * (1 - s) + jy * s;
-      const rad = (c.edge ? 0.85 : 0.62) + flow * 0.28;
+      const rad = (c.edge ? 0.42 : 0.32) + flow * 0.1;
       g.fillStyle = palette[(c.r * palette.length) | 0];
-      g.globalAlpha = alpha * flick * s * 0.22;
-      g.beginPath();
-      g.arc(x, y, rad * 1.55, 0, Math.PI * 2);
-      g.fill();
-      g.globalAlpha = Math.min(1, alpha * flick * s * 0.85);
+      g.globalAlpha = Math.min(1, alpha * flick * s * 0.9);
       g.beginPath();
       g.arc(x, y, rad, 0, Math.PI * 2);
       g.fill();
