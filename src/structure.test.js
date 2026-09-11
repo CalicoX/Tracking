@@ -245,6 +245,7 @@ describe("React landing structure (gating)", () => {
     expect(fx).toMatch(/aiDuoUnfold|ai-duo-unfold/);
     expect(read("fx/modules/ai-duo-unfold.js")).toMatch(/export function mount/);
     expect(read("fx/modules/ai-duo-unfold.js")).toMatch(/--ai-duo/);
+    expect(read("fx/modules/ai-duo-unfold.js")).toMatch(/clipPath/);
     expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-persp/);
     expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-shell/);
     expect(read("components/sections/AiLab.jsx")).toMatch(/ai-intro-pblur/);

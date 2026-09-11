@@ -73,7 +73,7 @@
 ## AI intro 整板块的透视 + 渐进模糊（2026-09-11 Park：滚动拉伸->收窄、模糊->清晰）
 
 - **Park 两轮澄清**：①「滚动拉伸->收窄，模糊->清晰」我先做在 ASCII 画布上（scaleX + 均匀 blur），他说「我说的不是 ascii 拉伸模糊，是整个这个板块」；给了张手机实拍图（整屏内容拉伸后弹回）。② 我改 scaleX + backdrop 渐进带，他说「是那种透视拉伸；是整体的渐进式模糊，现在没有渐进式模糊，也没有整体模糊」。
-- **透视 + 渐进糊（2026-09-11 同步 API Duo）**：进屏顶铰链 `rotateX-` 最大 78 + perspective 920；离开底边折 `rotateX+`、糊贴顶。糊是 kennethnym 7 层 `backdrop-filter`（`.ai-intro-pblur` 是 intro 里、3D 壳的兄弟）。**祖先不能有 filter**——旧的 inner `filter:blur` + 14deg tilt 已撤。行程跟 letter-track 现有 hold 0.36 / exit 0.48，不另加 sticky。**离场倒下时漏出后面的案例**：intro/sticky 底变透明、isolation 关掉，糊层还在（只关实色罩），文案不要一离场就淡没（`--ascii-copy` 拖到 exit 后段）。≤640 / reduce 定格。模块 `ai-duo-unfold.js`。
+- **透视 + 渐进糊（2026-09-11 同步 API Duo）**：进屏顶铰链 `rotateX-` 最大 78 + perspective 920；离开底边折 `rotateX+`、糊贴顶。糊是 kennethnym 7 层 `backdrop-filter`（`.ai-intro-pblur` 是 intro 里、3D 壳的兄弟）。**祖先不能有 filter**——旧的 inner `filter:blur` + 14deg tilt 已撤。行程跟 letter-track 现有 hold 0.36 / exit 0.48，不另加 sticky。**离场倒下时漏出后面的案例**：intro/sticky 底透明；7 层渐进糊还在（只关实色罩），用 JS `clip-path` 裁到壳的透视四边形——糊跟着折面走，不要整屏采案例，也不要 `filter` 切在方框里。文案不要一离场就淡没（`--ascii-copy` 拖到 exit 后段）。≤640 / reduce 定格。模块 `ai-duo-unfold.js`。
 
 
 - **必须一起改的地方**：① `draw()` 第一行调 `drawGlyph(now)`；② 循环停止条件带 `&& glyphC <= 0.004`；③ `syncCanvasMode()` 降级时把画布 `display: none`；④ `dispose()` 移除画布；⑤ `.ai-intro-aiglyph` 加进 ≤640 那条 `display: none` 列表；⑥ 层级 `z-index: 3`（在 veil(2) 之上），放 veil 下面会被中心的 0.78 压没。

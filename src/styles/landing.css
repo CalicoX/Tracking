@@ -6527,7 +6527,7 @@
       height: 100%;
       pointer-events: none;
     }
-    /* Duo：透视只包旋转壳。糊层是 intro 的兄弟，祖先不能有 filter / transform */
+    /* Duo：糊层是 intro 兄弟（祖先不能有 transform / filter）。离场用 JS clip 跟透视面，不要方框 */
     .ai-lab-intro {
       --ai-duo: 0;
       --ai-leave: 0;
@@ -6544,10 +6544,11 @@
       perspective-origin: 50% 100%;
     }
 
-    /* 倒下时漏出案例：底透明；糊层跟着卡走，实色罩关掉以免涂黑 */
+    /* 倒下时 intro/sticky 底透明漏出案例；糊层仍在，实色罩关掉 */
     .ai-lab-intro.is-leaving {
       background: transparent;
       isolation: auto;
+      overflow: visible;
     }
     .ai-letter-sticky:has(.ai-lab-intro.is-leaving),
     .ai-letter-sticky.is-leaving {
@@ -6569,6 +6570,7 @@
         calc(var(--dock-bottom, 22px) + 72px);
       box-sizing: border-box;
       overflow: hidden;
+      background: #08071a;
       transform-origin: 50% 0%;
       backface-visibility: hidden;
     }
@@ -6596,8 +6598,9 @@
     }
     .ai-lab-intro.is-leaving .ai-intro-pblur {
       --ai-blur-dir: to top;
-      top: 0;
-      bottom: auto;
+      inset: 0;
+      width: 100%;
+      height: 100%;
     }
     .ai-intro-pblur > i,
     .ai-intro-pblur > b {

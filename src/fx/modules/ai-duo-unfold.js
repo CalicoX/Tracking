@@ -10,6 +10,8 @@ export function mount() {
     document.getElementById("ai-lab-intro-track") ||
     intro?.closest(".ai-letter-track");
   const shell = intro?.querySelector(".ai-intro-shell");
+  const persp = intro?.querySelector(".ai-intro-persp");
+  const pblur = intro?.querySelector(".ai-intro-pblur");
   if (!intro || !track || !shell) return () => {};
 
   if (shouldReduceFx()) {
@@ -22,6 +24,58 @@ export function mount() {
 
   let raf = 0;
   let looping = false;
+
+  function originPx(value, w, h) {
+    const parts = String(value || "").trim().split(/\s+/);
+    const toPx = (s, basis) =>
+      String(s).endsWith("%") ? (parseFloat(s) / 100) * basis : parseFloat(s) || 0;
+    return { x: toPx(parts[0], w), y: toPx(parts[1] || parts[0], h) };
+  }
+
+  function clipPblurToShell() {
+    if (!pblur || !persp) return;
+    if (!intro.classList.contains("is-leaving")) {
+      pblur.style.clipPath = "";
+      pblur.style.webkitClipPath = "";
+      return;
+    }
+    const w = shell.offsetWidth;
+    const h = shell.offsetHeight;
+    if (w < 2 || h < 2) return;
+
+    const cs = getComputedStyle(shell);
+    const matrix = cs.transform === "none" ? new DOMMatrix() : new DOMMatrix(cs.transform);
+    const origin = originPx(cs.transformOrigin, w, h);
+    const pcs = getComputedStyle(persp);
+    const depth = parseFloat(pcs.perspective);
+    const po = originPx(pcs.perspectiveOrigin, persp.offsetWidth, persp.offsetHeight);
+
+    const pts = [
+      [0, 0],
+      [w, 0],
+      [w, h],
+      [0, h],
+    ].map(([x, y]) => {
+      let p = new DOMPoint(x - origin.x, y - origin.y, 0);
+      p = matrix.transformPoint(p);
+      const lx = p.x + origin.x;
+      const ly = p.y + origin.y;
+      const lz = p.z;
+      if (!depth || !isFinite(depth)) return [lx, ly];
+      const denom = 1 - lz / depth;
+      if (Math.abs(denom) < 1e-4) return [lx, ly];
+      return [po.x + (lx - po.x) / denom, po.y + (ly - po.y) / denom];
+    });
+
+    const ox = pblur.offsetLeft;
+    const oy = pblur.offsetTop;
+    const poly = pts
+      .map(([x, y]) => `${(x - ox).toFixed(1)}px ${(y - oy).toFixed(1)}px`)
+      .join(",");
+    const clip = `polygon(${poly})`;
+    pblur.style.clipPath = clip;
+    pblur.style.webkitClipPath = clip;
+  }
 
   function target() {
     const vh = window.innerHeight || 1;
@@ -72,12 +126,14 @@ export function mount() {
       shell.style.transformOrigin = "50% 100%";
       shell.style.transform =
         `rotateX(${pitch.toFixed(2)}deg) scale3d(${pullX.toFixed(3)}, ${pullY.toFixed(3)}, 1)`;
+      clipPblurToShell();
       return;
     }
 
     if (enter > 0.992) {
       shell.style.transformOrigin = "";
       shell.style.transform = "";
+      clipPblurToShell();
       return;
     }
 
@@ -88,6 +144,7 @@ export function mount() {
     shell.style.transformOrigin = "50% 0%";
     shell.style.transform =
       `rotateX(${(-pitch).toFixed(2)}deg) scale3d(${pullX.toFixed(3)}, ${pullY.toFixed(3)}, 1) translateZ(${(-sink).toFixed(1)}px)`;
+    clipPblurToShell();
   }
 
   function tick() {
@@ -139,6 +196,10 @@ export function mount() {
     if (io) io.disconnect();
     shell.style.transform = "";
     shell.style.transformOrigin = "";
+    if (pblur) {
+      pblur.style.clipPath = "";
+      pblur.style.webkitClipPath = "";
+    }
     intro.classList.remove("is-leaving");
     intro.closest(".ai-letter-sticky")?.classList.remove("is-leaving");
   };
