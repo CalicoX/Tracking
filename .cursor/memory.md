@@ -55,7 +55,7 @@
 
 ## AI intro 的「AI」粒子水印（2026-09-11 Park：ASCII 换成粒子）
 
-- 仍是大「AI」轮廓、滚入汇聚 / 滚出散开、紫罗兰、汇聚后残余扰动、按墨迹盒居中。**不再画 ASCII 方块/加号**，格点改成圆点粒子。实现仍在 `ai-intro-ascii.js` 的 `.ai-intro-aiglyph` 画布，不新开模块。**09-11 细砂定案**：cell 2.8–3.5、单点无晕。A/I 都是板状衬线（`drawSlabA` 平顶+底脚横板 / `drawSlabI`），不要描边三角 A。字再放大：VW 0.96 / MAX 1480 / VH 0.9。描边比内部亮，`GLYPH_DRIFT 1.2`。不要 Inter 细棍 I。不要复活 matrix / fillMatrix / 鼠标跟随。
+- 仍是大「AI」轮廓、滚入汇聚 / 滚出散开、紫罗兰、汇聚后残余扰动、按墨迹盒居中。**不再画 ASCII 方块/加号**，格点改成圆点粒子。实现仍在 `ai-intro-ascii.js` 的 `.ai-intro-aiglyph` 画布，不新开模块。**09-11 细砂定案**：cell 2.8–3.5、单点无晕。A/I 都是板状衬线（`drawSlabA` / `drawSlabI`）。**不要描边提亮**，全身同一 alpha。高度约视口 **80%**（`GLYPH_TARGET_VH 0.8`）。`GLYPH_DRIFT 1.2`。不要 Inter 细棍 I。不要复活 matrix / fillMatrix / 鼠标跟随。
 
 ## AI intro 的「AI 轮廓 ASCII」水印（2026-09-11 已换成粒子，下面是旧定案）
 

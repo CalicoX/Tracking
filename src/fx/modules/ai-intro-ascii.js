@@ -22,18 +22,15 @@ const FIELD_H = 144;
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
 const GLYPH_CELL_MIN = 2.8;
 const GLYPH_CELL_MAX = 3.5;
-const GLYPH_TARGET_VW = 0.96;
-const GLYPH_TARGET_MAX = 1480;
-const GLYPH_TARGET_VH = 0.9;
+const GLYPH_TARGET_VH = 0.8;
 const GLYPH_LIGHT_COLORS = ["#4a3d96", "#5b4bb0"];
 const GLYPH_MID_COLORS = ["#6d5bd0", "#7c6bd6"];
 const GLYPH_HEAVY_COLORS = ["#8b5cf6", "#a78bfa"];
 const GLYPH_BAND_W = 0.13;
 const GLYPH_BAND_SPEED = 0.16;
-/* 轮廓要比内部亮，不然细砂看不出 AI */
-const GLYPH_BODY_ALPHA = 0.18;
-const GLYPH_EDGE_ALPHA = 0.4;
-const GLYPH_BAND_ALPHA = 0.1;
+/* 不要描边提亮，全身同一档 */
+const GLYPH_DOT_ALPHA = 0.2;
+const GLYPH_BAND_ALPHA = 0.08;
 /* 扰动保留，但太大字形会散 */
 const GLYPH_DRIFT = 1.2;
 const GLYPH_FLICKER = 0.2;
@@ -249,10 +246,13 @@ export function mount() {
     glyphH = h;
     glyphCell = cell;
 
-    const targetW = Math.min(w * GLYPH_TARGET_VW, GLYPH_TARGET_MAX, h * GLYPH_TARGET_VH);
-    const capH = Math.max(48, targetW / 2.2);
-    const boxW = Math.max(8, Math.ceil(targetW) + cell * 6);
-    const boxH = Math.max(8, Math.ceil(capH * 1.2));
+    const pairRatio = 0.96 + 0.32 + 0.74;
+    const capH = Math.max(
+      48,
+      Math.min(h * GLYPH_TARGET_VH, (w * 0.98) / pairRatio)
+    );
+    const boxW = Math.max(8, Math.ceil(capH * pairRatio + cell * 8));
+    const boxH = Math.max(8, Math.ceil(capH * 1.12));
     const probe = document.createElement("canvas");
     probe.width = boxW;
     probe.height = boxH;
@@ -336,9 +336,8 @@ export function mount() {
           ny: (y - gridTop) / gridH,
           /* 稳定随机相位：决定这一粒的颜色 */
           r: r0,
-          /* 是不是字形描边格：描边提亮、内部压暗，字形才「明显」（Park 09-11） */
           edge: edge,
-          base: (edge ? 0.28 : 0.2) + Math.random() * 0.06,
+          base: 0.22 + Math.random() * 0.06,
           d: Math.random() * 0.38,
         });
       }
@@ -374,7 +373,7 @@ export function mount() {
       d -= Math.round(d);
       const near = 1 - Math.min(1, Math.abs(d) / GLYPH_BAND_W);
       const flow = near * near;
-      const lvl = Math.min(1, c.base * 2.4 + flow * 0.9 + (c.edge ? 0.15 : 0));
+      const lvl = Math.min(1, c.base * 2.4 + flow * 0.9);
       const heavy = lvl > 0.6;
       const mid = !heavy && lvl > 0.32;
       const palette = heavy
@@ -392,13 +391,12 @@ export function mount() {
         glyphCell *
         GLYPH_DRIFT;
       const flick = 1 - GLYPH_FLICKER * (0.5 + 0.5 * Math.sin(tt * 2.3 + ph * 3));
-      const alpha =
-        (c.edge ? GLYPH_EDGE_ALPHA : GLYPH_BODY_ALPHA) + flow * GLYPH_BAND_ALPHA;
+      const alpha = GLYPH_DOT_ALPHA + flow * GLYPH_BAND_ALPHA;
       const x = c.x + c.ox * (1 - s) + jx * s;
       const y = c.y + c.oy * (1 - s) + jy * s;
-      const rad = Math.max(0.85, (c.edge ? 1.22 : 0.9) + flow * 0.16);
+      const rad = 0.95 + flow * 0.12;
       g.fillStyle = palette[(c.r * palette.length) | 0];
-      g.globalAlpha = Math.min(1, alpha * flick * s * (c.edge ? 1.15 : 0.92));
+      g.globalAlpha = Math.min(1, alpha * flick * s);
       g.beginPath();
       g.arc(x, y, rad, 0, Math.PI * 2);
       g.fill();
