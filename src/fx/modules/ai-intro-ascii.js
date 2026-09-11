@@ -20,21 +20,20 @@ const FIELD_H = 144;
 
 /* ——— AI 二字粒子水印：滚入汇聚、滚出散开 ———
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
-const GLYPH_CELL_MIN = 5;
-const GLYPH_CELL_MAX = 7;
+const GLYPH_CELL_MIN = 4;
+const GLYPH_CELL_MAX = 5;
 const GLYPH_TARGET_VW = 0.72;
 const GLYPH_TARGET_MAX = 880;
 const GLYPH_TARGET_VH = 1;
-const GLYPH_LIGHT_COLORS = ["#5b4bb0", "#6d5bd0"];
-const GLYPH_MID_COLORS = ["#7c6bd6", "#8b5cf6"];
-const GLYPH_HEAVY_COLORS = ["#a78bfa", "#c4b5fd", "#e9d5ff", "#e879f9"];
+const GLYPH_LIGHT_COLORS = ["#3d3478", "#4a3d96"];
+const GLYPH_MID_COLORS = ["#5b4bb0", "#6d5bd0"];
+const GLYPH_HEAVY_COLORS = ["#7c6bd6", "#8b5cf6"];
 const GLYPH_BAND_W = 0.13;
 const GLYPH_BAND_SPEED = 0.16;
-/* 实体填充（Park 09-11「还是要实心的」）：整块都可见，描边只比内部略亮一点做形体；
-   比「太亮了」那版（peak 0.66）暗，比只描边那版实。 */
-const GLYPH_BODY_ALPHA = 0.15;
-const GLYPH_EDGE_ALPHA = 0.22;
-const GLYPH_BAND_ALPHA = 0.15;
+/* 09-11 Park：粒子太粗太亮。点更小、色更暗，字形大小不动。 */
+const GLYPH_BODY_ALPHA = 0.1;
+const GLYPH_EDGE_ALPHA = 0.14;
+const GLYPH_BAND_ALPHA = 0.08;
 /* 汇聚完成后的残余扰动：每格绕落点小幅摆动 + 亮度微闪（Park：汇聚后还要有扰动感） */
 const GLYPH_DRIFT = 0.3;
 const GLYPH_FLICKER = 0.14;
@@ -352,13 +351,13 @@ export function mount() {
         (c.edge ? GLYPH_EDGE_ALPHA : GLYPH_BODY_ALPHA) + flow * GLYPH_BAND_ALPHA;
       const x = c.x + c.ox * (1 - s) + jx * s;
       const y = c.y + c.oy * (1 - s) + jy * s;
-      const rad = (c.edge ? 1.55 : 1.15) + flow * 0.85;
+      const rad = (c.edge ? 0.85 : 0.62) + flow * 0.28;
       g.fillStyle = palette[(c.r * palette.length) | 0];
-      g.globalAlpha = alpha * flick * s * 0.45;
+      g.globalAlpha = alpha * flick * s * 0.22;
       g.beginPath();
-      g.arc(x, y, rad * 2.1, 0, Math.PI * 2);
+      g.arc(x, y, rad * 1.55, 0, Math.PI * 2);
       g.fill();
-      g.globalAlpha = Math.min(1, alpha * flick * s * 1.55);
+      g.globalAlpha = Math.min(1, alpha * flick * s * 0.85);
       g.beginPath();
       g.arc(x, y, rad, 0, Math.PI * 2);
       g.fill();
