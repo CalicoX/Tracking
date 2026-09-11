@@ -306,6 +306,7 @@ describe("React landing structure (gating)", () => {
     expect(ascii).not.toMatch(/drawPlateA/);
     expect(ascii).not.toMatch(/fillText\("AI"/);
     expect(ascii).toMatch(/Tracking Page/);
+    expect(ascii).toMatch(/fillText\(lines\[0\]/);
     expect(ascii).toMatch(/glyphMorph/);
     expect(ascii).toMatch(/GLYPH_PARTICLE_CAP/);
     const css = read("styles/landing.css");

@@ -20,9 +20,9 @@ const FIELD_H = 144;
 
 /* ——— AI 二字粒子水印：滚入汇聚、滚出散开 ———
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
-const GLYPH_CELL_MIN = 3.3;
-const GLYPH_CELL_MAX = 4.2;
-const GLYPH_PARTICLE_CAP = 4000;
+const GLYPH_CELL_MIN = 2.7;
+const GLYPH_CELL_MAX = 3.4;
+const GLYPH_PARTICLE_CAP = 6000;
 const GLYPH_MORPH_TEXT = "Tracking Page";
 const GLYPH_TARGET_VH = 0.8;
 const GLYPH_LIGHT_COLORS = ["#4a3d96", "#5b4bb0"];
@@ -42,7 +42,7 @@ function clamp01(v) {
 }
 
 function glyphCellSize(w) {
-  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 340));
+  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 430));
 }
 
 function sampleInkPoints(pctx, boxW, boxH, cell, viewW, viewH) {
@@ -115,19 +115,25 @@ function resamplePts(pts, n) {
 }
 
 function drawTrackingPage(ctx, boxW, boxH) {
-  let fs = Math.min(boxW * 0.13, boxH * 0.22, 140);
+  const lines = ["Tracking", "Page"];
+  let fs = boxH * 0.4;
   const font = (size) =>
     `800 ${size}px Inter, "Helvetica Neue", Arial, sans-serif`;
-  ctx.font = font(fs);
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fff";
-  let tw = ctx.measureText(GLYPH_MORPH_TEXT).width;
-  if (tw > boxW * 0.88) {
-    fs *= (boxW * 0.88) / Math.max(tw, 1);
+  for (let i = 0; i < 12; i++) {
     ctx.font = font(fs);
+    const tw = Math.max(
+      ctx.measureText(lines[0]).width,
+      ctx.measureText(lines[1]).width
+    );
+    if (tw <= boxW * 0.94 || fs < 28) break;
+    fs *= 0.92;
   }
-  ctx.fillText(GLYPH_MORPH_TEXT, boxW / 2, boxH / 2);
+  const lh = fs * 1.08;
+  ctx.fillText(lines[0], boxW / 2, boxH / 2 - lh * 0.5);
+  ctx.fillText(lines[1], boxW / 2, boxH / 2 + lh * 0.5);
 }
 
 /** 板状衬线 I：上下横板 + 中竖，不靠 Inter 那根细棍。 */
@@ -359,7 +365,7 @@ export function mount() {
     const aiPts = sampleInkPoints(aiCtx, aiW, aiH, cell, w, h);
 
     const wordW = Math.max(8, w);
-    const wordH = Math.max(8, Math.round(h * 0.42));
+    const wordH = Math.max(8, Math.round(h * 0.82));
     const wordProbe = document.createElement("canvas");
     wordProbe.width = wordW;
     wordProbe.height = wordH;
