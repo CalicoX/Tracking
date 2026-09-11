@@ -306,7 +306,7 @@ export function mount() {
 
   function sizeGlyphCanvas() {
     if (!glyphCanvas || !glyphCtx || !glyphW || !glyphH) return;
-    const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
     const pw = Math.round(glyphW * dpr);
     const ph = Math.round(glyphH * dpr);
     if (glyphCanvas.width === pw && glyphCanvas.height === ph) return;
