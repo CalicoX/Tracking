@@ -31,9 +31,9 @@ const GLYPH_BAND_SPEED = 0.16;
 /* 不要描边提亮，全身同一档 */
 const GLYPH_DOT_ALPHA = 0.2;
 const GLYPH_BAND_ALPHA = 0.08;
-/* 扰动保留，但太大字形会散 */
-const GLYPH_DRIFT = 1.2;
-const GLYPH_FLICKER = 0.2;
+/* Park：扰动幅度大幅加大 */
+const GLYPH_DRIFT = 3.6;
+const GLYPH_FLICKER = 0.26;
 
 function clamp01(v) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -383,11 +383,11 @@ export function mount() {
           : GLYPH_LIGHT_COLORS;
       const ph = c.r * 6.283;
       const jx =
-        (Math.sin(tt * 1.7 + ph) * 0.86 + Math.sin(tt * 0.63 + ph * 2.1) * 0.58) *
+        (Math.sin(tt * 1.7 + ph) * 1.05 + Math.sin(tt * 0.63 + ph * 2.1) * 0.82) *
         glyphCell *
         GLYPH_DRIFT;
       const jy =
-        (Math.cos(tt * 1.33 + ph * 1.7) * 0.9 + Math.sin(tt * 0.91 + ph * 1.2) * 0.45) *
+        (Math.cos(tt * 1.33 + ph * 1.7) * 1.0 + Math.sin(tt * 0.91 + ph * 1.2) * 0.72) *
         glyphCell *
         GLYPH_DRIFT;
       const flick = 1 - GLYPH_FLICKER * (0.5 + 0.5 * Math.sin(tt * 2.3 + ph * 3));
