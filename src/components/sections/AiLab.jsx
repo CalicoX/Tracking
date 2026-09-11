@@ -47,6 +47,12 @@ export default function AiLab() {
                 <div className="ai-intro-dots"></div>
               </div>
               <div className="ai-intro-veil"></div>
+              {/* 渐进式模糊：离中心越远越糊；--pblur 随滚入降到 0 = 逐渐清晰 */}
+              <div className="ai-intro-pblur" aria-hidden="true">
+                <i className="ai-pblur-band ai-pblur-3"></i>
+                <i className="ai-pblur-band ai-pblur-2"></i>
+                <i className="ai-pblur-band ai-pblur-1"></i>
+              </div>
             </div>
             <div className="ai-lab-intro-inner" id="ai-lab-intro-inner">
               {/* blur/fade only this block — pills stay sharp outside */}

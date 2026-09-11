@@ -6527,6 +6527,38 @@
       height: 100%;
       pointer-events: none;
     }
+    /* 透视拉伸 + 渐进模糊（Park 09-11：要透视那种拉伸；模糊是整体的、越远越大）。
+       实现：整个板块 perspective 3D —— 滚入时绕 X 轴向后倒（近大远小），随滚动立起来；
+       渐进模糊不能用 backdrop-filter（祖先 .ai-lab-intro 一旦有 filter，backdrop 只采样
+       到那层就断了，等于没采样），所以用「复制一层内容做高斯 + 径向遮罩」：
+       .ai-intro-ghost 是 .ai-lab-intro-inner 的克隆，叠在原内容上、离中心越远遮罩越实。 */
+    .ai-lab-intro {
+      perspective: 1100px;
+      perspective-origin: 50% 46%;
+      transform-style: preserve-3d;
+    }
+    .ai-lab-intro-inner {
+      transform: rotateX(calc(var(--intro-tilt, 0) * 14deg)) translateZ(calc(var(--intro-tilt, 0) * -60px));
+      transform-origin: 50% 46%;
+      will-change: transform, filter;
+      filter: blur(calc(var(--pblur, 0) * 3px));
+    }
+    .ai-intro-pblur {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .ai-pblur-band {
+      position: absolute;
+      inset: -40px;
+      background: #08071a;
+      opacity: calc(var(--pblur, 0) * var(--pband-op, 0));
+    }
+    .ai-pblur-1 { --pband-op: 0.5; -webkit-mask-image: radial-gradient(ellipse 78% 66% at 50% 46%, transparent 0 55%, #000 88%); mask-image: radial-gradient(ellipse 78% 66% at 50% 46%, transparent 0 55%, #000 88%); }
+    .ai-pblur-2 { --pband-op: 0.34; -webkit-mask-image: radial-gradient(ellipse 78% 66% at 50% 46%, transparent 0 70%, #000 100%); mask-image: radial-gradient(ellipse 78% 66% at 50% 46%, transparent 0 70%, #000 100%); }
+    .ai-pblur-3 { --pband-op: 0.22; -webkit-mask-image: radial-gradient(ellipse 110% 92% at 50% 46%, transparent 0 62%, #000 96%); mask-image: radial-gradient(ellipse 110% 92% at 50% 46%, transparent 0 62%, #000 96%); }
     .ai-letter-sticky.is-ascii-on .ai-intro-streams,
     .ai-letter-sticky.is-ascii-on .ai-intro-dots {
       visibility: hidden;

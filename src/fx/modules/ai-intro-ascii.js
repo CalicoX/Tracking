@@ -495,18 +495,22 @@ export function mount() {
       sticky.classList.remove("is-ascii-on", "is-ascii-out");
       intro.style.removeProperty("--ascii-copy");
       intro.style.removeProperty("--intro-rest-op");
+      intro.style.removeProperty("--intro-tilt");
+      intro.style.removeProperty("--pblur");
       return;
     }
     p = exitProgress(track);
     applyExit(p);
     const vh = window.innerHeight || 1;
     glyphEnter = clamp01(1 - track.getBoundingClientRect().top / vh);
-    glyphC = glyphEnter * (1 - p);
-    /* 滚入：从横向拉伸 + 模糊，收到正常宽度和清晰度（Park：拉伸->收窄，模糊->清晰） */
-    if (glyphCanvas) {
-      const blurPx = (1 - glyphEnter) * 9;
-      glyphCanvas.style.filter = blurPx > 0.4 ? "blur(" + blurPx.toFixed(2) + "px)" : "none";
-    }
+    /* 入场清晰度只由「离钉住位多远」决定：hold 段必须停在 1（全清晰），
+       退出段（exitProgress）再由 applyExit / 散开逻辑接管（Park 09-11 报过钉住位 pblur=1）。 */
+    glyphC = glyphEnter;
+    /* 整个板块：滚入透视后倒（近大远小）+ 渐进模糊，随滚动立起变清（Park 09-11：
+       要透视拉伸；模糊是整体的、越远越大，然后逐渐清晰）。
+       模糊 = 内容 filter + .ai-intro-pblur 的三层暗遮罩（越靠外遮越实）。 */
+    intro.style.setProperty("--intro-tilt", (1 - glyphC).toFixed(4));
+    intro.style.setProperty("--pblur", (1 - glyphC).toFixed(3));
     if (reduceCanvas) return;
     if (p < 0.995) drawnOut = false;
     if (visible && !document.hidden) startLoop();

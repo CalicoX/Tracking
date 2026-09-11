@@ -64,7 +64,20 @@
 - 颜色沿用紫罗兰：轻 `#5b4bb0/#6d5bd0`、中 `#7c6bd6/#8b5cf6`、重 `#a78bfa/#c4b5fd/#e9d5ff/#e879f9`。字符画在 Menlo 等宽字体上（`${cell*1.02}px`），否则方块宽窄不齐。
 - **流动 = 亮带 + 换字两件事**：亮带由 `ny` 对 `(t*0.16 + col*0.055)%1` 的环形距离决定（`GLYPH_BAND_W = 0.13`，每列错开 → 斜向流动）；字符本身也随时间换。
 - **汇聚后的残余扰动（Park 明确要）**：每格绕落点做两个正弦叠加的小幅摆动（`GLYPH_DRIFT = 0.3` 个格）＋亮度微闪（`GLYPH_FLICKER = 0.14`），相位用每格的 `c.r`，所以是「整片微微扰动」而不是整齐摆动。**别为了「稳」删掉它。**
-- **动效 = 滚动驱动 + 常驻扰动**：`glyphC = enter × (1 - exit)`，`enter = clamp01(1 - trackTop/vh)`，`exit` 复用模块已有的 `exitProgress(track)`。`drawGlyph(now)` **每帧重画**，所以停留期 rAF 循环必须继续跑（停止条件别只写 `p >= 0.995`）。**没有鼠标跟随**（09-10 否掉的正是那个）。
+- **动效 = 滚动驱动 + 常驻扰动**：`glyphEnter = clamp01(1 - trackTop/vh)`，`glyphC = glyphEnter`。**glyphC 只管入场清晰度，别把 exitProgress 乘进去**——我乘过一次，hold 段（introTop = -720 附近）pblur 被算成 1.0，钉住位整屏糊着（Park 报过）；退出段由 `applyExit` / 散开逻辑接管。`drawGlyph(now)` **每帧重画**，所以停留期 rAF 循环必须继续跑（停止条件别只写 `p >= 0.995`）。**没有鼠标跟随**（09-10 否掉的正是那个）。
+
+## AI intro 整板块的透视 + 渐进模糊（2026-09-11 Park：滚动拉伸->收窄、模糊->清晰）
+
+- **Park 两轮澄清**：①「滚动拉伸->收窄，模糊->清晰」我先做在 ASCII 画布上（scaleX + 均匀 blur），他说「我说的不是 ascii 拉伸模糊，是整个这个板块」；给了张手机实拍图（整屏内容拉伸后弹回）。② 我改 scaleX + backdrop 渐进带，他说「是那种透视拉伸；是整体的渐进式模糊，现在没有渐进式模糊，也没有整体模糊」。
+- **透视（现在这版）**：`.ai-lab-intro` 是 `perspective: 1100px`（origin 50% 46%）+ `preserve-3d`；内容层 `.ai-lab-intro-inner` 走 `rotateX(var(--intro-tilt) * 14deg) translateZ(var(--intro-tilt) * -60px)`——滚入时整块向后倒（近大远小），随滚动立起来。**这是 CSS 3D，不是 scaleX**（scaleX 是平面拉宽，Park 否掉）。
+- **渐进模糊不能走 backdrop-filter（大坑）**：我第一版用三条 `-webkit-backdrop-filter` + 径向遮罩的带子，**完全没效果**——`.ai-lab-intro` 自己有 `filter: blur(...)`，祖先一有 filter，backdrop-filter 就只采样到那一层，采样不到背景。Park 报「现在没有渐进式模糊，也没有整体模糊」就是这个原因（而且 structure.test 会拦 `backdrop-filter` 写在 `-webkit-` 前面的顺序，别写反）。**现在的做法**：
+  - 内容层 `.ai-lab-intro-inner` 自带 `filter: blur(calc(var(--pblur) * 3px))` = 整体模糊；
+  - `.ai-intro-pblur` 三层 `.ai-pblur-band`（底色 `#08071a` 的暗遮罩 + 径向 mask，离中心越远 `--pband-op` 越大：0.5 / 0.34 / 0.22）叠在内容上 = **离中心越远越暗越糊**的渐进感；
+  - 变量在模块 `onScroll()` 里写：`--intro-tilt` / `--pblur` 都是 `1 - glyphC`，钉住位为 0 = 全清晰。降级（≤640 / reduce）时 removeProperty 复位。
+- **层级**：`.ai-intro-pblur` z-index 3，在 veil(2) 之上。**stick 容器别加 overflow-x: clip**——我加过，会把透视后倒的内容顶部裁掉（已撤）。
+- **插入点**：`.ai-intro-pblur` 在 `AiLab.jsx` 的 `.ai-intro-bg` 里、`.ai-intro-veil` 之后；`structure.test` 对这块有 `is-ascii-on` / `--ascii-copy` / `#08071a` 等断言，别动那些选择器。
+
+
 - **必须一起改的地方**：① `draw()` 第一行调 `drawGlyph(now)`；② 循环停止条件带 `&& glyphC <= 0.004`；③ `syncCanvasMode()` 降级时把画布 `display: none`；④ `dispose()` 移除画布；⑤ `.ai-intro-aiglyph` 加进 ≤640 那条 `display: none` 列表；⑥ 层级 `z-index: 3`（在 veil(2) 之上），放 veil 下面会被中心的 0.78 压没。
 - **两个血泪坑**：① 我在 `buildGlyphField()` 里多写了一个同名 `const boxH` → SyntaxError → 整个模块加载失败、画布根本没建出来，而 **vitest 只把这些文件当文本读（断言正则）、不执行模块**，55 项照样全绿 → **改完 fx/modules 一定跑 `npx vite build`**（它真编译）。② 这个会话里 dev server 的 HMR 反复卡成「整页空白 / 模块不挂载」（`.ai-intro-aiglyph` 查不到、`sticky.dataset.fxAscii` 为 null），**表现像代码 bug，其实是 HMR 挂了**——`tab.reload()` 或整页重新导航就好，别去改代码。
 
