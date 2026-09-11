@@ -111,12 +111,21 @@ export default function FeaturesSection() {
                                 <div><dt>Carrier phone</dt><dd>+0 321 3278 321</dd></div>
                               </dl>
                               <span className="fx-em-warn" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none"><path d="M12 4.2 21 20H3L12 4.2Z" fill="currentColor"/><path d="M12 10v5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="17.2" r="1" fill="#fff"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none">
+                                  <path d="M12 3.6 21.4 20.4H2.6L12 3.6Z" stroke="#fff" strokeWidth="1.85" strokeLinejoin="round"/>
+                                  <path d="M12 10v5" stroke="#fff" strokeWidth="1.85" strokeLinecap="round"/>
+                                  <circle cx="12" cy="17.7" r="1.05" fill="#fff"/>
+                                </svg>
                               </span>
                             </div>
                             <div className="fx-glass fx-em-flow">
                               <span className="fx-em-flow-ico" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.7"/><circle cx="18" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.7"/><circle cx="12" cy="18" r="2.2" stroke="currentColor" strokeWidth="1.7"/><path d="M8 6h8M7.2 8.1 10.6 16M16.8 8.1 13.4 16" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none">
+                                  <circle cx="6.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                  <circle cx="17.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                  <circle cx="12" cy="17.4" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                  <path d="M8.6 8.4 10.7 15.1M15.4 8.4 13.3 15.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                                </svg>
                               </span>
                               <h4>Create flow</h4>
                               <p>When to send email</p>
