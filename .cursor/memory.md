@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-11（AI intro 加「AI 二字 ASCII 轮廓」水印；Features 邮件插图改左右排）
+最后更新：2026-09-11（Conversion 插图：购物车真实样式 + 推荐实物图）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -138,9 +138,9 @@
 ## Features 第 4 块插图（Conversion & Loyalty，2026-09-11 按文案新画）
 
 - **来源**：Park「这个模块，参考文案，进行重新绘制」。原来的 `.fx-cv-card` 静态占位卡（16% + 4 条 bullets + 「Animation artwork coming next batch」）已删，改成真插图。
-- **结构**：`.fx-cv-scene` 竖排两张卡，`max-width: 440px`，整组 478px 高。
-  - 上卡 `.fx-cv-card`「Your cart」= 商品行（缩略方块 + Wireless Earbuds Pro + Qty 1 · Free shipping + $129.00）→ **AI 预购 EDD 条**（`✦ AI estimate` + `Arrives Tue, Mar 23 – Mar 30`，浅蓝底）→ **`Buy now` + `1-tap checkout`** 蓝紫渐变按钮。对应 bullets 1（AI-Powered pre&post-purchase EDD）和 2（One-Click Checkout）。
-  - 下卡 `.fx-cv-recs`「You may also like」= 两行推荐（Sport Ear Tips $19 / Charging Case $39）→ `↻ Buy it again` 描边按钮 → 分隔线 → **16% + Higher repurchase rate**（渐变数字）。对应 bullets 3（Smart Product Recommendations）、4（Re-engagement Opportunities）和复购率数字。
+- **结构**：`.fx-cv-scene` 竖排两张卡，`max-width: 440px`。Park：不要图标方块，要用实物图；Cart 照真实 Shopify cart 样式。
+  - 上卡 `.fx-cv-card`「Your cart」= Continue shopping + Product/Total + 实拍缩略图（`tips.jpg`）+ 数量步进 + 小计 + **AI estimate** + **Check out / 1-tap checkout**。第 3 块 `translate: 0`，不要被 `--mock-shift` 上推裁掉标题。
+  - 下卡 `.fx-cv-recs`「You may also like」= 两列实拍（`earbuds.jpg` / `case.jpg`）+ 价 → Buy it again → **16%**。
   - 两张卡**同宽、左右边线对齐**（Park 上一轮刚圈过「两边边距不一致」），只在下沿重叠 −10px：上卡 `z-index: 2`、下卡 1。
 - **只用 CSS/SVG 画，不放实拍图**：`public/assets/products/*.jpg` 全是耳机实拍（case.jpg 还是暖红调，跟品牌冷色不搭），而这一段其它插图（邮件 / Create flow / 拆单 / 追踪卡）本来就全是 UI mock，不放照片更统一。以后要加产品图，文件在 `public/assets/products/`。
 - **坑**：卡里的 `span` / `strong` 规则必须带 `.fx-cv-scene` 前缀，否则被 `.fx-glass span, .fx-glass p, .fx-glass strong` 按特异性抢掉字号和 margin（邮件卡踩过同一个坑）。
@@ -200,7 +200,7 @@
 - 不要把 Features 第 2 块插图做成 17TRACK inbox 列表（Park：EMAIL 不长那样）。按品牌异常邮件 + Create flow 浅色卡叠，不要深色玻璃。
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
-- 不要给 Features 第 4 块（Conversion & Loyalty）换回静态占位卡 / 「Animation artwork coming next batch」注记（Park 09-11 要求按文案重画）。
+- 不要给 Features 第 4 块（Conversion & Loyalty）换回静态占位卡，也不要用色块图标代替商品实拍（Park：缺实物图；Cart 照真实 UI）。
 - 不要在 Features 第 4 块放 `public/assets/products/*.jpg` 实拍耳机图（case.jpg 是暖红调；这一段其它插图都不放照片）。
 - 不要给 Features 第 4 块的两张卡做左右错位或不同宽（Park 刚圈过「两边边距不一致」，现在两张同宽、左右边线对齐）。
 - **不要把 Create flow 退回「一张 268px 小卡压在邮件右下角」**（Park 09-11 看图否掉：布局不合理）。现在是左右排 + 单面板，见上面「Features 邮件插图」。
