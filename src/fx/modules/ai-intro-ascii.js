@@ -20,8 +20,10 @@ const FIELD_H = 144;
 
 /* ——— AI 二字粒子水印：滚入汇聚、滚出散开 ———
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
-const GLYPH_CELL_MIN = 2.2;
-const GLYPH_CELL_MAX = 2.8;
+const GLYPH_CELL_MIN = 5.2;
+const GLYPH_CELL_MAX = 7;
+const GLYPH_PARTICLE_CAP = 2200;
+const GLYPH_MORPH_TEXT = "Tracking Page";
 const GLYPH_TARGET_VH = 0.8;
 const GLYPH_LIGHT_COLORS = ["#4a3d96", "#5b4bb0"];
 const GLYPH_MID_COLORS = ["#6d5bd0", "#7c6bd6"];
@@ -40,7 +42,92 @@ function clamp01(v) {
 }
 
 function glyphCellSize(w) {
-  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 520));
+  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 220));
+}
+
+function sampleInkPoints(pctx, boxW, boxH, cell, viewW, viewH) {
+  let img = null;
+  try {
+    img = pctx.getImageData(0, 0, boxW, boxH);
+  } catch (e) {
+    return [];
+  }
+  const mask = img.data;
+  let x0 = boxW;
+  let y0 = boxH;
+  let x1 = -1;
+  let y1 = -1;
+  for (let y = 0; y < boxH; y++) {
+    for (let x = 0; x < boxW; x++) {
+      if (mask[(y * boxW + x) * 4 + 3] > 60) {
+        if (x < x0) x0 = x;
+        if (x > x1) x1 = x;
+        if (y < y0) y0 = y;
+        if (y > y1) y1 = y;
+      }
+    }
+  }
+  if (x1 < 0) return [];
+  const inkW = x1 - x0 + 1;
+  const inkH = y1 - y0 + 1;
+  const cols = Math.max(1, Math.floor(inkW / cell));
+  const rows = Math.max(1, Math.floor(inkH / cell));
+  const originX = (viewW - cols * cell) / 2;
+  const originY = (viewH - rows * cell) / 2;
+  const pts = [];
+  for (let cy = 0; cy < rows; cy++) {
+    for (let cx = 0; cx < cols; cx++) {
+      const px = x0 + Math.round((cx + 0.5) * cell);
+      const py = y0 + Math.round((cy + 0.5) * cell);
+      if (px >= boxW || py >= boxH) continue;
+      if (mask[(py * boxW + px) * 4 + 3] <= 60) continue;
+      pts.push({
+        x: originX + (cx + 0.5) * cell,
+        y: originY + (cy + 0.5) * cell,
+        col: cx,
+        ny: rows > 1 ? cy / (rows - 1) : 0.5,
+      });
+    }
+  }
+  return pts;
+}
+
+function sortPts(pts) {
+  return pts.slice().sort((a, b) => a.x - b.x || a.y - b.y);
+}
+
+function resamplePts(pts, n) {
+  if (!pts.length) {
+    const empty = [];
+    for (let i = 0; i < n; i++) empty.push({ x: 0, y: 0, col: i, ny: 0.5 });
+    return empty;
+  }
+  const s = sortPts(pts);
+  if (s.length === n) return s;
+  const out = [];
+  const last = s.length - 1;
+  for (let i = 0; i < n; i++) {
+    const t = ((i + 0.5) / n) * s.length;
+    const i0 = Math.min(last, t | 0);
+    out.push(s[i0]);
+  }
+  return out;
+}
+
+function drawTrackingPage(ctx, boxW, boxH) {
+  let fs = Math.min(boxW * 0.13, boxH * 0.22, 140);
+  const font = (size) =>
+    `800 ${size}px Inter, "Helvetica Neue", Arial, sans-serif`;
+  ctx.font = font(fs);
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#fff";
+  let tw = ctx.measureText(GLYPH_MORPH_TEXT).width;
+  if (tw > boxW * 0.88) {
+    fs *= (boxW * 0.88) / Math.max(tw, 1);
+    ctx.font = font(fs);
+  }
+  ctx.fillText(GLYPH_MORPH_TEXT, boxW / 2, boxH / 2);
 }
 
 /** 板状衬线 I：上下横板 + 中竖，不靠 Inter 那根细棍。 */
@@ -148,6 +235,7 @@ export function mount() {
   let glyphSizeKey = "";
   let glyphC = 0;
   let glyphEnter = 0;
+  let glyphMorph = 0;
 
   function applyExit(progress) {
     const copy = 1 - smoothstep(0.68, 1, progress);
@@ -232,7 +320,7 @@ export function mount() {
     return glyphCanvas;
   }
 
-  /** 把 "AI" 光栅化成粒子落点，各带一个向外的散开位移。 */
+  /** AI 与 Tracking Page 两套落点配对，滚动时变形。 */
   function buildGlyphField() {
     if (!sticky) return;
     const rect = sticky.getBoundingClientRect();
@@ -251,96 +339,61 @@ export function mount() {
       48,
       Math.min(h * GLYPH_TARGET_VH, (w * 0.98) / pairRatio)
     );
-    const boxW = Math.max(8, Math.ceil(capH * pairRatio + cell * 8));
-    const boxH = Math.max(8, Math.ceil(capH * 1.12));
-    const probe = document.createElement("canvas");
-    probe.width = boxW;
-    probe.height = boxH;
-    const pctx = probe.getContext("2d");
-    if (!pctx) return;
-    pctx.fillStyle = "#fff";
+    const aiW = Math.max(8, Math.ceil(capH * pairRatio + cell * 8));
+    const aiH = Math.max(8, Math.ceil(capH * 1.12));
+    const aiProbe = document.createElement("canvas");
+    aiProbe.width = aiW;
+    aiProbe.height = aiH;
+    const aiCtx = aiProbe.getContext("2d");
+    if (!aiCtx) return;
+    aiCtx.fillStyle = "#fff";
     const aW = capH * 0.96;
     const slabW = capH * 0.74;
     const gap = capH * 0.32;
     const pairW = aW + gap + slabW;
-    const left = (boxW - pairW) / 2;
-    const top = (boxH - capH) / 2;
+    const left = (aiW - pairW) / 2;
+    const top = (aiH - capH) / 2;
     const bot = top + capH;
-    drawSlabA(pctx, left + aW / 2, top, bot);
-    drawSlabI(pctx, left + aW + gap + slabW / 2, top, bot);
+    drawSlabA(aiCtx, left + aW / 2, top, bot);
+    drawSlabI(aiCtx, left + aW + gap + slabW / 2, top, bot);
+    const aiPts = sampleInkPoints(aiCtx, aiW, aiH, cell, w, h);
 
-    let img = null;
-    try {
-      img = pctx.getImageData(0, 0, boxW, boxH);
-    } catch (e) {
-      img = null;
-    }
-    if (!img) return;
-    const mask = img.data;
+    const wordW = Math.max(8, w);
+    const wordH = Math.max(8, Math.round(h * 0.42));
+    const wordProbe = document.createElement("canvas");
+    wordProbe.width = wordW;
+    wordProbe.height = wordH;
+    const wordCtx = wordProbe.getContext("2d");
+    if (!wordCtx) return;
+    drawTrackingPage(wordCtx, wordW, wordH);
+    const wordPts = sampleInkPoints(wordCtx, wordW, wordH, cell, w, h);
 
-    /* canvas 的 middle 基线不等于字形视觉中心，必须扫出墨迹包围盒再据此居中 */
-    let inkX0 = boxW;
-    let inkY0 = boxH;
-    let inkX1 = -1;
-    let inkY1 = -1;
-    for (let y = 0; y < boxH; y++) {
-      for (let x = 0; x < boxW; x++) {
-        if (mask[(y * boxW + x) * 4 + 3] > 60) {
-          if (x < inkX0) inkX0 = x;
-          if (x > inkX1) inkX1 = x;
-          if (y < inkY0) inkY0 = y;
-          if (y > inkY1) inkY1 = y;
-        }
-      }
-    }
-    if (inkX1 < 0) return;
-    const inkW = inkX1 - inkX0 + 1;
-    const inkH = inkY1 - inkY0 + 1;
-
-    const cols = Math.max(1, Math.floor(inkW / cell));
-    const rows = Math.max(1, Math.floor(inkH / cell));
-    const inked = (cx, cy) => {
-      if (cx < 0 || cy < 0 || cx >= cols || cy >= rows) return false;
-      const px = inkX0 + Math.round((cx + 0.5) * cell);
-      const py = inkY0 + Math.round((cy + 0.5) * cell);
-      if (px >= boxW || py >= boxH) return false;
-      return mask[(py * boxW + px) * 4 + 3] > 60;
-    };
-
-    const originX = (w - cols * cell) / 2;
-    const originY = (h - rows * cell) / 2;
+    const n = Math.min(
+      GLYPH_PARTICLE_CAP,
+      Math.max(aiPts.length, wordPts.length, 1)
+    );
+    const from = resamplePts(aiPts, n);
+    const to = resamplePts(wordPts, n);
     const diag = Math.sqrt(w * w + h * h);
-    const gridTop = originY;
-    const gridH = Math.max(1, rows * cell);
     const cells = [];
-    for (let cy = 0; cy < rows; cy++) {
-      for (let cx = 0; cx < cols; cx++) {
-        if (!inked(cx, cy)) continue;
-        const edge =
-          !inked(cx - 1, cy) ||
-          !inked(cx + 1, cy) ||
-          !inked(cx, cy - 1) ||
-          !inked(cx, cy + 1);
-        const x = originX + (cx + 0.5) * cell;
-        const y = originY + (cy + 0.5) * cell;
-        const ang = Math.atan2(y - h / 2, x - w / 2) + (Math.random() - 0.5) * 0.9;
-        const dist = (0.22 + Math.random() * 0.8) * diag;
-        const r0 = Math.random();
-        cells.push({
-          x: x,
-          y: y,
-          ox: Math.cos(ang) * dist,
-          oy: Math.sin(ang) * dist,
-          col: cx,
-          /* 亮带用的归一化高度（字形框内 0..1） */
-          ny: (y - gridTop) / gridH,
-          /* 稳定随机相位：决定这一粒的颜色 */
-          r: r0,
-          edge: edge,
-          base: 0.22 + Math.random() * 0.06,
-          d: Math.random() * 0.38,
-        });
-      }
+    for (let i = 0; i < n; i++) {
+      const a = from[i];
+      const b = to[i];
+      const ang = Math.atan2(a.y - h / 2, a.x - w / 2) + (Math.random() - 0.5) * 0.9;
+      const dist = (0.22 + Math.random() * 0.8) * diag;
+      cells.push({
+        x0: a.x,
+        y0: a.y,
+        x1: b.x,
+        y1: b.y,
+        ox: Math.cos(ang) * dist,
+        oy: Math.sin(ang) * dist,
+        col: a.col,
+        ny: a.ny,
+        r: Math.random(),
+        base: 0.22 + Math.random() * 0.06,
+        d: Math.random() * 0.38,
+      });
     }
     glyphCells = cells;
   }
@@ -392,8 +445,11 @@ export function mount() {
         GLYPH_DRIFT;
       const flick = 1 - GLYPH_FLICKER * (0.5 + 0.5 * Math.sin(tt * 2.3 + ph * 3));
       const alpha = GLYPH_DOT_ALPHA + flow * GLYPH_BAND_ALPHA;
-      const x = c.x + c.ox * (1 - s) + jx * s;
-      const y = c.y + c.oy * (1 - s) + jy * s;
+      const mx = glyphMorph;
+      const gx = c.x0 + (c.x1 - c.x0) * mx;
+      const gy = c.y0 + (c.y1 - c.y0) * mx;
+      const x = gx + c.ox * (1 - s) + jx * s;
+      const y = gy + c.oy * (1 - s) + jy * s;
       const rad = 0.95 + flow * 0.12;
       g.fillStyle = palette[(c.r * palette.length) | 0];
       g.globalAlpha = Math.min(1, alpha * flick * s);
@@ -522,10 +578,14 @@ export function mount() {
     p = exitProgress(track);
     applyExit(p);
     const vh = window.innerHeight || 1;
-    glyphEnter = clamp01(1 - track.getBoundingClientRect().top / vh);
+    const top = track.getBoundingClientRect().top;
+    glyphEnter = clamp01(1 - top / vh);
     /* 入场清晰度只由「离钉住位多远」决定：hold 段必须停在 1（全清晰），
        退出段（exitProgress）再由 applyExit / 散开逻辑接管（Park 09-11 报过钉住位 pblur=1）。 */
     glyphC = glyphEnter;
+    const holdPx = vh * AI_HOLD_VH;
+    const holdU = top >= 0 ? 0 : Math.min(1, -top / Math.max(holdPx, 1));
+    glyphMorph = smoothstep(0.06, 0.9, holdU);
     if (reduceCanvas) return;
     if (p < 0.995) drawnOut = false;
     if (visible && !document.hidden) startLoop();
@@ -610,6 +670,15 @@ export function mount() {
 
   syncCanvasMode();
   onScroll();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      glyphSizeKey = "";
+      if (!reduceCanvas) {
+        buildGlyphField();
+        sizeGlyphCanvas();
+      }
+    });
+  }
 
   return function dispose() {
     stopLoop();
