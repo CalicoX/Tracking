@@ -22,9 +22,9 @@ const FIELD_H = 144;
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
 const GLYPH_CELL_MIN = 2.8;
 const GLYPH_CELL_MAX = 3.5;
-const GLYPH_TARGET_VW = 0.88;
-const GLYPH_TARGET_MAX = 1280;
-const GLYPH_TARGET_VH = 0.76;
+const GLYPH_TARGET_VW = 0.96;
+const GLYPH_TARGET_MAX = 1480;
+const GLYPH_TARGET_VH = 0.9;
 const GLYPH_LIGHT_COLORS = ["#4a3d96", "#5b4bb0"];
 const GLYPH_MID_COLORS = ["#6d5bd0", "#7c6bd6"];
 const GLYPH_HEAVY_COLORS = ["#8b5cf6", "#a78bfa"];
@@ -57,26 +57,39 @@ function drawSlabI(ctx, cx, top, bot) {
   ctx.fillRect(cx - stem / 2, top, stem, h);
 }
 
-/** 和 I 同重量的几何 A，Inter 细笔画在细砂里会散掉。 */
-function drawPlateA(ctx, cx, top, bot) {
+/** 和 I 同款板状衬线 A：平顶横板、粗腿、横档、底脚横板。 */
+function drawSlabA(ctx, cx, top, bot) {
   const h = Math.max(1, bot - top);
-  const w = h * 0.8;
-  const t = h * 0.155;
+  const w = h * 0.96;
+  const t = h * 0.175;
+  const slabH = h * 0.155;
   const left = cx - w / 2;
   const right = cx + w / 2;
-  ctx.save();
-  ctx.lineJoin = "miter";
-  ctx.miterLimit = 8;
-  ctx.lineCap = "butt";
-  ctx.strokeStyle = ctx.fillStyle;
-  ctx.lineWidth = t;
+  const topSlabW = w * 0.4;
+  const topL = cx - topSlabW / 2;
+  const topR = cx + topSlabW / 2;
+  ctx.fillRect(topL, top, topSlabW, slabH);
   ctx.beginPath();
-  ctx.moveTo(left + t * 0.15, bot - t * 0.15);
-  ctx.lineTo(cx, top + t * 0.28);
-  ctx.lineTo(right - t * 0.15, bot - t * 0.15);
-  ctx.stroke();
-  ctx.fillRect(left + w * 0.24, top + h * 0.58, w * 0.52, t);
-  ctx.restore();
+  ctx.moveTo(topL, top);
+  ctx.lineTo(topL + t, top);
+  ctx.lineTo(left + t * 1.32, bot);
+  ctx.lineTo(left, bot);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(topR - t, top);
+  ctx.lineTo(topR, top);
+  ctx.lineTo(right, bot);
+  ctx.lineTo(right - t * 1.32, bot);
+  ctx.closePath();
+  ctx.fill();
+  const u = 0.56;
+  const barY = top + h * u;
+  const lIn = topL + t + (left + t * 1.32 - (topL + t)) * u;
+  const rIn = topR - t + (right - t * 1.32 - (topR - t)) * u;
+  ctx.fillRect(lIn, barY, Math.max(t, rIn - lIn), t);
+  ctx.fillRect(left - w * 0.04, bot - slabH, w * 0.38, slabH);
+  ctx.fillRect(right - w * 0.34, bot - slabH, w * 0.38, slabH);
 }
 
 function smoothstep(a, b, t) {
@@ -237,23 +250,23 @@ export function mount() {
     glyphCell = cell;
 
     const targetW = Math.min(w * GLYPH_TARGET_VW, GLYPH_TARGET_MAX, h * GLYPH_TARGET_VH);
-    const capH = Math.max(48, targetW / 1.72);
-    const boxW = Math.max(8, Math.ceil(targetW) + cell * 4);
-    const boxH = Math.max(8, Math.ceil(capH * 1.25));
+    const capH = Math.max(48, targetW / 2.2);
+    const boxW = Math.max(8, Math.ceil(targetW) + cell * 6);
+    const boxH = Math.max(8, Math.ceil(capH * 1.2));
     const probe = document.createElement("canvas");
     probe.width = boxW;
     probe.height = boxH;
     const pctx = probe.getContext("2d");
     if (!pctx) return;
     pctx.fillStyle = "#fff";
-    const aW = capH * 0.8;
+    const aW = capH * 0.96;
     const slabW = capH * 0.74;
-    const gap = capH * 0.36;
+    const gap = capH * 0.32;
     const pairW = aW + gap + slabW;
     const left = (boxW - pairW) / 2;
     const top = (boxH - capH) / 2;
     const bot = top + capH;
-    drawPlateA(pctx, left + aW / 2, top, bot);
+    drawSlabA(pctx, left + aW / 2, top, bot);
     drawSlabI(pctx, left + aW + gap + slabW / 2, top, bot);
 
     let img = null;
