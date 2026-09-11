@@ -20,9 +20,9 @@ const FIELD_H = 144;
 
 /* ——— AI 二字粒子水印：滚入汇聚、滚出散开 ———
    离屏画 "AI" 取样落点，2D 圆点粒子。不要再画 ASCII 方块/加号。 */
-const GLYPH_CELL_MIN = 5.2;
-const GLYPH_CELL_MAX = 7;
-const GLYPH_PARTICLE_CAP = 2200;
+const GLYPH_CELL_MIN = 3.3;
+const GLYPH_CELL_MAX = 4.2;
+const GLYPH_PARTICLE_CAP = 4000;
 const GLYPH_MORPH_TEXT = "Tracking Page";
 const GLYPH_TARGET_VH = 0.8;
 const GLYPH_LIGHT_COLORS = ["#4a3d96", "#5b4bb0"];
@@ -42,7 +42,7 @@ function clamp01(v) {
 }
 
 function glyphCellSize(w) {
-  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 220));
+  return Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 340));
 }
 
 function sampleInkPoints(pctx, boxW, boxH, cell, viewW, viewH) {
