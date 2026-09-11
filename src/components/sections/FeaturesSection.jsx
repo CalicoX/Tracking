@@ -253,22 +253,28 @@ export default function FeaturesSection() {
                                     <img className="fx-cv-thumb" src="/assets/products/earbuds.jpg" alt="" />
                                     <strong>Sport Ear Tips</strong>
                                     <span className="fx-cv-item-price">$19.00</span>
-                                    <span className="fx-cv-add">Add to Cart</span>
-                                    <span className="fx-cv-buy">Buy Now</span>
+                                    <span className="fx-cv-rec-actions">
+                                      <span className="fx-cv-add">Add to Cart</span>
+                                      <span className="fx-cv-buy">Buy Now</span>
+                                    </span>
                                   </li>
                                   <li>
                                     <img className="fx-cv-thumb" src="/assets/products/case.jpg" alt="" />
                                     <strong>Charging Case</strong>
                                     <span className="fx-cv-item-price">$39.00</span>
-                                    <span className="fx-cv-add">Add to Cart</span>
-                                    <span className="fx-cv-buy">Buy Now</span>
+                                    <span className="fx-cv-rec-actions">
+                                      <span className="fx-cv-add">Add to Cart</span>
+                                      <span className="fx-cv-buy">Buy Now</span>
+                                    </span>
                                   </li>
                                   <li>
                                     <img className="fx-cv-thumb" src="/assets/products/tips.jpg" alt="" />
                                     <strong>Earbuds Pro</strong>
                                     <span className="fx-cv-item-price">$129.00</span>
-                                    <span className="fx-cv-add">Add to Cart</span>
-                                    <span className="fx-cv-buy">Buy Now</span>
+                                    <span className="fx-cv-rec-actions">
+                                      <span className="fx-cv-add">Add to Cart</span>
+                                      <span className="fx-cv-buy">Buy Now</span>
+                                    </span>
                                   </li>
                                 </ul>
                                 <div className="fx-cv-metric">

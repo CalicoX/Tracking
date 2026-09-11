@@ -140,31 +140,17 @@
 - Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
 - Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。桌面推荐卡叠表单右沿 -24px + 色盘 -10px。表单按左边三条补内容：顶品牌条 AURA（身份）+ 色点；Track 下「On the way」自助状态（减客服）；「Visit store」（回访）；推荐卡副标 Second look。不要再只剩空表单。768 仍是叠法，只把三件缩小；不要把表单拉满、不要把推荐卡盖住 Track。≤480 **也要左右叠**：表单 208px、推荐卡 128px `margin-left:-22px`、色盘 40px `-8px`。不要改成上表单下推荐。3D 仍关掉。
 
-## Features 第 4 块插图（Conversion & Loyalty，2026-09-11 按文案新画）
+## Features 第 4 块插图（Conversion & Loyalty）
 
-- **来源**：Park「这个模块，参考文案，进行重新绘制」。原来的 `.fx-cv-card` 静态占位卡（16% + 4 条 bullets + 「Animation artwork coming next batch」）已删，改成真插图。
-- **结构**：`.fx-cv-scene` 竖排两张卡，`max-width: 440px`。Park：不要图标方块，要用实物图；Cart 照真实 Shopify cart 样式。
-  - 上卡 `.fx-cv-card`「Your cart」= Continue shopping + Product/Total + 实拍缩略图（`tips.jpg`）+ 数量步进 + 小计 + **AI estimate** + **Check out / 1-tap checkout**。第 3 块 `translate: 0`，不要被 `--mock-shift` 上推裁掉标题。
-  - 下卡 `.fx-cv-recs`：Park 要跟真实推荐 UI 同结构。**Cart 在上、Recommend 在下**；推荐是 **左右三列商品卡**（大图 + 标题 + 价 + Add to Cart + Buy Now），标题 Recommended For You / You might also like。实拍 `earbuds.jpg` / `case.jpg` / `tips.jpg`。
-  - 两张卡**同宽、左右边线对齐**（Park 上一轮刚圈过「两边边距不一致」），只在下沿重叠 −10px：上卡 `z-index: 2`、下卡 1。
-- **只用 CSS/SVG 画，不放实拍图**：`public/assets/products/*.jpg` 全是耳机实拍（case.jpg 还是暖红调，跟品牌冷色不搭），而这一段其它插图（邮件 / Create flow / 拆单 / 追踪卡）本来就全是 UI mock，不放照片更统一。以后要加产品图，文件在 `public/assets/products/`。
-- **坑**：卡里的 `span` / `strong` 规则必须带 `.fx-cv-scene` 前缀，否则被 `.fx-glass span, .fx-glass p, .fx-glass strong` 按特异性抢掉字号和 margin（邮件卡踩过同一个坑）。
-- **响应式**：竖排所以不用断点切换，窄屏只是收窄（≤640 实测 358 宽不溢出、高度仍 478）。panel 高度预算同其它：1280×720 只有 495px，所以整组压到 478。
-
-## Features 邮件插图（2026-09-11 Park 两轮定案：左右排 + 单面板）
-
-- **构图（只有 >1024 才是左右排）**：`.fx-em-scene` flex 行、`max-width: 660px`；邮件卡 `flex: 0 0 62.4%`，flow 列 `44.2%` + `margin-left: -6.6%`（flow 右移压住邮件右沿约 43px，`z-index: 3` 压在上面）。**别把 scene 拉回 540，也别放开到 660 以上**（邮件卡会被拉成横卡，竖比例就没了）。
-- **邮件卡竖比例**：411×457（比例 0.90，对齐参考图一的 0.85）。内边距 `24px 30px 26px`。
-- **字号统一成三档（Park 09-11 提「字号都不统一」）**：邮件标题 **20**（`max-width: 15em` 强制走两行 + `margin: 0 auto` 居中）/ Create flow 标题 **16** / 其余正文（From·to、Hi Sam、正文、Track order、meta、When to send email、触发行、+ Add filters、下拉项）**一律 14**。正文 `max-width: 21em` 走 3 行。
-- **大坑（就是「字号不统一 + 没居中」的真凶）**：`.fx-glass span, .fx-glass p` 是 (0,1,1)，**单类名规则 `.fx-em-letter-hi` / `.fx-em-letter-body` 是 (0,1,0)，会被它抢掉 font-size（变 10.5px）和 margin（变 `4px 0 0`，于是正文左对齐不居中）**。凡是卡里的 `<p>` 必须写成 `.fx-em-letter .fx-em-letter-body` 这种两个类的前缀。这两个 bug 从第一版就存在，09-11 才修。
-- **flow 是单面板**（Park 09-11：「create flow 合并为一个面板」，之前拆成两张卡的方案已否）：一张 `.fx-em-flow-card` 里依次是 `.fx-em-flow-head`（绿标 + `Create flow` / `When to send email`）→ `.fx-em-flow-row`（`Exception is Detected`）→ `.fx-em-flow-link`（2px 绿色虚线 + 上下绿点，`margin: 10px 0 10px auto` 靠右）→ `+ Add filters` → `.fx-em-filter-list`（下拉，`width: 100%`，**现在是普通文档流，不再绝对定位外伸**）。
-- **左右内边距必须一样（Park 圈过）**：卡 padding 固定 `16px 18px 18px`，**不许为了给图标让位把左边加大**。绿标 `flex: 0 0 44px` 放在 `.fx-em-flow-head` 里当行内第一格，所以下面 `Exception` 行、`+ Add filters`、下拉列表的左边线全在 18px 上；右边线也全落在内容右边（`width: 100%`）。
-- **警告标在邮件右上角**（`top: -8px; right: -14px`）：右沿中段会被 flow 压住。**别再往上抬**（`-16px` 在 1280×720 下会被裁）。
-- **卡片投影的大坑（2026-09-11 Park：投影应该大一些）**：邮件卡 / flow 卡的 `box-shadow` 必须写成 `.feature-stage[data-theme="lastmile"] .fx-em-letter` 这种带主题前缀的选择器。只写 `.fx-em-letter, .fx-em-flow-card`（0,1,0）会被 `.feature-stage[data-theme="lastmile"] .fx-glass`（0,3,0）抢走，实际只剩 `0 1px 2px rgba(15,23,42,.04)` 一圈描边影（第二条被 `--fx-iso: 0` 归零），看着完全没立体感。现值：`0 2px 5px rgba(15,23,42,.05), 0 24px 52px -16px rgba(15,23,42,.3)`（conversion 两张卡同一档）。
-- **`.fx-em-scene` 的 `padding: 8px 18px 24px` + `max-width: 696px` 是给投影留量的**：>1024 时 scene 会和右栏同宽（1280 时 659），两边贴死，投影会被 `.feature-panels-col` 的 `overflow: hidden` 切掉。所以从 660 抬到 696、内容仍是 660。
-- **尺寸事实（改这块前先看这个）**：桌面右栏 1440 约 751px、1280 约 659px；`--feature-panel-h = 100vh − 64(topbar) − 120(head 兜底) − 36`，**1280×720 只有 495px**。>1024 左右排整组 489px 高（邮件卡 457），刚好卡住；警告标要露出来要求 ≤ 479。**再加内容，矮屏就会被 `.feature-panels-col` 的 `overflow: hidden` 裁掉。**
-- **≤1024 竖排档的高是个已知缺口**：竖排整组 **734px**，而 1024×768 的窗口 panel 只有 **547px** → **flow 卡会被整块裁掉**（实测 mock 底边比 panel 底边低 385px）。窗口高约 1000px 以上（panel ≈ 780）才放得下。Park 平时窗口够高所以没报，但这是真缺口；要根治只能给竖排整组加 `transform: scale()`（窄屏按列宽/整组高算缩放），别再靠调字号硬压。
-- **≤1024 回竖排紧凑档**：`@media (max-width: 1024px)` 块放在主 `.fx-em-*` 块之后、原 ≤640 块**之前**（源顺序：后面的 ≤640 才能接住）。邮件 100%、flow `margin: 18px 0 0`、字号回落一档（标题 18 / 正文 13）、图标缩到 40。**原因：768 时右栏只剩约 324px，左右排撑不开。** ≤640 再缩（图标 34、警告标 40）并收进卡内——scene 那时 padding 为 0，往外伸会被 `.feature-visual` 的 `overflow: hidden` 裁掉。**641–1024 且窗口矮（如 1024×768）时整组仍会超出 panel 高度被裁**，这是旧版就有的，不是这轮引入的。
+- **来源**：Park「这个模块，参考文案，进行重新绘制」→ 后来「不要图标方块，要用实物图；Cart 照真实 Shopify cart 样式」→ **09-11 最后一条「左右布局，一个商品一个 card」**。
+- **现在的结构（左右排）**：`.fx-cv-scene` 是 flex **row**、`max-width: 720px`；
+  - **左** `.fx-glass.fx-cv-card`（`flex: 1 1 58%`）=「Your cart」+「Continue shopping」→ `PRODUCT / TOTAL` 表头 → 商品行（`tips.jpg` 实拍缩略图 + 名称 + 单价 + 数量步进 `− 1 +` + 右侧 Total）→ **AI estimate** 浅蓝条（`Arrives Tue, Mar 23 – Mar 30`）→ `Subtotal` → **`Check out` + `1-tap checkout`** 蓝紫渐变按钮。对应 bullets 1（AI 预购 EDD）、2（One-Click Checkout）。
+  - **右** `.fx-cv-recs`（`flex: 1 1 40%`）**本身不是卡**——`background: none; border: 0; box-shadow: none; padding: 0`，只当容器：`Recommended For You` / `You might also like` → **一个商品一张卡**（`.fx-cv-recs-list li` 自己带白底/描边/投影）→ 底部 `16% Higher repurchase rate`。
+  - 商品卡内部用 `grid-template-areas: "thumb name" / "thumb price" / "acts acts"`：缩略图左（44px）、名称/价格右、**两个按钮 `Add to Cart` + `Buy Now` 占满底下一行**（两个按钮必须包一层 `.fx-cv-rec-actions`，否则 flex 换行不确定）。对应 bullets 3（Smart Product Recommendations）、4（Re-engagement Opportunities）。
+- **≤1024 回竖排**（规则放在已有的 `@media (max-width: 1024px)` 块里）：`.fx-cv-scene` 变 column、`max-width: 400px`；商品卡 `grid-template-areas` 改成竖向（图在上），两个按钮**竖排**（3 列卡片每张只有 ~105px 宽，并排放不下「Add to Cart」）。**这块竖排整组 ~620px，1024×768 的窗口 panel 只有约 548px，会被裁**——和邮件插图那个 ≤1024 缺口同源，Park 在桌面看不到。
+- **坑（同邮件卡）**：卡里的 `span` / `strong` 规则必须带 `.fx-cv-scene` 前缀，否则被 `.fx-glass span, .fx-glass p, .fx-glass strong` 按特异性抢掉字号和 margin（邮件卡踩过同一个坑）。
+- **投影**：两个卡用 `.feature-stage[data-theme="conversion"] .fx-cv-card`（0,3,0）才抢得过 `.fx-glass`；商品卡是在 `.fx-cv-recs-list li` 上自己写的，不受 `.fx-glass` 影响。投影值是 `0 2px 5px rgba(15,23,42,.05), 0 24px 52px -16px rgba(15,23,42,.3)`。
+- **实拍图**：`public/assets/products/tips.jpg`（购物车主商品）、`earbuds.jpg` / `case.jpg`（推荐）。`case.jpg` 是暖红调，用在第三张小卡上可以接受，**别再放大用**。
 
 ## Returns Hero（移动端）
 
