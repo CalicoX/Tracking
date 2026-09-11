@@ -26,10 +26,11 @@ const GLYPH_CELL_MAX = 13;
 const GLYPH_TARGET_VW = 0.72;
 const GLYPH_TARGET_MAX = 880;
 const GLYPH_TARGET_VH = 1;
-/* 字符按亮度分三档（Park：ascii 样式要更丰富），档内还随时间换字 */
-const GLYPH_LIGHT_CHARS = ["·", ".", ":", ";", "+", "-", "'"];
-const GLYPH_MID_CHARS = ["+", "=", "o", "x", "%", "░", "▒", "v", "n"];
-const GLYPH_HEAVY_CHARS = ["█", "▓", "▌", "▐", "▀", "▄", "#", "8", "X", "@", "&", "W", "M"];
+/* 字符只用方块和加号（Park 09-11 明确限定：「ascii 字符我只要方块 和 + 号」）。
+   按亮度分三档，档内还随时间换字，所以密度/型态靠档位和明暗拉开，不靠字符种类。 */
+const GLYPH_LIGHT_CHARS = ["░", "▒", "+"];
+const GLYPH_MID_CHARS = ["▒", "▓", "+", "░"];
+const GLYPH_HEAVY_CHARS = ["█", "▓", "▌", "▐", "▀", "▄", "+"];
 /* 紫罗兰实体（Park 09-11：不要和背景反差）：底子按字符档位给透明度，亮带扫过提亮 */
 const GLYPH_LIGHT_COLORS = ["#5b4bb0", "#6d5bd0"];
 const GLYPH_MID_COLORS = ["#7c6bd6", "#8b5cf6"];
