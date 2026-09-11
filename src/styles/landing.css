@@ -3734,12 +3734,21 @@
     }
     /* Conversion & Loyalty：结账卡（AI 预购 EDD + 一键结账）+ 推荐卡（智能推荐 / 再触达 / 复购率）。
        卡里的 span/strong 一律带 .fx-cv-scene 前缀——单类名会被 .fx-glass span, .fx-glass p, .fx-glass strong 按特异性抢走字号和 margin。 */
+    .feature-panel[data-feature="3"] .feature-visual {
+      align-content: start;
+      align-items: center;
+      justify-items: center;
+      padding-top: 8px;
+    }
+    .feature-panel[data-feature="3"] .fx-mock {
+      translate: 0 0;
+    }
     .fx-cv-scene {
       position: relative;
       width: 100%;
       max-width: 440px;
       margin: 0 auto;
-      padding: 6px 0 10px;
+      padding: 0;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -3838,9 +3847,10 @@
       font-weight: 500;
       color: #334155;
     }
-    .fx-cv-scene .fx-cv-qty {
+    .fx-cv-scene .fx-cv-item-txt .fx-cv-qty {
       display: inline-flex;
       align-items: center;
+      width: max-content;
       margin-top: 8px;
       height: 32px;
       border: 1px solid rgba(15, 23, 42, 0.12);
@@ -3965,7 +3975,7 @@
     .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
       flex: none;
       width: 100%;
-      height: 92px;
+      height: 72px;
       aspect-ratio: auto;
       border-radius: 10px;
     }
