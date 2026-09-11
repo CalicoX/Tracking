@@ -125,15 +125,17 @@
 - Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
 - Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。桌面推荐卡叠表单右沿 -24px + 色盘 -10px。表单按左边三条补内容：顶品牌条 AURA（身份）+ 色点；Track 下「On the way」自助状态（减客服）；「Visit store」（回访）；推荐卡副标 Second look。不要再只剩空表单。768 仍是叠法，只把三件缩小；不要把表单拉满、不要把推荐卡盖住 Track。≤480 **也要左右叠**：表单 208px、推荐卡 128px `margin-left:-22px`、色盘 40px `-8px`。不要改成上表单下推荐。3D 仍关掉。
 
-## Features 邮件插图（2026-09-11 Park 定案：左右排）
+## Features 邮件插图（2026-09-11 Park 两轮定案：左右排 + 单面板）
 
-- **构图（只有 >1024 才是左右排）**：`.fx-em-scene` flex 行、`max-width: 660px`；邮件卡 `flex: 0 0 62.4%`，flow 列 `44.2%` + `margin-left: -6.6%`（flow 右移压住邮件右沿约 43px，`z-index: 3` 压在上面）。**别把 scene 拉回 540 或撑满右栏。**
-- **邮件卡改竖比例**：411×457（比例 0.90，对齐参考图一的 0.85）。字号放大一档：title 22 / hi 15 / body 15 + `max-width: 17em`（走 4 行）/ meta 14 / addrs 14.5 / cta 15px·高 46；内边距 `30px 30px 32px`。**`max-width: 660px` 的作用就是让 1440 时邮件卡仍是 ~410 宽；放开到 724 会变横卡。**
-- **flow 拆两张卡**（对齐参考图二）：上卡 = 绿图标 + `Create flow` / `When to send email` / `Exception is Detected`；中间 `.fx-em-flow-link` = 2px 绿色虚线 + 上下各一颗绿点（`margin-right: 34px` 靠右）；下卡 = `+ Add filters`，**下拉 `.fx-em-filter-list` 是 `position: absolute` 浮层，压出下卡下沿、不占布局高度**。
-- **`.fx-em-flow` 的 `margin-bottom: 96px` 不是留白**：下拉浮层往邮件卡下方伸约 96px，把这截算进外边距，`align-items: center` 才让 flow 组的视觉重心和邮件卡齐平（不写 flow 看着偏低）。**≤1024 竖排块用 `margin: 18px 0 0` 重置它，别删那条。**
-- **警告标挪到邮件右上角**（`top: -16px; right: -14px`）：原来在右沿中段，会被 flow 压住。**绿图标 `left: -12px` 压 flow 卡左沿、垂直居中**；卡左内边距 52px 就是给它留的位，两者别改小。
-- **尺寸事实（改这块前先看这个）**：桌面右栏 1440 约 751px、1280 约 659px；`--feature-panel-h = 100vh − 64(topbar) − section-head 高 − 36`，1280×720 只有 495px。现在整组 477px 高，**是故意卡在这个预算里的——再加内容，矮屏会被 `.feature-panels-col` 的 `overflow: hidden` 裁掉**。
-- **≤1024 回竖排紧凑档**：新增的 `@media (max-width: 1024px)` 块放在主 `.fx-em-*` 块之后、原 ≤640 块**之前**（源顺序：后面的 ≤640 才能接住）。邮件 100%、flow `margin: 18px 0 0`、字号回落到旧档（18 / 13.5 / 12.5）。**原因：768 时右栏只剩约 324px，左右排根本撑不开。** ≤640 再把图标收进卡内左上（`left: 8px; top: 8px; translate: 0 0`）、警告标收进卡内右上，因为 scene 那时 padding 为 0，外伸会被 `.feature-visual` 的 `overflow: hidden` 裁掉。
+- **构图（只有 >1024 才是左右排）**：`.fx-em-scene` flex 行、`max-width: 660px`；邮件卡 `flex: 0 0 62.4%`，flow 列 `44.2%` + `margin-left: -6.6%`（flow 右移压住邮件右沿约 43px，`z-index: 3` 压在上面）。**别把 scene 拉回 540，也别放开到 660 以上**（邮件卡会被拉成横卡，竖比例就没了）。
+- **邮件卡竖比例**：411×457（比例 0.90，对齐参考图一的 0.85）。内边距 `24px 30px 26px`。
+- **字号统一成三档（Park 09-11 提「字号都不统一」）**：邮件标题 **20**（`max-width: 15em` 强制走两行 + `margin: 0 auto` 居中）/ Create flow 标题 **16** / 其余正文（From·to、Hi Sam、正文、Track order、meta、When to send email、触发行、+ Add filters、下拉项）**一律 14**。正文 `max-width: 21em` 走 3 行。
+- **大坑（就是「字号不统一 + 没居中」的真凶）**：`.fx-glass span, .fx-glass p` 是 (0,1,1)，**单类名规则 `.fx-em-letter-hi` / `.fx-em-letter-body` 是 (0,1,0)，会被它抢掉 font-size（变 10.5px）和 margin（变 `4px 0 0`，于是正文左对齐不居中）**。凡是卡里的 `<p>` 必须写成 `.fx-em-letter .fx-em-letter-body` 这种两个类的前缀。这两个 bug 从第一版就存在，09-11 才修。
+- **flow 是单面板**（Park 09-11：「create flow 合并为一个面板」，之前拆成两张卡的方案已否）：一张 `.fx-em-flow-card` 里依次是 `.fx-em-flow-head`（绿标 + `Create flow` / `When to send email`）→ `.fx-em-flow-row`（`Exception is Detected`）→ `.fx-em-flow-link`（2px 绿色虚线 + 上下绿点，`margin: 10px 0 10px auto` 靠右）→ `+ Add filters` → `.fx-em-filter-list`（下拉，`width: 100%`，**现在是普通文档流，不再绝对定位外伸**）。
+- **左右内边距必须一样（Park 圈过）**：卡 padding 固定 `16px 18px 18px`，**不许为了给图标让位把左边加大**。绿标 `flex: 0 0 44px` 放在 `.fx-em-flow-head` 里当行内第一格，所以下面 `Exception` 行、`+ Add filters`、下拉列表的左边线全在 18px 上；右边线也全落在内容右边（`width: 100%`）。
+- **警告标在邮件右上角**（`top: -8px; right: -14px`）：右沿中段会被 flow 压住。**别再往上抬**（`-16px` 在 1280×720 下会被裁）。
+- **尺寸事实（改这块前先看这个）**：桌面右栏 1440 约 751px、1280 约 659px；`--feature-panel-h = 100vh − 64(topbar) − 120(head 兜底) − 36`，**1280×720 只有 495px**。整组现在 477px 高（邮件卡 457），是故意卡在这个预算里的；警告标能露出来要求整组 ≤ 479。**再加内容，矮屏就会被 `.feature-panels-col` 的 `overflow: hidden` 裁掉。**
+- **≤1024 回竖排紧凑档**：`@media (max-width: 1024px)` 块放在主 `.fx-em-*` 块之后、原 ≤640 块**之前**（源顺序：后面的 ≤640 才能接住）。邮件 100%、flow `margin: 18px 0 0`、字号回落一档（标题 18 / 正文 13）、图标缩到 40。**原因：768 时右栏只剩约 324px，左右排撑不开。** ≤640 再缩（图标 34、警告标 40）并收进卡内——scene 那时 padding 为 0，往外伸会被 `.feature-visual` 的 `overflow: hidden` 裁掉。**641–1024 且窗口矮（如 1024×768）时整组仍会超出 panel 高度被裁**，这是旧版就有的，不是这轮引入的。
 
 ## Returns Hero（移动端）
 
@@ -174,7 +176,11 @@
 - 不要把 Features 第 2 块插图做成 17TRACK inbox 列表（Park：EMAIL 不长那样）。按品牌异常邮件 + Create flow 浅色卡叠，不要深色玻璃。
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
-- **不要把 Create flow 退回「一张 268px 小卡压在邮件右下角」**（Park 09-11 看图否掉：布局不合理）。现在是左右排 + 两张卡，见上面「Features 邮件插图」。
+- **不要把 Create flow 退回「一张 268px 小卡压在邮件右下角」**（Park 09-11 看图否掉：布局不合理）。现在是左右排 + 单面板，见上面「Features 邮件插图」。
+- **不要再把 Create flow 拆成两张卡**（Park 09-11「合并为一个面板」，拆卡方案已否）。
+- **不要给 flow 卡单独加大左内边距**（Park 圈过「两边的边距不一致」）：左右都 18px，图标走 `.fx-em-flow-head` 行内第一格。
+- **不要给卡里的 `<p>`（Hi Sam / 正文 / When to send email）写单类名规则**：会被 `.fx-glass span, .fx-glass p` 按特异性抢成 10.5px、左对齐（这个 bug 潜伏到 09-11 才被抓）。
+- 不要在 Features 邮件插图里出现 14px 和 16/20px 以外的正文字号——正文一律 14，两个标题 16/20。
 - 不要把 Features 邮件插图在 >1024 改回上下两块（Park 09-11 定的是左右排、flow 压邮件右沿）。
 - 不要把警告标放回邮件右沿中段（会被 flow 压住），也不要让绿图标改到 `left` 正值以外自己乱调——52px 左内边距和 `left: -12px` 是一对。
 - 不要把 `.fx-em-scene` 的 `max-width` 放开到 660 以上（邮件卡会被拉成横卡，竖比例没了）。

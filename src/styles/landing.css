@@ -4660,7 +4660,7 @@
       flex: 0 0 62.4%;
       width: 62.4%;
       max-width: 100%;
-      padding: 30px 30px 32px;
+      padding: 24px 30px 26px;
       overflow: visible;
       display: flex;
       flex-direction: column;
@@ -4671,7 +4671,7 @@
       align-items: center;
       gap: 14px;
       padding-bottom: 18px;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
       border-bottom: 1px solid rgba(15, 23, 42, 0.07);
     }
     .fx-em-letter .fx-em-logo {
@@ -4696,33 +4696,36 @@
     .fx-em-addrs span {
       display: block;
       margin: 0;
-      font-size: 14.5px;
+      font-size: 14px;
       line-height: 1.45;
       color: #334155;
       font-weight: 500;
     }
+    /* 字号统一成三档：邮件标题 21 / Create flow 标题 16 / 其余正文一律 14。
+       注意这几个 <p> 必须带 .fx-em-letter 前缀——不加会被 .fx-glass p（10.5px）按特异性抢掉字号和 margin。 */
     .fx-em-letter-title {
-      margin: 0 0 18px;
-      font-size: 22px;
+      margin: 0 auto 18px;
+      max-width: 15em;
+      font-size: 20px;
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.22;
       color: #0f172a;
       text-align: center;
     }
-    .fx-em-letter-hi {
+    .fx-em-letter .fx-em-letter-hi {
       margin: 0 0 12px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
       color: #334155;
       text-align: center;
     }
-    .fx-em-letter-body {
-      margin: 0 auto 22px;
-      font-size: 15px;
+    .fx-em-letter .fx-em-letter-body {
+      margin: 0 auto 18px;
+      font-size: 14px;
       line-height: 1.55;
       color: #64748b;
-      max-width: 17em;
+      max-width: 21em;
       text-align: center;
     }
     .fx-em-letter .fx-em-cta {
@@ -4733,13 +4736,13 @@
       align-items: center;
       justify-content: center;
       min-width: 168px;
-      height: 46px;
+      height: 44px;
       padding: 0 26px;
-      margin: 6px auto 26px;
+      margin: 4px auto 22px;
       border-radius: 999px;
       background: #3b82f6;
       color: #fff;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 650;
       letter-spacing: -0.01em;
     }
@@ -4759,7 +4762,7 @@
       display: grid;
       grid-template-columns: auto auto;
       column-gap: 9px;
-      row-gap: 8px;
+      row-gap: 6px;
       font-size: 14px;
       line-height: 1.35;
       color: #64748b;
@@ -4784,7 +4787,7 @@
     /* 右沿中段会被 flow 压住，警告标挪到邮件右上角 */
     .fx-em-letter .fx-em-warn {
       position: absolute;
-      top: -16px;
+      top: -8px;
       right: -14px;
       z-index: 4;
       width: 50px;
@@ -4801,7 +4804,7 @@
       width: 26px;
       height: 26px;
     }
-    /* flow 列：两张卡 + 中间绿色虚线（对齐参考图二） */
+    /* flow：单面板，内含触发条件 → 绿色虚线 → 筛选 */
     .fx-em-flow {
       position: relative;
       z-index: 3;
@@ -4809,20 +4812,23 @@
       width: 44.2%;
       min-width: 0;
       margin-left: -6.6%;
-      /* 下拉浮层往下伸出约 96px，把这段留进外边距，居中时视觉重心才和邮件卡齐平 */
-      margin-bottom: 96px;
       display: flex;
       flex-direction: column;
     }
+    /* 左右内边距必须一样宽（Park 圈过：左边留 52 给图标、右边只有 18） */
     .fx-em-flow-card {
-      padding: 16px 18px 16px 52px;
+      padding: 16px 18px 18px;
     }
-    /* 绿色流程标：垂直居中压在卡左沿（52 的左内边距就是给它留的位） */
+    /* 绿标跟标题同排，占内容区最左一格；下面所有内容对齐同一条左边线 */
+    .fx-em-flow-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 12px;
+    }
     .fx-em-flow .fx-em-flow-ico {
-      position: absolute;
-      left: -12px;
-      top: 50%;
-      translate: 0 -50%;
+      position: relative;
+      flex: 0 0 44px;
       width: 44px;
       height: 44px;
       border-radius: 14px;
@@ -4837,16 +4843,19 @@
       width: 22px;
       height: 22px;
     }
-    .fx-em-flow-card h4 {
-      margin: 0 0 3px;
+    .fx-em-flow-head-text {
+      min-width: 0;
+    }
+    .fx-em-flow .fx-em-flow-head h4 {
+      margin: 0 0 2px;
       font-size: 16px;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: #0f172a;
     }
-    .fx-em-flow .fx-em-flow-card > p {
-      margin: 0 0 12px;
-      font-size: 12.5px;
+    .fx-em-flow .fx-em-flow-head p {
+      margin: 0;
+      font-size: 14px;
       font-weight: 500;
       color: #64748b;
     }
@@ -4864,7 +4873,7 @@
       border-radius: 8px;
       border: 1px solid rgba(15, 23, 42, 0.1);
       background: #f8fafc;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 550;
       color: #334155;
       display: flex;
@@ -4873,16 +4882,15 @@
     .fx-em-flow-row em {
       flex: 0 0 auto;
       font-style: normal;
-      font-size: 11.5px;
+      font-size: 14px;
       font-weight: 500;
       color: #94a3b8;
     }
+    /* 卡内那条绿色虚线：贴右（对着第二个下拉），上下各一颗绿点 */
     .fx-em-flow-link {
-      align-self: flex-end;
-      flex: 0 0 24px;
       width: 2px;
       height: 24px;
-      margin: 2px 34px 2px auto;
+      margin: 10px 0 10px auto;
       position: relative;
       background: repeating-linear-gradient(
         #22c55e 0 4px,
@@ -4906,9 +4914,6 @@
     .fx-em-flow-link::after {
       bottom: -3px;
     }
-    .fx-em-flow-card-filters {
-      min-height: 62px;
-    }
     .fx-em-flow .fx-em-add {
       display: inline-flex;
       align-items: center;
@@ -4919,20 +4924,17 @@
       border-radius: 8px;
       border: 1px solid rgba(37, 99, 235, 0.28);
       color: #2563eb;
-      font-size: 12.5px;
+      font-size: 14px;
       font-weight: 650;
       background: #fff;
     }
-    /* 下拉是浮层：压出下卡下沿，不占布局高度（参考图二） */
+    /* 展开的筛选下拉：面板内的一块浮起列表 */
     .fx-em-filter-list {
-      position: absolute;
-      left: 44px;
-      top: 46px;
-      z-index: 4;
-      margin: 0;
+      position: relative;
+      margin: 8px 0 0;
       padding: 6px;
       list-style: none;
-      width: min(230px, 78%);
+      width: 100%;
       border-radius: 12px;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
@@ -4941,7 +4943,7 @@
     .fx-em-filter-list li {
       padding: 7px 10px;
       border-radius: 8px;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       color: #334155;
     }
@@ -4975,20 +4977,21 @@
         font-size: 16px;
       }
       .fx-em-addrs span {
-        font-size: 12.5px;
+        font-size: 13px;
       }
       .fx-em-letter-title {
-        margin: 0 0 14px;
+        margin: 0 auto 14px;
+        max-width: none;
         font-size: 18px;
         line-height: 1.25;
       }
-      .fx-em-letter-hi {
+      .fx-em-letter .fx-em-letter-hi {
         margin: 0 0 8px;
-        font-size: 14px;
+        font-size: 13px;
       }
-      .fx-em-letter-body {
+      .fx-em-letter .fx-em-letter-body {
         margin: 0 auto 18px;
-        font-size: 13.5px;
+        font-size: 13px;
         line-height: 1.5;
         max-width: 34em;
       }
@@ -5002,10 +5005,10 @@
       .fx-em-meta {
         column-gap: 8px;
         row-gap: 5px;
-        font-size: 12.5px;
+        font-size: 13px;
       }
       .fx-em-letter .fx-em-warn {
-        top: -14px;
+        top: -8px;
         right: -12px;
         width: 46px;
         height: 46px;
@@ -5021,10 +5024,10 @@
         margin: 18px 0 0;
       }
       .fx-em-flow-card {
-        padding: 14px 16px 14px 46px;
+        padding: 14px 16px 16px;
       }
       .fx-em-flow .fx-em-flow-ico {
-        left: -10px;
+        flex: 0 0 40px;
         width: 40px;
         height: 40px;
         border-radius: 12px;
@@ -5033,32 +5036,32 @@
         width: 20px;
         height: 20px;
       }
-      .fx-em-flow-card h4 {
+      .fx-em-flow .fx-em-flow-head h4 {
         font-size: 15px;
       }
-      .fx-em-flow .fx-em-flow-card > p {
-        margin: 0 0 10px;
-        font-size: 12px;
+      .fx-em-flow .fx-em-flow-head p {
+        font-size: 13px;
       }
       .fx-em-flow-row span {
         height: 32px;
-        font-size: 11.5px;
+        font-size: 13px;
+      }
+      .fx-em-flow-row em {
+        font-size: 13px;
       }
       .fx-em-flow-link {
-        margin: 2px 26px 2px auto;
+        margin: 8px 0 8px auto;
       }
       .fx-em-flow .fx-em-add {
         height: 28px;
         padding: 0 10px;
-        font-size: 12px;
+        font-size: 13px;
       }
       .fx-em-filter-list {
-        left: 38px;
-        top: 42px;
-        width: min(200px, 78%);
+        width: 100%;
       }
       .fx-em-filter-list li {
-        font-size: 12.5px;
+        font-size: 13px;
       }
     }
 
@@ -5724,14 +5727,8 @@
         width: 100%;
         margin: 16px 0 0;
       }
-      .fx-em-flow-card {
-        padding-left: 52px;
-      }
-      /* 手机：图标收回卡内左上，避免压到上面的邮件卡 */
       .fx-em-flow .fx-em-flow-ico {
-        left: 8px;
-        top: 8px;
-        translate: 0 0;
+        flex: 0 0 34px;
         width: 34px;
         height: 34px;
         border-radius: 11px;

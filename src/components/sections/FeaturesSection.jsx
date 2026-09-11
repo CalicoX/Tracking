@@ -119,27 +119,29 @@ export default function FeaturesSection() {
                                 </svg>
                               </span>
                             </div>
-                            {/* 右：Create flow 两张卡 + 绿色虚线，右移压住邮件右沿 */}
+                            {/* 右：Create flow 单面板（触发条件 → 绿色虚线 → 筛选），右移压住邮件右沿 */}
                             <div className="fx-em-flow">
                               <div className="fx-glass fx-em-flow-card">
-                                <span className="fx-em-flow-ico" aria-hidden="true">
-                                  <svg viewBox="0 0 24 24" fill="none">
-                                    <circle cx="6.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
-                                    <circle cx="17.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
-                                    <circle cx="12" cy="17.4" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
-                                    <path d="M8.6 8.4 10.7 15.1M15.4 8.4 13.3 15.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                                  </svg>
-                                </span>
-                                <h4>Create flow</h4>
-                                <p>When to send email</p>
+                                <div className="fx-em-flow-head">
+                                  <span className="fx-em-flow-ico" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                      <circle cx="6.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                      <circle cx="17.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                      <circle cx="12" cy="17.4" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                      <path d="M8.6 8.4 10.7 15.1M15.4 8.4 13.3 15.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                                    </svg>
+                                  </span>
+                                  <div className="fx-em-flow-head-text">
+                                    <h4>Create flow</h4>
+                                    <p>When to send email</p>
+                                  </div>
+                                </div>
                                 <div className="fx-em-flow-row">
                                   <span>Exception</span>
                                   <em>is</em>
                                   <span>Detected</span>
                                 </div>
-                              </div>
-                              <div className="fx-em-flow-link" aria-hidden="true" />
-                              <div className="fx-glass fx-em-flow-card fx-em-flow-card-filters">
+                                <div className="fx-em-flow-link" aria-hidden="true" />
                                 <span className="fx-em-add">+ Add filters</span>
                                 <ul className="fx-em-filter-list">
                                   <li className="is-on">Origin carrier</li>
