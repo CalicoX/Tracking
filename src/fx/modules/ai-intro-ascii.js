@@ -21,8 +21,8 @@ const FIELD_H = 144;
 /* ——— AI 二字的 ASCII 轮廓水印：滚入汇聚、滚出散开 ———
    面积收着做（约视宽 40% 上限 520），压在 veil 之上、文案之下。
    纯 2D fillText，格子由离屏 "AI" 字形的像素 alpha 反解，描边格密、内部格稀。 */
-const GLYPH_CELL_MIN = 9;
-const GLYPH_CELL_MAX = 13;
+const GLYPH_CELL_MIN = 8;
+const GLYPH_CELL_MAX = 11;
 const GLYPH_TARGET_VW = 0.72;
 const GLYPH_TARGET_MAX = 880;
 const GLYPH_TARGET_VH = 1;
@@ -40,9 +40,9 @@ const GLYPH_BAND_SPEED = 0.16;
 const GLYPH_CHAR_MORPH = 1.6;
 /* 实体填充（Park 09-11「还是要实心的」）：整块都可见，描边只比内部略亮一点做形体；
    比「太亮了」那版（peak 0.66）暗，比只描边那版实。 */
-const GLYPH_BODY_ALPHA = 0.21;
-const GLYPH_EDGE_ALPHA = 0.3;
-const GLYPH_BAND_ALPHA = 0.22;
+const GLYPH_BODY_ALPHA = 0.15;
+const GLYPH_EDGE_ALPHA = 0.22;
+const GLYPH_BAND_ALPHA = 0.15;
 /* 汇聚完成后的残余扰动：每格绕落点小幅摆动 + 亮度微闪（Park：汇聚后还要有扰动感） */
 const GLYPH_DRIFT = 0.3;
 const GLYPH_FLICKER = 0.14;
@@ -52,7 +52,7 @@ function clamp01(v) {
 }
 
 function glyphCellSize(w) {
-  return Math.round(Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 120)));
+  return Math.round(Math.min(GLYPH_CELL_MAX, Math.max(GLYPH_CELL_MIN, w / 150)));
 }
 
 function smoothstep(a, b, t) {
@@ -113,6 +113,7 @@ export function mount() {
   let glyphH = 0;
   let glyphSizeKey = "";
   let glyphC = 0;
+  let glyphEnter = 0;
 
   function applyExit(progress) {
     const copy = 1 - smoothstep(0.0, 0.36, progress);
@@ -335,6 +336,12 @@ export function mount() {
     g.font = `${Math.round(glyphCell * 1.02)}px Menlo, SFMono-Regular, ui-monospace, Consolas, monospace`;
     g.textAlign = "center";
     g.textBaseline = "middle";
+    /* 滚入前横向拉伸 45%，随滚入收窄到 1（Park：拉伸->收窄） */
+    const stretch = 1 + (1 - glyphEnter) * 0.45;
+    g.save();
+    g.translate(glyphW / 2, glyphH / 2);
+    g.scale(stretch, 1);
+    g.translate(-glyphW / 2, -glyphH / 2);
     for (let i = 0; i < glyphCells.length; i++) {
       const c = glyphCells[i];
       const s = smoothstep(c.d, c.d + 0.6, glyphC);
@@ -375,13 +382,12 @@ export function mount() {
       );
     }
     g.globalAlpha = 1;
+    g.restore();
   }
 
   /** 滚入汇聚（enter 0→1），滚出散开（exit 1→0）。 */
   function glyphProgress() {
-    const vh = window.innerHeight || 1;
-    const enter = clamp01(1 - track.getBoundingClientRect().top / vh);
-    return enter * (1 - exitProgress(track));
+    return glyphEnter * (1 - exitProgress(track));
   }
 
   function startGlyph() {
@@ -493,7 +499,14 @@ export function mount() {
     }
     p = exitProgress(track);
     applyExit(p);
-    glyphC = glyphProgress();
+    const vh = window.innerHeight || 1;
+    glyphEnter = clamp01(1 - track.getBoundingClientRect().top / vh);
+    glyphC = glyphEnter * (1 - p);
+    /* 滚入：从横向拉伸 + 模糊，收到正常宽度和清晰度（Park：拉伸->收窄，模糊->清晰） */
+    if (glyphCanvas) {
+      const blurPx = (1 - glyphEnter) * 9;
+      glyphCanvas.style.filter = blurPx > 0.4 ? "blur(" + blurPx.toFixed(2) + "px)" : "none";
+    }
     if (reduceCanvas) return;
     if (p < 0.995) drawnOut = false;
     if (visible && !document.hidden) startLoop();

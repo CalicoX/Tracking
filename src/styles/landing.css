@@ -3980,21 +3980,22 @@
       margin: 0;
       padding: 0;
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
     }
-    /* 一个商品一张卡：缩略图左，名称/价格右，两个按钮占满底下一行 */
+    /* 一个商品一张卡（Park 给的参考图）：大图占满卡的上半，名称、价格、按钮依次在下 */
     .fx-cv-recs-list li {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
-        "thumb name"
-        "thumb price"
-        "acts acts";
-      align-items: center;
-      gap: 2px 10px;
+        "thumb"
+        "name"
+        "price"
+        "acts";
+      align-items: start;
+      gap: 8px;
       margin: 0;
-      padding: 8px;
+      padding: 10px 10px 12px;
       border-radius: 14px;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
@@ -4005,9 +4006,10 @@
     .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
       grid-area: thumb;
       flex: none;
-      width: 44px;
-      height: 44px;
+      width: 100%;
+      height: 96px;
       aspect-ratio: auto;
+      object-fit: cover;
       border-radius: 10px;
       margin: 0;
     }
@@ -4015,7 +4017,7 @@
       grid-area: name;
       display: block;
       margin: 0;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 600;
       letter-spacing: -0.01em;
       color: #0f172a;
@@ -4034,7 +4036,7 @@
       grid-area: acts;
       display: flex;
       gap: 6px;
-      margin: 6px 0 0;
+      margin: 4px 0 0;
     }
     .fx-cv-scene .fx-cv-add,
     .fx-cv-scene .fx-cv-buy {
@@ -5376,7 +5378,7 @@
       }
       .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
         width: 100%;
-        height: 52px;
+        height: 74px;
         border-radius: 9px;
       }
       .fx-cv-scene .fx-cv-recs-list strong {

@@ -143,11 +143,11 @@
 ## Features 第 4 块插图（Conversion & Loyalty）
 
 - **来源**：Park「这个模块，参考文案，进行重新绘制」→ 后来「不要图标方块，要用实物图；Cart 照真实 Shopify cart 样式」→ **09-11 最后一条「左右布局，一个商品一个 card」**。
-- **现在的结构（左右排）**：`.fx-cv-scene` 是 flex **row**、`max-width: 720px`；
+- **现在的结构（左右排，Park 09-11「左右布局，一个商品一个 card」+ 给了商品卡参考图）**：`.fx-cv-scene` 是 flex **row**、`max-width: 720px`、`align-items: center`、gap 16；整组 524×820。
   - **左** `.fx-glass.fx-cv-card`（`flex: 1 1 58%`）=「Your cart」+「Continue shopping」→ `PRODUCT / TOTAL` 表头 → 商品行（`tips.jpg` 实拍缩略图 + 名称 + 单价 + 数量步进 `− 1 +` + 右侧 Total）→ **AI estimate** 浅蓝条（`Arrives Tue, Mar 23 – Mar 30`）→ `Subtotal` → **`Check out` + `1-tap checkout`** 蓝紫渐变按钮。对应 bullets 1（AI 预购 EDD）、2（One-Click Checkout）。
-  - **右** `.fx-cv-recs`（`flex: 1 1 40%`）**本身不是卡**——`background: none; border: 0; box-shadow: none; padding: 0`，只当容器：`Recommended For You` / `You might also like` → **一个商品一张卡**（`.fx-cv-recs-list li` 自己带白底/描边/投影）→ 底部 `16% Higher repurchase rate`。
-  - 商品卡内部用 `grid-template-areas: "thumb name" / "thumb price" / "acts acts"`：缩略图左（44px）、名称/价格右、**两个按钮 `Add to Cart` + `Buy Now` 占满底下一行**（两个按钮必须包一层 `.fx-cv-rec-actions`，否则 flex 换行不确定）。对应 bullets 3（Smart Product Recommendations）、4（Re-engagement Opportunities）。
-- **≤1024 回竖排**（规则放在已有的 `@media (max-width: 1024px)` 块里）：`.fx-cv-scene` 变 column、`max-width: 400px`；商品卡 `grid-template-areas` 改成竖向（图在上），两个按钮**竖排**（3 列卡片每张只有 ~105px 宽，并排放不下「Add to Cart」）。**这块竖排整组 ~620px，1024×768 的窗口 panel 只有约 548px，会被裁**——和邮件插图那个 ≤1024 缺口同源，Park 在桌面看不到。
+  - **右** `.fx-cv-recs`（`flex: 1 1 40%`）**本身不是卡**——`background: none; border: 0; box-shadow: none; padding: 0`，只当竖列：`Recommended For You` / `You might also like` → **三个高卡竖着排，一个商品一张**（`.fx-cv-recs-list li` 自带白底/描边/投影）→ 底部 `16% Higher repurchase rate`。
+  - **商品高卡（Park 给了参考图：大图在上、名称、价格、按钮在底部）**：`grid-template-areas: "thumb" / "name" / "price" / "acts"`，`thumb` 全宽 96px `object-fit: cover`，名称 13px、价格 13px，**两个按钮 `Add to Cart` + `Buy Now` 包一层 `.fx-cv-rec-actions` 占满一行**（不包层的话 flex 换行位置不确定）。列表 `grid-template-columns: minmax(0,1fr)`（竖排）。**别把推荐列表改回 3 列**——3 列 + 左右排会挤成 70px 宽的小卡（踩过）。
+- **≤1024 回竖排**（规则放在已有的 `@media (max-width: 1024px)` 块里）：`.fx-cv-scene` 变 column、`max-width: 400px`；**商品列表改回 3 列**（`1fr 1fr 1fr`）、卡内 `grid-template-areas` 改 `"thumb"/"name"/"price"/"acts"`、图 74px、两个按钮竖排、字缩到 11.5/12px。**这块整组 ~620px，1024×768 的窗口 panel 只有约 548px，会被裁**——和邮件插图那个 ≤1024 缺口同源，Park 在桌面看不到。
 - **坑（同邮件卡）**：卡里的 `span` / `strong` 规则必须带 `.fx-cv-scene` 前缀，否则被 `.fx-glass span, .fx-glass p, .fx-glass strong` 按特异性抢掉字号和 margin（邮件卡踩过同一个坑）。
 - **投影**：两个卡用 `.feature-stage[data-theme="conversion"] .fx-cv-card`（0,3,0）才抢得过 `.fx-glass`；商品卡是在 `.fx-cv-recs-list li` 上自己写的，不受 `.fx-glass` 影响。投影值是 `0 2px 5px rgba(15,23,42,.05), 0 24px 52px -16px rgba(15,23,42,.3)`。
 - **实拍图**：`public/assets/products/tips.jpg`（购物车主商品）、`earbuds.jpg` / `case.jpg`（推荐）。`case.jpg` 是暖红调，用在第三张小卡上可以接受，**别再放大用**。
