@@ -33,8 +33,8 @@ const GLYPH_BAND_SPEED = 0.16;
 /* 不要描边提亮，全身同一档 */
 const GLYPH_DOT_ALPHA = 0.2;
 const GLYPH_BAND_ALPHA = 0.08;
-/* Park：扰动再加大 */
-const GLYPH_DRIFT = 5.4;
+/* Park：扰动小一点（5.4 在 16000 点上太晃） */
+const GLYPH_DRIFT = 2.8;
 const GLYPH_FLICKER = 0.28;
 
 function clamp01(v) {
