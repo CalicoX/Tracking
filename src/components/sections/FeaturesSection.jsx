@@ -121,9 +121,9 @@ export default function FeaturesSection() {
                               <h4>Create flow</h4>
                               <p>When to send email</p>
                               <div className="fx-em-flow-row">
-                                <span>Delay alert</span>
+                                <span>Exception</span>
                                 <em>is</em>
-                                <span>More than 24h</span>
+                                <span>Detected</span>
                               </div>
                               <div className="fx-em-flow-line" aria-hidden="true" />
                               <div className="fx-em-filters">
@@ -132,7 +132,6 @@ export default function FeaturesSection() {
                                   <li className="is-on">Origin carrier</li>
                                   <li>Destination carrier</li>
                                   <li>Origin</li>
-                                  <li>Destination</li>
                                 </ul>
                               </div>
                             </div>
