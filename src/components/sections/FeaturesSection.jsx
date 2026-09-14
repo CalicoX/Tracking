@@ -244,8 +244,8 @@ export default function FeaturesSection() {
                                   <em>1-tap checkout</em>
                                 </span>
                               </div>
-                              {/* 推荐卡：Smart Product Recommendations + Re-engagement + 复购率 */}
-                              <div className="fx-glass fx-cv-recs">
+                              {/* 推荐：购物车下方 1 个商品，图左文右 */}
+                              <div className="fx-cv-recs">
                                 <h4>Recommended For You</h4>
                                 <p className="fx-cv-recs-sub">You might also like</p>
                                 <ul className="fx-cv-recs-list">
@@ -253,24 +253,6 @@ export default function FeaturesSection() {
                                     <img className="fx-cv-thumb" src="/assets/products/earbuds.jpg" alt="" />
                                     <strong>Sport Ear Tips</strong>
                                     <span className="fx-cv-item-price">$19.00</span>
-                                    <span className="fx-cv-rec-actions">
-                                      <span className="fx-cv-add">Add to Cart</span>
-                                      <span className="fx-cv-buy">Buy Now</span>
-                                    </span>
-                                  </li>
-                                  <li>
-                                    <img className="fx-cv-thumb" src="/assets/products/case.jpg" alt="" />
-                                    <strong>Charging Case</strong>
-                                    <span className="fx-cv-item-price">$39.00</span>
-                                    <span className="fx-cv-rec-actions">
-                                      <span className="fx-cv-add">Add to Cart</span>
-                                      <span className="fx-cv-buy">Buy Now</span>
-                                    </span>
-                                  </li>
-                                  <li>
-                                    <img className="fx-cv-thumb" src="/assets/products/tips.jpg" alt="" />
-                                    <strong>Earbuds Pro</strong>
-                                    <span className="fx-cv-item-price">$129.00</span>
                                     <span className="fx-cv-rec-actions">
                                       <span className="fx-cv-add">Add to Cart</span>
                                       <span className="fx-cv-buy">Buy Now</span>

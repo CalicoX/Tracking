@@ -3732,36 +3732,39 @@
       transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
       translate: 0 var(--mock-shift, 0px);
     }
-    /* Conversion & Loyalty：结账卡（AI 预购 EDD + 一键结账）+ 推荐卡（智能推荐 / 再触达 / 复购率）。
+    /* Conversion & Loyalty：购物车在上，1 个推荐商品在下（图左文右）。
        卡里的 span/strong 一律带 .fx-cv-scene 前缀——单类名会被 .fx-glass span, .fx-glass p, .fx-glass strong 按特异性抢走字号和 margin。 */
     .feature-panel[data-feature="3"] .feature-visual {
-      align-content: start;
+      align-content: center;
       align-items: center;
       justify-items: center;
-      padding-top: 8px;
     }
     .feature-panel[data-feature="3"] .fx-mock {
       translate: 0 0;
     }
-    /* 左右排：左购物车卡 + 右推荐列（推荐列本身不是卡，一个商品一张卡） */
+    /* 上下排：购物车卡 + 下方 1 个推荐商品卡 */
     .fx-cv-scene {
       position: relative;
       width: 100%;
-      max-width: 720px;
+      max-width: 400px;
       margin: 0 auto;
       padding: 0;
       box-sizing: border-box;
       display: flex;
-      flex-direction: row;
-      align-items: center;
+      flex-direction: column;
+      align-items: stretch;
       justify-content: center;
       gap: 16px;
     }
-    .feature-stage[data-theme="conversion"] .fx-cv-card,
-    .feature-stage[data-theme="conversion"] .fx-cv-recs {
+    .feature-stage[data-theme="conversion"] .fx-cv-card {
       position: relative;
       left: auto;
       top: auto;
+      z-index: 2;
+      flex: none;
+      width: 100%;
+      min-width: 0;
+      padding: 12px 16px 14px;
       border-radius: 16px;
       color: #0f172a;
       background: #fff;
@@ -3772,16 +3775,13 @@
       opacity: 1;
       transform: none;
     }
-    .feature-stage[data-theme="conversion"] .fx-cv-card {
-      z-index: 2;
-      flex: 1 1 58%;
-      min-width: 0;
-      padding: 12px 16px 14px;
-    }
-    /* 推荐列不再是卡：透明容器，卡做在每个商品上 */
     .feature-stage[data-theme="conversion"] .fx-cv-recs {
+      position: relative;
+      left: auto;
+      top: auto;
       z-index: 1;
-      flex: 1 1 40%;
+      flex: none;
+      width: 100%;
       min-width: 0;
       margin: 0;
       padding: 0;
@@ -3789,6 +3789,7 @@
       border: 0;
       border-radius: 0;
       box-shadow: none;
+      color: #0f172a;
     }
     .fx-cv-bar {
       display: flex;
@@ -3983,19 +3984,19 @@
       grid-template-columns: minmax(0, 1fr);
       gap: 10px;
     }
-    /* 一个商品一张卡（Park 给的参考图）：大图占满卡的上半，名称、价格、按钮依次在下 */
+    /* 1 个商品、图左文右 */
     .fx-cv-recs-list li {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: 96px minmax(0, 1fr);
       grid-template-areas:
-        "thumb"
-        "name"
-        "price"
-        "acts";
-      align-items: start;
-      gap: 8px;
+        "thumb name"
+        "thumb price"
+        "thumb acts";
+      align-items: center;
+      column-gap: 12px;
+      row-gap: 4px;
       margin: 0;
-      padding: 10px 10px 12px;
+      padding: 10px 12px 12px 10px;
       border-radius: 14px;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
@@ -4005,8 +4006,9 @@
     }
     .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
       grid-area: thumb;
+      grid-row: 1 / -1;
       flex: none;
-      width: 100%;
+      width: 96px;
       height: 96px;
       aspect-ratio: auto;
       object-fit: cover;
@@ -4017,7 +4019,7 @@
       grid-area: name;
       display: block;
       margin: 0;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: -0.01em;
       color: #0f172a;
@@ -4027,7 +4029,7 @@
       grid-area: price;
       display: block;
       margin: 0;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: #0f172a;
@@ -4044,10 +4046,10 @@
       flex: 1 1 0;
       align-items: center;
       justify-content: center;
-      height: 26px;
+      height: 28px;
       margin: 0;
       border-radius: 6px;
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 650;
     }
     .fx-cv-scene .fx-cv-add {
@@ -5355,46 +5357,9 @@
       .fx-em-filter-list li {
         font-size: 13px;
       }
-      /* Conversion：右栏放不下左右排 → 购物车在上、推荐 3 列在下 */
+      /* Conversion：全档已是购物车在上 + 1 个推荐商品，1024 只收窄间距 */
       .fx-cv-scene {
-        flex-direction: column;
-        max-width: 400px;
         gap: 12px;
-        align-items: stretch;
-      }
-      .feature-stage[data-theme="conversion"] .fx-cv-card,
-      .feature-stage[data-theme="conversion"] .fx-cv-recs {
-        flex: none;
-      }
-      .fx-cv-recs-list {
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 6px;
-      }
-      .fx-cv-recs-list li {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-areas: "thumb" "name" "price" "acts";
-        gap: 3px;
-        padding: 7px;
-      }
-      .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
-        width: 100%;
-        height: 74px;
-        border-radius: 9px;
-      }
-      .fx-cv-scene .fx-cv-recs-list strong {
-        font-size: 11.5px;
-      }
-      .fx-cv-scene .fx-cv-recs-list .fx-cv-item-price {
-        font-size: 12px;
-      }
-      .fx-cv-rec-actions {
-        flex-direction: column;
-        margin-top: 4px;
-      }
-      .fx-cv-scene .fx-cv-add,
-      .fx-cv-scene .fx-cv-buy {
-        height: 23px;
-        font-size: 10px;
       }
     }
 

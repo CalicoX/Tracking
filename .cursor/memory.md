@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-11（Conversion：Cart 在上，Recommend 三列左右排）
+最后更新：2026-09-14（Conversion：购物车在上，下方 1 个推荐商品图左文右）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -153,15 +153,15 @@
 
 ## Features 第 4 块插图（Conversion & Loyalty）
 
-- **来源**：Park「这个模块，参考文案，进行重新绘制」→ 后来「不要图标方块，要用实物图；Cart 照真实 Shopify cart 样式」→ **09-11 最后一条「左右布局，一个商品一个 card」**。
-- **现在的结构（左右排，Park 09-11「左右布局，一个商品一个 card」+ 给了商品卡参考图）**：`.fx-cv-scene` 是 flex **row**、`max-width: 720px`、`align-items: center`、gap 16；整组 524×820。
-  - **左** `.fx-glass.fx-cv-card`（`flex: 1 1 58%`）=「Your cart」+「Continue shopping」→ `PRODUCT / TOTAL` 表头 → 商品行（`tips.jpg` 实拍缩略图 + 名称 + 单价 + 数量步进 `− 1 +` + 右侧 Total）→ **AI estimate** 浅蓝条（`Arrives Tue, Mar 23 – Mar 30`）→ `Subtotal` → **`Check out` + `1-tap checkout`** 蓝紫渐变按钮。对应 bullets 1（AI 预购 EDD）、2（One-Click Checkout）。
-  - **右** `.fx-cv-recs`（`flex: 1 1 40%`）**本身不是卡**——`background: none; border: 0; box-shadow: none; padding: 0`，只当竖列：`Recommended For You` / `You might also like` → **三个高卡竖着排，一个商品一张**（`.fx-cv-recs-list li` 自带白底/描边/投影）→ 底部 `16% Higher repurchase rate`。
-  - **商品高卡（Park 给了参考图：大图在上、名称、价格、按钮在底部）**：`grid-template-areas: "thumb" / "name" / "price" / "acts"`，`thumb` 全宽 96px `object-fit: cover`，名称 13px、价格 13px，**两个按钮 `Add to Cart` + `Buy Now` 包一层 `.fx-cv-rec-actions` 占满一行**（不包层的话 flex 换行位置不确定）。列表 `grid-template-columns: minmax(0,1fr)`（竖排）。**别把推荐列表改回 3 列**——3 列 + 左右排会挤成 70px 宽的小卡（踩过）。
-- **≤1024 回竖排**（规则放在已有的 `@media (max-width: 1024px)` 块里）：`.fx-cv-scene` 变 column、`max-width: 400px`；**商品列表改回 3 列**（`1fr 1fr 1fr`）、卡内 `grid-template-areas` 改 `"thumb"/"name"/"price"/"acts"`、图 74px、两个按钮竖排、字缩到 11.5/12px。**这块整组 ~620px，1024×768 的窗口 panel 只有约 548px，会被裁**——和邮件插图那个 ≤1024 缺口同源，Park 在桌面看不到。
-- **坑（同邮件卡）**：卡里的 `span` / `strong` 规则必须带 `.fx-cv-scene` 前缀，否则被 `.fx-glass span, .fx-glass p, .fx-glass strong` 按特异性抢掉字号和 margin（邮件卡踩过同一个坑）。
-- **投影**：两个卡用 `.feature-stage[data-theme="conversion"] .fx-cv-card`（0,3,0）才抢得过 `.fx-glass`；商品卡是在 `.fx-cv-recs-list li` 上自己写的，不受 `.fx-glass` 影响。投影值是 `0 2px 5px rgba(15,23,42,.05), 0 24px 52px -16px rgba(15,23,42,.3)`。
-- **实拍图**：`public/assets/products/tips.jpg`（购物车主商品）、`earbuds.jpg` / `case.jpg`（推荐）。`case.jpg` 是暖红调，用在第三张小卡上可以接受，**别再放大用**。
+- **来源**：Park「这个模块，参考文案，进行重新绘制」→ 后来「不要图标方块，要用实物图；Cart 照真实 Shopify cart 样式」→ 09-11 一度三张竖卡左右排 → **09-14 Park：这个页面只需要 1 个 product，放在 cart 的下面，左右布局**。
+- **现在的结构（上下排）**：`.fx-cv-scene` 是 flex **column**、`max-width: 400px`、gap 16。
+  - **上** `.fx-glass.fx-cv-card` =「Your cart」+「Continue shopping」→ `PRODUCT / TOTAL` 表头 → 商品行（`tips.jpg` + Wireless Earbuds Pro + `$129.00` + 数量步进 `− 1 +` + 右侧 Total）→ **AI estimate** 浅蓝条（`Arrives Tue, Mar 23 – Mar 30`）→ `Subtotal` → **`Check out` + `1-tap checkout`** 蓝紫渐变按钮。
+  - **下** `.fx-cv-recs`（不是卡：`background: none; border: 0; box-shadow: none`）：`Recommended For You` / `You might also like` → **只 1 张商品卡** Sport Ear Tips / `$19.00` / `earbuds.jpg` → 底部 `16% Higher repurchase rate`。
+  - **商品卡图左文右**：`grid-template-columns: 96px 1fr`，areas `"thumb name" / "thumb price" / "thumb acts"`，图 96×96；右侧名称 14px、价格 14px、`Add to Cart` + `Buy Now` 同一行。
+- **≤1024 不再改布局**（全档已经是购物车在上 + 1 个推荐），只收 gap。**不要把推荐改回 3 张竖卡，也不要 1024 改 3 列。**
+- **坑（同邮件卡）**：卡里的 `span` / `strong` 规则必须带 `.fx-cv-scene` 前缀，否则被 `.fx-glass span, .fx-glass p, .fx-glass strong` 按特异性抢掉字号和 margin。
+- **投影**：购物车卡用 `.feature-stage[data-theme="conversion"] .fx-cv-card`；商品卡写在 `.fx-cv-recs-list li` 上。投影值 `0 2px 5px rgba(15,23,42,.05), 0 24px 52px -16px rgba(15,23,42,.3)`。
+- **实拍图**：`tips.jpg`（购物车）、`earbuds.jpg`（推荐）。`case.jpg` 暖红调，**这轮不用、别再放大用**。
 
 ## Returns Hero（移动端）
 
@@ -203,8 +203,8 @@
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
 - 不要给 Features 第 4 块（Conversion & Loyalty）换回静态占位卡，也不要用色块图标代替商品实拍（Park：缺实物图；Cart 照真实 UI）。
-- 不要在 Features 第 4 块放 `public/assets/products/*.jpg` 实拍耳机图（case.jpg 是暖红调；这一段其它插图都不放照片）。
-- 不要给 Features 第 4 块的两张卡做左右错位或不同宽（Park 刚圈过「两边边距不一致」，现在两张同宽、左右边线对齐）。
+- 不要把 Conversion 推荐改回 3 张竖卡 / 三列（Park 09-14：只 1 个 product，放 cart 下面，图左文右）。
+- 不要给推荐卡用 `case.jpg`（暖红调，Park 说过别放大用；现用 `earbuds.jpg`）。
 - **不要把 Create flow 退回「一张 268px 小卡压在邮件右下角」**（Park 09-11 看图否掉：布局不合理）。现在是左右排 + 单面板，见上面「Features 邮件插图」。
 - **不要再把 Create flow 拆成两张卡**（Park 09-11「合并为一个面板」，拆卡方案已否）。
 - **不要给 flow 卡单独加大左内边距**（Park 圈过「两边的边距不一致」）：左右都 18px，图标走 `.fx-em-flow-head` 行内第一格。
