@@ -296,33 +296,38 @@ export function mount() {
       ];
 
       function updateFeatureScales() {
+        var inner = section.querySelector(".section-inner") || section;
         panels.forEach(function (panel, i) {
           var dim = SCENE_DIMS[i] || { w: 540, h: 440 };
-          var visual = panel.querySelector(".feature-visual") || panel;
-          var availW = visual.clientWidth;
-          if (!availW) {
-            var col = panelsCol || (section ? section.querySelector(".section-inner") : null);
-            availW = col ? col.clientWidth : (window.innerWidth - 32);
-          }
-          var targetW = Math.max(120, availW - 16);
-          var s = Math.min(1, targetW / dim.w);
-          panel.style.setProperty("--fx-scale", s.toFixed(4));
-          panel.style.setProperty("--fx-design-w", dim.w + "px");
-          panel.style.setProperty("--fx-design-h", dim.h + "px");
-          panel.style.setProperty("--fx-scaled-h", Math.round(dim.h * s) + "px");
-          if (visual) {
-            visual.style.setProperty("--fx-scale", s.toFixed(4));
-            visual.style.setProperty("--fx-design-w", dim.w + "px");
-            visual.style.setProperty("--fx-design-h", dim.h + "px");
-            visual.style.setProperty("--fx-scaled-h", Math.round(dim.h * s) + "px");
-          }
+          var visual = panel.querySelector(".feature-visual");
           var stage = panel.querySelector(".feature-stage");
-          if (stage) {
-            stage.style.setProperty("--fx-scale", s.toFixed(4));
-            stage.style.setProperty("--fx-design-w", dim.w + "px");
-            stage.style.setProperty("--fx-design-h", dim.h + "px");
-            stage.style.setProperty("--fx-scaled-h", Math.round(dim.h * s) + "px");
+          var mock = panel.querySelector(".fx-mock");
+          if (!visual || !mock) return;
+          var visCs = getComputedStyle(visual);
+          var padX = (parseFloat(visCs.paddingLeft) || 0) + (parseFloat(visCs.paddingRight) || 0);
+          var availW = (stage && stage.clientWidth) || (visual.clientWidth - padX);
+          if (!availW) {
+            availW = (panelsCol && panelsCol.clientWidth) || inner.clientWidth || (window.innerWidth - 32);
           }
+          availW = Math.max(120, availW);
+          var scene = mock.firstElementChild;
+          var natW = dim.w;
+          var natH = Math.max(
+            dim.h,
+            scene ? Math.max(scene.scrollHeight, scene.offsetHeight) : 0,
+            mock.scrollHeight
+          );
+          var s = Math.min(1, availW / natW);
+          var scaledH = Math.round(natH * s);
+          var left = Math.max(0, (availW - natW * s) / 2);
+          [panel, visual, stage, mock].forEach(function (el) {
+            if (!el) return;
+            el.style.setProperty("--fx-scale", s.toFixed(4));
+            el.style.setProperty("--fx-design-w", natW + "px");
+            el.style.setProperty("--fx-design-h", natH + "px");
+            el.style.setProperty("--fx-scaled-h", scaledH + "px");
+            el.style.setProperty("--fx-left", left.toFixed(1) + "px");
+          });
         });
       }
 

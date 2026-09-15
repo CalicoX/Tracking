@@ -3727,19 +3727,49 @@
       flex: 0 1 auto;
     }
     /* Conversion & Loyalty 占位卡（动画图下一批）：静态、无 iso */
-    /* --mock-shift：landing-inline.alignActiveMock 量出的图文中心差，切换时缓动对齐 */
+    /* --mock-shift：landing-inline.alignActiveMock 量出的图文中心差，切换时缓动对齐。
+       插图按设计稿宽高排，scale 从顶中等比缩小；stage 是栏宽槽，剪掉未缩放的布局盒，不剪画面。 */
+    .feature-visual,
+    .feature-stage,
+    .feature-stage-art {
+      min-width: 0;
+    }
+    .feature-panel .feature-stage {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      height: var(--fx-scaled-h, 100%);
+      overflow: hidden;
+      display: block;
+    }
+    .feature-panel .feature-stage-art {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
     .feature-panel .fx-mock {
+      position: absolute;
+      left: var(--fx-left, 0px);
+      top: 0;
+      flex: 0 0 auto;
+      width: var(--fx-design-w, 540px);
+      height: var(--fx-design-h, 440px);
+      max-width: none;
+      margin: 0;
       transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
       translate: 0 var(--mock-shift, 0px);
-      scale: var(--fx-scale, 1);
-      transform-origin: center center;
+      scale: none;
+      transform: scale(var(--fx-scale, 1));
+      transform-origin: top left;
     }
     /* Conversion & Loyalty：购物车在上、推荐卡在下，左右错开叠在一起（跟 Branded 同一套叠法）。
        卡里的 span/strong 一律带 .fx-cv-scene 前缀——单类名会被 .fx-glass span, .fx-glass p, .fx-glass strong 按特异性抢走字号和 margin。 */
     .feature-panel[data-feature="3"] .feature-visual {
-      align-content: center;
-      align-items: center;
-      justify-items: center;
+      align-content: start;
+      align-items: start;
+      justify-items: start;
     }
     .feature-panel[data-feature="3"] .fx-mock {
       translate: 0 0;
@@ -3747,7 +3777,7 @@
     .fx-cv-scene {
       position: relative;
       width: max-content;
-      max-width: 100%;
+      max-width: none;
       margin: 0 auto;
       padding: 0 0 8px;
       box-sizing: border-box;
@@ -4503,22 +4533,14 @@
       perspective-origin: 62% 50%;
     }
     .feature-stage[data-theme="lastmile"] .fx-mock {
-      height: auto;
-      width: 100%;
-      align-items: center;
+      height: var(--fx-design-h, auto);
+      width: var(--fx-design-w, 100%);
+      align-items: flex-start;
       justify-content: center;
       gap: 36px;
       padding: 0;
-      transform-origin: 50% 50%;
-      transform:
-        translate3d(
-          calc(64px * var(--fx-iso, 0)),
-          calc(-148px * var(--fx-iso, 0)),
-          0
-        )
-        rotateX(calc(56deg * var(--fx-iso, 0)))
-        rotateZ(calc(-34deg * var(--fx-iso, 0)))
-        scale(calc(1 - 0.26 * var(--fx-iso, 0)));
+      transform: scale(var(--fx-scale, 1));
+      transform-origin: top left;
     }
     .feature-stage[data-theme="split"] .feature-stage-art,
     .feature-stage[data-theme="branded"] .feature-stage-art {
@@ -4528,23 +4550,15 @@
     }
     .feature-stage[data-theme="split"] .fx-mock,
     .feature-stage[data-theme="branded"] .fx-mock {
-      height: auto;
-      width: 100%;
-      align-items: center;
+      height: var(--fx-design-h, auto);
+      width: var(--fx-design-w, 100%);
+      align-items: flex-start;
       justify-content: center;
       gap: 0;
       padding: 0;
-      transform-origin: 50% 50%;
-      transform-style: preserve-3d;
-      transform:
-        translate3d(
-          calc(64px * var(--fx-iso, 0)),
-          calc(-148px * var(--fx-iso, 0)),
-          0
-        )
-        rotateX(calc(56deg * var(--fx-iso, 0)))
-        rotateZ(calc(-34deg * var(--fx-iso, 0)))
-        scale(calc(1 - 0.26 * var(--fx-iso, 0)));
+      transform: scale(var(--fx-scale, 1));
+      transform-origin: top left;
+      transform-style: flat;
     }
     .fx-lm-cluster,
     .fx-so-cluster {
@@ -4564,7 +4578,7 @@
     .fx-so-cluster {
       display: block;
       width: max-content;
-      max-width: 100%;
+      max-width: none;
       gap: 0;
       transform-style: flat;
     }
@@ -4582,19 +4596,19 @@
       transform-style: preserve-3d;
     }
     .feature-stage[data-theme="branded"] .fx-mock {
-      height: 100%;
-      width: 100%;
+      height: var(--fx-design-h, 440px);
+      width: var(--fx-design-w, 540px);
     }
     .fx-hero-page {
-      width: 100%;
-      max-width: 540px;
+      width: 540px;
+      max-width: none;
       height: 100%;
-      max-height: 100%;
+      max-height: none;
       margin: 0 auto;
-      overflow: hidden;
+      overflow: visible;
       border-radius: 18px;
-      -webkit-mask-image: linear-gradient(#000 76%, transparent);
-      mask-image: linear-gradient(#000 76%, transparent);
+      -webkit-mask-image: none;
+      mask-image: none;
     }
     .fx-hero-page .browser {
       max-width: none;
@@ -5285,7 +5299,7 @@
       position: relative;
       z-index: 1;
       width: 440px;
-      max-width: 100%;
+      max-width: none;
       margin-left: 80px;
       --os-brown: #2563eb;
       --os-mute: #6b7380;
@@ -5726,25 +5740,24 @@
       .feature-visual {
         max-height: none;
         height: auto;
-        overflow: hidden;
+        overflow: visible;
+        min-width: 0;
       }
       .feature-stage,
       .feature-stage-art {
         --fx-c: 1;
         --fx-iso: 0;
         --fx-spread: 0;
+        min-width: 0;
         min-height: 0;
         max-height: none;
-        height: auto;
         overflow: visible;
       }
-      /* inline --fx-iso still wins the var; kill the 3D so cards don't cover copy */
+      /* inline --fx-iso still wins the var; kill the 3D so cards don't cover copy.
+         不要把 .fx-mock 写进 none！important——会把独立 scale 的 origin 打回中心，顶栏被切。 */
       .feature-stage[data-theme="lastmile"] .feature-stage-art,
       .feature-stage[data-theme="split"] .feature-stage-art,
       .feature-stage[data-theme="branded"] .feature-stage-art,
-      .feature-stage[data-theme="lastmile"] .fx-mock,
-      .feature-stage[data-theme="split"] .fx-mock,
-      .feature-stage[data-theme="branded"] .fx-mock,
       .feature-stage[data-theme="lastmile"] .fx-lm-mail,
       .feature-stage[data-theme="lastmile"] .fx-lm-card,
       .feature-stage[data-theme="lastmile"] .fx-lm-carriers,
@@ -5760,10 +5773,6 @@
       .feature-stage .fx-br-select {
         transform: none !important;
         opacity: 1;
-      }
-      .fx-mock {
-        transform: none;
-        filter: none;
       }
       /* 手机：警告标也收回卡内，否则会被 .feature-visual 的 overflow:hidden 裁掉 */
       .fx-em-letter .fx-em-warn {
@@ -5795,8 +5804,8 @@
         border-radius: 12px;
       }
       .fx-so-page {
-        width: 300px;
-        margin-left: 40px;
+        width: 440px;
+        margin-left: 80px;
       }
       .feature-stage-copy {
         transform: none;
@@ -5805,8 +5814,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .fx-glass,
-      .feature-stage-copy,
-      .fx-mock {
+      .feature-stage-copy {
         transform: none !important;
         opacity: 1 !important;
       }
@@ -11420,17 +11428,18 @@
         box-shadow: 0 0 0 1px rgba(0, 58, 155, 0.08), 0 8px 20px -12px rgba(0, 58, 155, 0.25);
       }
       .feature-visual {
+        min-width: 0;
         min-height: 0;
         height: auto;
         max-height: none;
         padding: 4px 0 12px;
-        overflow: hidden;
+        overflow: visible;
       }
       .feature-stage,
       .feature-stage-art {
+        min-width: 0;
         min-height: 0;
         max-height: none;
-        height: auto;
       }
       .feature-browser,
       .phone-wrap {
@@ -11591,7 +11600,7 @@
         border-bottom: 1px solid var(--border-default);
       }
       .impact-step:last-child { border-bottom: 0; }
-      .feature-visual { min-height: auto; padding: 14px; height: auto; }
+      .feature-visual { min-height: auto; padding: 4px 0 12px; height: auto; }
       .phone-wrap { grid-template-columns: 1fr; gap: 12px; }
       .feature-cta .btn-switch,
       .feature-cta .btn-demo { width: 100%; justify-content: center; }
@@ -11707,7 +11716,7 @@
         gap: 24px 32px;
       }
       .fx-hero-page {
-        max-width: min(540px, 100%);
+        max-width: none;
       }
       .fx-br-form {
         min-width: min(280px, 100%);
@@ -11717,15 +11726,8 @@
       .feature-stage[data-theme="lastmile"] .fx-mock,
       .feature-stage[data-theme="split"] .fx-mock,
       .feature-stage[data-theme="branded"] .fx-mock {
-        transform:
-          translate3d(
-            calc(16px * var(--fx-iso, 0)),
-            calc(-72px * var(--fx-iso, 0)),
-            0
-          )
-          rotateX(calc(48deg * var(--fx-iso, 0)))
-          rotateZ(calc(-28deg * var(--fx-iso, 0)))
-          scale(calc(1 - 0.36 * var(--fx-iso, 0)));
+        transform: scale(var(--fx-scale, 1));
+        transform-origin: top left;
       }
       .fx-lm-phone {
         right: 4px;
@@ -12234,7 +12236,7 @@
 
 
       .fx-hero-page {
-        max-width: min(540px, 100%);
+        max-width: none;
       }
       .fx-br-stage {
         width: max-content;
@@ -12646,50 +12648,58 @@
         margin-bottom: 0;
       }
 
-      /* Features 四大插图等比例缩放体系（Park：四个插图都是等比例缩放） */
+      /* Features 四大插图：设计稿原尺寸 + 整组从顶中等比缩放，槽宽=栏宽，不裁画面 */
+      .feature-panel .feature-visual {
+        overflow: visible;
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        padding: 4px 0 12px;
+      }
       .feature-panel .feature-stage {
         height: var(--fx-scaled-h, 320px);
         min-height: var(--fx-scaled-h, 0);
         max-height: none;
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: clip;
+        max-width: 100%;
+        min-width: 0;
+        display: block;
+        overflow: hidden;
         padding: 0;
         margin: 0 auto;
       }
       .feature-panel .feature-stage-art {
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: block;
         overflow: visible;
       }
-      .feature-panel .fx-mock {
+      .feature-panel .feature-stage .fx-mock {
+        position: absolute;
+        left: var(--fx-left, 0px);
+        top: 0;
         width: var(--fx-design-w, 540px);
         height: var(--fx-design-h, 440px);
+        max-width: none;
         flex: 0 0 auto;
-        scale: var(--fx-scale, 1);
-        transform-origin: center center;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        scale: none;
+        transform: scale(var(--fx-scale, 1));
+        transform-origin: top left;
+        margin: 0;
       }
-      /* 各插图场景保持桌面完整布局尺寸，整体等比例缩放 */
       .fx-hero-page {
         width: 540px;
-        max-width: 540px;
-        height: 440px;
-        max-height: 440px;
+        max-width: none;
+        height: 100%;
+        max-height: none;
         margin: 0 auto;
-        overflow: hidden;
+        overflow: visible;
+        -webkit-mask-image: none;
+        mask-image: none;
       }
       .fx-em-scene {
         width: 660px;
-        max-width: 660px;
+        max-width: none;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -12698,14 +12708,19 @@
         box-sizing: border-box;
       }
       .fx-so-cluster {
-        width: 540px;
-        max-width: 540px;
+        width: max-content;
+        max-width: none;
         display: block;
         margin: 0 auto;
       }
-      .fx-cv-scene {
+      .fx-so-page {
         width: 440px;
-        max-width: 440px;
+        max-width: none;
+        margin-left: 80px;
+      }
+      .fx-cv-scene {
+        width: max-content;
+        max-width: none;
         margin: 0 auto;
       }
       .returns-ui {

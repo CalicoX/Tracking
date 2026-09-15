@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-15（Hero 移动端物流轨迹完整展现；Features 四大插图等比例缩放）
+最后更新：2026-09-15（Features 四大插图裁切修复：槽宽=栏宽、origin 左上、实量高度）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -130,7 +130,7 @@
 
 ## Features（4 块）
 
-- **四大插图等比例缩放（2026-09-15 Park 定案）**：全站禁止对 Features 插图在媒体查询中做拆卡或上下堆叠改造（如旧版将邮件+流程拆为 800px+ 竖排）。统一采用等比例缩放（Proportional Scaling Engine）：在 `FeaturesSection.jsx` 内置首屏同步 `fitAll()` 并监听 `ResizeObserver`，配合 `landing-inline.js`，按四块设计稿基准（Tab 0 540×440、Tab 1 660×490、Tab 2 540×470、Tab 3 440×440）量取容器宽度计算 `--fx-scale`，写入 panel/visual/stage；CSS 侧清理 640/768/1024 里的破坏性拆卡缩卡规则，卡片保持 PC 原始相对尺寸与左右叠排，由 `scale: var(--fx-scale)` 整体等比缩小，容器高度由 `--fx-scaled-h` 精准对齐，零溢出零剪切。
+- **四大插图等比例缩放（2026-09-15 Park 定案；同日修裁切）**：全站禁止对 Features 插图在媒体查询中做拆卡或上下堆叠改造。PC 原尺寸排版 + 整组 `transform: scale(var(--fx-scale))`（**不要用独立 `scale` 属性叠在别的 `transform` 上，origin 会被打回中心、顶栏被切**）。`fitAll()` / `updateFeatureScales()` 用 **stage 内容宽**（扣 visual padding）÷ 设计宽；高度按 scene `scrollHeight` 实量，不锁死 440。槽：`.feature-stage` `overflow:hidden` + 高 `--fx-scaled-h`；`.fx-mock` `position:absolute; left: var(--fx-left); top:0; transform-origin: top left`。栏比设计稿宽时 `--fx-left` 居中，窄时 left=0 铺满。**坑**：stage 被内容撑到设计宽再被 visual overflow 切右半边；`.fx-hero-page` 的 mask + overflow:hidden 会切追踪页；`transform:none !important` 写到 `.fx-mock` 会让缩放原点失效。
 - 官方产品页只有 3 块，落地页已对齐，去掉 Proactive notifications。
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
 - 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25（品牌蓝紫渐变），正文 15.5。正文不淡入淡出，标题不跟滚动缩放。

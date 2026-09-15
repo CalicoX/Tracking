@@ -17,45 +17,59 @@ export default function FeaturesSection() {
     if (!root) return undefined;
 
     function fitAll() {
+      const inner = root.querySelector(".section-inner") || root;
+      const col = root.querySelector(".feature-panels-col");
       const panels = root.querySelectorAll(".feature-panel[data-feature]");
       panels.forEach((panel) => {
         const idx = parseInt(panel.getAttribute("data-feature"), 10);
         const dim = SCENE_DIMS[idx] || { w: 540, h: 440 };
-        const visual = panel.querySelector(".feature-visual") || panel;
-        const availW = visual.clientWidth || root.clientWidth || (window.innerWidth - 32);
-        const targetW = Math.max(120, availW - 8);
-        const s = Math.min(1, targetW / dim.w);
-        const scaledH = Math.round(dim.h * s);
-
-        panel.style.setProperty("--fx-scale", s.toFixed(4));
-        panel.style.setProperty("--fx-design-w", `${dim.w}px`);
-        panel.style.setProperty("--fx-design-h", `${dim.h}px`);
-        panel.style.setProperty("--fx-scaled-h", `${scaledH}px`);
-
-        if (visual) {
-          visual.style.setProperty("--fx-scale", s.toFixed(4));
-          visual.style.setProperty("--fx-design-w", `${dim.w}px`);
-          visual.style.setProperty("--fx-design-h", `${dim.h}px`);
-          visual.style.setProperty("--fx-scaled-h", `${scaledH}px`);
-        }
-
+        const visual = panel.querySelector(".feature-visual");
         const stage = panel.querySelector(".feature-stage");
-        if (stage) {
-          stage.style.setProperty("--fx-scale", s.toFixed(4));
-          stage.style.setProperty("--fx-design-w", `${dim.w}px`);
-          stage.style.setProperty("--fx-design-h", `${dim.h}px`);
-          stage.style.setProperty("--fx-scaled-h", `${scaledH}px`);
+        const mock = panel.querySelector(".fx-mock");
+        if (!visual || !mock) return;
+
+        const padX = (() => {
+          const cs = getComputedStyle(visual);
+          return (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+        })();
+        let availW = (stage && stage.clientWidth) || (visual.clientWidth - padX);
+        if (!availW) {
+          availW = (col && col.clientWidth) || inner.clientWidth || (window.innerWidth - 32);
         }
+        availW = Math.max(120, availW);
+
+        const scene = mock.firstElementChild;
+        const natW = dim.w;
+        const natH = Math.max(
+          dim.h,
+          scene ? Math.max(scene.scrollHeight, scene.offsetHeight) : 0,
+          mock.scrollHeight
+        );
+        const s = Math.min(1, availW / natW);
+        const scaledH = Math.round(natH * s);
+        const left = Math.max(0, (availW - natW * s) / 2);
+
+        [panel, visual, stage, mock].forEach((el) => {
+          if (!el) return;
+          el.style.setProperty("--fx-scale", s.toFixed(4));
+          el.style.setProperty("--fx-design-w", `${natW}px`);
+          el.style.setProperty("--fx-design-h", `${natH}px`);
+          el.style.setProperty("--fx-scaled-h", `${scaledH}px`);
+          el.style.setProperty("--fx-left", `${left.toFixed(1)}px`);
+        });
       });
     }
 
     fitAll();
     window.addEventListener("resize", fitAll);
+    window.addEventListener("load", fitAll);
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(fitAll) : null;
     ro?.observe(root);
+    root.querySelectorAll(".feature-visual").forEach((el) => ro?.observe(el));
 
     return () => {
       window.removeEventListener("resize", fitAll);
+      window.removeEventListener("load", fitAll);
       ro?.disconnect();
     };
   }, []);
