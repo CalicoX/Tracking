@@ -244,7 +244,7 @@ export default function FeaturesSection() {
                                   <em>1-tap checkout</em>
                                 </span>
                               </div>
-                              {/* 推荐：购物车下方 1 个商品，图左文右 */}
+                              {/* 推荐：1 张卡，压在购物车右下（左右叠、一上一下） */}
                               <div className="fx-cv-recs">
                                 <h4>Recommended For You</h4>
                                 <p className="fx-cv-recs-sub">You might also like</p>

@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-15（Conversion：购物车和 1 张推荐卡上下叠）
+最后更新：2026-09-15（Conversion：购物车和推荐卡左右错开、一上一下叠在一起）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -153,13 +153,11 @@
 
 ## Features 第 4 块插图（Conversion & Loyalty）
 
-- **来源**：Park「这个模块，参考文案，进行重新绘制」→ 后来「不要图标方块，要用实物图；Cart 照真实 Shopify cart 样式」→ 09-11 一度三张竖卡左右排 → 09-14 只要 1 个 product → **09-15 Park 看左右排截图：「最好上下叠一下」**。
-- **现在的结构（上下叠）**：`.fx-cv-scene` 是 flex **column**、`max-width: 400px`、gap 10。桌面左右排（购物车 | 推荐卡）已否。
-  - **上** `.fx-glass.fx-cv-card` = Your cart / Continue shopping / 商品行（`tips.jpg` + Wireless Earbuds Pro）/ AI estimate / Subtotal / Check out + 1-tap checkout。
-  - **下** `.fx-cv-recs`（不是卡）：`Recommended For You` → **只 1 张商品卡** Sport Ear Tips / `$19.00` / `earbuds.jpg` → `16% Higher repurchase rate`。副标 `You might also like` DOM 留着、CSS `display:none`（舞台 overflow:hidden，副标会把底裁掉）。
-  - **桌面商品卡**：大图在上 104px + 名称/价格 + Add to Cart / Buy Now 同一行。
-  - **≤1024**：舞台约 547 高，推荐卡改图左文右 88×88，避免裁底。
-- **不要把推荐改回 3 张竖卡，也不要桌面左右排 cart | rec。**
+- **来源**：Park「只要 1 个 product」→ 我说成并排两列 / 又说成上下分开排，都被否。**09-15 原话：「左右叠在一起，一上一下」** = 跟 Branded 一样：两张卡错开重叠，购物车在上、推荐卡压在右下。
+- **现在的结构**：`.fx-cv-scene` `width: max-content`。购物车 360 在上（z 2）。推荐卡 248 是一张白卡（标题+图+按钮+16%），`margin: -92px 0 0 176px`（z 3）压住购物车右下。只 1 个商品 Sport Ear Tips / `earbuds.jpg`。副标 `You might also like` CSS `display:none`。
+- **≤1024**：购物车 300 / 推荐 208 / `margin: -100px 0 0 118px`（768 舞台约 340 宽，再宽会裁）。
+- **≤640**：购物车 280 / 推荐 196 / `margin: -56px 0 0 108px`，仍然叠，不要改回上下分开。
+- **不要** 三张竖卡、不要两列并排中间留缝、不要 gap 拉开的上下堆叠。
 - **坑（同邮件卡）**：卡里的 `span` / `strong` 规则必须带 `.fx-cv-scene` 前缀，否则被 `.fx-glass span, .fx-glass p, .fx-glass strong` 按特异性抢掉字号和 margin。
 - **投影**：购物车卡用 `.feature-stage[data-theme="conversion"] .fx-cv-card`；商品卡写在 `.fx-cv-recs-list li` 上。投影值 `0 2px 5px rgba(15,23,42,.05), 0 24px 52px -16px rgba(15,23,42,.3)`。
 - **实拍图**：`tips.jpg`（购物车）、`earbuds.jpg`（推荐）。`case.jpg` 暖红调，**这轮不用、别再放大用**。
@@ -204,7 +202,7 @@
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
 - 不要给 Features 第 4 块（Conversion & Loyalty）换回静态占位卡，也不要用色块图标代替商品实拍（Park：缺实物图；Cart 照真实 UI）。
-- 不要把 Conversion 推荐改回 3 张竖卡 / 三列，也不要桌面左右排 cart | rec（Park 09-15：上下叠，只 1 个 product）。
+- 不要把 Conversion 做成两列并排或上下分开排（Park 09-15：「左右叠在一起，一上一下」= 购物车在上、1 张推荐卡压在右下）。
 - 不要给推荐卡用 `case.jpg`（暖红调，Park 说过别放大用；现用 `earbuds.jpg`）。
 - **不要把 Create flow 退回「一张 268px 小卡压在邮件右下角」**（Park 09-11 看图否掉：布局不合理）。现在是左右排 + 单面板，见上面「Features 邮件插图」。
 - **不要再把 Create flow 拆成两张卡**（Park 09-11「合并为一个面板」，拆卡方案已否）。
