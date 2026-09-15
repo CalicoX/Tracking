@@ -51,7 +51,7 @@ export default function ImpactBand() {
           <div className="impact-curve" aria-hidden="true">
             <div className="impact-curve-grow">
               {/* single line + under-curve fill only (no outer glow stroke) */}
-              <svg viewBox="0 0 1440 560" preserveAspectRatio="none">
+              <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
                 <defs>
                   <linearGradient id="impact-curve-grad" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.55"/>
@@ -71,20 +71,18 @@ export default function ImpactBand() {
                 </defs>
                 <path
                   className="curve-fill"
-                  d="M-40,520
-                     C140,518 280,505 400,460
-                     C540,400 640,320 760,230
-                     C880,140 1000,100 1140,78
-                     C1260,58 1360,52 1520,56
-                     L1520,560 L-40,560 Z"
+                  d="M-60,882
+                     C280,880 620,850 860,720
+                     C1080,560 1220,220 1380,-40
+                     C1460,-160 1540,-300 1640,-460
+                     L1640,900 L-60,900 Z"
                 />
                 <path
                   className="curve-line"
-                  d="M-40,520
-                     C140,518 280,505 400,460
-                     C540,400 640,320 760,230
-                     C880,140 1000,100 1140,78
-                     C1260,58 1360,52 1520,56"
+                  d="M-60,882
+                     C280,880 620,850 860,720
+                     C1080,560 1220,220 1380,-40
+                     C1460,-160 1540,-300 1640,-460"
                 />
               </svg>
             </div>

@@ -149,6 +149,10 @@ describe("React landing structure (gating)", () => {
     expect(features).toMatch(/Package #1/);
     expect(features).toMatch(/Package #2/);
     expect(features).not.toMatch(/Package #3/);
+    const impactJsx = read("components/sections/ImpactBand.jsx");
+    expect(impactJsx).toMatch(/viewBox="0 0 1440 900"/);
+    expect(impactJsx).toMatch(/C280,880 620,850 860,720/);
+    expect(impactJsx).not.toMatch(/M-40,520/);
     expect(features).toMatch(/HeroTrackingMock/);
     expect(features).toMatch(/fx-hero-page/);
     expect(features).toMatch(/shadowPad = 72/);

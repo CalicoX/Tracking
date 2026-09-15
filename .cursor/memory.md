@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-15（Features 插图投影垫 72；hero-page 不用 64/100 大影）
+最后更新：2026-09-15（Impact 增长曲线改指数形：左贴底、右冲出视口顶）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -41,7 +41,7 @@
 
 - 粒子地球（undertones）手机也要显示：挂载和模块只按 prefers-reduced-motion 跳过，不看 `shouldReduceFx`；手机 DPR 上限 1.5。
 - TrustBand：不要跑马灯。文案+logo 整块居中。12 家静态两排各 6（桌面）。**≤680 改 3 行 × 4（2026-08-28 Park）**：`.logos-track` 变 `repeat(4,1fr)` grid、`.logos-row` display:contents，DOM 不动。不能放 ≤768 块（structure.test 断言 block768 无 `.logos-track`）。**returns 的 `returns-page.css` 有 `.returns-page .logos-row` 壳，特异性更高，≤680 必须在壳里再写一遍**，否则 landing.css 的改动不生效。三站已同步。默认 18px；AliExpress/Baleaf **22px**；Cainiao/eufy **26px**；SHARGE/totwoo/Vaporesso/GOELIA 24px。行距 36px，列距 **72px**（Park：圈出的几个偏小，48px 间距还不够）。灰色 grayscale + opacity 0.62。eufy 源是中蓝，0.62 会洗白，单独 **opacity 0.88**。禁止 brightness(0)。
-- 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤980 190px / ≤768 280px / ≤480 **200px**、`z-index:2`（盖过地板 veil）。stats `z-index:4` 所以数字仍在线上面。≤480 不要 120px + z-index:1（曲线会消失）。sticky `overflow:hidden` + padding-bottom 188px。
+- 增长曲线手机/平板显示，但高度必须用 px 不用 vh：≤1024 190px / ≤768 280px / ≤640 **200px**、`z-index:2`（盖过地板 veil），这三档都要 `top: auto`（桌面是 top:0 铺满 sticky，漏接会盖住数字）。**形状（09-15 Park 红线）**：指数/曲棍球棒——左半贴底、右半陡升冲出视口顶右，不要旧的缓 S 在 y=56 收平。桌面 `.impact-curve` 铺满 sticky（viewBox 1440×900，终点负 y）；sticky `overflow:hidden` 在顶边裁掉即「飞出屏幕」。
 - 数据区手机 2×2：≤480 也是 `1fr 1fr`，metric 缩到 clamp(22px, 6.5vw, 28px)。
 
 ## AI intro → work 过渡（2026-09-09）
