@@ -156,7 +156,7 @@ export default function FeaturesSection() {
                       </div>
                     </div>
                   </article>
-                  {/* 2 · Split-order management — split email + Package #1/#2/#3 card */}
+                  {/* 2 · Split-order：一封邮件 + 一个查询页（邮件压在查询页左上） */}
                   <article className="feature-panel" data-feature="2" id="feature-panel-2" role="tabpanel" aria-labelledby="feature-tab-2">
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="split" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
@@ -175,28 +175,54 @@ export default function FeaturesSection() {
                                 <p className="fx-lm-mail-subject">Split into 2 packages</p>
                                 <p className="fx-lm-mail-body">Package #1 shipped today. Package #2 is still being packed.</p>
                               </div>
-                              <div className="fx-glass fx-so-card">
-                                <div className="fx-so-tabs">
-                                  <span className="is-on">Package #1</span>
-                                  <span>Package #2</span>
-                                  <span>Package #3</span>
-                                </div>
-                                <div className="fx-so-head">
-                                  <div>
-                                    <p className="fx-so-kicker">Your order is in transit</p>
-                                    <p className="fx-so-dates">Mar 23 – Mar 30</p>
-                                    <p className="fx-so-eta">Estimated time of arrival</p>
+                              <div className="fx-so-page">
+                                <div className="browser">
+                                  <div className="browser-top">
+                                    <span className="dot"></span>
+                                    <span className="dot"></span>
+                                    <span className="dot"></span>
+                                    <span className="browser-url">
+                                      <svg className="browser-url-lock" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2.5" y="5.5" width="7" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.1"/><path d="M4 5.5V4a2 2 0 014 0v1.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/></svg>
+                                      ogl.com/track
+                                    </span>
+                                    <span className="browser-top-actions" aria-hidden="true"><i></i><i></i></span>
                                   </div>
-                                  <p className="fx-so-status">In Transit</p>
-                                </div>
-                                <div className="fx-so-track">
-                                  <i></i><i></i><i className="is-now"><svg viewBox="0 0 12 12"><path d="M2.4 6.2 4.7 8.5 9.6 3.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></i><i></i><i></i>
+                                  <div className="fx-so-page-body">
+                                    <div className="fx-so-page-bar">
+                                      <span className="fx-so-page-logo">OGL</span>
+                                      <span className="fx-so-page-order">#OGL-28491</span>
+                                    </div>
+                                    <label className="fx-so-page-field">
+                                      Order number or tracking number
+                                      <span>OGL-28491</span>
+                                    </label>
+                                    <p className="fx-so-page-lead">2 packages in this order</p>
+                                    <ul className="fx-so-pkgs">
+                                      <li className="is-on">
+                                        <div className="fx-so-pkg-top">
+                                          <strong>Package #1</strong>
+                                          <em>In Transit</em>
+                                        </div>
+                                        <span>USPS · Arrives Mar 23 – Mar 30</span>
+                                        <div className="fx-so-track">
+                                          <i></i><i></i><i className="is-now"><svg viewBox="0 0 12 12"><path d="M2.4 6.2 4.7 8.5 9.6 3.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></i><i></i><i></i>
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <div className="fx-so-pkg-top">
+                                          <strong>Package #2</strong>
+                                          <em>Packed</em>
+                                        </div>
+                                        <span>Preparing to ship</span>
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-</div>
+                      </div>
                     </div>
                   </article>
                   {/* 3 · Conversion & Loyalty — 结账卡（AI 预购 EDD + 一键结账）+ 推荐卡（智能推荐 / 再触达 / 复购率） */}

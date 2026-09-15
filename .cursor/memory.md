@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-15（Conversion：购物车和推荐卡左右错开、一上一下叠在一起）
+最后更新：2026-09-15（Split-Order 插图：一封邮件 + 一个查询页）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -148,7 +148,7 @@
 - 插图**不要 iso 滚动动画**（Park：去掉，直接平铺）。`--fx-iso: 0`。Last-mile 结束位：邮件 / 卡 / logo 分开，电话在右侧，padding-bottom 12px。
 - Split / Branded 同样平铺，垂直居中。点击切 tab 约 1.25s 只切面板，不播 3D。
 - Last-mile / Split / Branded 插图整组 max-width **540px**，在右栏里水平居中（Park：居中。不要贴右沿）。不要撑满右栏。
-- Split-order：跟 last-mile 同一套竖叠。邮件在上，追踪卡在下。In Transit 放在日期右侧。不要右侧浮卡，不要主卡底部再列 Package 行。
+- Split-order（09-15 Park：应该是一封邮件一个查询页）：不要再做成「邮件 + 大日期状态卡 + Package tab」。现在是 `.fx-so-mail` 压在 `.fx-so-page` 左上（浏览器框 ogl.com/track + 查询框 + 两票包裹）。邮件 `margin-bottom:-56px`，查询页 `margin-left:72px`。页里 Package #1 In Transit / Package #2 Packed，不要三张 tab、不要巨型 Mar 23–Mar 30 当主视觉。
 - Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。桌面推荐卡叠表单右沿 -24px + 色盘 -10px。表单按左边三条补内容：顶品牌条 AURA（身份）+ 色点；Track 下「On the way」自助状态（减客服）；「Visit store」（回访）；推荐卡副标 Second look。不要再只剩空表单。768 仍是叠法，只把三件缩小；不要把表单拉满、不要把推荐卡盖住 Track。≤480 **也要左右叠**：表单 208px、推荐卡 128px `margin-left:-22px`、色盘 40px `-8px`。不要改成上表单下推荐。3D 仍关掉。
 
 ## Features 第 4 块插图（Conversion & Loyalty）

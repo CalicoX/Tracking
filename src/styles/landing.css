@@ -4559,6 +4559,13 @@
       margin-right: auto;
       transform-style: preserve-3d;
     }
+    .fx-so-cluster {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      gap: 0;
+      transform-style: flat;
+    }
     .fx-br-stage {
       position: relative;
       display: flex;
@@ -5367,113 +5374,148 @@
       }
     }
 
-    /* Split-order — mail above, tracking card below (same stack as last-mile) */
-    .fx-so-mail,
-    .fx-so-card {
-      color: #0f172a;
-      background: #fff;
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      box-shadow: none;
-    }
-    .fx-so-card {
-      position: relative;
-      width: 100%;
-      max-width: none;
-      height: auto;
-      min-height: 0;
-      min-width: 0;
-      flex: 0 0 auto;
-      overflow: visible;
-      padding: 22px 22px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      justify-content: flex-start;
-      gap: 4px;
-      text-align: left;
-      transform-style: preserve-3d;
-      --ox: -28px;
-      --oy: 20px;
-    }
+    /* Split-order — 一封邮件压在查询页左上（左右叠、一上一下） */
     .fx-so-mail {
       position: relative;
       left: auto;
       top: auto;
-      width: 100%;
+      z-index: 4;
+      width: 292px;
+      margin: 0 0 -56px;
       padding: 0;
       overflow: hidden;
-      margin: 0;
-      z-index: 4;
-      --ox: -24px;
-      --oy: -18px;
+      color: #0f172a;
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 16px;
+      box-shadow:
+        0 2px 5px rgba(15, 23, 42, 0.05),
+        0 24px 52px -16px rgba(15, 23, 42, 0.3);
     }
-    .fx-so-mail strong {
-      display: block;
+    .feature-stage[data-theme="split"] .fx-so-mail {
+      background: #fff;
+      opacity: 1;
+      transform: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+    .fx-so-page {
+      position: relative;
+      z-index: 1;
+      width: 420px;
+      max-width: 100%;
+      margin-left: 72px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow:
+        0 2px 5px rgba(15, 23, 42, 0.05),
+        0 24px 52px -16px rgba(15, 23, 42, 0.3);
+    }
+    .fx-so-page .browser {
+      max-width: none;
+      border-radius: 18px;
+      box-shadow: none;
+    }
+    .fx-so-page-body {
+      padding: 14px 14px 16px;
+      background: #fff;
+      color: #0f172a;
+    }
+    .fx-so-page-bar {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 0 0 12px;
+    }
+    .fx-so-page-logo {
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      color: #0f172a;
+    }
+    .fx-so-page-order {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+    }
+    .fx-so-page-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin: 0 0 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+    }
+    .fx-so-page-field span {
+      display: flex;
+      align-items: center;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: #f8fafc;
+      font-size: 13px;
+      font-weight: 650;
+      color: #0f172a;
+    }
+    .fx-so-page-lead {
+      margin: 0 0 8px;
+      font-size: 12.5px;
+      font-weight: 650;
+      color: #334155;
+    }
+    .fx-so-pkgs {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+    .fx-so-pkgs li {
+      margin: 0;
+      padding: 10px 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: #f8fafc;
+    }
+    .fx-so-pkgs li.is-on {
+      background: #fff;
+      border-color: rgba(37, 99, 235, 0.22);
+    }
+    .fx-so-pkg-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .fx-so-pkgs strong {
       font-size: 13px;
       font-weight: 700;
       color: #0f172a;
     }
-    .fx-so-mail span:last-child {
-      margin-top: 3px;
-      font-size: 11px;
-      line-height: 1.4;
-      color: #64748b;
-    }
-    .fx-so-tabs {
-      display: flex;
-      gap: 8px;
-      width: auto;
-      max-width: 100%;
-      overflow: hidden;
-    }
-    .fx-so-tabs span {
-      display: inline-flex;
-      flex: 0 0 auto;
-      margin: 0;
-      padding: 7px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(15, 23, 42, 0.1);
+    .fx-so-pkgs em {
+      font-style: normal;
       font-size: 12px;
-      font-weight: 600;
-      color: #64748b;
-      background: #f8fafc;
+      font-weight: 700;
+      color: #2563eb;
     }
-    .fx-so-tabs span.is-on {
-      color: #1d4ed8;
-      border-color: rgba(37, 99, 235, 0.28);
-      background: #eef4ff;
-    }
-    .fx-so-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 12px 0 0;
-    }
-    .fx-so-card .fx-so-kicker {
-      margin: 0;
-      font-size: 13px;
+    .fx-so-pkgs li:not(.is-on) em {
       color: #64748b;
     }
-    .fx-so-card .fx-so-dates {
-      margin: 8px 0 0;
-      font-size: clamp(20px, 2.1vw, 26px);
-      font-weight: 750;
-      letter-spacing: -0.035em;
-      color: #0f172a;
-      line-height: 1.1;
-    }
-    .fx-so-card .fx-so-eta {
-      margin: 8px 0 0;
-      font-size: 12.5px;
-      color: #94a3b8;
+    .fx-so-pkgs li > span {
+      display: block;
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #64748b;
     }
     .fx-so-track {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      margin: 18px 0 0;
+      margin: 10px 0 0;
       position: relative;
     }
     .fx-so-track::before {
@@ -5487,8 +5529,8 @@
     .fx-so-track i {
       position: relative;
       z-index: 1;
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       margin: 0;
       border-radius: 50%;
       border: 2px solid #94a3b8;
@@ -5496,46 +5538,18 @@
       box-sizing: border-box;
     }
     .fx-so-track i.is-now {
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       border: 0;
       background: #2563eb;
       color: #fff;
       display: grid;
       place-items: center;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
     }
     .fx-so-track i.is-now svg {
-      width: 12px;
-      height: 12px;
-    }
-    .fx-so-card .fx-so-status {
-      margin: 0 0 2px;
-      flex: 0 0 auto;
-      font-size: 15px;
-      font-weight: 700;
-      color: #2563eb;
-    }
-    .feature-stage[data-theme="split"] .fx-glass {
-      opacity: 1;
-      box-shadow:
-        0 1px 2px rgba(15, 23, 42, 0.04),
-        0 calc(16px * var(--fx-iso, 0)) calc(36px * var(--fx-iso, 0))
-          rgba(15, 23, 42, calc(0.045 * var(--fx-iso, 0)));
-    }
-    .feature-stage[data-theme="split"] .fx-so-mail {
-      transform: translate3d(
-        0,
-        calc((32px - 52px * var(--fx-spread, 0)) * var(--fx-iso, 0)),
-        calc((18px + 86px * var(--fx-spread, 0)) * var(--fx-iso, 0))
-      );
-    }
-    .feature-stage[data-theme="split"] .fx-so-card {
-      transform: translate3d(
-        0,
-        0,
-        calc((14px + 22px * var(--fx-spread, 0)) * var(--fx-iso, 0))
-      );
+      width: 10px;
+      height: 10px;
     }
 
     /* Branded — form is the main, recs + wheel overlap like last-mile phone */
@@ -5942,7 +5956,7 @@
       .feature-stage[data-theme="lastmile"] .fx-em-letter,
       .feature-stage[data-theme="lastmile"] .fx-em-flow-card,
       .feature-stage[data-theme="split"] .fx-so-mail,
-      .feature-stage[data-theme="split"] .fx-so-card,
+      .feature-stage[data-theme="split"] .fx-so-page,
       .feature-stage[data-theme="branded"] .fx-br-form,
       .feature-stage[data-theme="branded"] .fx-br-recs,
       .feature-stage[data-theme="branded"] .fx-br-wheel,
@@ -5961,10 +5975,13 @@
         margin-right: 0;
         justify-content: flex-start;
       }
-      .fx-so-card {
-        width: auto;
-        flex: 1 1 auto;
-        padding: 14px 14px 16px;
+      .fx-so-mail {
+        width: 240px;
+        margin-bottom: -40px;
+      }
+      .fx-so-page {
+        width: 300px;
+        margin-left: 40px;
       }
       .fx-br-stage {
         width: max-content;
@@ -6088,11 +6105,9 @@
         top: auto;
         border-radius: 12px;
       }
-      .fx-so-card {
-        width: 100%;
-        min-height: 0;
-        height: auto;
-        padding: 14px 14px 16px;
+      .fx-so-page {
+        width: 300px;
+        margin-left: 40px;
       }
       .feature-stage-copy {
         transform: none;
@@ -12003,9 +12018,16 @@
         gap: 24px 32px;
       }
       .fx-lm-cluster,
-      .fx-so-cluster,
       .fx-em-scene {
         max-width: 400px;
+      }
+      .fx-so-mail {
+        width: 260px;
+        margin-bottom: -48px;
+      }
+      .fx-so-page {
+        width: 340px;
+        margin-left: 48px;
       }
       .fx-br-stage {
         max-width: min(540px, 100%);
@@ -12543,6 +12565,14 @@
       .fx-em-scene {
         max-width: 400px;
       }
+      .fx-so-mail {
+        width: 240px;
+        margin-bottom: -40px;
+      }
+      .fx-so-page {
+        width: 300px;
+        margin-left: 40px;
+      }
       .fx-br-stage {
         width: max-content;
         max-width: 100%;
@@ -12954,17 +12984,20 @@
       .feature-list .feature[data-feature="2"] {
         margin-bottom: 0;
       }
-      .fx-lm-cluster,
-      .fx-so-cluster {
+      .fx-lm-cluster {
         gap: 10px;
         max-width: 100%;
       }
-      .fx-so-tabs {
-        flex-wrap: wrap;
+      .fx-so-cluster {
+        max-width: 100%;
       }
-      .fx-so-tabs span {
-        padding: 6px 10px;
-        font-size: 11px;
+      .fx-so-mail {
+        width: 228px;
+        margin-bottom: -36px;
+      }
+      .fx-so-page {
+        width: 280px;
+        margin-left: 36px;
       }
       .fx-lm-phone {
         position: absolute;
