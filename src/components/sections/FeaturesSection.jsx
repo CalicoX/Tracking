@@ -273,7 +273,6 @@ export default function FeaturesSection() {
                                     <div className="fx-so-tabs">
                                       <span className="is-on">Package #1</span>
                                       <span>Package #2</span>
-                                      <span>Package #3</span>
                                     </div>
                                     <div className="os-status">
                                       <h3>Your order is in transit.</h3>
