@@ -3744,7 +3744,7 @@
       position: relative;
       width: 100%;
       max-width: 100%;
-      height: calc(var(--fx-scaled-h, 100%) + 2 * var(--fx-shadow-pad, 40px));
+      height: calc(var(--fx-scaled-h, 100%) + 2 * var(--fx-shadow-pad, 72px));
       overflow: hidden;
       display: block;
     }
@@ -3758,7 +3758,7 @@
     .feature-panel .fx-mock {
       position: absolute;
       left: var(--fx-left, 0px);
-      top: var(--fx-shadow-pad, 40px);
+      top: var(--fx-shadow-pad, 72px);
       flex: 0 0 auto;
       width: var(--fx-design-w, 540px);
       height: var(--fx-design-h, 440px);
@@ -4632,6 +4632,11 @@
     }
     .fx-hero-page .browser {
       max-width: none;
+      /* 不要用 hero 那组 64/100 大影：槽垫只有 72，会被 .feature-stage overflow 裁成硬边 */
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.85) inset,
+        0 2px 5px rgba(15, 23, 42, 0.05),
+        0 24px 52px -16px rgba(15, 23, 42, 0.3);
     }
     .fx-hero-page .os-look {
       display: none;
@@ -12698,8 +12703,8 @@
         padding: 4px 0 12px;
       }
       .feature-panel .feature-stage {
-        height: calc(var(--fx-scaled-h, 320px) + 2 * var(--fx-shadow-pad, 40px));
-        min-height: calc(var(--fx-scaled-h, 0px) + 2 * var(--fx-shadow-pad, 40px));
+        height: calc(var(--fx-scaled-h, 320px) + 2 * var(--fx-shadow-pad, 72px));
+        min-height: calc(var(--fx-scaled-h, 0px) + 2 * var(--fx-shadow-pad, 72px));
         max-height: none;
         width: 100%;
         max-width: 100%;
@@ -12718,7 +12723,7 @@
       .feature-panel .feature-stage .fx-mock {
         position: absolute;
         left: var(--fx-left, 0px);
-        top: var(--fx-shadow-pad, 40px);
+        top: var(--fx-shadow-pad, 72px);
         width: var(--fx-design-w, 540px);
         height: var(--fx-design-h, 440px);
         max-width: none;

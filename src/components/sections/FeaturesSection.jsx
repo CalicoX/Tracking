@@ -45,8 +45,12 @@ export default function FeaturesSection() {
           scene ? Math.max(scene.scrollHeight, scene.offsetHeight) : 0,
           mock.scrollHeight
         );
-        const shadowPad = 40;
-        const s = Math.min(1, Math.max(0.12, (availW - 2 * shadowPad) / natW));
+        const shadowPad = 72;
+        let s = Math.min(1, Math.max(0.12, (availW - 2 * shadowPad) / natW));
+        const availH = (visual && visual.clientHeight) || 0;
+        if (availH > 2 * shadowPad + 80) {
+          s = Math.min(s, Math.max(0.12, (availH - 2 * shadowPad) / natH));
+        }
         const scaledH = Math.round(natH * s);
         const left = (availW - natW * s) / 2;
 

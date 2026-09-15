@@ -151,6 +151,10 @@ describe("React landing structure (gating)", () => {
     expect(features).not.toMatch(/Package #3/);
     expect(features).toMatch(/HeroTrackingMock/);
     expect(features).toMatch(/fx-hero-page/);
+    expect(features).toMatch(/shadowPad = 72/);
+    const featCss = read("styles/landing.css");
+    expect(featCss).toMatch(/\.fx-hero-page \.browser[\s\S]{0,280}0 24px 52px -16px/);
+    expect(featCss).not.toMatch(/\.fx-hero-page \.browser[\s\S]{0,400}64px 100px/);
     expect(features).not.toMatch(/fx-br-brand/);
     const impact = read("components/sections/ImpactBand.jsx");
     expect(impact).toMatch(/business-impact|data-impact/);

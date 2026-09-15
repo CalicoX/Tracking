@@ -317,8 +317,12 @@ export function mount() {
             scene ? Math.max(scene.scrollHeight, scene.offsetHeight) : 0,
             mock.scrollHeight
           );
-          var shadowPad = 40;
+          var shadowPad = 72;
           var s = Math.min(1, Math.max(0.12, (availW - 2 * shadowPad) / natW));
+          var availH = (visual && visual.clientHeight) || 0;
+          if (availH > 2 * shadowPad + 80) {
+            s = Math.min(s, Math.max(0.12, (availH - 2 * shadowPad) / natH));
+          }
           var scaledH = Math.round(natH * s);
           var left = (availW - natW * s) / 2;
           [panel, visual, stage, mock].forEach(function (el) {
