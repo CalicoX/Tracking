@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-15（Features 四大插图裁切修复：槽宽=栏宽、origin 左上、实量高度）
+最后更新：2026-09-15（Split-Order 左右叠，邮件下层，整组横向居中）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -150,8 +150,9 @@
 - Split / Branded 同样平铺，垂直居中。点击切 tab 约 1.25s 只切面板，不播 3D。
 - Last-mile / Split / Branded 插图整组 max-width **540px**，在右栏里水平居中（Park：居中。不要贴右沿）。不要撑满右栏。
 - Split-order（09-15 Park：一封邮件一个查询页；邮件「是这样的」= 品牌信那套、**没有单号**；查询页 = 首屏状态卡 + **3 个 Package tab**）。
-  - 邮件：复用 `.fx-em-letter`（紫 A 头像 / From·to / 居中标题 / Hi Sam / Track order / Carrier+phone）。**不要 Tracking number 行，不要 17TRACK notify 小信封。** 标题 `Your order has been split into 2 packages.` 压在查询页左上。
-  - 查询页：浏览器框 ogl.com/track + Package #1/#2/#3 tab + `.os-status`（图标进度 / USPS / 事件列表，跟 Hero 追踪页同一套）。Package #1 = In Transit，后两个节点灰。不要查询输入框、不要两张包裹小卡。
+  - **构图（09-15 改）**：**左右叠**，邮件 **下层**（z 1），查询页压右沿（z 3，`margin-left: -56px`），整组 `flex` + 横向居中。不要邮件压在查询页正上方。设计宽 736。
+  - 邮件：复用 `.fx-em-letter`（紫 A 头像 / From·to / 居中标题 / Hi Sam / Track order / Carrier+phone）。**不要 Tracking number 行，不要 17TRACK notify 小信封。** 标题 `Your order has been split into 2 packages.`
+  - 查询页：浏览器框 ogl.com/track + Package #1/#2/#3 tab + `.os-status`。Package #1 = In Transit，后两个节点灰。不要查询输入框、不要两张包裹小卡。
 - Branded：表单+推荐卡+色盘，整组 max-width 540px、右栏水平+垂直居中。桌面推荐卡叠表单右沿 -24px + 色盘 -10px。表单按左边三条补内容：顶品牌条 AURA（身份）+ 色点；Track 下「On the way」自助状态（减客服）；「Visit store」（回访）；推荐卡副标 Second look。不要再只剩空表单。768 仍是叠法，只把三件缩小；不要把表单拉满、不要把推荐卡盖住 Track。≤480 **也要左右叠**：表单 208px、推荐卡 128px `margin-left:-22px`、色盘 40px `-8px`。不要改成上表单下推荐。3D 仍关掉。
 
 ## Features 第 4 块插图（Conversion & Loyalty）

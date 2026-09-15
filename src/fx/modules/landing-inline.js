@@ -291,7 +291,7 @@ export function mount() {
       var SCENE_DIMS = [
         { w: 540, h: 440 }, /* Tab 0: Branded Tracking Page */
         { w: 660, h: 490 }, /* Tab 1: Branded Email (Letter + Flow) */
-        { w: 540, h: 470 }, /* Tab 2: Split-Order (Mail + Browser) */
+        { w: 736, h: 500 }, /* Tab 2: Split-Order 左右叠，邮件下层 */
         { w: 440, h: 440 }  /* Tab 3: Conversion & Loyalty (Cart + Recs) */
       ];
 

@@ -4,7 +4,7 @@ import HeroTrackingMock from "../HeroTrackingMock.jsx";
 const SCENE_DIMS = [
   { w: 540, h: 440 }, // 0: Branded Tracking Page
   { w: 660, h: 490 }, // 1: Branded Email Notification
-  { w: 540, h: 470 }, // 2: Split-Order Management
+  { w: 736, h: 500 }, // 2: Split-Order（左右叠，邮件下层）
   { w: 440, h: 440 }, // 3: Conversion & Loyalty
 ];
 
@@ -228,7 +228,7 @@ export default function FeaturesSection() {
                       </div>
                     </div>
                   </article>
-                  {/* 2 · Split-order：一封邮件 + 一个查询页（邮件压在查询页左上） */}
+                  {/* 2 · Split-order：左右叠，邮件在下层，查询页压右沿，整组横向居中 */}
                   <article className="feature-panel" data-feature="2" id="feature-panel-2" role="tabpanel" aria-labelledby="feature-tab-2">
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="split" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
