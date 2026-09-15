@@ -418,6 +418,9 @@ describe("React landing structure (gating)", () => {
     expect(inline).not.toMatch(/setTilt/);
     expect(css).toMatch(/returns-ui-photo/);
     expect(css).toMatch(/backdrop-filter:\s*blur/);
+    // Features 叠层毛玻璃：居中面板不能挂 filter:blur(0)/will-change:filter
+    expect(css).toMatch(/\.feature-panel\.is-fp-blur/);
+    expect(inline).toMatch(/is-fp-blur/);
     // Vite 8 lightningcss keeps the last of the pair; -webkit- after standard
     // drops the unprefixed property and Chrome loses glass on Vercel.
     expect(css).not.toMatch(/backdrop-filter:[^;]+;\s*-webkit-backdrop-filter:/);

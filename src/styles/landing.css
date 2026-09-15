@@ -3262,13 +3262,19 @@
       transform: none;
       position: relative;
       z-index: 1;
-      /* progressive blur while scrolling out — driven by --fp-blur / --fp-op */
+      /* progressive blur while scrolling out — driven by --fp-blur / --fp-op.
+         filter: blur(0) 和 will-change: filter 都会建 backdrop root，
+         把面板里叠层卡的 backdrop-filter 掐死（毛玻璃变实心白）。
+         默认 filter:none；只有真正离场时才加 .is-fp-blur。 */
       --fp-blur: 0px;
       --fp-op: 1;
-      filter: blur(var(--fp-blur));
+      filter: none;
       opacity: var(--fp-op);
-      will-change: filter, opacity;
+      will-change: auto;
       transition: none;
+    }
+    .feature-panel.is-fp-blur {
+      filter: blur(var(--fp-blur));
     }
     .feature-panel.is-active .feature-visual {
       /* no outer shadow — clipped by .feature-panels-col overflow */
@@ -4532,8 +4538,9 @@
       width: 100%;
       height: 100%;
       box-sizing: border-box;
-      transform-style: preserve-3d;
-      will-change: transform;
+      /* iso 已关：preserve-3d / will-change:transform 会让叠层毛玻璃采不到下层 */
+      transform-style: flat;
+      will-change: auto;
     }
     .feature-stage[data-theme="lastmile"] .feature-stage-art {
       place-items: center stretch;
@@ -4581,7 +4588,7 @@
       position: relative;
       margin-left: auto;
       margin-right: auto;
-      transform-style: preserve-3d;
+      transform-style: flat;
     }
     .fx-so-cluster {
       display: flex;
@@ -4606,7 +4613,7 @@
       margin-left: auto;
       margin-right: auto;
       height: auto;
-      transform-style: preserve-3d;
+      transform-style: flat;
     }
     .feature-stage[data-theme="branded"] .fx-mock {
       height: var(--fx-design-h, 440px);

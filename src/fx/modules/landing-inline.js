@@ -344,6 +344,7 @@ export function mount() {
             p.style.height = "";
             p.style.removeProperty("--fp-blur");
             p.style.removeProperty("--fp-op");
+            p.classList.remove("is-fp-blur");
           });
           panelsRoot.style.transform = "";
           travelPx = 1;
@@ -527,7 +528,13 @@ export function mount() {
             blurPx = ease * 16;
             op = 1 - ease * 0.55;
           }
-          panel.style.setProperty("--fp-blur", blurPx.toFixed(2) + "px");
+          if (blurPx > 0.05) {
+            panel.classList.add("is-fp-blur");
+            panel.style.setProperty("--fp-blur", blurPx.toFixed(2) + "px");
+          } else {
+            panel.classList.remove("is-fp-blur");
+            panel.style.removeProperty("--fp-blur");
+          }
           panel.style.setProperty("--fp-op", Math.max(0.35, op).toFixed(3));
 
           /* 1 when centered, 0 when far — panel blur only. Illustrations stay flat. */

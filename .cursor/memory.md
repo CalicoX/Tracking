@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-15（Conversion 改左右叠，推荐卡压购物车右沿）
+最后更新：2026-09-15（Features 叠层毛玻璃：居中面板禁止 filter:blur(0)）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -131,7 +131,7 @@
 ## Features（4 块）
 
 - **四大插图等比例缩放（2026-09-15 Park 定案；同日修裁切）**：全站禁止对 Features 插图在媒体查询中做拆卡或上下堆叠改造。PC 原尺寸排版 + 整组 `transform: scale(var(--fx-scale))`（**不要用独立 `scale` 属性叠在别的 `transform` 上，origin 会被打回中心、顶栏被切**）。`fitAll()` / `updateFeatureScales()` 用 **stage 内容宽 − 2×40 投影垫** ÷ 设计宽；高度按 scene `scrollHeight` 实量。槽：`.feature-stage` `overflow:hidden` + 高 `--fx-scaled-h + 2×--fx-shadow-pad`；`.fx-mock` `left: var(--fx-left); top: var(--fx-shadow-pad); transform-origin: top left`。**投影被切** = 槽贴内容盒、或 `.fx-so-page { overflow:hidden }` 剪自己的 box-shadow。
-- **上层毛玻璃（2026-09-15 Park）**：叠层插图的**上层**一律磨玻璃。Park 说 0.56/22px「不够」——用 `linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,.16))` + `blur(56px) saturate(1.8)`（`-webkit-` 写在前面）。下层实心白。Split = 查询页（含 `.browser-top` 也半透）；Email = Create flow；Conversion = 推荐卡。不要 `filter: drop-shadow`。
+- **上层毛玻璃（2026-09-15 Park）**：叠层插图的**上层**一律磨玻璃。Park 说 0.56/22px「不够」——用 `linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,.16))` + `blur(56px) saturate(1.8)`（`-webkit-` 写在前面）。下层实心白。Split = 查询页（含 `.browser-top` 也半透）；Email = Create flow；Conversion = 推荐卡。不要 `filter: drop-shadow`。**坑（09-15）：`.feature-panel { filter: blur(var(--fp-blur)) }` 即使 `--fp-blur:0px` 也是 backdrop root，Chrome 把面板里叠层卡的 backdrop-filter 采成空，毛玻璃变实心白。居中面板必须 `filter:none` + `will-change:auto`；只有离场才加 `.is-fp-blur`。iso 已关，`.fx-mock` / cluster 不要 `preserve-3d`。**
 - 官方产品页只有 3 块，落地页已对齐，去掉 Proactive notifications。
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
 - 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25（品牌蓝紫渐变），正文 15.5。正文不淡入淡出，标题不跟滚动缩放。
@@ -205,6 +205,7 @@
 - 不要在 375 让 Features 三块标题有的灰有的蓝（Park：颜色不统一）。
 - 不要在 375 用 3D iso 把 Branded 表单和推荐卡画错（会盖住 Track / 正文）。左右轻叠可以，跟 PC 一致。
 - 不要给 Features 第 4 块（Conversion & Loyalty）换回静态占位卡，也不要用色块图标代替商品实拍（Park：缺实物图；Cart 照真实 UI）。
+- 不要给 `.feature-panel` 默认挂 `filter: blur(var(--fp-blur))` 或 `will-change: filter`（blur(0) 也会把叠层毛玻璃掐成实心白；离场用 `.is-fp-blur`）。
 - 不要把 Conversion 做成上下分开排或推荐卡压购物车右下（Park 后改成跟 Split 一样左右叠，推荐卡压右沿）。不要两列中间留缝。
 - 不要给推荐卡用 `case.jpg`（暖红调，Park 说过别放大用；现用 `earbuds.jpg`）。
 - **不要把 Create flow 退回「一张 268px 小卡压在邮件右下角」**（Park 09-11 看图否掉：布局不合理）。现在是左右排 + 单面板，见上面「Features 邮件插图」。
