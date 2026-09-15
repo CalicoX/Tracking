@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-15（Split-Order tab 改成 2 个，跟邮件 2 packages 对齐）
+最后更新：2026-09-15（Features 上层毛玻璃 + 投影垫 40px 防裁切）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -130,7 +130,8 @@
 
 ## Features（4 块）
 
-- **四大插图等比例缩放（2026-09-15 Park 定案；同日修裁切）**：全站禁止对 Features 插图在媒体查询中做拆卡或上下堆叠改造。PC 原尺寸排版 + 整组 `transform: scale(var(--fx-scale))`（**不要用独立 `scale` 属性叠在别的 `transform` 上，origin 会被打回中心、顶栏被切**）。`fitAll()` / `updateFeatureScales()` 用 **stage 内容宽**（扣 visual padding）÷ 设计宽；高度按 scene `scrollHeight` 实量，不锁死 440。槽：`.feature-stage` `overflow:hidden` + 高 `--fx-scaled-h`；`.fx-mock` `position:absolute; left: var(--fx-left); top:0; transform-origin: top left`。栏比设计稿宽时 `--fx-left` 居中，窄时 left=0 铺满。**坑**：stage 被内容撑到设计宽再被 visual overflow 切右半边；`.fx-hero-page` 的 mask + overflow:hidden 会切追踪页；`transform:none !important` 写到 `.fx-mock` 会让缩放原点失效。
+- **四大插图等比例缩放（2026-09-15 Park 定案；同日修裁切）**：全站禁止对 Features 插图在媒体查询中做拆卡或上下堆叠改造。PC 原尺寸排版 + 整组 `transform: scale(var(--fx-scale))`（**不要用独立 `scale` 属性叠在别的 `transform` 上，origin 会被打回中心、顶栏被切**）。`fitAll()` / `updateFeatureScales()` 用 **stage 内容宽 − 2×40 投影垫** ÷ 设计宽；高度按 scene `scrollHeight` 实量。槽：`.feature-stage` `overflow:hidden` + 高 `--fx-scaled-h + 2×--fx-shadow-pad`；`.fx-mock` `left: var(--fx-left); top: var(--fx-shadow-pad); transform-origin: top left`。**投影被切** = 槽贴内容盒、或 `.fx-so-page { overflow:hidden }` 剪自己的 box-shadow。
+- **上层毛玻璃（2026-09-15 Park）**：叠层插图的**上层**一律磨玻璃（`rgba(255,255,255,.56)` + `-webkit-backdrop-filter` 写在 `backdrop-filter` 前）。下层实心白。Split = 查询页；Email = Create flow；Conversion = 推荐卡。下层邮件/购物车保持 `#fff`。不要 `filter: drop-shadow`。
 - 官方产品页只有 3 块，落地页已对齐，去掉 Proactive notifications。
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
 - 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25（品牌蓝紫渐变），正文 15.5。正文不淡入淡出，标题不跟滚动缩放。

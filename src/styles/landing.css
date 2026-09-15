@@ -3738,7 +3738,7 @@
       position: relative;
       width: 100%;
       max-width: 100%;
-      height: var(--fx-scaled-h, 100%);
+      height: calc(var(--fx-scaled-h, 100%) + 2 * var(--fx-shadow-pad, 40px));
       overflow: hidden;
       display: block;
     }
@@ -3752,7 +3752,7 @@
     .feature-panel .fx-mock {
       position: absolute;
       left: var(--fx-left, 0px);
-      top: 0;
+      top: var(--fx-shadow-pad, 40px);
       flex: 0 0 auto;
       width: var(--fx-design-w, 540px);
       height: var(--fx-design-h, 440px);
@@ -3811,8 +3811,10 @@
       min-width: 0;
       margin: -92px 0 0 176px;
       padding: 12px 12px 12px;
-      background: #fff;
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: rgba(255, 255, 255, 0.56);
+      -webkit-backdrop-filter: blur(22px) saturate(1.45);
+      backdrop-filter: blur(22px) saturate(1.45);
+      border: 1px solid rgba(255, 255, 255, 0.72);
       border-radius: 16px;
       box-shadow:
         0 2px 5px rgba(15, 23, 42, 0.05),
@@ -4959,13 +4961,22 @@
       left: auto;
       top: auto;
       color: #0f172a;
-      background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
       box-shadow:
         0 2px 5px rgba(15, 23, 42, 0.05),
         0 24px 52px -16px rgba(15, 23, 42, 0.3);
       opacity: 1;
       transform: none;
+    }
+    .feature-stage[data-theme="lastmile"] .fx-em-letter {
+      background: #fff;
+    }
+    /* 上层毛玻璃：Create flow 压在邮件上 */
+    .feature-stage[data-theme="lastmile"] .fx-em-flow-card {
+      background: rgba(255, 255, 255, 0.56);
+      -webkit-backdrop-filter: blur(22px) saturate(1.45);
+      backdrop-filter: blur(22px) saturate(1.45);
+      border: 1px solid rgba(255, 255, 255, 0.72);
     }
     /* 竖比例 ≈452×500：字号和内边距都按参考图一放大一档 */
     .fx-em-letter {
@@ -5313,9 +5324,9 @@
       --os-brown: #2563eb;
       --os-mute: #6b7380;
       --os-paper: #f2f6fd;
-      --os-card: #ffffff;
+      --os-card: transparent;
       border-radius: 18px;
-      overflow: hidden;
+      overflow: visible;
       box-shadow:
         0 2px 5px rgba(15, 23, 42, 0.05),
         0 24px 52px -16px rgba(15, 23, 42, 0.3);
@@ -5324,10 +5335,15 @@
       max-width: none;
       border-radius: 18px;
       box-shadow: none;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.56);
+      -webkit-backdrop-filter: blur(22px) saturate(1.45);
+      backdrop-filter: blur(22px) saturate(1.45);
+      border: 1px solid rgba(255, 255, 255, 0.72);
     }
     .fx-so-page-body {
       padding: 14px 14px 16px;
-      background: #fff;
+      background: transparent;
       color: #0f172a;
     }
     .fx-so-tabs {
@@ -5357,7 +5373,7 @@
     }
     .fx-so-page .os-status {
       padding: 2px 2px 0;
-      background: #fff;
+      background: transparent;
       box-shadow: none;
     }
     .fx-so-page .os-status h3 {
@@ -12666,8 +12682,8 @@
         padding: 4px 0 12px;
       }
       .feature-panel .feature-stage {
-        height: var(--fx-scaled-h, 320px);
-        min-height: var(--fx-scaled-h, 0);
+        height: calc(var(--fx-scaled-h, 320px) + 2 * var(--fx-shadow-pad, 40px));
+        min-height: calc(var(--fx-scaled-h, 0px) + 2 * var(--fx-shadow-pad, 40px));
         max-height: none;
         width: 100%;
         max-width: 100%;
@@ -12686,7 +12702,7 @@
       .feature-panel .feature-stage .fx-mock {
         position: absolute;
         left: var(--fx-left, 0px);
-        top: 0;
+        top: var(--fx-shadow-pad, 40px);
         width: var(--fx-design-w, 540px);
         height: var(--fx-design-h, 440px);
         max-width: none;

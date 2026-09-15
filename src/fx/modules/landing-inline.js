@@ -317,9 +317,10 @@ export function mount() {
             scene ? Math.max(scene.scrollHeight, scene.offsetHeight) : 0,
             mock.scrollHeight
           );
-          var s = Math.min(1, availW / natW);
+          var shadowPad = 40;
+          var s = Math.min(1, Math.max(0.12, (availW - 2 * shadowPad) / natW));
           var scaledH = Math.round(natH * s);
-          var left = Math.max(0, (availW - natW * s) / 2);
+          var left = (availW - natW * s) / 2;
           [panel, visual, stage, mock].forEach(function (el) {
             if (!el) return;
             el.style.setProperty("--fx-scale", s.toFixed(4));
@@ -327,6 +328,7 @@ export function mount() {
             el.style.setProperty("--fx-design-h", natH + "px");
             el.style.setProperty("--fx-scaled-h", scaledH + "px");
             el.style.setProperty("--fx-left", left.toFixed(1) + "px");
+            el.style.setProperty("--fx-shadow-pad", shadowPad + "px");
           });
         });
       }

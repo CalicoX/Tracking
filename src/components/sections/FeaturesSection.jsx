@@ -45,9 +45,10 @@ export default function FeaturesSection() {
           scene ? Math.max(scene.scrollHeight, scene.offsetHeight) : 0,
           mock.scrollHeight
         );
-        const s = Math.min(1, availW / natW);
+        const shadowPad = 40;
+        const s = Math.min(1, Math.max(0.12, (availW - 2 * shadowPad) / natW));
         const scaledH = Math.round(natH * s);
-        const left = Math.max(0, (availW - natW * s) / 2);
+        const left = (availW - natW * s) / 2;
 
         [panel, visual, stage, mock].forEach((el) => {
           if (!el) return;
@@ -56,6 +57,7 @@ export default function FeaturesSection() {
           el.style.setProperty("--fx-design-h", `${natH}px`);
           el.style.setProperty("--fx-scaled-h", `${scaledH}px`);
           el.style.setProperty("--fx-left", `${left.toFixed(1)}px`);
+          el.style.setProperty("--fx-shadow-pad", `${shadowPad}px`);
         });
       });
     }
