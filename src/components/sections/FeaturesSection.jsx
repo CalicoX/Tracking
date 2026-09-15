@@ -5,7 +5,7 @@ const SCENE_DIMS = [
   { w: 540, h: 440 }, // 0: Branded Tracking Page
   { w: 660, h: 490 }, // 1: Branded Email Notification
   { w: 736, h: 500 }, // 2: Split-Order（左右叠，邮件下层）
-  { w: 440, h: 440 }, // 3: Conversion & Loyalty
+  { w: 584, h: 480 }, // 3: Conversion 左右叠，购物车下层
 ];
 
 /** Presentational section: FeaturesSection */
@@ -307,7 +307,7 @@ export default function FeaturesSection() {
                       </div>
                     </div>
                   </article>
-                  {/* 3 · Conversion & Loyalty — 结账卡（AI 预购 EDD + 一键结账）+ 推荐卡（智能推荐 / 再触达 / 复购率） */}
+                  {/* 3 · Conversion & Loyalty — 左右叠：购物车下层，推荐卡毛玻璃压右沿 */}
                   <article className="feature-panel" data-feature="3" id="feature-panel-3" role="tabpanel" aria-labelledby="feature-tab-3">
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="conversion" style={{ ['--fx-c']: 1, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>

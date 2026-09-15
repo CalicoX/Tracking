@@ -3764,7 +3764,7 @@
       transform: scale(var(--fx-scale, 1));
       transform-origin: top left;
     }
-    /* Conversion & Loyalty：购物车在上、推荐卡在下，左右错开叠在一起（跟 Branded 同一套叠法）。
+    /* Conversion & Loyalty：左右叠，购物车下层、推荐卡压右沿（跟 Split 同一套）。
        卡里的 span/strong 一律带 .fx-cv-scene 前缀——单类名会被 .fx-glass span, .fx-glass p, .fx-glass strong 按特异性抢走字号和 margin。 */
     .feature-panel[data-feature="3"] .feature-visual {
       align-content: start;
@@ -3776,19 +3776,24 @@
     }
     .fx-cv-scene {
       position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
       width: max-content;
       max-width: none;
       margin: 0 auto;
-      padding: 0 0 8px;
+      padding: 12px 16px 20px;
       box-sizing: border-box;
     }
     .feature-stage[data-theme="conversion"] .fx-cv-card {
       position: relative;
       left: auto;
       top: auto;
-      z-index: 2;
+      z-index: 1;
+      flex: 0 0 auto;
       width: 360px;
-      max-width: 100%;
+      max-width: none;
       min-width: 0;
       padding: 12px 16px 14px;
       border-radius: 16px;
@@ -3801,15 +3806,16 @@
       opacity: 1;
       transform: none;
     }
-    /* 推荐卡：压在购物车右下，margin-left 错开 = 左右叠，margin-top 负值 = 一上一下 */
+    /* 推荐卡：上层毛玻璃，压购物车右沿 */
     .feature-stage[data-theme="conversion"] .fx-cv-recs {
       position: relative;
       left: auto;
       top: auto;
       z-index: 3;
+      flex: 0 0 auto;
       width: 248px;
       min-width: 0;
-      margin: -92px 0 0 176px;
+      margin: 0 0 0 -56px;
       padding: 12px 12px 12px;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.16));
       -webkit-backdrop-filter: blur(56px) saturate(1.8);
@@ -12752,7 +12758,14 @@
       .fx-cv-scene {
         width: max-content;
         max-width: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
         margin: 0 auto;
+      }
+      .feature-stage[data-theme="conversion"] .fx-cv-recs {
+        margin: 0 0 0 -56px;
       }
       .returns-ui {
         padding: 16px 10px 18px;

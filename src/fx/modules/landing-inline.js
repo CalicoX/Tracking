@@ -292,7 +292,7 @@ export function mount() {
         { w: 540, h: 440 }, /* Tab 0: Branded Tracking Page */
         { w: 660, h: 490 }, /* Tab 1: Branded Email (Letter + Flow) */
         { w: 736, h: 500 }, /* Tab 2: Split-Order 左右叠，邮件下层 */
-        { w: 440, h: 440 }  /* Tab 3: Conversion & Loyalty (Cart + Recs) */
+        { w: 584, h: 480 }  /* Tab 3: Conversion 左右叠，购物车下层 */
       ];
 
       function updateFeatureScales() {
