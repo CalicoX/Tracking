@@ -141,7 +141,7 @@ describe("React landing structure (gating)", () => {
     expect(features).toMatch(/Create flow/);
     expect(features).toMatch(/Track order/);
     expect(features).toMatch(/shipping@yourstore\.com/);
-    expect(features).toMatch(/notify@17track.net/);
+    expect(features).toMatch(/split into 2 packages/);
     expect(features).toMatch(/assets\/products\/tips\.jpg/);
     expect(features).toMatch(/Recommended For You/);
     expect(features).toMatch(/You might also like/);

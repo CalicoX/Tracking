@@ -163,17 +163,27 @@ export default function FeaturesSection() {
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
                             <div className="fx-so-cluster">
-                              <div className="fx-glass fx-so-mail">
-                                <div className="fx-lm-mail-head">
-                                  <img className="fx-lm-mail-avatar" src="/assets/shopify-app-icon.png" alt="" />
-                                  <div className="fx-lm-mail-from">
-                                    <strong>17TRACK</strong>
-                                    <span>notify@17track.net</span>
+                              <div className="fx-glass fx-em-letter fx-so-mail">
+                                <div className="fx-em-letter-head">
+                                  <span className="fx-em-logo">A</span>
+                                  <div className="fx-em-addrs">
+                                    <span>From: shipping@yourstore.com</span>
+                                    <span>to: customer@123.com</span>
                                   </div>
-                                  <time>10:24 AM</time>
                                 </div>
-                                <p className="fx-lm-mail-subject">Split into 2 packages</p>
-                                <p className="fx-lm-mail-body">Package #1 shipped today. Package #2 is still being packed.</p>
+                                <h4 className="fx-em-letter-title">Your order has been split into 2 packages.</h4>
+                                <p className="fx-em-letter-hi">Hi Sam,</p>
+                                <p className="fx-em-letter-body">Package #1 shipped today. Package #2 is still being packed. Track each shipment from one page.</p>
+                                <span className="fx-em-cta">
+                                  Track order
+                                  <i className="fx-em-cursor" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#111" stroke="#fff" strokeWidth="1.2" d="M4.2 3.4l14.2 9.1-6.4 1.5 3.7 7.2-2.6 1.3-3.8-7.3-5.1 4.8z"/></svg>
+                                  </i>
+                                </span>
+                                <dl className="fx-em-meta">
+                                  <div><dt>Carrier</dt><dd>USPS</dd></div>
+                                  <div><dt>Carrier phone</dt><dd>+0 321 3278 321</dd></div>
+                                </dl>
                               </div>
                               <div className="fx-so-page">
                                 <div className="browser">
@@ -188,34 +198,33 @@ export default function FeaturesSection() {
                                     <span className="browser-top-actions" aria-hidden="true"><i></i><i></i></span>
                                   </div>
                                   <div className="fx-so-page-body">
-                                    <div className="fx-so-page-bar">
-                                      <span className="fx-so-page-logo">OGL</span>
-                                      <span className="fx-so-page-order">#OGL-28491</span>
+                                    <div className="fx-so-tabs">
+                                      <span className="is-on">Package #1</span>
+                                      <span>Package #2</span>
+                                      <span>Package #3</span>
                                     </div>
-                                    <label className="fx-so-page-field">
-                                      Order number or tracking number
-                                      <span>OGL-28491</span>
-                                    </label>
-                                    <p className="fx-so-page-lead">2 packages in this order</p>
-                                    <ul className="fx-so-pkgs">
-                                      <li className="is-on">
-                                        <div className="fx-so-pkg-top">
-                                          <strong>Package #1</strong>
-                                          <em>In Transit</em>
-                                        </div>
-                                        <span>USPS · Arrives Mar 23 – Mar 30</span>
-                                        <div className="fx-so-track">
-                                          <i></i><i></i><i className="is-now"><svg viewBox="0 0 12 12"><path d="M2.4 6.2 4.7 8.5 9.6 3.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></i><i></i><i></i>
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <div className="fx-so-pkg-top">
-                                          <strong>Package #2</strong>
-                                          <em>Packed</em>
-                                        </div>
-                                        <span>Preparing to ship</span>
-                                      </li>
-                                    </ul>
+                                    <div className="os-status">
+                                      <h3>Your order is in transit.</h3>
+                                      <div className="os-progress">
+                                        <i className="is-on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 7h16l-1.2 11H5.2L4 7z"/><path d="M9 7V5.5A3 3 0 0115 5.5V7"/></svg></i>
+                                        <i className="is-on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M8 9h8M8 13h5"/></svg></i>
+                                        <i className="is-on is-now"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 16V8h11v8H3z"/><path d="M14 11h4l3 3v2h-7v-5z"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg></i>
+                                        <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 17V9l7-4 7 4v8"/><path d="M9 17v-5h6v5"/></svg></i>
+                                        <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 20V10l8-6 8 6v10"/><path d="M10 20v-6h4v6"/></svg></i>
+                                      </div>
+                                      <div className="os-progress-labels">
+                                        <span>Ordered</span><span>Processed</span><span>Shipped</span><span>Out</span><span>Delivered</span>
+                                      </div>
+                                      <div className="os-carrier">
+                                        <b>USPS</b>
+                                        <span>9400 1000 0000 2849 1</span>
+                                      </div>
+                                      <ul className="os-events">
+                                        <li><strong>In transit</strong><span>Today · 11:20 AM · Los Angeles, CA</span></li>
+                                        <li><strong>Departed facility</strong><span>Today · 6:04 AM</span></li>
+                                        <li><strong>Picked up</strong><span>Yesterday · 4:18 PM</span></li>
+                                      </ul>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

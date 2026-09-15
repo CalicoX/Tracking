@@ -5374,16 +5374,21 @@
       }
     }
 
-    /* Split-order — 一封邮件压在查询页左上（左右叠、一上一下） */
+    /* Split-order — 品牌信（无单号）压在查询页左上；查询页 = 3 tab + 首屏状态卡 */
+    .fx-so-cluster .fx-em-letter {
+      flex: none;
+      width: 320px;
+      max-width: none;
+      padding: 18px 22px 20px;
+    }
     .fx-so-mail {
       position: relative;
       left: auto;
       top: auto;
       z-index: 4;
-      width: 292px;
-      margin: 0 0 -56px;
-      padding: 0;
-      overflow: hidden;
+      width: 320px;
+      margin: 0 0 -112px;
+      overflow: visible;
       color: #0f172a;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
@@ -5399,12 +5404,20 @@
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
     }
+    .fx-so-cluster .fx-em-letter-title {
+      font-size: 18px;
+      max-width: 14em;
+    }
     .fx-so-page {
       position: relative;
       z-index: 1;
-      width: 420px;
+      width: 440px;
       max-width: 100%;
-      margin-left: 72px;
+      margin-left: 80px;
+      --os-brown: #2563eb;
+      --os-mute: #6b7380;
+      --os-paper: #f2f6fd;
+      --os-card: #ffffff;
       border-radius: 18px;
       overflow: hidden;
       box-shadow:
@@ -5421,135 +5434,45 @@
       background: #fff;
       color: #0f172a;
     }
-    .fx-so-page-bar {
+    .fx-so-tabs {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      margin: 0 0 12px;
+      gap: 8px;
+      width: auto;
+      max-width: 100%;
+      margin: 0 0 14px;
+      overflow: hidden;
     }
-    .fx-so-page-logo {
-      font-size: 15px;
-      font-weight: 750;
-      letter-spacing: 0.12em;
-      color: #0f172a;
-    }
-    .fx-so-page-order {
+    .fx-so-tabs span {
+      display: inline-flex;
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
       font-size: 12px;
       font-weight: 600;
       color: #64748b;
-    }
-    .fx-so-page-field {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin: 0 0 12px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #64748b;
-    }
-    .fx-so-page-field span {
-      display: flex;
-      align-items: center;
-      height: 34px;
-      padding: 0 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(15, 23, 42, 0.12);
-      background: #f8fafc;
-      font-size: 13px;
-      font-weight: 650;
-      color: #0f172a;
-    }
-    .fx-so-page-lead {
-      margin: 0 0 8px;
-      font-size: 12.5px;
-      font-weight: 650;
-      color: #334155;
-    }
-    .fx-so-pkgs {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 8px;
-    }
-    .fx-so-pkgs li {
-      margin: 0;
-      padding: 10px 12px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(15, 23, 42, 0.08);
       background: #f8fafc;
     }
-    .fx-so-pkgs li.is-on {
+    .fx-so-tabs span.is-on {
+      color: #1d4ed8;
+      border-color: rgba(37, 99, 235, 0.28);
+      background: #eef4ff;
+    }
+    .fx-so-page .os-status {
+      padding: 2px 2px 0;
       background: #fff;
-      border-color: rgba(37, 99, 235, 0.22);
+      box-shadow: none;
     }
-    .fx-so-pkg-top {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 8px;
+    .fx-so-page .os-status h3 {
+      font-size: 16px;
     }
-    .fx-so-pkgs strong {
-      font-size: 13px;
-      font-weight: 700;
-      color: #0f172a;
+    .fx-so-page .os-progress i:not(.is-on) {
+      background: #e2e8f0;
+      color: #94a3b8;
     }
-    .fx-so-pkgs em {
-      font-style: normal;
-      font-size: 12px;
-      font-weight: 700;
+    .fx-so-page .os-events li:first-child strong {
       color: #2563eb;
-    }
-    .fx-so-pkgs li:not(.is-on) em {
-      color: #64748b;
-    }
-    .fx-so-pkgs li > span {
-      display: block;
-      margin: 4px 0 0;
-      font-size: 12px;
-      color: #64748b;
-    }
-    .fx-so-track {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      margin: 10px 0 0;
-      position: relative;
-    }
-    .fx-so-track::before {
-      content: "";
-      position: absolute;
-      left: 8px;
-      right: 8px;
-      height: 2px;
-      background: #cbd5e1;
-    }
-    .fx-so-track i {
-      position: relative;
-      z-index: 1;
-      width: 12px;
-      height: 12px;
-      margin: 0;
-      border-radius: 50%;
-      border: 2px solid #94a3b8;
-      background: #fff;
-      box-sizing: border-box;
-    }
-    .fx-so-track i.is-now {
-      width: 18px;
-      height: 18px;
-      border: 0;
-      background: #2563eb;
-      color: #fff;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
-    }
-    .fx-so-track i.is-now svg {
-      width: 10px;
-      height: 10px;
     }
 
     /* Branded — form is the main, recs + wheel overlap like last-mile phone */
@@ -5975,9 +5898,11 @@
         margin-right: 0;
         justify-content: flex-start;
       }
+      .fx-so-cluster .fx-em-letter,
       .fx-so-mail {
         width: 240px;
-        margin-bottom: -40px;
+        margin-bottom: -64px;
+        padding: 14px 16px 16px;
       }
       .fx-so-page {
         width: 300px;
@@ -12021,13 +11946,15 @@
       .fx-em-scene {
         max-width: 400px;
       }
+      .fx-so-cluster .fx-em-letter,
       .fx-so-mail {
-        width: 260px;
-        margin-bottom: -48px;
+        width: 280px;
+        margin-bottom: -80px;
+        padding: 16px 18px 18px;
       }
       .fx-so-page {
-        width: 340px;
-        margin-left: 48px;
+        width: 360px;
+        margin-left: 56px;
       }
       .fx-br-stage {
         max-width: min(540px, 100%);
@@ -12565,9 +12492,11 @@
       .fx-em-scene {
         max-width: 400px;
       }
+      .fx-so-cluster .fx-em-letter,
       .fx-so-mail {
-        width: 240px;
-        margin-bottom: -40px;
+        width: 250px;
+        margin-bottom: -72px;
+        padding: 14px 16px 16px;
       }
       .fx-so-page {
         width: 300px;
@@ -12991,13 +12920,19 @@
       .fx-so-cluster {
         max-width: 100%;
       }
+      .fx-so-cluster .fx-em-letter,
       .fx-so-mail {
-        width: 228px;
-        margin-bottom: -36px;
+        width: 236px;
+        margin-bottom: -56px;
+        padding: 12px 14px 14px;
       }
       .fx-so-page {
         width: 280px;
         margin-left: 36px;
+      }
+      .fx-so-tabs span {
+        padding: 6px 10px;
+        font-size: 11px;
       }
       .fx-lm-phone {
         position: absolute;
