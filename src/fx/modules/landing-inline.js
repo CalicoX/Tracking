@@ -288,6 +288,44 @@ export function mount() {
         return window.pageYOffset || document.documentElement.scrollTop || 0;
       }
 
+      var SCENE_DIMS = [
+        { w: 540, h: 440 }, /* Tab 0: Branded Tracking Page */
+        { w: 660, h: 490 }, /* Tab 1: Branded Email (Letter + Flow) */
+        { w: 540, h: 470 }, /* Tab 2: Split-Order (Mail + Browser) */
+        { w: 440, h: 440 }  /* Tab 3: Conversion & Loyalty (Cart + Recs) */
+      ];
+
+      function updateFeatureScales() {
+        panels.forEach(function (panel, i) {
+          var dim = SCENE_DIMS[i] || { w: 540, h: 440 };
+          var visual = panel.querySelector(".feature-visual") || panel;
+          var availW = visual.clientWidth;
+          if (!availW) {
+            var col = panelsCol || (section ? section.querySelector(".section-inner") : null);
+            availW = col ? col.clientWidth : (window.innerWidth - 32);
+          }
+          var targetW = Math.max(120, availW - 16);
+          var s = Math.min(1, targetW / dim.w);
+          panel.style.setProperty("--fx-scale", s.toFixed(4));
+          panel.style.setProperty("--fx-design-w", dim.w + "px");
+          panel.style.setProperty("--fx-design-h", dim.h + "px");
+          panel.style.setProperty("--fx-scaled-h", Math.round(dim.h * s) + "px");
+          if (visual) {
+            visual.style.setProperty("--fx-scale", s.toFixed(4));
+            visual.style.setProperty("--fx-design-w", dim.w + "px");
+            visual.style.setProperty("--fx-design-h", dim.h + "px");
+            visual.style.setProperty("--fx-scaled-h", Math.round(dim.h * s) + "px");
+          }
+          var stage = panel.querySelector(".feature-stage");
+          if (stage) {
+            stage.style.setProperty("--fx-scale", s.toFixed(4));
+            stage.style.setProperty("--fx-design-w", dim.w + "px");
+            stage.style.setProperty("--fx-design-h", dim.h + "px");
+            stage.style.setProperty("--fx-scaled-h", Math.round(dim.h * s) + "px");
+          }
+        });
+      }
+
       function measureLayout() {
         if (mqMobile.matches) {
           track.style.height = "";
@@ -302,6 +340,7 @@ export function mount() {
           });
           panelsRoot.style.transform = "";
           travelPx = 1;
+          updateFeatureScales();
           return;
         }
         measureTopbar();
@@ -328,6 +367,7 @@ export function mount() {
           section.style.setProperty("--feature-panel-h", panelH + "px");
         }
         measureSideHeight();
+        updateFeatureScales();
 
         /*
          * Travel = first-panel hold (iso gather/spread/flatten + dwell)
@@ -405,6 +445,7 @@ export function mount() {
             stage.style.setProperty("--fx-spread", "0");
           }
         });
+        updateFeatureScales();
         alignActiveMock();
       }
 
@@ -596,6 +637,7 @@ export function mount() {
         if (topbarEl) new ResizeObserver(onResize).observe(topbarEl);
         if (panelsCol) new ResizeObserver(onResize).observe(panelsCol);
         new ResizeObserver(onResize).observe(sticky);
+        if (section) new ResizeObserver(onResize).observe(section);
       }
 
       measureLayout();

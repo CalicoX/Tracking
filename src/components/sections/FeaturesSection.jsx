@@ -1,9 +1,67 @@
+import { useEffect, useRef } from "react";
 import HeroTrackingMock from "../HeroTrackingMock.jsx";
+
+const SCENE_DIMS = [
+  { w: 540, h: 440 }, // 0: Branded Tracking Page
+  { w: 660, h: 490 }, // 1: Branded Email Notification
+  { w: 540, h: 470 }, // 2: Split-Order Management
+  { w: 440, h: 440 }, // 3: Conversion & Loyalty
+];
 
 /** Presentational section: FeaturesSection */
 export default function FeaturesSection() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const root = sectionRef.current;
+    if (!root) return undefined;
+
+    function fitAll() {
+      const panels = root.querySelectorAll(".feature-panel[data-feature]");
+      panels.forEach((panel) => {
+        const idx = parseInt(panel.getAttribute("data-feature"), 10);
+        const dim = SCENE_DIMS[idx] || { w: 540, h: 440 };
+        const visual = panel.querySelector(".feature-visual") || panel;
+        const availW = visual.clientWidth || root.clientWidth || (window.innerWidth - 32);
+        const targetW = Math.max(120, availW - 8);
+        const s = Math.min(1, targetW / dim.w);
+        const scaledH = Math.round(dim.h * s);
+
+        panel.style.setProperty("--fx-scale", s.toFixed(4));
+        panel.style.setProperty("--fx-design-w", `${dim.w}px`);
+        panel.style.setProperty("--fx-design-h", `${dim.h}px`);
+        panel.style.setProperty("--fx-scaled-h", `${scaledH}px`);
+
+        if (visual) {
+          visual.style.setProperty("--fx-scale", s.toFixed(4));
+          visual.style.setProperty("--fx-design-w", `${dim.w}px`);
+          visual.style.setProperty("--fx-design-h", `${dim.h}px`);
+          visual.style.setProperty("--fx-scaled-h", `${scaledH}px`);
+        }
+
+        const stage = panel.querySelector(".feature-stage");
+        if (stage) {
+          stage.style.setProperty("--fx-scale", s.toFixed(4));
+          stage.style.setProperty("--fx-design-w", `${dim.w}px`);
+          stage.style.setProperty("--fx-design-h", `${dim.h}px`);
+          stage.style.setProperty("--fx-scaled-h", `${scaledH}px`);
+        }
+      });
+    }
+
+    fitAll();
+    window.addEventListener("resize", fitAll);
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(fitAll) : null;
+    ro?.observe(root);
+
+    return () => {
+      window.removeEventListener("resize", fitAll);
+      ro?.disconnect();
+    };
+  }, []);
+
   return (
-<section className="section alt features-section" id="key-features">
+    <section className="section alt features-section" id="key-features" ref={sectionRef}>
         <div className="section-inner">
           <div className="feature-scroll" id="feature-scroll">
             <div className="feature-sticky">

@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-15（Split-Order 插图：一封邮件 + 一个查询页）
+最后更新：2026-09-15（Hero 移动端物流轨迹完整展现；Features 四大插图等比例缩放）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -32,7 +32,7 @@
 - OGL mock 配色（Park 定）：全部走品牌蓝紫家族，不要暖色/米色。`--os-brown: #2563eb`；Track 按钮 `linear-gradient(135deg,#2563eb,#4f46e5)`；进度线 `#38bdf8→#2563eb→#8b5cf6`；Delivered 节点 indigo 渐变+光晕；摘要卡 `#e6edfb`（原米色 #e9e0d4 否掉）；纸底 `#f2f6fd`；海图 saturate(1.08)。第一条 event（Delivered）绿色 #15803d。
 - OGL mock 字体：不要衬线。`.hero-ogl` 走 Inter / sans-serif（标题、logo、状态、摘要都 inherit）。Park：不要用衬线字体。
 - ≤768：插图 `order: -1` 提到文案上方，仍是桌面 OGL mock（浏览器框），绘制动画 + `.visual` 底部 mask 渐隐。不要改成手机页。Park 否过深色手机边框 / 刘海版本，不要再做。
-- ≤480：才改成手机页 mock（banner 叠字 + 表单压图下沿，状态/摘要单列，`os-look` 隐藏）；banner 168px，只留 1 条 event。`.visual` / `.hero-ogl` max-height 340px，mask 从 72% 起渐隐（56% 会空一大截）。
+- ≤640：Hero mock 展开高度放开（`max-height: none`），隐藏非轨迹的 `.os-summary`，**完整显示物流轨迹（`.os-status`：交付状态标题 + 5 步进度条 + USPS 承运商单号 + 2 条物流事件）**。`.visual` mask-image 从 88% 起向底沿柔和渐隐，保证轨迹信息 100% 锐利清晰。
 - ≤768 文案整体居中：h1/lead/cta-note 居中，Shopify lockup 整体居中但内部左对齐（meta text-align:left）。CTA 两个按钮左右并排居中（≤480 flex:1、max-width 220px、nowrap、`min-width:0` 覆盖 `.btn-switch` 的 188px），不要竖排。
 - AI Make 镭射贴纸贴在浏览器顶栏右上：先框选稍大的贴纸，再落下；贴上扫光。只播一遍。
 - Hero 绘制节奏：`hero-draw.js` 的 `PACE = 1.1`（越大越慢；1 太快、1.3 偏慢）。768 仍播绘制，并保留 `.visual` 底部 mask 渐隐。只在 prefers-reduced-motion 时跳过绘制（不要用 `shouldReduceFx` / `window.__reduceFx` / `html.is-reduce-fx` / `max-width: 768px` 关掉 overlay）。≤480 才用手机页 mock。
@@ -128,8 +128,9 @@
 - Vite：`http://127.0.0.1:5175/` 只跑这份目录的 `main`（`vite.config.js` `strictPort`）。**端口 5173/5174 实测会对调**（2026-08-28：5173=returns、5174=API；谁先起谁占）。验证时按页面内容（副标文案 / `.returns-page` 壳）确认是哪站，别只看端口。
 - Vite 8 生产压缩用 lightningcss：成对的 `backdrop-filter` / `-webkit-backdrop-filter` 只留最后一个。`-webkit-` 写在后面时，Chrome 上毛玻璃全没（dev 不压缩所以正常）。必须 `-webkit-` 在前、标准属性在后。`build.cssTarget: ['chrome87','safari14']`。不要再加 esbuild minify（Vite 8 不自带 esbuild）。
 
-## Features（3 块）
+## Features（4 块）
 
+- **四大插图等比例缩放（2026-09-15 Park 定案）**：全站禁止对 Features 插图在媒体查询中做拆卡或上下堆叠改造（如旧版将邮件+流程拆为 800px+ 竖排）。统一采用等比例缩放（Proportional Scaling Engine）：在 `FeaturesSection.jsx` 内置首屏同步 `fitAll()` 并监听 `ResizeObserver`，配合 `landing-inline.js`，按四块设计稿基准（Tab 0 540×440、Tab 1 660×490、Tab 2 540×470、Tab 3 440×440）量取容器宽度计算 `--fx-scale`，写入 panel/visual/stage；CSS 侧清理 640/768/1024 里的破坏性拆卡缩卡规则，卡片保持 PC 原始相对尺寸与左右叠排，由 `scale: var(--fx-scale)` 整体等比缩小，容器高度由 `--fx-scaled-h` 精准对齐，零溢出零剪切。
 - 官方产品页只有 3 块，落地页已对齐，去掉 Proactive notifications。
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。
 - 左侧 active 才展开 3 条官方文案；标题 idle 20 / active 25（品牌蓝紫渐变），正文 15.5。正文不淡入淡出，标题不跟滚动缩放。

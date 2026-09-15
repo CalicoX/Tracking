@@ -3731,6 +3731,8 @@
     .feature-panel .fx-mock {
       transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
       translate: 0 var(--mock-shift, 0px);
+      scale: var(--fx-scale, 1);
+      transform-origin: center center;
     }
     /* Conversion & Loyalty：购物车在上、推荐卡在下，左右错开叠在一起（跟 Branded 同一套叠法）。
        卡里的 span/strong 一律带 .fx-cv-scene 前缀——单类名会被 .fx-glass span, .fx-glass p, .fx-glass strong 按特异性抢走字号和 margin。 */
@@ -5243,136 +5245,7 @@
       font-weight: 650;
     }
 
-    /* ≤1024：右栏放不下左右排（768 时右栏只剩约 324px）→ 回上下两块 + 紧凑字号。
-       放在这里是为了让后面的 ≤640 块按源顺序接住。 */
-    @media (max-width: 1024px) {
-      .fx-em-scene {
-        display: block;
-        max-width: 400px;
-        padding: 8px 0 12px;
-      }
-      .fx-em-letter {
-        flex: none;
-        width: 100%;
-        padding: 20px 22px 22px;
-      }
-      .fx-em-letter-head {
-        gap: 12px;
-        padding-bottom: 14px;
-        margin-bottom: 16px;
-      }
-      .fx-em-letter .fx-em-logo {
-        width: 44px;
-        height: 44px;
-        flex: 0 0 44px;
-        font-size: 16px;
-      }
-      .fx-em-addrs span {
-        font-size: 13px;
-      }
-      .fx-em-letter-title {
-        margin: 0 auto 14px;
-        max-width: none;
-        font-size: 18px;
-        line-height: 1.25;
-      }
-      .fx-em-letter .fx-em-letter-hi {
-        margin: 0 0 8px;
-        font-size: 13px;
-      }
-      .fx-em-letter .fx-em-letter-body {
-        margin: 0 auto 18px;
-        font-size: 13px;
-        line-height: 1.5;
-        max-width: 34em;
-      }
-      .fx-em-letter .fx-em-cta {
-        min-width: 148px;
-        height: 40px;
-        padding: 0 22px;
-        margin: 4px auto 18px;
-        font-size: 14px;
-      }
-      .fx-em-meta {
-        column-gap: 8px;
-        row-gap: 5px;
-        font-size: 13px;
-      }
-      .fx-em-letter .fx-em-warn {
-        top: -8px;
-        right: -12px;
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
-      }
-      .fx-em-warn svg {
-        width: 24px;
-        height: 24px;
-      }
-      .fx-em-flow {
-        flex: none;
-        width: 100%;
-        margin: 18px 0 0;
-      }
-      .fx-em-flow-card {
-        padding: 14px 16px 16px;
-      }
-      .fx-em-flow .fx-em-flow-ico {
-        flex: 0 0 40px;
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-      }
-      .fx-em-flow-ico svg {
-        width: 20px;
-        height: 20px;
-      }
-      .fx-em-flow .fx-em-flow-head h4 {
-        font-size: 15px;
-      }
-      .fx-em-flow .fx-em-flow-head p {
-        font-size: 13px;
-      }
-      .fx-em-flow-row span {
-        height: 32px;
-        font-size: 13px;
-      }
-      .fx-em-flow-row em {
-        font-size: 13px;
-      }
-      .fx-em-flow-link {
-        margin: 8px 0 8px auto;
-      }
-      .fx-em-flow .fx-em-add {
-        height: 28px;
-        padding: 0 10px;
-        font-size: 13px;
-      }
-      .fx-em-filter-list {
-        width: 100%;
-      }
-      .fx-em-filter-list li {
-        font-size: 13px;
-      }
-      /* Conversion：1024/768 仍左右叠；768 舞台约 340 宽，整组必须收进这个宽 */
-      .feature-stage[data-theme="conversion"] .fx-cv-card {
-        width: 300px;
-        padding: 10px 14px 12px;
-      }
-      .feature-stage[data-theme="conversion"] .fx-cv-recs {
-        width: 208px;
-        margin: -100px 0 0 118px;
-        padding: 10px;
-      }
-      .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
-        height: 80px;
-      }
-      .fx-cv-scene .fx-cv-add,
-      .fx-cv-scene .fx-cv-buy {
-        height: 28px;
-        font-size: 11px;
-      }
-    }
+
 
     /* Split-order — 品牌信（无单号）压在查询页左上；查询页 = 3 tab + 首屏状态卡 */
     .fx-so-cluster .fx-em-letter {
@@ -5888,98 +5761,9 @@
         transform: none !important;
         opacity: 1;
       }
-      .fx-lm-cluster,
-      .fx-so-cluster {
-        width: auto;
-        flex: 1 1 auto;
-        height: auto;
-        max-width: none;
-        margin-left: 0;
-        margin-right: 0;
-        justify-content: flex-start;
-      }
-      .fx-so-cluster .fx-em-letter,
-      .fx-so-mail {
-        width: 240px;
-        margin-bottom: -64px;
-        padding: 14px 16px 16px;
-      }
-      .fx-so-page {
-        width: 300px;
-        margin-left: 40px;
-      }
-      .fx-br-stage {
-        width: max-content;
-        max-width: 100%;
-        height: auto;
-        gap: 0;
-      }
-      .fx-br-form {
-        width: 208px;
-        flex: 0 0 auto;
-        top: auto;
-        left: auto;
-        padding: 0 14px 12px;
-      }
-      .fx-br-accent {
-        margin: 0 -14px 10px;
-      }
-      .fx-br-status em,
-      .fx-br-recs-sub {
-        display: none;
-      }
-      .fx-br-status {
-        font-size: 10px;
-        padding: 6px 8px;
-      }
-      .fx-br-store {
-        font-size: 11px;
-      }
-      .fx-br-recs {
-        width: 128px;
-        flex: 0 0 128px;
-        top: auto;
-        right: auto;
-        margin-left: -22px;
-      }
-      .fx-br-wheel {
-        width: 40px;
-        height: 40px;
-        right: auto;
-        bottom: auto;
-        margin-left: -8px;
-      }
-      .feature-stage[data-theme="split"] .fx-mock,
-      .feature-stage[data-theme="branded"] .fx-mock {
-        height: auto;
-        align-items: flex-end;
-        padding: 4px 0;
-      }
-      .fx-lm-mail {
-        width: 100%;
-        margin: 0 0 10px;
-      }
-      .fx-em-scene {
-        padding: 0;
-        max-width: 100%;
-      }
-      .fx-em-letter {
-        padding-bottom: 20px;
-      }
-      .fx-em-flow {
-        position: relative;
-        width: 100%;
-        margin: 16px 0 0;
-      }
-      .fx-em-flow .fx-em-flow-ico {
-        flex: 0 0 34px;
-        width: 34px;
-        height: 34px;
-        border-radius: 11px;
-      }
-      .fx-em-flow-ico svg {
-        width: 18px;
-        height: 18px;
+      .fx-mock {
+        transform: none;
+        filter: none;
       }
       /* 手机：警告标也收回卡内，否则会被 .feature-visual 的 overflow:hidden 裁掉 */
       .fx-em-letter .fx-em-warn {
@@ -6002,27 +5786,7 @@
       .fx-lm-event {
         margin-top: 16px;
       }
-      .fx-mock {
-        transform: none;
-        filter: none;
-      }
-      .feature-stage[data-theme="lastmile"] .feature-stage-art,
-      .feature-stage[data-theme="split"] .feature-stage-art,
-      .feature-stage[data-theme="branded"] .feature-stage-art {
-        perspective: none;
-        place-items: start stretch;
-      }
-      .feature-stage[data-theme="lastmile"] .fx-mock {
-        height: auto;
-        align-items: stretch;
-        justify-content: flex-start;
-        gap: 10px;
-        padding: 0;
-      }
-      .feature-stage[data-theme="lastmile"] .fx-lm-phone {
-        align-self: center;
-        margin-bottom: 0;
-      }
+
       .fx-lm-phone {
         width: 44px;
         height: 44px;
@@ -11942,23 +11706,6 @@
         grid-template-columns: minmax(260px, 36%) minmax(0, 1fr);
         gap: 24px 32px;
       }
-      .fx-lm-cluster,
-      .fx-em-scene {
-        max-width: 400px;
-      }
-      .fx-so-cluster .fx-em-letter,
-      .fx-so-mail {
-        width: 280px;
-        margin-bottom: -80px;
-        padding: 16px 18px 18px;
-      }
-      .fx-so-page {
-        width: 360px;
-        margin-left: 56px;
-      }
-      .fx-br-stage {
-        max-width: min(540px, 100%);
-      }
       .fx-hero-page {
         max-width: min(540px, 100%);
       }
@@ -11966,6 +11713,7 @@
         min-width: min(280px, 100%);
         flex: 1 1 auto;
       }
+
       .feature-stage[data-theme="lastmile"] .fx-mock,
       .feature-stage[data-theme="split"] .fx-mock,
       .feature-stage[data-theme="branded"] .fx-mock {
@@ -12484,23 +12232,9 @@
         min-width: 0;
       }
 
-      /* Branded: keep desktop side-overlap, but don't stretch the form.
-         Track CTA stays readable; color wheel stays inside the column. */
+
       .fx-hero-page {
-        max-width: 400px;
-      }
-      .fx-em-scene {
-        max-width: 400px;
-      }
-      .fx-so-cluster .fx-em-letter,
-      .fx-so-mail {
-        width: 250px;
-        margin-bottom: -72px;
-        padding: 14px 16px 16px;
-      }
-      .fx-so-page {
-        width: 300px;
-        margin-left: 40px;
+        max-width: min(540px, 100%);
       }
       .fx-br-stage {
         width: max-content;
@@ -12631,44 +12365,44 @@
         padding-bottom: 8px;
       }
       /*
-       * ≤480: OGL mock → phone tracking page.
-       * 768 keeps the desktop mock + draw.
+       * ≤640: Hero OGL mock → phone tracking page.
+       * 轨迹（.os-status）完整展现；隐藏非轨迹的 .os-summary。
        */
-      .hero-ogl {
+      .visual .hero-ogl {
         height: auto;
-        max-height: 340px;
+        max-height: none;
         overflow: hidden;
         border-radius: 0 0 15px 15px;
       }
-      .os-hero {
+      .visual .os-hero {
         height: auto;
         overflow: visible;
         display: flex;
         flex-direction: column;
       }
-      .os-hero img {
+      .visual .os-hero img {
         height: 168px;
         flex: none;
       }
-      .os-hero::after {
+      .visual .os-hero::after {
         inset: auto;
         top: 0;
         left: 0;
         right: 0;
         height: 168px;
       }
-      .os-hero-ui,
-      .os-hero-row {
+      .visual .os-hero-ui,
+      .visual .os-hero-row {
         display: contents;
       }
-      .os-logo {
+      .visual .os-logo {
         position: absolute;
         top: 12px;
         left: 14px;
         z-index: 2;
         font-size: 12px;
       }
-      .os-hero-copy {
+      .visual .os-hero-copy {
         position: absolute;
         left: 14px;
         right: 14px;
@@ -12676,75 +12410,77 @@
         z-index: 2;
         margin-top: 0;
       }
-      .os-hero-copy h2 {
+      .visual .os-hero-copy h2 {
         font-size: 20px;
         max-width: none;
       }
-      .os-hero-copy p {
+      .visual .os-hero-copy p {
         margin-top: 6px;
         font-size: 11px;
         max-width: 28em;
       }
-      .os-track-card {
+      .visual .os-track-card {
         position: relative;
         z-index: 2;
         margin: -36px 10px 0;
         padding: 12px 12px 11px;
       }
-      .os-board {
+      .visual .os-board {
         grid-template-columns: 1fr;
         gap: 8px;
-        padding: 12px 10px 10px;
+        padding: 12px 10px 14px;
       }
-      .os-status,
-      .os-summary {
+      .visual .os-status {
         padding: 12px 12px 10px;
       }
-      .os-status h3 {
+      .visual .os-summary {
+        display: none;
+      }
+      .visual .os-status h3 {
         font-size: 15px;
         margin-bottom: 12px;
       }
-      .os-progress {
+      .visual .os-progress {
         margin: 0 4px;
       }
-      .os-progress i {
+      .visual .os-progress i {
         width: 20px;
         height: 20px;
       }
-      .os-progress-labels {
+      .visual .os-progress-labels {
         font-size: 7.5px;
         margin-bottom: 10px;
       }
-      .os-carrier {
+      .visual .os-carrier {
         font-size: 10.5px;
         gap: 6px;
       }
-      .os-carrier span {
+      .visual .os-carrier span {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-      .os-events li:nth-child(n + 3) {
+      .visual .os-events li:nth-child(n + 3) {
         display: none;
       }
-      .os-look {
+      .visual .os-look {
         display: none;
       }
       .visual {
-        max-height: 340px;
+        max-height: none;
         overflow: hidden;
         -webkit-mask-image: linear-gradient(
           180deg,
           #000 0%,
-          #000 72%,
-          rgba(0, 0, 0, 0.4) 88%,
+          #000 88%,
+          rgba(0, 0, 0, 0.4) 97%,
           transparent 100%
         );
         mask-image: linear-gradient(
           180deg,
           #000 0%,
-          #000 72%,
-          rgba(0, 0, 0, 0.4) 88%,
+          #000 88%,
+          rgba(0, 0, 0, 0.4) 97%,
           transparent 100%
         );
       }
@@ -12890,88 +12626,87 @@
         max-height: none;
         opacity: 1;
       }
-      .feature-list .feature[data-feature="0"] { grid-area: 2 / 1; }
-      .feature-stage[data-theme="conversion"] .fx-cv-card {
-        width: 280px;
-      }
-      .feature-stage[data-theme="conversion"] .fx-cv-recs {
-        width: 196px;
-        margin: -56px 0 0 108px;
-        padding: 10px;
-      }
-      .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
-        height: 72px;
-      }
+      /* Features 四组图文纵向交叉排列：图 0 -> 文 0 -> 图 1 -> 文 1 -> 图 2 -> 文 2 -> 图 3 -> 文 3 -> CTA */
       .feature-panel[data-feature="0"] .feature-visual { grid-area: 1 / 1; }
-      .feature-list .feature[data-feature="1"] { grid-area: 4 / 1; }
+      .feature-list .feature[data-feature="0"] { grid-area: 2 / 1; }
       .feature-panel[data-feature="1"] .feature-visual { grid-area: 3 / 1; }
-      .feature-list .feature[data-feature="2"] { grid-area: 6 / 1; }
+      .feature-list .feature[data-feature="1"] { grid-area: 4 / 1; }
       .feature-panel[data-feature="2"] .feature-visual { grid-area: 5 / 1; }
+      .feature-list .feature[data-feature="2"] { grid-area: 6 / 1; }
+      .feature-panel[data-feature="3"] .feature-visual { grid-area: 7 / 1; }
+      .feature-list .feature[data-feature="3"] { grid-area: 8 / 1; }
+      .feature-side .feature-cta {
+        grid-area: 9 / 1;
+        margin-top: 16px;
+      }
       .feature-list .feature {
         margin-bottom: 28px;
       }
-      .feature-list .feature[data-feature="2"] {
+      .feature-list .feature[data-feature="3"] {
         margin-bottom: 0;
       }
-      .fx-lm-cluster {
-        gap: 10px;
-        max-width: 100%;
+
+      /* Features 四大插图等比例缩放体系（Park：四个插图都是等比例缩放） */
+      .feature-panel .feature-stage {
+        height: var(--fx-scaled-h, 320px);
+        min-height: var(--fx-scaled-h, 0);
+        max-height: none;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: clip;
+        padding: 0;
+        margin: 0 auto;
+      }
+      .feature-panel .feature-stage-art {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: visible;
+      }
+      .feature-panel .fx-mock {
+        width: var(--fx-design-w, 540px);
+        height: var(--fx-design-h, 440px);
+        flex: 0 0 auto;
+        scale: var(--fx-scale, 1);
+        transform-origin: center center;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* 各插图场景保持桌面完整布局尺寸，整体等比例缩放 */
+      .fx-hero-page {
+        width: 540px;
+        max-width: 540px;
+        height: 440px;
+        max-height: 440px;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      .fx-em-scene {
+        width: 660px;
+        max-width: 660px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 8px 18px 24px;
+        box-sizing: border-box;
       }
       .fx-so-cluster {
-        max-width: 100%;
+        width: 540px;
+        max-width: 540px;
+        display: block;
+        margin: 0 auto;
       }
-      .fx-so-cluster .fx-em-letter,
-      .fx-so-mail {
-        width: 236px;
-        margin-bottom: -56px;
-        padding: 12px 14px 14px;
-      }
-      .fx-so-page {
-        width: 280px;
-        margin-left: 36px;
-      }
-      .fx-so-tabs span {
-        padding: 6px 10px;
-        font-size: 11px;
-      }
-      .fx-lm-phone {
-        position: absolute;
-        right: 8px;
-        top: 10px;
-      }
-      .fx-hero-page {
-        max-width: 100%;
-        height: 340px;
-        max-height: 340px;
-      }
-      .fx-br-stage {
-        flex-direction: row;
-        align-items: flex-end;
-        width: max-content !important;
-        max-width: 100%;
-        padding-right: 4px;
-        gap: 0;
-      }
-      .fx-br-form {
-        width: 208px !important;
-        flex: 0 0 auto;
-        margin: 0;
-        padding: 0 14px 12px;
-      }
-      .fx-br-accent {
-        margin: 0 -14px 10px;
-      }
-      .fx-br-recs {
-        width: 128px !important;
-        flex: 0 0 128px;
-        max-width: none;
-        margin-left: -22px;
-      }
-      .fx-br-wheel {
-        align-self: flex-end;
-        width: 40px;
-        height: 40px;
-        margin: 0 0 8px -8px;
+      .fx-cv-scene {
+        width: 440px;
+        max-width: 440px;
+        margin: 0 auto;
       }
       .returns-ui {
         padding: 16px 10px 18px;
