@@ -3732,7 +3732,7 @@
       transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
       translate: 0 var(--mock-shift, 0px);
     }
-    /* Conversion & Loyalty：购物车在上，1 个推荐商品在下（图左文右）。
+    /* Conversion & Loyalty：上下叠——购物车在上，1 张推荐卡在下。
        卡里的 span/strong 一律带 .fx-cv-scene 前缀——单类名会被 .fx-glass span, .fx-glass p, .fx-glass strong 按特异性抢走字号和 margin。 */
     .feature-panel[data-feature="3"] .feature-visual {
       align-content: center;
@@ -3742,7 +3742,6 @@
     .feature-panel[data-feature="3"] .fx-mock {
       translate: 0 0;
     }
-    /* 上下排：购物车卡 + 下方 1 个推荐商品卡 */
     .fx-cv-scene {
       position: relative;
       width: 100%;
@@ -3754,7 +3753,7 @@
       flex-direction: column;
       align-items: stretch;
       justify-content: center;
-      gap: 16px;
+      gap: 10px;
     }
     .feature-stage[data-theme="conversion"] .fx-cv-card {
       position: relative;
@@ -3971,10 +3970,7 @@
       color: #0f172a;
     }
     .fx-cv-scene .fx-cv-recs-sub {
-      margin: 2px 0 10px;
-      font-size: 12px;
-      font-weight: 500;
-      color: #94a3b8;
+      display: none;
     }
     .fx-cv-recs-list {
       list-style: none;
@@ -3984,19 +3980,19 @@
       grid-template-columns: minmax(0, 1fr);
       gap: 10px;
     }
-    /* 1 个商品、图左文右 */
+    /* 推荐卡叠在购物车下：大图在上，跟 Park 刚截的那张卡同一套 */
     .fx-cv-recs-list li {
       display: grid;
-      grid-template-columns: 96px minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
-        "thumb name"
-        "thumb price"
-        "thumb acts";
-      align-items: center;
-      column-gap: 12px;
-      row-gap: 4px;
+        "thumb"
+        "name"
+        "price"
+        "acts";
+      align-items: start;
+      gap: 8px;
       margin: 0;
-      padding: 10px 12px 12px 10px;
+      padding: 10px 10px 12px;
       border-radius: 14px;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
@@ -4006,10 +4002,9 @@
     }
     .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
       grid-area: thumb;
-      grid-row: 1 / -1;
       flex: none;
-      width: 96px;
-      height: 96px;
+      width: 100%;
+      height: 104px;
       aspect-ratio: auto;
       object-fit: cover;
       border-radius: 10px;
@@ -4029,7 +4024,7 @@
       grid-area: price;
       display: block;
       margin: 0;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: #0f172a;
@@ -4037,6 +4032,7 @@
     .fx-cv-rec-actions {
       grid-area: acts;
       display: flex;
+      flex-direction: row;
       gap: 6px;
       margin: 4px 0 0;
     }
@@ -4046,10 +4042,10 @@
       flex: 1 1 0;
       align-items: center;
       justify-content: center;
-      height: 28px;
+      height: 32px;
       margin: 0;
-      border-radius: 6px;
-      font-size: 11px;
+      border-radius: 8px;
+      font-size: 12.5px;
       font-weight: 650;
     }
     .fx-cv-scene .fx-cv-add {
@@ -4067,11 +4063,11 @@
       display: flex;
       align-items: baseline;
       gap: 8px;
-      margin: 12px 0 0;
+      margin: 8px 0 0;
       padding: 0;
     }
     .fx-cv-scene .fx-cv-metric strong {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 700;
       letter-spacing: -0.02em;
       background-image: linear-gradient(105deg, #1d4ed8 0%, #2563eb 48%, #4f46e5 100%);
@@ -5357,9 +5353,35 @@
       .fx-em-filter-list li {
         font-size: 13px;
       }
-      /* Conversion：全档已是购物车在上 + 1 个推荐商品，1024 只收窄间距 */
+      /* Conversion 全档已上下叠；1024 舞台矮，推荐卡改图左文右以免裁底 */
       .fx-cv-scene {
-        gap: 12px;
+        gap: 8px;
+      }
+      .feature-stage[data-theme="conversion"] .fx-cv-card {
+        padding: 10px 14px 12px;
+      }
+      .fx-cv-metric {
+        margin-top: 6px;
+      }
+      .fx-cv-recs-list li {
+        grid-template-columns: 88px minmax(0, 1fr);
+        grid-template-areas:
+          "thumb name"
+          "thumb price"
+          "thumb acts";
+        align-items: center;
+        column-gap: 12px;
+        row-gap: 2px;
+        padding: 10px 12px 10px 10px;
+      }
+      .fx-cv-scene .fx-cv-recs-list .fx-cv-thumb {
+        width: 88px;
+        height: 88px;
+      }
+      .fx-cv-scene .fx-cv-add,
+      .fx-cv-scene .fx-cv-buy {
+        height: 28px;
+        font-size: 11px;
       }
     }
 
