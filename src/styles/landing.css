@@ -10905,6 +10905,11 @@
       .coverage-data li:last-child {
         grid-column: 1 / -1;
       }
+      .coverage-data span {
+        white-space: normal;
+        max-width: 100%;
+        text-wrap: balance;
+      }
     }
     .bottom-cta {
       position: relative;
