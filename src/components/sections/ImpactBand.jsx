@@ -63,26 +63,27 @@ export default function ImpactBand() {
                   </linearGradient>
                   {/* under-curve: soft blue near line → solid white floor (not transparent) */}
                   <linearGradient id="impact-area-grad" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.26"/>
-                    <stop offset="38%" stopColor="#bfdbfe" stopOpacity="0.12"/>
-                    <stop offset="70%" stopColor="#f7f8fa" stopOpacity="0.92"/>
+                    <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.34"/>
+                    <stop offset="28%" stopColor="#93c5fd" stopOpacity="0.16"/>
+                    <stop offset="58%" stopColor="#e8f1fc" stopOpacity="0.1"/>
+                    <stop offset="82%" stopColor="#f7f8fa" stopOpacity="0.92"/>
                     <stop offset="100%" stopColor="#f7f8fa" stopOpacity="1"/>
                   </linearGradient>
                 </defs>
+                {/* 填充只走到 y=0：路径若带负 y，objectBoundingBox 会把蓝洗拉到视口外，面积渐变消失 */}
                 <path
                   className="curve-fill"
-                  d="M-60,882
-                     C280,880 620,850 860,720
-                     C1080,560 1220,220 1380,-40
-                     C1460,-160 1540,-300 1640,-460
-                     L1640,900 L-60,900 Z"
+                  d="M-48,875
+                     C400,872 700,830 960,680
+                     C1140,560 1260,280 1400,0
+                     L1660,0 L1660,900 L-48,900 Z"
                 />
                 <path
                   className="curve-line"
-                  d="M-60,882
-                     C280,880 620,850 860,720
-                     C1080,560 1220,220 1380,-40
-                     C1460,-160 1540,-300 1640,-460"
+                  d="M-48,875
+                     C400,872 700,830 960,680
+                     C1140,560 1260,280 1400,-20
+                     C1480,-140 1560,-280 1660,-440"
                 />
               </svg>
             </div>
