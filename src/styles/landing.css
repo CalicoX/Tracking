@@ -12883,9 +12883,19 @@
         position: relative !important;
         height: auto !important;
         inset: auto;
+        overflow: visible;
       }
       .ai-lab-work {
         height: auto !important;
+      }
+      .ai-letter-sticky .ai-lab-sticky {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        padding-bottom: 24px !important;
       }
       .ai-lab-sticky {
         height: auto;
@@ -12893,22 +12903,45 @@
         max-height: none;
         overflow: visible;
       }
+      .ai-letter-sticky .ai-lab-grid {
+        height: auto !important;
+        max-height: none !important;
+      }
       .ai-lab-grid {
         grid-template-columns: 1fr;
         height: auto;
         max-height: none;
       }
       .ai-lab-left,
-      .ai-think,
-      .ai-stack,
-      .ai-stack-stage {
+      .ai-think {
         height: auto;
         max-height: none;
         max-width: 100%;
         margin-left: 0;
       }
-      .ai-stack-stage {
+      /* 案例卡是 absolute inset 0，舞台必须有实高，否则叠成单列后追踪页 0 高消失 */
+      .ai-stack {
+        width: 100%;
+        max-width: 390px;
+        height: auto;
+        max-height: none;
         min-height: 0;
+        margin: 8px auto 0;
+      }
+      .ai-stack-stage {
+        width: 100%;
+        height: min(72vh, 560px);
+        min-height: 480px;
+        max-height: none;
+        max-width: 100%;
+        margin-left: 0;
+      }
+      .ai-stack-stage .ai-case:nth-child(n + 2) {
+        display: none;
+      }
+      .ai-stack-stage .ai-case {
+        transform: none !important;
+        opacity: 1 !important;
       }
     }
 

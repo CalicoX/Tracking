@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-18（Growing LTV 文案栏桌面收窄；≤640 居中）
+最后更新：2026-09-18（AI Lab 手机档追踪页示例要有实高，不能 0 高消失）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -187,7 +187,7 @@
 - API 终端是毛玻璃（半透明 + `backdrop-filter`）。祖先不要 `preserve-3d` / `filter: drop-shadow`，否则玻璃失效。
 - **≤1024**：Explore 两张卡上下排（不要 1fr 1fr）。769–1024 Features 仍双列，插图 max-width 400px、iso 缩小，避免被右栏裁切。
 - **≤768**：Hero 保留桌面 OGL mock + 绘制动画 + 底部渐隐。Features **保留 sticky 手风琴**（Park：不要改成三块平铺）；插图本身平铺、无 iso。landing-inline `mqMobile` 只到 640。Explore API **保留 ASCII 底纹滚动 + 打字机**（不要 `animation:none` 掉 `.api-ascii`；不要把 768 当 reduce 跳过填充）。`landingInline` 同时盯 Features 和 `.explore-grid`（只盯 Features 时，768 停在 Explore 会挂不上）。769–1024 last-mile/split 插图 max-width 400px、iso 收小；Branded 仍是桌面叠卡（推荐卡 `margin-left:-24px`），**表单不要拉满右栏**（Park：太宽，Track 被挡完）。768 表单 264px、推荐卡 144px、色盘 46px，整组 `max-content` 居中，色盘留 8px 垫，Track 要露出来。CTA 自适应宽度。AI 胶囊 2×2 等宽。AI Lab 左右、定高 `100vh-100px`、右侧手机追踪页 390px。Explore 卡内桌面双列。Bottom CTA 按钮左对齐。Footer 导航 **4 列平铺**（≤1024 块里 2×2，末尾 640 块才两列均分）。
-- **≤640 / 390**：Impact h2 与 Features h2 同一 `--fs-h2`。Features 标题 `padding-top: 72px`。插图 `transform: none !important` 铺平。不要给 `.feature-stage` 留 320/340 min-height。Branded **左右叠**（208 / 128 / -22），不要上下拆开。Hero / Features / AI Lab / Bottom CTA 按钮左右并排。Returns 舞台 **360px**，method `top:178px`，两扇窗上下拉开但仍轻叠；Exchange 不要被切。曲线 200px / z-index 2。Features 三块标题同一蓝紫渐变。Explore Returns/API 卡内上下布局。
+- **≤640 / 390**：Impact h2 与 Features h2 同一 `--fs-h2`。Features 标题 `padding-top: 72px`。插图 `transform: none !important` 铺平。不要给 `.feature-stage` 留 320/340 min-height。Branded **左右叠**（208 / 128 / -22），不要上下拆开。Hero / Features / AI Lab / Bottom CTA 按钮左右并排。Returns 舞台 **360px**，method `top:178px`，两扇窗上下拉开但仍轻叠；Exchange 不要被切。曲线 200px / z-index 2。Features 三块标题同一蓝紫渐变。Explore Returns/API 卡内上下布局。**AI Lab 追踪页示例必须露出来（2026-09-18 Park）**：`.ai-case` 是 absolute，叠成单列后舞台不能 `min-height:0`；`.ai-stack-stage` 要实高（`min(72vh,560px)` / min 480），只留第一张卡；同时用更高特异把 768 的 `.ai-letter-sticky .ai-lab-work/.ai-lab-sticky/.ai-lab-grid` 的 `height:100%` / `max-height: var(--ai-content-h)` 解开，否则工作区锁一屏、示例溢到 Credentials 上等于看不见。
 - **AI intro 标题 768 字太小（2026-09-01 Park）**：根因是 ≤768 块里 `#ai-intro-title` 组选择器上的 `font-size: inherit`——把标题打回 body ≈14px，比 lead（15.2px）还小、层级反了。已删（三站同步），让桌面连续曲线 `clamp(34px, calc(26.08px + 2.2vw), 56px)` 自然流下来：768≈43px、375≈34.3px。这条桌面曲线是 `.ai-lab-intro h2` 顶层规则（landing.css），别再往媒体查询里写覆盖。**API 站 LandingPage 没挂 AiLab**（只有 LegacyLanding 旧版有），API 的这条规则是死代码、仍保持同步即可。
 
 ## 产品
@@ -229,6 +229,7 @@
 - 不要把 Branded 推荐图换成暖色瑜伽人像（用现有产品图）。
 - 不要把手机 Hero 插图外框改成刘海手机壳（Park 否过，已回退）。
 - 不要在 768 把 AI Lab 高度设成 auto（Park：100vh-100px，不要变化高度）。
+- 不要在 ≤640 给 `.ai-stack-stage` 写 `min-height:0` 却不给绝对定位的 `.ai-case` 实高（Park：tracking page 示例图移动端看不到了）。
 - 不要在 768 把 AI Lab 右侧示例挤成桌面双栏追踪页（Park：改成移动端）。
 - 不要在 768 隐藏 `.api-ascii`，也不要用 `animation: none` 停掉 `.api-ascii-a/b`（Park：动画、底纹都没了）。
 - 不要只对 `#key-features` 挂 `landing-inline`（768 停在 Explore 时 Features 不在视口，打字机和底纹都不会挂）。
