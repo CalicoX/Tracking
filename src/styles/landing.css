@@ -12932,8 +12932,50 @@
       .ai-letter-sticky .ai-lab-intro {
         position: relative !important;
         height: auto !important;
+        min-height: 100svh !important;
         opacity: 1 !important;
         visibility: visible !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      /* 跟桌面同一构图：eyebrow 一行胶囊，标题两句两行 */
+      .ai-intro-eyebrow {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        width: auto;
+        max-width: 100%;
+        box-sizing: border-box;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        padding: 6px 12px;
+        gap: 0;
+      }
+      .ai-intro-eyebrow .ai-word-ai,
+      .ai-intro-eyebrow .ai-eyebrow-rest {
+        white-space: nowrap;
+        flex: 0 0 auto;
+      }
+      .ai-lab-intro h2#ai-intro-title {
+        max-width: 100%;
+        font-size: clamp(20px, 6.4vw, 32px);
+      }
+      .ai-lab-intro h2#ai-intro-title .ai-title-line,
+      .ai-lab-intro h2#ai-intro-title .ai-word {
+        white-space: nowrap !important;
+      }
+      .ai-intro-orb-row {
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+      .ai-intro-orb-row #ai-intro-orb-canvas {
+        width: 48px;
+        height: 48px;
+      }
+      .ai-intro-orb-label {
+        font-size: 16px;
       }
       .ai-intro-persp {
         position: relative;
