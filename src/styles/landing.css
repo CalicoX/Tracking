@@ -12567,6 +12567,20 @@
       .os-events li:nth-child(n + 2) {
         display: none;
       }
+      .bottom-cta .section-inner {
+        align-items: center;
+        text-align: center;
+      }
+      .bottom-cta-copy {
+        width: 100%;
+        text-align: center;
+      }
+      .bottom-cta h2,
+      .bottom-cta p {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
       /* buttons side by side, centered (Park) */
       .hero .cta-row,
       .features-section .feature-cta,
@@ -12606,8 +12620,8 @@
         --sw-h: 40px;
       }
       .bottom-cta .cta-row {
-        justify-content: flex-start;
-        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
       }
       .bottom-cta .cta-row .btn-switch,
       .bottom-cta .cta-row .btn-demo {
