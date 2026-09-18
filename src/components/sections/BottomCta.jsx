@@ -4,7 +4,7 @@ export default function BottomCta() {
 <section className="bottom-cta" id="bottom-cta">
         <canvas className="bottom-cta-shader" id="bottom-cta-shader" aria-hidden="true"></canvas>
         <div className="section-inner">
-          <div>
+          <div className="bottom-cta-copy">
             <h2>Growing LTV along the way</h2>
             <p>Turn every post-purchase touchpoint into an opportunity to drive repeat purchases and customer value.</p>
           </div>

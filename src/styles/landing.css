@@ -10943,13 +10943,16 @@
       border: 0;
       box-sizing: border-box;
     }
+    .bottom-cta-copy {
+      max-width: 20rem;
+    }
     .bottom-cta h2 {
-      max-width: 16ch;
+      max-width: none;
       color: #fff;
     }
     .bottom-cta p {
       color: rgba(255, 255, 255, 0.68);
-      max-width: 42em;
+      max-width: none;
       margin: var(--sec-title-desc) 0 0;
       font-size: clamp(13px, calc(11.92px + 0.3vw), 16px);
       line-height: 1.6;
@@ -11517,6 +11520,9 @@
         grid-template-columns: 1fr;
         padding-top: 96px;
         padding-bottom: 96px;
+      }
+      .bottom-cta-copy {
+        max-width: 36rem;
       }
       .ai-lab-grid {
         grid-template-columns: 1fr;
@@ -12246,6 +12252,9 @@
         gap: 20px;
         padding-top: var(--sec-y);
         padding-bottom: var(--sec-y);
+      }
+      .bottom-cta-copy {
+        max-width: none;
       }
       .bottom-cta .cta-row {
         flex-wrap: wrap;
