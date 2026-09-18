@@ -317,10 +317,14 @@ export function mount() {
             scene ? Math.max(scene.scrollHeight, scene.offsetHeight) : 0,
             mock.scrollHeight
           );
-          var shadowPad = 72;
-          var s = Math.min(1, Math.max(0.12, (availW - 2 * shadowPad) / natW));
+          var isPhone = mqMobile.matches;
+          var shadowPad = isPhone ? 16 : 72;
+          var s = Math.min(
+            1,
+            Math.max(0.12, (availW - (isPhone ? 0 : 2 * shadowPad)) / natW)
+          );
           var availH = (visual && visual.clientHeight) || 0;
-          if (availH > 2 * shadowPad + 80) {
+          if (!isPhone && availH > 2 * shadowPad + 80) {
             s = Math.min(s, Math.max(0.12, (availH - 2 * shadowPad) / natH));
           }
           var scaledH = Math.round(natH * s);

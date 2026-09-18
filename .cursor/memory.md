@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-18（AI intro 手机档跟桌面同一构图：eyebrow 一行、标题两句两行）
+最后更新：2026-09-18（Features 手机插图按栏宽满铺缩放，shadowPad 16 不再减 2×72）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -131,7 +131,7 @@
 
 ## Features（4 块）
 
-- **四大插图等比例缩放（2026-09-15 Park 定案；同日修裁切）**：全站禁止对 Features 插图在媒体查询中做拆卡或上下堆叠改造。PC 原尺寸排版 + 整组 `transform: scale(var(--fx-scale))`（**不要用独立 `scale` 属性叠在别的 `transform` 上，origin 会被打回中心、顶栏被切**）。`fitAll()` / `updateFeatureScales()` 用 **stage 内容宽 − 2×72 投影垫** ÷ 设计宽，**同时按栏高吃 scale**（Branded 追踪页实测 624 高，只按宽会 s=1、槽 704 超出面板把底影裁掉）。高度按 scene `scrollHeight` 实量。槽：`.feature-stage` `overflow:hidden` + 高 `--fx-scaled-h + 2×--fx-shadow-pad`；`.fx-mock` `left: var(--fx-left); top: var(--fx-shadow-pad); transform-origin: top left`。**投影被切** = 槽垫 < 投影范围（hero `.browser` 那组 `64px 100px` 影要 128px，Features 里改成功能卡那套 `24px 52px -16px`）、或 `.fx-so-page { overflow:hidden }` 剪自己的 box-shadow、或 `--mock-shift` 把 mock 在 overflow:hidden 槽里往下推。`--fx-shadow-pad` = **72**。
+- **四大插图等比例缩放（2026-09-15 Park 定案；同日修裁切）**：全站禁止对 Features 插图在媒体查询中做拆卡或上下堆叠改造。PC 原尺寸排版 + 整组 `transform: scale(var(--fx-scale))`（**不要用独立 `scale` 属性叠在别的 `transform` 上，origin 会被打回中心、顶栏被切**）。`fitAll()` / `updateFeatureScales()` 用 **stage 内容宽 − 2×72 投影垫** ÷ 设计宽，**同时按栏高吃 scale**（Branded 追踪页实测 624 高，只按宽会 s=1、槽 704 超出面板把底影裁掉）。高度按 scene `scrollHeight` 实量。槽：`.feature-stage` `overflow:hidden` + 高 `--fx-scaled-h + 2×--fx-shadow-pad`；`.fx-mock` `left: var(--fx-left); top: var(--fx-shadow-pad); transform-origin: top left`。**投影被切** = 槽垫 < 投影范围（hero `.browser` 那组 `64px 100px` 影要 128px，Features 里改成功能卡那套 `24px 52px -16px`）、或 `.fx-so-page { overflow:hidden }` 剪自己的 box-shadow、或 `--mock-shift` 把 mock 在 overflow:hidden 槽里往下推。`--fx-shadow-pad` = **72**（桌面）。**≤640（2026-09-18 Park：移动端缩放的太小了）**：`shadowPad=16`，scale 按栏宽满铺（不再减 2×72，否则 390 只剩 ~214 宽）；不要再用 visual 栏高去压 s；stage `overflow:visible`。
 - **上层毛玻璃（2026-09-15 Park）**：叠层插图的**上层**一律磨玻璃。Park 说 0.56/22px「不够」——用 `linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,.16))` + `blur(56px) saturate(1.8)`（`-webkit-` 写在前面）。下层实心白。Split = 查询页（含 `.browser-top` 也半透）；Email = Create flow；Conversion = 推荐卡。不要 `filter: drop-shadow`。**坑（09-15）：`.feature-panel { filter: blur(var(--fp-blur)) }` 即使 `--fp-blur:0px` 也是 backdrop root，Chrome 把面板里叠层卡的 backdrop-filter 采成空，毛玻璃变实心白。居中面板必须 `filter:none` + `will-change:auto`；只有离场才加 `.is-fp-blur`。iso 已关，`.fx-mock` / cluster 不要 `preserve-3d`。**
 - 官方产品页只有 3 块，落地页已对齐，去掉 Proactive notifications。
 - 顺序：Last-Mile Visibility → Split-Order Management → Branded Tracking Experience。

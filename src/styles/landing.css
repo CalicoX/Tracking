@@ -12806,14 +12806,14 @@
         padding: 4px 0 12px;
       }
       .feature-panel .feature-stage {
-        height: calc(var(--fx-scaled-h, 320px) + 2 * var(--fx-shadow-pad, 72px));
-        min-height: calc(var(--fx-scaled-h, 0px) + 2 * var(--fx-shadow-pad, 72px));
+        height: calc(var(--fx-scaled-h, 320px) + 2 * var(--fx-shadow-pad, 16px));
+        min-height: calc(var(--fx-scaled-h, 0px) + 2 * var(--fx-shadow-pad, 16px));
         max-height: none;
         width: 100%;
         max-width: 100%;
         min-width: 0;
         display: block;
-        overflow: hidden;
+        overflow: visible;
         padding: 0;
         margin: 0 auto;
       }
