@@ -12492,9 +12492,22 @@
       }
       .impact-curve {
         top: auto;
-        height: 200px !important;
+        height: 240px !important;
         z-index: 2;
-        opacity: 0.95;
+        opacity: 1;
+      }
+      .impact-curve svg {
+        filter: saturate(1.35) contrast(1.15);
+      }
+      .impact-curve .curve-line {
+        stroke-width: 3.5px;
+        vector-effect: non-scaling-stroke;
+        filter:
+          drop-shadow(0 0 0.6px #2563eb)
+          drop-shadow(0 0 10px rgba(99, 102, 241, 0.6));
+      }
+      .impact-curve .curve-fill {
+        opacity: 1;
       }
       .hero-inner {
         gap: 14px;
