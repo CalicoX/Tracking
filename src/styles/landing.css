@@ -10945,7 +10945,7 @@
       box-sizing: border-box;
     }
     .bottom-cta-copy {
-      max-width: 20rem;
+      max-width: 52rem;
       text-align: center;
     }
     .bottom-cta h2 {
@@ -11526,7 +11526,7 @@
         padding-bottom: 96px;
       }
       .bottom-cta-copy {
-        max-width: 36rem;
+        max-width: min(52rem, 100%);
       }
       .ai-lab-grid {
         grid-template-columns: 1fr;
