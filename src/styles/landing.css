@@ -8344,6 +8344,72 @@
       .ogl-trail-side {
         position: static;
       }
+      .ogl-status,
+      .ai-case-lightbox-scroll .ogl-status,
+      .ogl-split,
+      .ogl-dash-head,
+      .ogl-dash-body,
+      .ogl-dash-events,
+      .ogl-page.layout-split .ogl-why-row {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+      .ogl-split {
+        min-height: 0;
+      }
+      .ogl-hsteps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .ogl-mono {
+        text-align: left;
+      }
+      .ogl-order-row b {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .ogl-events-head {
+        flex-wrap: wrap;
+      }
+      .ogl-events-meta {
+        text-align: left;
+      }
+      .ogl-nav-links {
+        display: none;
+      }
+      .ai-case-lightbox {
+        padding: 8px;
+      }
+      .ai-case-lightbox-panel {
+        width: calc(100vw - 16px);
+        height: min(96vh, calc(100vh - 16px));
+        max-height: min(96vh, calc(100vh - 16px));
+        border-radius: 16px;
+      }
+      .ai-case-lightbox-scroll .ogl-hero {
+        height: 200px;
+        min-height: 160px;
+      }
+      .ai-case-lightbox-scroll .ogl-track-float {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        top: auto;
+        bottom: 10px;
+        transform: none;
+        padding: 14px 14px 12px;
+      }
+      .ai-case-lightbox-scroll .ogl-status,
+      .ai-case-lightbox-scroll .ogl-fav,
+      .ai-case-lightbox-scroll .ogl-why {
+        max-width: none;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .ai-case-lightbox-scroll .ogl-status {
+        padding-top: 16px;
+        gap: 14px;
+      }
     }
     .ogl-status {
       max-width: 860px;
@@ -8442,7 +8508,8 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 10.5px;
       letter-spacing: -0.02em;
-      word-break: break-all;
+      overflow-wrap: anywhere;
+      word-break: break-word;
       text-align: right;
     }
     .ogl-kicker {
