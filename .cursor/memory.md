@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-18（Impact 手机曲线加粗不缩放描边，避免看不清）
+最后更新：2026-09-20（清掉 ai-intro-ascii 里未用的 GLYPH_MORPH_TEXT / glyphProgress，morph 动画本身还在）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
