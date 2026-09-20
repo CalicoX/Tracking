@@ -23,7 +23,6 @@ const FIELD_H = 144;
 const GLYPH_CELL_MIN = 1.9;
 const GLYPH_CELL_MAX = 2.4;
 const GLYPH_PARTICLE_CAP = 16000;
-const GLYPH_MORPH_TEXT = "Tracking Page";
 const GLYPH_TARGET_VH = 0.8;
 const GLYPH_LIGHT_COLORS = ["#4a3d96", "#5b4bb0"];
 const GLYPH_MID_COLORS = ["#6d5bd0", "#7c6bd6"];
@@ -464,11 +463,6 @@ export function mount() {
       g.fill();
     }
     g.globalAlpha = 1;
-  }
-
-  /** 滚入汇聚（enter 0→1），滚出散开（exit 1→0）。 */
-  function glyphProgress() {
-    return glyphEnter * (1 - exitProgress(track));
   }
 
   function startGlyph() {
