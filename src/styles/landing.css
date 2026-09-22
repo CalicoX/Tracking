@@ -10813,7 +10813,6 @@
       position: relative;
       width: 100%;
       overflow: visible;
-      padding-bottom: 36px;
     }
     .returns-ui-kv {
       display: block;
@@ -10822,7 +10821,7 @@
       aspect-ratio: 1624 / 1120;
       max-width: 100%;
       object-fit: cover;
-      object-position: center 42%;
+      object-position: center top;
       border-radius: 22px;
     }
     .returns-kv-flow,
@@ -10831,21 +10830,23 @@
       z-index: 2;
     }
     .returns-kv-flow {
-      left: 1%;
-      top: 2%;
-      width: 62%;
+      left: 10px;
+      top: 12px;
+      width: 292px;
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      transform: scale(0.84);
+      transform: scale(0.64);
       transform-origin: left top;
     }
     .returns-kv-method {
-      right: 1%;
-      bottom: 4%;
-      width: 44%;
+      right: 10px;
+      bottom: 12px;
+      width: 248px;
       z-index: 3;
-      padding: 12px 12px 10px;
+      padding: 16px 16px 14px;
+      transform: scale(0.64);
+      transform-origin: right bottom;
     }
     .returns-kv-card,
     .returns-kv-method {
@@ -10859,28 +10860,27 @@
       backdrop-filter: blur(22px) saturate(1.4);
       -webkit-backdrop-filter: blur(22px) saturate(1.4);
     }
-    .returns-kv-card { padding: 10px 10px 8px; }
+    .returns-kv-card { padding: 16px 16px 14px; }
     .returns-kv-card p,
     .returns-kv-method p {
-      margin: 0 0 6px;
+      margin: 0 0 12px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: -0.02em;
       color: #111827;
-      white-space: nowrap;
     }
     .returns-kv-item {
       display: grid;
-      grid-template-columns: 28px minmax(0, 1fr) 14px;
+      grid-template-columns: 40px minmax(0, 1fr) 16px;
       align-items: center;
-      gap: 6px;
-      padding: 3px 4px;
-      border-radius: 10px;
+      gap: 10px;
+      padding: 6px 8px;
+      border-radius: 12px;
     }
-    .returns-kv-item.is-on { background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08); }
-    .returns-kv-item img { width: 28px; height: 28px; border-radius: 7px; object-fit: cover; display: block; }
-    .returns-kv-item strong { display: block; font-size: 12px; font-weight: 650; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .returns-kv-item em { display: block; margin-top: 1px; font-style: normal; font-size: 10.5px; color: #71717a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .returns-kv-item.is-on { background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06); }
+    .returns-kv-item img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; display: block; }
+    .returns-kv-item strong { display: block; font-size: 13px; font-weight: 650; color: #111827; }
+    .returns-kv-item em { display: block; margin-top: 2px; font-style: normal; font-size: 11px; color: #71717a; }
     .returns-kv-item i,
     .returns-kv-item b,
     .returns-kv-reason i,
@@ -10901,8 +10901,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 16px;
-      margin: -2px 0;
+      height: 36px;
+      margin: -5px 0;
       z-index: 3;
     }
     .returns-kv-link b { width: 8px; height: 8px; border-radius: 50%; background: #14b8a6; box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.22); }
@@ -10910,26 +10910,26 @@
     .returns-kv-reason {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 1px 0;
-      font-size: 11.5px;
+      gap: 10px;
+      padding: 2px 0;
+      font-size: 12.5px;
       color: #52525b;
-      white-space: nowrap;
     }
     .returns-kv-reason.is-on { color: #111827; font-weight: 600; }
     .returns-kv-method div {
       display: flex;
       align-items: center;
-      gap: 8px;
-      height: 36px;
-      margin-top: 6px;
-      padding: 0 10px;
+      gap: 10px;
+      height: 40px;
+      margin-top: 8px;
+      padding: 0 12px;
       border-radius: 12px;
       background: #fff;
       border: 1px solid rgba(15, 23, 42, 0.08);
-      font-size: 13px;
-      font-weight: 650;
+      font-size: 12.5px;
+      font-weight: 600;
       color: #111;
+      white-space: nowrap;
     }
     .returns-kv-method div.is-on { box-shadow: 0 0 0 2px #14b8a6; }
     .returns-kv-method svg { width: 18px; height: 18px; flex: none; color: #0f766e; }

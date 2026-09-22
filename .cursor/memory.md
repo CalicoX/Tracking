@@ -17,7 +17,7 @@
 
 ## Explore 17RETURNS 配图（2026-09-22）
 
-- 右侧底图是纯球场照片 `public/assets/returns-kv.jpg`（`.returns-ui-kv`），尺寸按卡片宽度缩小，不要把三张玻璃卡烤进这张图。三张卡是浮层（`.returns-kv-flow` / `.returns-kv-method`），比底图框更大，可以悬出照片圆角。不要接退货流程动画。API 落地页同一套浮层。
+- 右侧底图是纯球场照片 `public/assets/returns-kv.jpg`，`object-position: center top`，头顶不要被裁掉。三张玻璃卡按退货页原尺寸（左栏 292 / 右栏 248）整体 `scale(0.64)`，不要用百分比宽度把字折行或省略。不要接退货流程动画。API 同一套。
 
 ## Coverage 数字（2026-09-22）
 
