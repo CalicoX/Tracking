@@ -1,6 +1,10 @@
 # Memory
 
-最后更新：2026-09-22（AI intro 底部加 Powered by AI 镭射标签）
+最后更新：2026-09-22（Coverage 五组数字换成 3,500+ / 230+ / 33+ / 22M+ / 16 years）
+
+## Coverage 数字（2026-09-22）
+
+- `CoverageBand` 五项：`3,500+` Carriers Worldwide、`230+` Countries and Regions、`33+` Languages、`22M+` Daily Tracking Requests、`16 years` Industry Expertise。不要改回 4,000+ / 9+30 / 99.9% / 95%+ / SLA。
 
 ## AI intro 镭射标签（2026-09-22）
 

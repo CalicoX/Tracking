@@ -1,11 +1,11 @@
 /** Presentational section: CoverageBand — Top Global Carriers Coverage, centered on animated dot-globe. */
 
 const ITEMS = [
-  { value: "4,000+", label: "Carriers Worldwide" },
-  { value: "9+30", label: "Standardized Shipment Status" },
-  { value: "99.9%", label: "Tracking Accuracy" },
-  { value: "95%+", label: "Carrier Recognition Success Rate" },
-  { value: "99.9%", label: "SLA" },
+  { value: "3,500+", label: "Carriers Worldwide" },
+  { value: "230+", label: "Countries and Regions" },
+  { value: "33+", label: "Languages" },
+  { value: "22M+", label: "Daily Tracking Requests" },
+  { value: "16 years", label: "Industry Expertise" },
 ];
 
 export default function CoverageBand() {
