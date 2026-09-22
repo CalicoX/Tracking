@@ -366,7 +366,6 @@ export default function FeaturesSection() {
                                 </span>
                                 <dl className="fx-em-meta">
                                   <div><dt>Carrier</dt><dd>USPS</dd></div>
-                                  <div><dt>Carrier phone</dt><dd>+0 321 3278 321</dd></div>
                                 </dl>
                               </div>
                               <div className="fx-so-page">

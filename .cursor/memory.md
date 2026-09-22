@@ -1,12 +1,17 @@
 # Memory
 
-最后更新：2026-09-22（邮件中间加浏览器框，Delivery Status 和 Create flow 加大）
+最后更新：2026-09-22（拆单：突出 Package 标签，删 Carrier phone，单号再模糊）
 
 ## Features 邮件插图（2026-09-22）
 
 - 仍是异常邮件 + Create flow（触发器 Exception / Detected，不要改）。另外三块来自参考图：左侧 `Delivery Status`（In-Transit 蓝底）、邮件底部 Recommended 三张白底商品（`public/assets/features/email-pick-1.jpg` 圆筒、`email-pick-2.jpg` 方盒、`email-pick-3.jpg` 塔扇，无 logo）、Create flow 右沿绿标 `↓95% WISMO`。
 - 设计宽 **780**。左 padding 184、右 padding 40，侧标收在 scene 里面。不要再用负定位探出设计框，390 会切字。状态卡不要压进邮件正文。
 - **中间邮件有浏览器外框（09-22 Park）**：`.fx-em-window.browser`，红黄绿点 + `yourstore.com`。警告标挂在框的右上角。Delivery Status 和 Create flow 比第一版大一档。flow 的 `margin-left` 停在 -20px，再往左压会盖住单号末位。
+
+## Features 拆单插图（2026-09-22）
+
+- 右侧 `Package #1 / #2` 标签加大、选中态更实。进度节点保持 Hero 定稿 `Order pending / Info Received / In Transit / Pick Up / Delivered`，不要改回 Ordered / Processed / Shipped / Out。
+- 左信删了 Carrier phone，只留 Carrier。右侧 USPS 单号用 `.fx-so-page .os-carrier-num` 的 `blur(6px)`，比 Hero 的 3px 更糊。
 
 ## Features 第 1 块插图（Branded Tracking Page，2026-09-22）
 
