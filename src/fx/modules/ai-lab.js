@@ -1846,7 +1846,7 @@ export function mount() {
         shop: ["Drones", "Accessories", "Parts"],
       },
       {
-        layout: "brand",
+        layout: "aussie",
         logo: "Aussie Betta",
         nav: ["Shop", "Journal"],
         theme: "theme-aussie",
@@ -2461,11 +2461,38 @@ export function mount() {
       );
     }
 
+    function buildLayoutAussie() {
+      return (
+        '<div class="ogl-page ab-page">' +
+        '<div class="ab-bar">Made in Australia · Free US Shipping Over $50 · 30-Day Hassle-Free Returns</div>' +
+        '<header class="ab-head"><img class="ab-logo" src="/assets/features/aussie-logo.png" alt="Aussie Betta"><nav class="ab-nav"><span>Home</span><span>All Products</span><span>Lanolin Series</span><span>Tallow Series</span><span>Professional Care</span><span>Blog</span></nav><span class="ab-tools">JP / EN</span></header>' +
+        '<section class="ab-hero"><div class="ab-hero-copy"><img src="/assets/features/aussie-logo.png" alt=""><p>Australian Face &amp; Body Care</p><h2>Track Your Aussie Betta Order</h2><span>Follow every step from our Australian workshop to your door, with targeted skincare on the way.</span></div></section>' +
+        '<section class="ab-query"><div class="ab-card"><div class="ab-tabs"><span class="is-on">Track Number</span><span>Order Number</span></div><input readonly tabindex="-1" value="11**********45"><button type="button" tabindex="-1">Track Order</button></div></section>' +
+        '<section class="ab-result"><div class="ab-status"><h3>Your order has been delivered.</h3><small>Time of delivery: Aug 11, 2026</small><div class="ab-barline"><b></b><span class="is-on">Order pending</span><span class="is-on">Info Received</span><span class="is-on">In Transit</span><span class="is-on">Pick Up</span><span class="is-on">Delivered</span></div><p class="ab-lang">Translate · English</p><div class="ab-ship"><strong>UniUni</strong><em>11**********45</em></div><ul class="ab-tl"><li class="is-on"><b>11 Aug, 2026 04:05</b><span>Myrtle Beach SC, Delivered</span></li><li><b>9 Aug, 2026 19:58</b><span>Myrtle Beach SC, Out for delivery</span></li><li><b>9 Aug, 2026 19:14</b><span>Charleston SC, Arrival scan</span></li><li><b>9 Aug, 2026 11:26</b><span>UNI DATA CENTER, Order received</span></li></ul><p class="ab-more">4 events are hidden. <em>Show more</em></p></div><aside class="ab-order"><h3>Order Information</h3><div class="ab-item"><img src="/assets/features/aussie-oil.jpg" alt=""><div><b>Yellow Peeling Oil</b><span>Gentle body treatment · $24.99</span></div></div><p>Destination · United States</p><p>Transport Time · 6 Days</p><p>Order Number · ******</p></aside></section>' +
+        '<section class="ab-recs"><h3>Recommended For You</h3><p>You might also like</p><div class="ab-grid">' +
+        '<article><img src="/assets/features/aussie-p1.jpg" alt=""><b>Golden Micro-Peptide Tallow Serum</b><span>$29.99</span><button type="button" tabindex="-1">Add to Cart</button><i>Buy Now</i></article>' +
+        '<article><img src="/assets/features/aussie-p2.jpg" alt=""><b>Time-Repair Tallow Revitalizing Cream</b><span>$29.99</span><button type="button" tabindex="-1">Add to Cart</button><i>Buy Now</i></article>' +
+        '<article><img src="/assets/features/aussie-p3.jpg" alt=""><b>Gold Turmeric &amp; Lanolin Soap</b><span>$16.99</span><button type="button" tabindex="-1">Add to Cart</button><i>Buy Now</i></article>' +
+        '<article><img src="/assets/features/aussie-p4.jpg" alt=""><b>Lanolin &amp; Salicylic Acid Pore-Tightening Soap</b><span>$16.99</span><button type="button" tabindex="-1">Add to Cart</button><i>Buy Now</i></article>' +
+        "</div></section>" +
+        '<section class="ab-why"><div class="ab-why-head"><h3>Why Aussie Betta</h3><p>Targeted Australian skincare for face and body.</p></div><div class="ab-why-grid">' +
+        "<article><b>01</b><strong>Natural Animal-Sourced Oils</strong><span>Grass-fed tallow and premium lanolin for nourishment and barrier support.</span></article>" +
+        "<article><b>02</b><strong>Cutting-Edge Biotechnology</strong><span>Quad-peptide matrices, postbiotic ferments, and clinically studied actives.</span></article>" +
+        "<article><b>03</b><strong>Australian Heritage</strong><span>Ingredients from pristine pastoral lands, clean air, and sustainable farming.</span></article>" +
+        "<article><b>04</b><strong>Targeted Face &amp; Body Care</strong><span>Lanolin, Tallow, and Professional Care series for different skin needs.</span></article>" +
+        "</div></section>" +
+        '<section class="ab-story"><img src="/assets/features/aussie-story.jpg" alt="Tasmania Organic Pasture"><div><p>From natural Australian grass-fed farms</p><h3>Natural Ingredients. Scientific Results.</h3><span>Born in the heart of Australia\'s pristine pastoral lands, Aussie Betta bridges the wisdom of nature with the precision of modern science. We source grass-fed tallow and premium lanolin from Australian farms and combine them with quad-peptide matrices, postbiotic ferments, and triple-pathway brightening systems.</span><div class="ab-tags"><i>Australian Made</i><i>Natural Oils</i><i>Peptide Science</i><i>Face &amp; Body</i></div></div></section>' +
+        '<footer class="ab-foot"><div><b>Shop</b><span>Lanolin Series</span><span>Tallow Series</span><span>Professional Care</span><span>All Products</span></div><div><b>Help</b><span>Shipping policy</span><span>Refund policy</span><span>Subscription policy</span><span>Privacy policy</span></div><div><b>About</b><span>About us</span><span>Contact us</span><span>Track your order</span><span>Shipping insurance claim</span></div><div><b>Stay connected</b><span>Instagram</span><span>TikTok</span></div><small>© 2026 Aussie Betta. Powered by Shopify.</small></footer>' +
+        "</div>"
+      );
+    }
+
     function buildCaseHtml(c) {
       var layout = c.layout || "hero";
       if (layout === "noissey") return buildLayoutNoissey();
       if (layout === "outin") return buildLayoutOutin();
       if (layout === "swellpro") return buildLayoutSwellpro();
+      if (layout === "aussie") return buildLayoutAussie();
       if (layout === "brand") return buildLayoutBrand(c);
       if (layout === "split") return buildLayoutSplit(c);
       if (layout === "steps") return buildLayoutSteps(c);
@@ -2508,7 +2535,7 @@ export function mount() {
     }
 
     function update() {
-      var nsPages = stage.querySelectorAll(".ns-page, .oi-page, .sp-page");
+      var nsPages = stage.querySelectorAll(".ns-page, .oi-page, .sp-page, .ab-page");
       for (var ni = 0; ni < nsPages.length; ni++) {
         var nsArt = nsPages[ni].closest(".ai-case-art");
         if (!nsArt) continue;
