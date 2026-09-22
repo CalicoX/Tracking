@@ -1,6 +1,11 @@
 # Memory
 
-最后更新：2026-09-22（17RETURNS 卡右侧换成 Returns 首页 KV 静图，只缩小不动画）
+最后更新：2026-09-22（深色底栏和 Start Free Trial 去掉 border beam；按钮停在圆钮靠右）
+
+## 底栏 / Start Free Trial（2026-09-22）
+
+- 深色底栏（`dock-on-dark`）不再 `setActive` border beam。描边留在 `.dock-on-dark .tabs` 的 1px 白边，不要把 `border-color` 再降到 0.08 交给 beam。
+- `.btn-switch` 圆钮固定在右侧（原先 hover 终态），没有滑行 morph，也不挂 border beam。内层 shader 停在 hover 那一帧，不要再开 `btn-switch-shader-flow`。
 
 ## Explore 17RETURNS 配图（2026-09-22）
 

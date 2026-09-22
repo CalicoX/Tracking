@@ -529,18 +529,10 @@ export function mount() {
       active: false,
     });
 
-    function isDark() {
-      return !!(dock && dock.classList.contains("dock-on-dark"));
-    }
-
     function sync() {
       if (!api) return;
-      // 高度变化时圆角跟着 pill
-      var h = tabs.getBoundingClientRect().height;
-      if (h > 8) {
-        // 仅更新 CSS 变量不够（radius 写死在 stylesheet）；resize 时 remount 成本高，固定用大圆角即可
-      }
-      api.setActive(isDark());
+      // 深色底栏不再点亮 border beam，只留毛玻璃描边
+      api.setActive(false);
     }
 
     var mo = null;

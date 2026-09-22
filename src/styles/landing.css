@@ -390,13 +390,13 @@
       height: var(--sw-h);
       min-height: var(--sw-h);
       min-width: 188px;
-      /* 默认：左侧给 knob 留位 */
+      /* 停在原先 hover 终态：文案在左，圆钮在右 */
       padding: var(--sw-pad);
-      padding-left: calc(var(--sw-pad) + var(--sw-knob) + var(--sw-gap));
-      padding-right: calc(var(--sw-pad) + 14px);
+      padding-left: calc(var(--sw-pad) + 14px);
+      padding-right: calc(var(--sw-pad) + var(--sw-knob) + var(--sw-gap));
       box-sizing: border-box;
       border-radius: 999px;
-      border: 1px solid rgba(160, 190, 255, 0.28);
+      border: 1px solid rgba(190, 215, 255, 0.42);
       background:
         linear-gradient(180deg, var(--sw-bg1) 0%, var(--brand-primary) 48%, var(--sw-bg0) 100%);
       color: #f5f8ff;
@@ -409,14 +409,11 @@
       cursor: pointer;
       isolation: isolate;
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.18),
-        0 1px 3px rgba(0, 40, 110, 0.28) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 4px 14px rgba(0, 58, 155, 0.32) !important;
       filter: none !important;
       transform: none !important;
-      transition:
-        padding var(--sw-dur) var(--sw-ease),
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
+      transition: none;
     }
     /* 内层 shader：偏 primary 蓝光雾（border-beam 占用 ::before/::after） */
     .btn-switch-shader {
@@ -432,32 +429,15 @@
         radial-gradient(ellipse 50% 55% at 50% 110%, rgba(0, 58, 155, 0.25), transparent 52%),
         radial-gradient(ellipse 40% 45% at 70% 8%, rgba(180, 210, 255, 0.2), transparent 50%);
       mix-blend-mode: soft-light;
-      opacity: 0.9;
-      animation: btn-switch-shader-flow 7.5s ease-in-out infinite alternate;
-      will-change: filter, transform, opacity;
-    }
-    @keyframes btn-switch-shader-flow {
-      0% {
-        filter: hue-rotate(-6deg) brightness(0.98) saturate(1.05);
-        transform: scale(1) translate3d(0, 0, 0);
-        opacity: 0.82;
-      }
-      50% {
-        filter: hue-rotate(8deg) brightness(1.1) saturate(1.15);
-        transform: scale(1.05) translate3d(2%, -2%, 0);
-        opacity: 0.96;
-      }
-      100% {
-        filter: hue-rotate(14deg) brightness(1.04) saturate(1.1);
-        transform: scale(1.02) translate3d(-2%, 2%, 0);
-        opacity: 0.88;
-      }
+      opacity: 1;
+      filter: hue-rotate(6deg) brightness(1.14) saturate(1.2);
+      animation: none;
     }
     .btn-switch-knob {
-      /* !important：border-beam 会给子元素写 position:relative，需保住绝对定位滑动 */
+      /* 固定在右侧，和原先 hover 终态一致 */
       --sw-knob-w: var(--sw-knob);
       position: absolute !important;
-      left: var(--sw-pad);
+      left: calc(100% - var(--sw-pad) - var(--sw-knob));
       top: 50%;
       width: var(--sw-knob-w);
       height: var(--sw-knob);
@@ -471,12 +451,8 @@
       box-shadow:
         0 1px 3px rgba(0, 30, 90, 0.28),
         inset 0 1px 0 rgba(255, 255, 255, 0.95);
-      /* left 滑行 + 回程宽度收圆 */
-      transition:
-        left var(--sw-dur) var(--sw-ease),
-        width 0.22s ease;
+      transition: none;
       pointer-events: none;
-      will-change: left, width;
     }
     .btn-switch-knob svg {
       width: 18px;
@@ -540,29 +516,12 @@
     }
     .btn-switch:hover,
     .btn-switch:focus-visible {
-      /* 右侧给 knob 留位，文案整体落在左侧空档 */
-      padding-left: calc(var(--sw-pad) + 14px);
-      padding-right: calc(var(--sw-pad) + var(--sw-knob) + var(--sw-gap));
-      border-color: rgba(190, 215, 255, 0.42);
       filter: none !important;
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.22),
-        0 4px 14px rgba(0, 58, 155, 0.32) !important;
       transform: none !important;
     }
-    .btn-switch:hover .btn-switch-shader,
-    .btn-switch:focus-visible .btn-switch-shader {
-      opacity: 1;
-      filter: hue-rotate(6deg) brightness(1.14) saturate(1.2);
-    }
     .btn-switch:hover .btn-switch-knob,
-    .btn-switch:focus-visible .btn-switch-knob,
-    .btn-switch-knob.is-knob-go {
-      /* 滑到最右；文案已通过 padding 让到左侧，不重叠 */
+    .btn-switch:focus-visible .btn-switch-knob {
       left: calc(100% - var(--sw-pad) - var(--sw-knob));
-    }
-    .btn-switch-knob.is-knob-back {
-      left: var(--sw-pad);
     }
     .btn-switch:focus-visible {
       outline: 2px solid rgba(0, 58, 155, 0.45);
@@ -570,8 +529,8 @@
     }
     /* bottom CTA：同 primary 家族，略深一点压在黑底上 */
     .btn-switch.on-dark {
-      border-color: rgba(160, 190, 255, 0.32);
-      background: linear-gradient(180deg, #0a4bb8 0%, var(--brand-primary) 50%, #002a75 100%);
+      border-color: rgba(190, 215, 255, 0.45);
+      background: linear-gradient(180deg, #1256c4 0%, #0042ad 50%, #003088 100%);
       color: #f5f8ff;
     }
     .btn-switch.on-dark .btn-switch-knob {
@@ -901,10 +860,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 1),
         inset 0 -1px 0 rgba(0, 0, 0, 0.04);
     }
-    /* 深色底栏 + border beam：边线交给 beam，避免双描边 */
-    .product-dock.dock-on-dark .tabs[data-beam] {
-      border-color: rgba(255, 255, 255, 0.08);
-    }
+    /* 深色底栏不再跑 border beam，描边留在 .dock-on-dark .tabs */
     .product-dock .tabs[data-beam] {
       /* beam 层 overflow；内容仍可点 */
       overflow: hidden;

@@ -187,95 +187,16 @@ export function mount() {
     }
   })();
 
-  /* Start free trial — 白钮滑行 morph：圆 → 胶囊 → 圆 */
-  (function switchKnobMorph() {
-    var btns = document.querySelectorAll(".btn-switch");
-    if (!btns.length) return;
-    var reduce =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    btns.forEach(function (btn) {
-      var knob = btn.querySelector(".btn-switch-knob");
-      if (!knob) return;
-
-      function go() {
-        if (reduce) return;
-        knob.classList.remove("is-knob-back");
-        /* reflow so re-trigger animation */
-        void knob.offsetWidth;
-        knob.classList.add("is-knob-go");
-      }
-      function back() {
-        if (reduce) {
-          knob.classList.remove("is-knob-go", "is-knob-back");
-          return;
-        }
-        knob.classList.remove("is-knob-go");
-        void knob.offsetWidth;
-        knob.classList.add("is-knob-back");
-      }
-
-      btn.addEventListener("pointerenter", go);
-      btn.addEventListener("pointerleave", back);
-      btn.addEventListener("focus", go);
-      btn.addEventListener("blur", back);
-    });
-  })();
-
-  /* Start free trial — 深色 pill：内层 shader + colorful dark border beam（常亮） */
+  /* Start free trial — 圆钮固定在右侧，不再滑行，也不挂 border beam */
   (function switchBtnFx() {
-    if (typeof window.mountBorderBeam !== "function") return;
     var btns = document.querySelectorAll(".btn-switch");
     if (!btns.length) return;
-
-    var io =
-      typeof IntersectionObserver !== "undefined"
-        ? new IntersectionObserver(
-            function (entries) {
-              entries.forEach(function (e) {
-                if (e.isIntersecting) {
-                  e.target.setAttribute("data-active", "");
-                  e.target.removeAttribute("data-paused");
-                } else {
-                  e.target.setAttribute("data-paused", "");
-                }
-              });
-            },
-            { threshold: 0.05 }
-          )
-        : null;
-
-    btns.forEach(function (el, i) {
-      if (!el.querySelector(".btn-switch-shader")) {
-        var sh = document.createElement("span");
-        sh.className = "btn-switch-shader";
-        sh.setAttribute("aria-hidden", "true");
-        el.insertBefore(sh, el.firstChild);
-      }
-
-      if (el.getAttribute("data-beam")) return;
-
-      var h = el.getBoundingClientRect().height || 44;
-      var radius = Math.round(h / 2);
-
-      window.mountBorderBeam(el, {
-        id: "btn-switch-" + i,
-        theme: "dark",
-        colorVariant: "colorful",
-        borderRadius: radius,
-        borderWidth: 1,
-        duration: 2.05 + i * 0.12,
-        brightness: 1.5,
-        saturation: 1.35,
-        strength: 1,
-        strokeOpacity: 0.52,
-        innerOpacity: 0.55,
-        bloomOpacity: 0.42,
-        active: true,
-      });
-
-      if (io) io.observe(el);
+    btns.forEach(function (el) {
+      if (el.querySelector(".btn-switch-shader")) return;
+      var sh = document.createElement("span");
+      sh.className = "btn-switch-shader";
+      sh.setAttribute("aria-hidden", "true");
+      el.insertBefore(sh, el.firstChild);
     });
   })();
 
