@@ -91,8 +91,9 @@ export function mount() {
   }
 
   /**
-   * Progress 0 when section top hits viewport top (sticky pins).
-   * Progress 1 only after nearly the full pin travel — linear, no remap jump.
+   * Progress starts as soon as the section enters the viewport (top edge
+   * crossing the viewport bottom), not when the sticky pins — Park: 曲线
+   * 一进视口就开始增长，不等钉住. Finishes as the sticky travel completes.
    */
   function readScrollProgress() {
     var rect = root.getBoundingClientRect();
@@ -100,10 +101,12 @@ export function mount() {
     var vh = window.innerHeight || 1;
 
     if (rect.height > vh * 1.15) {
+      /* enter = section top at viewport bottom → 0; sticky travel end → 1 */
+      var enter = vh;
       var total = Math.max(rect.height - vh, 1);
-      var scrolled = clamp(-rect.top, 0, total);
-      /* use full track; finish near end (0.92) then hold */
-      return clamp(scrolled / (total * 0.92), 0, 1);
+      var end = enter + total * 0.92;
+      var scrolled = clamp(vh - rect.top, 0, end);
+      return clamp(scrolled / end, 0, 1);
     }
 
     /* mobile / short: based on how far sticky has entered */
