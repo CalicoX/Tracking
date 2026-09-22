@@ -290,11 +290,11 @@ export default function FeaturesSection() {
                                         <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 20V10l8-6 8 6v10"/><path d="M10 20v-6h4v6"/></svg></i>
                                       </div>
                                       <div className="os-progress-labels">
-                                        <span>Ordered</span><span>Processed</span><span>Shipped</span><span>Out</span><span>Delivered</span>
+                                        <span>Order pending</span><span>Info Received</span><span>In Transit</span><span>Pick Up</span><span>Delivered</span>
                                       </div>
                                       <div className="os-carrier">
                                         <b>USPS</b>
-                                        <span>9400 1000 0000 2849 1</span>
+                                        <span className="os-carrier-num">9400 1000 0000 2849 1</span>
                                       </div>
                                       <ul className="os-events">
                                         <li><strong>In transit</strong><span>Today · 11:20 AM · Los Angeles, CA</span></li>

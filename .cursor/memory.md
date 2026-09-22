@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-22（ImpactBand 拆掉 sticky 钉住，改普通在流 + 入视口深度驱动）
+最后更新：2026-09-22（Hero OGL mock 五处改：Track Your Order / 删 video 卡 / 去 AI MAKE / WISMO ↓95% 去 -12% / 节点文案实义化+单号模糊）
 
 ## 09-08 文案改版基准（Park 文档《（新）产品详情页文案设计 TRACKING》+ 10 张标注图）
 
@@ -28,6 +28,9 @@
 - 图标在 `public/assets/shopify-app-icon.png`。整块链到 apps.shopify.com/17track。
 
 ## Hero 插图（OGL mock）
+
+- **OGL mock 文案定稿（09-22 Park 五点标注图）**：站内标题 `Track Your Order`（原 Follow Your Pieces Home）；Brand video 浮卡整个删了（连同 hero-draw STEPS 里 `.float-card-video` 一步和 JSX）；`.holo-tag`（+ AI MAKE）从 Hero 调用里去掉（组件 holo prop 保留，Features 面板 0 没用过）；WISMO 浮卡删 `−12%` 角标，35%→**95%**；进度节点 `Order pending / Info Received / In Transit / Pick Up / Delivered`（原 Ordered/Processed/Shipped/Out）。**单号要模糊**：`.os-carrier-num` 类 + `filter: blur(3px)`，Hero mock 和 Features Split-Order 面板里的第二处 `os-status` mock 都要挂这个类（那边节点文案也同步改了）。删 video 卡时 JSX 闭合 div 数错会报 react/jsx-KEY 之类 lint 错——`visual-asm` 包 mock + WISMO 卡两层。
+
 
 - 桌面：文案左、插图右。浏览器框 + 冷色海浪图。
 - OGL mock 配色（Park 定）：全部走品牌蓝紫家族，不要暖色/米色。`--os-brown: #2563eb`；Track 按钮 `linear-gradient(135deg,#2563eb,#4f46e5)`；进度线 `#38bdf8→#2563eb→#8b5cf6`；Delivered 节点 indigo 渐变+光晕；摘要卡 `#e6edfb`（原米色 #e9e0d4 否掉）；纸底 `#f2f6fd`；海图 saturate(1.08)。第一条 event（Delivered）绿色 #15803d。

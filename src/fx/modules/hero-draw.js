@@ -17,7 +17,6 @@ const STEPS = [
   ".os-summary",
   ".os-look",
   ".float-card-metric",
-  ".float-card-video",
 ];
 
 function ease(t) {
@@ -239,62 +238,6 @@ export function mount() {
       el.classList.add("is-placed");
       await wait(dur(320), gen);
       box.hidden = true;
-    }
-
-    const holo = root.querySelector(".holo-tag");
-    if (holo && !isStale(gen)) {
-      const r = relRect(holo, root);
-      const bigScale = 1.55;
-      const big = {
-        x: r.x + r.w * (1 - bigScale),
-        y: r.y,
-        w: r.w * bigScale,
-        h: r.h * bigScale,
-      };
-      const start = { x: big.x, y: big.y };
-      const end = { x: big.x + big.w, y: big.y + big.h };
-
-      await animate({ x: cx, y: cy }, start, dur(280), (p) => setPointer(p.x, p.y), gen);
-      if (isStale(gen)) return;
-      await wait(dur(70), gen);
-      if (isStale(gen)) return;
-
-      marquee.hidden = false;
-      box.hidden = true;
-      await animate(
-        start,
-        end,
-        dur(360),
-        (p) => {
-          setPointer(p.x, p.y);
-          placeBox(marquee, {
-            x: start.x,
-            y: start.y,
-            w: Math.max(p.x - start.x, 4),
-            h: Math.max(p.y - start.y, 4),
-          });
-        },
-        gen
-      );
-      if (isStale(gen)) return;
-
-      marquee.hidden = true;
-      box.hidden = false;
-      placeBox(box, big);
-      sizeEl.textContent = `${Math.round(big.w)} × ${Math.round(big.h)}`;
-      holo.classList.remove("is-dropping", "is-shine");
-      holo.classList.add("is-placed", "is-big");
-      await wait(dur(380), gen);
-      if (isStale(gen)) return;
-      box.hidden = true;
-      holo.classList.remove("is-big");
-      void holo.offsetWidth;
-      holo.classList.add("is-dropping");
-      await wait(dur(620), gen);
-      if (isStale(gen)) return;
-      holo.classList.remove("is-dropping");
-      holo.classList.add("is-shine");
-      await wait(dur(720), gen);
     }
   }
 

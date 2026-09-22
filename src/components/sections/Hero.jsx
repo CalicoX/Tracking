@@ -47,43 +47,26 @@ export default function Hero() {
 
           <div className="visual" aria-label="Branded tracking page product preview">
             <div className="visual-asm is-drawing">
-              <HeroTrackingMock draw holo />
-            
-            {/* floating metric: lower WISMO */}
-            <div className="float-card float-card-metric" data-draw="">
-              <div className="float-card-top">
-                <span className="label">WISMO inquiries</span>
-                <span className="float-card-tag">−12%</span>
-              </div>
-              <span className="num"><span className="num-arrow" aria-hidden="true">↓</span>35%</span>
-              <span className="hint">More shoppers self-serve after purchase</span>
-              <div className="mini-bars" aria-hidden="true">
-                <span style={{height: '88%'}}></span>
-                <span style={{height: '76%'}}></span>
-                <span style={{height: '64%'}}></span>
-                <span style={{height: '54%'}}></span>
-                <span style={{height: '46%'}}></span>
-                <span style={{height: '38%'}}></span>
-                <span style={{height: '32%'}}></span>
-                <span style={{height: '26%'}}></span>
-              </div>
-            </div>
+              <HeroTrackingMock draw />
 
-            {/* floating brand video */}
-            <div className="float-card float-card-video" data-draw="">
-              <div className="float-card-top">
-                <span className="label">Brand video</span>
-                <span className="float-card-tag video">Embed</span>
+              {/* floating metric: lower WISMO */}
+              <div className="float-card float-card-metric" data-draw="">
+                <div className="float-card-top">
+                  <span className="label">WISMO inquiries</span>
+                </div>
+                <span className="num"><span className="num-arrow" aria-hidden="true">↓</span>95%</span>
+                <span className="hint">More shoppers self-serve after purchase</span>
+                <div className="mini-bars" aria-hidden="true">
+                  <span style={{height: '88%'}}></span>
+                  <span style={{height: '76%'}}></span>
+                  <span style={{height: '64%'}}></span>
+                  <span style={{height: '54%'}}></span>
+                  <span style={{height: '46%'}}></span>
+                  <span style={{height: '38%'}}></span>
+                  <span style={{height: '32%'}}></span>
+                  <span style={{height: '26%'}}></span>
+                </div>
               </div>
-              <div className="video-thumb" aria-hidden="true">
-                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&amp;fit=crop&amp;w=400&amp;q=80" alt="" width="168" height="105" loading="lazy" decoding="async" />
-                <span className="video-play">
-                  <svg viewBox="0 0 12 12" fill="currentColor"><path d="M3.2 2.1v7.8L10 6 3.2 2.1z"/></svg>
-                </span>
-              </div>
-              <strong className="video-title">Studio edit · unbox film</strong>
-              <div className="video-meta"><span>0:42</span><i></i><span>Post-purchase story</span></div>
-            </div>
             </div>
 
           </div>
