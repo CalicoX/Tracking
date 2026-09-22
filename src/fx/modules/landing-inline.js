@@ -290,7 +290,7 @@ export function mount() {
 
       var SCENE_DIMS = [
         { w: 680, h: 700 }, /* Tab 0: Branded Tracking Page */
-        { w: 780, h: 580 }, /* Tab 1: Branded Email (Letter + Flow) */
+        { w: 780, h: 660 }, /* Tab 1: Branded Email (Letter + Flow) */
         { w: 736, h: 500 }, /* Tab 2: Split-Order 左右叠，邮件下层 */
         { w: 584, h: 480 }  /* Tab 3: Conversion 左右叠，购物车下层 */
       ];

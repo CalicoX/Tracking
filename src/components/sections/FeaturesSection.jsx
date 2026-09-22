@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 const SCENE_DIMS = [
   { w: 680, h: 700 }, // 0: Branded Tracking Page
-  { w: 780, h: 580 }, // 1: Branded Email Notification
+  { w: 780, h: 660 }, // 1: Branded Email Notification
   { w: 736, h: 500 }, // 2: Split-Order（左右叠，邮件下层）
   { w: 584, h: 480 }, // 3: Conversion 左右叠，购物车下层
 ];
@@ -253,7 +253,18 @@ export default function FeaturesSection() {
                               <span className="is-on">In-Transit</span>
                               <span>Delivered</span>
                             </div>
-                            {/* 左：品牌异常邮件（竖比例，按参考图一排） */}
+                            {/* 中：浏览器框里的品牌异常邮件 */}
+                            <div className="fx-em-window browser">
+                              <div className="browser-top">
+                                <span className="dot"></span>
+                                <span className="dot"></span>
+                                <span className="dot"></span>
+                                <span className="browser-url">
+                                  <svg className="browser-url-lock" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2.5" y="5.5" width="7" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.1"/><path d="M4 5.5V4a2 2 0 014 0v1.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/></svg>
+                                  yourstore.com
+                                </span>
+                                <span className="browser-top-actions" aria-hidden="true"><i></i><i></i></span>
+                              </div>
                             <div className="fx-glass fx-em-letter">
                               <div className="fx-em-letter-head">
                                 <span className="fx-em-logo">A</span>
@@ -282,6 +293,7 @@ export default function FeaturesSection() {
                                 <img src="/assets/features/email-pick-2.jpg" alt="" />
                                 <img src="/assets/features/email-pick-3.jpg" alt="" />
                               </div>
+                            </div>
                               <span className="fx-em-warn" aria-hidden="true">
                                 <svg viewBox="0 0 24 24" fill="none">
                                   <path d="M12 3.6 21.4 20.4H2.6L12 3.6Z" stroke="#fff" strokeWidth="1.85" strokeLinejoin="round"/>
