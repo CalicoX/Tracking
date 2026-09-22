@@ -28,11 +28,11 @@ export default function ImpactBand() {
                   <span className="metric-label">Higher repurchase rate</span>
                 </div>
               </div>
-              <div className="impact-stat" data-impact data-value="20" data-decimals="0" data-plus="1">
+              <div className="impact-stat" data-impact data-value="20" data-decimals="0">
                 <span className="impact-stat-bar" aria-hidden="true"></span>
                 <div>
                   <div className="metric">
-                    <span className="metric-num" data-count>0</span><span className="metric-suffix">+%</span>
+                    <span className="metric-num" data-count>0</span><span className="metric-suffix">%+</span>
                   </div>
                   <span className="metric-label">Retained revenue</span>
                 </div>
