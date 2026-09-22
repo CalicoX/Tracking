@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
-import HeroTrackingMock from "../HeroTrackingMock.jsx";
 
 const SCENE_DIMS = [
-  { w: 540, h: 440 }, // 0: Branded Tracking Page
+  { w: 680, h: 700 }, // 0: Branded Tracking Page
   { w: 660, h: 490 }, // 1: Branded Email Notification
   { w: 736, h: 500 }, // 2: Split-Order（左右叠，邮件下层）
   { w: 584, h: 480 }, // 3: Conversion 左右叠，购物车下层
@@ -145,14 +144,96 @@ export default function FeaturesSection() {
                 </div>{/* /.feature-side-wrap */}
                 <div className="feature-panels-col">
                   <div className="feature-panels" id="feature-panels">
-                  {/* 0 · Branded tracking page — same OGL mock as the hero */}
+                  {/* 0 · Branded tracking page — storefront + tracker + AI modules */}
                   <article className="feature-panel is-active" data-feature="0" id="feature-panel-0" role="tabpanel" aria-labelledby="feature-tab-0">
                     <div className="feature-visual">
                       <div className="feature-stage" data-theme="branded" style={{ ['--fx-c']: 1, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                            <div className="fx-hero-page">
-                              <HeroTrackingMock />
+                            <div className="fx-btp-scene">
+                              <div className="fx-btp-browser">
+                                <div className="fx-btp-nav">
+                                  <span className="fx-btp-nav-pill" />
+                                  <span className="fx-btp-nav-links">
+                                    <span>Home</span>
+                                    <span>Products</span>
+                                    <span>Apps</span>
+                                    <span className="is-on">Track Your Order</span>
+                                    <span>Return Center</span>
+                                  </span>
+                                  <span className="fx-btp-nav-tools">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="11" cy="11" r="6.2"/><path d="M16 16.5 20 20.5" strokeLinecap="round"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M6.5 8h11l-.8 11.2a1.5 1.5 0 0 1-1.5 1.4H8.8a1.5 1.5 0 0 1-1.5-1.4L6.5 8Z"/><path d="M9 8V6.8A3 3 0 0 1 12 3.8 3 3 0 0 1 15 6.8V8" strokeLinecap="round"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8.2" r="3.1"/><path d="M5.5 19.2a6.5 6.5 0 0 1 13 0" strokeLinecap="round"/></svg>
+                                  </span>
+                                </div>
+                                <div className="fx-btp-hero">
+                                  <img src="/assets/features/energy-motion.jpg" alt="" />
+                                  <div className="fx-btp-hero-copy">
+                                    <strong>ENERGY<br />IN MOTION</strong>
+                                    <p>Move Freely. Live Fully.</p>
+                                    <span>NEW ARRIVALS</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="fx-btp-track">
+                                <div className="fx-btp-tabs">
+                                  <span>Track Number</span>
+                                  <span className="is-on">Order Number</span>
+                                </div>
+                                <p className="fx-btp-kicker">Order number</p>
+                                <div className="fx-btp-field">Enter your order number</div>
+                                <div className="fx-btp-email-row">
+                                  <div className="fx-btp-select">Email <i /></div>
+                                  <div className="fx-btp-field">Enter your email</div>
+                                </div>
+                                <div className="fx-btp-submit">Track my order</div>
+                              </div>
+                              <div className="fx-btp-ai">
+                                <div className="fx-btp-ai-head">
+                                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2 13.6 8l4.8 1.6L13.6 11.2 12 16l-1.6-4.8L5.6 9.6 10.4 8 12 3.2Z" fill="#7c3aed"/><path d="M18.2 14.2 19 16.4l2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" fill="#a78bfa"/></svg>
+                                  <strong>AI Tracking Page</strong>
+                                  <em>Live</em>
+                                </div>
+                                <p className="fx-btp-ai-label">Active Modules</p>
+                                <ul className="fx-btp-mods">
+                                  <li>
+                                    <i className="fx-btp-ico is-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 8.5 12 4.5l8 4v7l-8 4-8-4v-7Z"/><path d="M12 12.5 20 8.5M12 12.5V19.5M12 12.5 4 8.5"/></svg></i>
+                                    <span><strong>Order Progress</strong><small>Real-time tracking updates</small></span>
+                                    <b className="fx-btp-toggle" />
+                                  </li>
+                                  <li>
+                                    <i className="fx-btp-ico is-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 4.5 14 9.2l5 .6-3.7 3.4.9 5.1L12 16.1 7.8 18.3l.9-5.1L5 9.8l5-.6L12 4.5Z"/></svg></i>
+                                    <span><strong>Product Recommendations</strong><small>Personalised picks for you</small></span>
+                                    <b className="fx-btp-toggle" />
+                                  </li>
+                                  <li>
+                                    <i className="fx-btp-ico is-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 16.5V8.2h11.2v8.3H3Z"/><path d="M14.2 11h3.6l2.7 2.8v2.7h-6.3V11Z"/><circle cx="7" cy="17.6" r="1.5"/><circle cx="17.2" cy="17.6" r="1.5"/></svg></i>
+                                    <span><strong>Delivery Details</strong><small>Carrier &amp; routing information</small></span>
+                                    <b className="fx-btp-toggle" />
+                                  </li>
+                                  <li>
+                                    <i className="fx-btp-ico is-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="8"/><path d="M9.6 9.4a2.4 2.4 0 1 1 3.5 2.1c-.7.4-1.1.9-1.1 1.7V14" strokeLinecap="round"/><circle cx="12" cy="16.8" r=".8" fill="currentColor" stroke="none"/></svg></i>
+                                    <span><strong>Help &amp; Support</strong><small>FAQs and contact options</small></span>
+                                    <b className="fx-btp-toggle" />
+                                  </li>
+                                </ul>
+                                <p className="fx-btp-ai-label">Campaign Variants</p>
+                                <ul className="fx-btp-vars">
+                                  <li><i /><span>Glow Essentials (Default)</span><em className="is-live">Live</em></li>
+                                  <li><i /><span>Radiant Beauty</span><em>Preview</em></li>
+                                </ul>
+                                <div className="fx-btp-new">Create New Variant</div>
+                              </div>
+                              <div className="fx-btp-arrivals">
+                                <img src="/assets/features/new-arrivals.jpg" alt="" />
+                                <div className="fx-btp-arrivals-copy">
+                                  <strong>NEW<br />ARRIVALS</strong>
+                                  <i />
+                                  <p>Fresh Styles. Made to Move.</p>
+                                  <span>SHOP NOW</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>

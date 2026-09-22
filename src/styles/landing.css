@@ -4623,8 +4623,8 @@
       transform-style: flat;
     }
     .feature-stage[data-theme="branded"] .fx-mock {
-      height: var(--fx-design-h, 440px);
-      width: var(--fx-design-w, 540px);
+      height: var(--fx-design-h, 700px);
+      width: var(--fx-design-w, 680px);
     }
     .fx-hero-page {
       width: 540px;
@@ -4647,6 +4647,437 @@
     }
     .fx-hero-page .os-look {
       display: none;
+    }
+
+    /* Branded tracking page — storefront window + tracker + AI modules */
+    .fx-btp-scene {
+      position: relative;
+      width: 680px;
+      height: 700px;
+      border-radius: 28px;
+      background:
+        radial-gradient(80% 60% at 100% 0%, #8cbcff 0%, transparent 58%),
+        linear-gradient(165deg, #5b9dff 0%, #3b82f6 46%, #2f6adf 100%);
+      box-shadow:
+        0 2px 5px rgba(15, 23, 42, 0.05),
+        0 24px 52px -16px rgba(37, 99, 235, 0.28);
+    }
+    .fx-btp-browser {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      width: 508px;
+      height: 352px;
+      border-radius: 18px;
+      background: #fff;
+      overflow: hidden;
+      z-index: 1;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.85) inset,
+        0 2px 5px rgba(15, 23, 42, 0.05),
+        0 24px 52px -16px rgba(15, 23, 42, 0.3);
+    }
+    .fx-btp-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 46px;
+      padding: 0 14px 0 16px;
+      background: #fff;
+    }
+    .fx-btp-nav-pill {
+      width: 52px;
+      height: 10px;
+      border-radius: 999px;
+      background: #dbeafe;
+      flex: 0 0 auto;
+    }
+    .fx-btp-nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .fx-btp-nav-links span {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .fx-btp-nav-links span.is-on {
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .fx-btp-nav-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #334155;
+      flex: 0 0 auto;
+    }
+    .fx-btp-nav-tools svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+    .fx-btp-hero {
+      position: relative;
+      height: calc(100% - 46px);
+      overflow: hidden;
+    }
+    .fx-btp-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 62% 42%;
+      display: block;
+    }
+    .fx-btp-hero-copy {
+      position: absolute;
+      left: 22px;
+      top: 36px;
+      color: #fff;
+      max-width: 240px;
+    }
+    .fx-btp-hero-copy strong {
+      display: block;
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+    }
+    .fx-btp-hero-copy p {
+      margin: 10px 0 0;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .fx-btp-hero-copy span {
+      display: inline-flex;
+      margin-top: 14px;
+      padding: 7px 12px;
+      border-radius: 3px;
+      background: #fff;
+      color: #e11d68;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+    .fx-btp-track {
+      position: absolute;
+      left: 318px;
+      top: 112px;
+      width: 342px;
+      z-index: 3;
+      padding: 14px 16px 16px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.05),
+        0 18px 40px -14px rgba(15, 23, 42, 0.32);
+    }
+    .fx-btp-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .fx-btp-tabs span {
+      display: inline-flex;
+      align-items: center;
+      height: 26px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      color: #64748b;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .fx-btp-tabs span.is-on {
+      border-color: transparent;
+      background: #f4eadc;
+      color: #3f3a34;
+    }
+    .fx-btp-kicker {
+      margin: 0 0 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .fx-btp-field {
+      display: flex;
+      align-items: center;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 7px;
+      border: 1px solid #e5e7eb;
+      color: #94a3b8;
+      font-size: 12.5px;
+      background: #fff;
+    }
+    .fx-btp-email-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .fx-btp-select {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 92px;
+      flex: 0 0 92px;
+      height: 34px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid #e5e7eb;
+      color: #334155;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    .fx-btp-select i {
+      width: 0;
+      height: 0;
+      border-left: 3.5px solid transparent;
+      border-right: 3.5px solid transparent;
+      border-top: 4px solid #64748b;
+    }
+    .fx-btp-email-row .fx-btp-field {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .fx-btp-submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      margin-top: 10px;
+      border-radius: 7px;
+      background: #d7be9a;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .fx-btp-ai {
+      position: absolute;
+      left: 26px;
+      top: 312px;
+      width: 314px;
+      z-index: 4;
+      padding: 14px 14px 12px;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.05),
+        0 18px 40px -14px rgba(15, 23, 42, 0.32);
+    }
+    .fx-btp-ai-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .fx-btp-ai-head svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+    .fx-btp-ai-head strong {
+      font-size: 14px;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+    .fx-btp-ai-head em,
+    .fx-btp-vars em.is-live {
+      margin-left: auto;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      color: #fff;
+      font-style: normal;
+      font-size: 10.5px;
+      font-weight: 750;
+      letter-spacing: 0.01em;
+    }
+    .fx-btp-ai-label {
+      margin: 12px 0 6px;
+      font-size: 12px;
+      font-weight: 750;
+      color: #0f172a;
+    }
+    .fx-btp-mods,
+    .fx-btp-vars {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .fx-btp-mods li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 36px;
+    }
+    .fx-btp-ico {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+    .fx-btp-ico svg {
+      width: 15px;
+      height: 15px;
+      display: block;
+    }
+    .fx-btp-ico.is-purple { background: #ede9fe; color: #7c3aed; }
+    .fx-btp-ico.is-pink { background: #fce7f3; color: #db2777; }
+    .fx-btp-ico.is-green { background: #dcfce7; color: #16a34a; }
+    .fx-btp-ico.is-amber { background: #fef3c7; color: #d97706; }
+    .fx-btp-mods li > span {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      gap: 1px;
+    }
+    .fx-btp-mods strong {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.015em;
+    }
+    .fx-btp-mods small {
+      font-size: 10px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    .fx-btp-toggle {
+      margin-left: auto;
+      width: 32px;
+      height: 18px;
+      border-radius: 999px;
+      background: #3b82f6;
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .fx-btp-toggle::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.18);
+    }
+    .fx-btp-vars li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 28px;
+    }
+    .fx-btp-vars i {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: #e5e7eb;
+      flex: 0 0 auto;
+    }
+    .fx-btp-vars span {
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+    }
+    .fx-btp-vars em {
+      margin-left: auto;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      color: #64748b;
+      font-style: normal;
+      font-size: 10.5px;
+      font-weight: 650;
+    }
+    .fx-btp-new {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      margin: 10px auto 2px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      color: #64748b;
+      font-size: 11.5px;
+      font-weight: 650;
+    }
+    .fx-btp-arrivals {
+      position: absolute;
+      left: 358px;
+      top: 328px;
+      width: 300px;
+      height: 270px;
+      z-index: 4;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.05),
+        0 18px 40px -14px rgba(15, 23, 42, 0.32);
+    }
+    .fx-btp-arrivals img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 72% 30%;
+      display: block;
+    }
+    .fx-btp-arrivals-copy {
+      position: relative;
+      z-index: 1;
+      padding: 18px 18px 0;
+      color: #fff;
+      max-width: 180px;
+    }
+    .fx-btp-arrivals-copy strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+    }
+    .fx-btp-arrivals-copy i {
+      display: block;
+      width: 28px;
+      height: 1px;
+      margin: 10px 0 8px;
+      background: rgba(255, 255, 255, 0.85);
+    }
+    .fx-btp-arrivals-copy p {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .fx-btp-arrivals-copy span {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #fff;
+      color: #0f172a;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
     }
 
     /* Last-mile — light cards, no stage chrome */
