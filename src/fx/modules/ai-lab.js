@@ -1799,7 +1799,7 @@ export function mount() {
         shop: ["Machines", "Accessories", "Gifts"],
       },
       {
-        layout: "brand",
+        layout: "swellpro",
         logo: "SwellPro",
         nav: ["Drones", "Support"],
         theme: "theme-swellpro",
@@ -2444,10 +2444,28 @@ export function mount() {
       );
     }
 
+    function buildLayoutSwellpro() {
+      return (
+        '<div class="ogl-page sp-page">' +
+        '<div class="sp-sale">Labor Day Sale: Save Up To $120 on SwellPro FD2 &amp; FD3 Fishing Drones.</div>' +
+        '<div class="sp-util"><span>SwellPro.com · Free shipping for all drones</span><em>United States (USD)</em></div>' +
+        '<header class="sp-head"><img class="sp-logo" src="/assets/features/swellpro-logo.png" alt="SwellPro Store"><nav class="sp-nav"><span>Labor Day Sale</span><span>Drones</span><span>Accessories</span><span>Program</span><span>Applications</span><span>Support</span><span>About</span><span>Contact</span></nav><span class="sp-tools" aria-hidden="true"><i></i><i></i><i></i></span></header>' +
+        '<section class="sp-hero"><div class="sp-hero-copy"><p>Official SwellPro Store</p><h2>Track Your SwellPro Order</h2><span>Enter your order number and email below to view your latest shipping updates.</span></div></section>' +
+        '<section class="sp-query"><div class="sp-card"><div class="sp-tabs"><span class="is-on">Tracking Number</span><span>Order Number</span></div><input readonly tabindex="-1" value="89**********876"><button type="button" tabindex="-1">Track Order</button></div></section>' +
+        '<section class="sp-result"><div class="sp-status"><h3>Your order has been delivered.</h3><small>Time of delivery: Aug 10, 2026</small><div class="sp-bar"><b></b><span class="is-on">Order pending</span><span class="is-on">Info Received</span><span class="is-on">In Transit</span><span class="is-on">Pick Up</span><span class="is-on">Delivered</span></div><p class="sp-lang">Translate · English</p><div class="sp-dhl"><i>DHL</i><strong>DHL Express</strong><em>89**********876</em></div><ul class="sp-tl"><li class="is-on"><b>10 Aug, 2026 21:15</b><span>WAGENINGEN – NETHERLANDS, Delivered</span></li><li><b>10 Aug, 2026 16:02</b><span>APELDOORN – Out with courier</span></li><li><b>10 Aug, 2026 14:37</b><span>APELDOORN – Processed</span></li><li><b>6 Aug, 2026 18:06</b><span>SHENZHEN – Shipment picked up</span></li></ul><p class="sp-more">25 events are hidden. <em>Show more</em></p></div><aside class="sp-order"><h3>Order Information</h3><ul><li><b>Remote Controller Sun Shade</b><span>Fisherman MAX / FD3 · €41.78</span></li><li><b>Fisherman MAX (FD2)</b><span>Heavy lift fishing drone · €3,087.46</span></li></ul><p>Destination · Netherlands</p><p>Transport Time · 5 Days</p><p>Order Number · SW*****</p></aside></section>' +
+        '<section class="sp-svc"><h3>SwellPro Support &amp; Services</h3><div class="sp-cards"><img src="/assets/features/swellpro-s1.jpg" alt="After-sales Service Policy"><img src="/assets/features/swellpro-s2.jpg" alt="Repair Service Center"><img src="/assets/features/swellpro-s3.jpg" alt="Get Help Fast"></div></section>' +
+        '<section class="sp-trust"><div><b>Free shipping</b><span>Free express shipping on drone orders for select countries.</span></div><div><b>Tax included</b><span>Custom duty and sales tax included for select countries.</span></div><div><b>Guarantee &amp; warranty</b><span>30-day return guarantee and 1-year warranty.</span></div><div><b>Global support</b><span>Online technical support and local repair for select countries.</span></div></section>' +
+        '<section class="sp-news"><img src="/assets/features/swellpro-sub.jpg" alt=""><div><b>Get exclusive offers &amp; news</b><p>Subscribe to get exclusive 5% off your first purchase, and product updates.</p><em>Your e-mail</em><button type="button" tabindex="-1">Subscribe</button></div></section>' +
+        '<footer class="sp-foot"><div><b>About</b><span>About SwellPro</span><span>Contact us</span><span>Why buy from us</span><span>Knowledge hub</span></div><div><b>Help &amp; support</b><span>Order FAQ</span><span>Shipping &amp; delivery</span><span>Warranty policy</span><span>Repair service</span></div><div><b>Programs</b><span>SwellProCredit rewards</span><span>Brand ambassador</span><span>Drone fishing tournament</span></div><div><b>SwellPro Technology Ltd.</b><span>Customer support line</span><span>+1 (866)-534-5788</span><span>Mon–Fri 9 AM – 5 PM EST</span></div><small>Copyright © 2026 SwellPro. All rights reserved.</small></footer>' +
+        "</div>"
+      );
+    }
+
     function buildCaseHtml(c) {
       var layout = c.layout || "hero";
       if (layout === "noissey") return buildLayoutNoissey();
       if (layout === "outin") return buildLayoutOutin();
+      if (layout === "swellpro") return buildLayoutSwellpro();
       if (layout === "brand") return buildLayoutBrand(c);
       if (layout === "split") return buildLayoutSplit(c);
       if (layout === "steps") return buildLayoutSteps(c);
@@ -2490,7 +2508,7 @@ export function mount() {
     }
 
     function update() {
-      var nsPages = stage.querySelectorAll(".ns-page, .oi-page");
+      var nsPages = stage.querySelectorAll(".ns-page, .oi-page, .sp-page");
       for (var ni = 0; ni < nsPages.length; ni++) {
         var nsArt = nsPages[ni].closest(".ai-case-art");
         if (!nsArt) continue;

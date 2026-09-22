@@ -1,12 +1,13 @@
 # Memory
 
-最后更新：2026-09-22（OutIn 案例对照官网查询页）
+最后更新：2026-09-22（SwellPro 案例对照官网查询页）
 
 ## AI 案例四品牌（2026-09-22）
 
 - NOISSEY 单独走 `layout: "noissey"`，对照 `https://noissey.com/apps/17TRACK` 的成品页，不是通用品牌模板。结构：白底店头（汉堡 + 居中 logo + 账号/搜索/包）→ 黑公告条 JOIN THE INNER CIRCLE → 主图下沿文案（ORDER TRACKING 描边、Playfair 标题、斜体副标）→ 查询卡压在主图底边上（桌面重叠 56px、底空 48px；≤640 重叠 28px）→ Viral piece 三张商品 `object-fit: contain` → Why NOISSEY 四列，序号 `#C73D23` → 黑底故事 → 店尾四列。主图里已有 “- BACK TO SCHOOL 2026 -”，不要再写一枚 HTML 季标。Hero 里不要再放 logo（官网补丁把 `.yq-hero-brand` 藏了）。
-- 叠卡预览把 NOISSEY / OutIn 按 1120 宽缩放（`--ns-fit` = 卡宽 / 1120）。放大层不缩放。≤640 取消缩放并改单列。NOISSEY 字体 Playfair + Poppins，OutIn 用 Hanken Grotesk，链在 `index.html`。
-- OutIn 单独走 `layout: "outin"`，对照 `https://outin.com/apps/17TRACK`。黑公告 + 深色店头（白字 logo）→ 蕨叶主图左上文案 Track Your OutIn Order → 深绿胶囊查询卡压在主图底边（Track Number / Order Number，按钮 `#093C32`）→ 结果双卡（进度 Order pending / Info Received / In Transit / Pick Up / Delivered，单号 TB******278）→ Crafted for Coffee Lovers 三张官图 → Fresh Espresso, Anywhere → Why Choose OutIn 四列 → The OutIn Story → FAQ。底色 `#EAE5D6`。SwellPro、Aussie Betta 仍是 `layout: "brand"`。Aussie Betta 字标在 640 收到 13px，不要再改回 TRAIL / OGL / LUMÉ / NOVA。
+- 叠卡预览把 NOISSEY / OutIn / SwellPro 按 1120 宽缩放（`--ns-fit` = 卡宽 / 1120）。放大层不缩放。≤640 取消缩放并改单列。NOISSEY 字体 Playfair + Poppins，OutIn 用 Hanken Grotesk，SwellPro 用 Poppins。
+- OutIn 单独走 `layout: "outin"`，对照 `https://outin.com/apps/17TRACK`。黑公告 + 深色店头（白字 logo）→ 蕨叶主图左上文案 Track Your OutIn Order → 深绿胶囊查询卡压在主图底边（Track Number / Order Number，按钮 `#093C32`）→ 结果双卡（进度 Order pending / Info Received / In Transit / Pick Up / Delivered，单号 TB******278）→ Crafted for Coffee Lovers 三张官图 → Fresh Espresso, Anywhere → Why Choose OutIn 四列 → The OutIn Story → FAQ。底色 `#EAE5D6`。
+- SwellPro 单独走 `layout: "swellpro"`，对照 `https://store.swellpro.com/apps/17TRACK`。橙公告 Labor Day Sale → 深色店头 → 海滩主图左上 Track Your SwellPro Order（橙胶囊 Official SwellPro Store）→ 白查询卡压底边，按钮 `#FA541C`，单号 `89**********876` → 浅橙结果区：已签收进度到 Delivered、DHL 时间线、Order Information → Support & Services 三张官图 → 运费/税/保修/支持 → 订阅图 + 页脚。Aussie Betta 仍是 `layout: "brand"`。字标在 640 收到 13px，不要再改回 TRAIL / OGL / LUMÉ / NOVA。
 
 ## 底栏 / Start Free Trial（2026-09-22）
 
