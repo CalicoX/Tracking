@@ -4,7 +4,7 @@
 
 ## AI 案例四品牌（2026-09-22）
 
-- 右侧四个案例走 `layout: "brand"`（`buildLayoutBrand`）：NOISSEY 黑底、OutIn 绿色意大利语、SwellPro 橙色、Aussie Betta 米色。结构对齐各品牌公开查询页（顶栏品牌名、主图标题、查询卡、状态、推荐）。单号用星号遮住。
+- NOISSEY 单独走 `layout: "noissey"`（`buildLayoutNoissey`），按 noissey.com 查询页：白顶栏、黑公告条、主图左上标题、查询卡贴在画面下沿（空输入框）、Viral piece、Why NOISSEY 四栏、黑底 campaign。图在 `public/assets/features/noissey-*.jpg`。另外三个仍是 `layout: "brand"`。
 - 窄屏沿用 ≤640 的 `.ai-case-art` / lightbox 单列和查询卡贴底。Aussie Betta 字标在 640 收到 13px，不要再改回 TRAIL / OGL / LUMÉ / NOVA。
 
 ## 底栏 / Start Free Trial（2026-09-22）

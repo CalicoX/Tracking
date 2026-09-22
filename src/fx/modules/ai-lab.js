@@ -1706,7 +1706,7 @@ export function mount() {
     // layouts: hero | split | steps | stack
     var CASES = [
       {
-        layout: "brand",
+        layout: "noissey",
         logo: "NOISSEY",
         nav: ["Shop", "Drops"],
         theme: "theme-noissey",
@@ -2388,8 +2388,33 @@ export function mount() {
       );
     }
 
+    function buildLayoutNoissey() {
+      return (
+        '<div class="ogl-page ns-page">' +
+        '<header class="ns-head"><span class="ns-menu" aria-hidden="true"></span><span class="ns-logo">NOISSEY</span><span class="ns-tools" aria-hidden="true"><i></i><i></i><i></i></span></header>' +
+        '<div class="ns-ticker">JOIN THE INNER CIRCLE. UNLOCK CLASSIFIED DROPS.</div>' +
+        '<section class="ns-hero">' +
+        '<img src="/assets/features/noissey-hero.jpg" alt="NOISSEY streetwear">' +
+        '<div class="ns-hero-copy"><p>ORDER TRACKING</p><h2>Track Your<br>NOISSEY Order</h2><span>From our studio to your doorstep — built for the streets, tracked for peace of mind.</span></div>' +
+        '<em class="ns-season">- BACK TO SCHOOL 2026 -</em>' +
+        '<div class="ns-card"><h3>Track Your Order</h3><small>ENTER YOUR DETAILS BELOW</small><div class="ns-tabs"><span class="is-on">Tracking number</span><span>Order number</span></div><input readonly tabindex="-1" placeholder="Enter your tracking number"><button type="button" tabindex="-1">Track order</button></div>' +
+        "</section>" +
+        '<section class="ns-viral"><h3>🔥 Viral piece right now 🔥</h3><div class="ns-pieces"><img src="/assets/features/noissey-tee.jpg" alt=""><img src="/assets/features/noissey-crew.jpg" alt=""><img src="/assets/features/noissey-sleeve.jpg" alt=""></div></section>' +
+        '<section class="ns-why"><h3>Why NOISSEY</h3><p>Premium high streetwear built for loud self-expression</p><div class="ns-why-grid">' +
+        "<article><b>01</b><strong>300g Heavyweight Tees</strong><span>Substantial fabric weight designed to hold shape and structure.</span></article>" +
+        "<article><b>02</b><strong>Stacked Denim</strong><span>Silhouettes engineered for a stacked, statement-ready fit.</span></article>" +
+        "<article><b>03</b><strong>High-Impact Graphics</strong><span>Bold visuals made to carry your self-expression loud.</span></article>" +
+        "<article><b>04</b><strong>Worldwide Shipping</strong><span>NOISSEY ships globally so the look travels with you.</span></article>" +
+        "</div></section>" +
+        '<section class="ns-band"><img src="/assets/features/noissey-band.jpg" alt=""><div><p>PREMIUM HIGH STREETWEAR AND HEAVYWEIGHT AESTHETICS</p><h3>Define Your Look with NOISSEY</h3><span>This ain’t just threads; it’s a revolution in self-expression where street culture meets your soul.</span><div class="ns-tags"><i>Premium</i><i>Heavyweight</i><i>Streetwear</i><i>Color-led</i></div></div></section>' +
+        '<footer class="ns-foot"><div><b>TRACK ORDER</b><span>Track orders</span></div><div><b>QUICK LINKS</b><span>Account</span><span>Payment method</span></div><div><b>CUSTOMER SERVICE</b><span>Shipping policy</span><span>Contact us</span></div><div><b>DISCOVER NOISSEY</b><span>About NOISSEY</span><span>NOISSEY’s blog</span></div></footer>' +
+        "</div>"
+      );
+    }
+
     function buildCaseHtml(c) {
       var layout = c.layout || "hero";
+      if (layout === "noissey") return buildLayoutNoissey();
       if (layout === "brand") return buildLayoutBrand(c);
       if (layout === "split") return buildLayoutSplit(c);
       if (layout === "steps") return buildLayoutSteps(c);
