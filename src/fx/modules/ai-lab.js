@@ -1706,10 +1706,13 @@ export function mount() {
     // layouts: hero | split | steps | stack
     var CASES = [
       {
-        layout: "hero",
+        layout: "brand",
         logo: "NOISSEY",
         nav: ["Shop", "Drops"],
         theme: "theme-noissey",
+        kicker: "Order tracking",
+        formTitle: "Track Your Order",
+        btnLabel: "Track order",
         hero: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1400&q=80",
         heroAlt: "NOISSEY streetwear",
         trackTitle: "Track Your NOISSEY Order",
@@ -1749,10 +1752,13 @@ export function mount() {
         shop: ["Tees", "Denim", "Graphics"],
       },
       {
-        layout: "hero",
+        layout: "brand",
         logo: "OutIn",
         nav: ["Shop", "Explore"],
         theme: "theme-outin",
+        kicker: "Traccia",
+        formTitle: "Traccia il tuo ordine",
+        btnLabel: "Traccia l'ordine",
         hero: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80",
         heroAlt: "OutIn portable espresso",
         trackTitle: "Traccia il tuo ordine",
@@ -1793,10 +1799,13 @@ export function mount() {
         shop: ["Machines", "Accessories", "Gifts"],
       },
       {
-        layout: "hero",
+        layout: "brand",
         logo: "SwellPro",
         nav: ["Drones", "Support"],
         theme: "theme-swellpro",
+        kicker: "Official SwellPro store",
+        formTitle: "Track Your Order",
+        btnLabel: "Track Order",
         hero: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=1400&q=80",
         heroAlt: "SwellPro fishing drone",
         trackTitle: "Track Your SwellPro Order",
@@ -1837,10 +1846,13 @@ export function mount() {
         shop: ["Drones", "Accessories", "Parts"],
       },
       {
-        layout: "hero",
+        layout: "brand",
         logo: "Aussie Betta",
         nav: ["Shop", "Journal"],
         theme: "theme-aussie",
+        kicker: "Australian face & body care",
+        formTitle: "Track Your Order",
+        btnLabel: "Track order",
         hero: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=80",
         heroAlt: "Aussie Betta pasture",
         trackTitle: "Track Your Aussie Betta Order",
@@ -2291,8 +2303,94 @@ export function mount() {
       );
     }
 
+    function buildLayoutBrand(c) {
+      var steps = (c.timeline || [])
+        .slice(0, 5)
+        .map(function (st) {
+          return '<span class="' + esc(st.cls || "") + '">' + esc(st.t) + "</span>";
+        })
+        .join("");
+      var products = (c.favs || [])
+        .slice(0, 3)
+        .map(function (f) {
+          return (
+            '<article class="ob-prod"><img src="' +
+            esc(f.img) +
+            '" alt="" loading="lazy"><strong>' +
+            esc(f.n) +
+            "</strong><span>" +
+            esc(f.p) +
+            "</span></article>"
+          );
+        })
+        .join("");
+      return (
+        '<div class="ogl-page ob-page ' +
+        esc(c.theme) +
+        '">' +
+        '<header class="ob-nav"><div class="ob-nav-links"><span>' +
+        esc(c.nav[0]) +
+        "</span><span>" +
+        esc(c.nav[1]) +
+        '</span></div><div class="ob-logo">' +
+        esc(c.logo) +
+        "</div>" +
+        ICONS +
+        "</header>" +
+        '<section class="ob-hero"><img src="' +
+        esc(c.hero) +
+        '" alt="' +
+        esc(c.heroAlt) +
+        '" loading="lazy">' +
+        '<div class="ob-hero-copy"><p class="ob-kicker">' +
+        esc(c.kicker || "") +
+        "</p><h2>" +
+        esc(c.trackTitle) +
+        "</h2><p>" +
+        esc(c.statusSub) +
+        "</p></div>" +
+        '<div class="ob-card"><h3>' +
+        esc(c.formTitle || "Track Your Order") +
+        '</h3><div class="ob-tabs"><span class="is-on">Tracking number</span><span>Order number</span></div><input readonly tabindex="-1" value="' +
+        esc(c.order) +
+        '"><button type="button" class="ogl-track-btn" tabindex="-1">' +
+        esc(c.btnLabel || "Track order") +
+        "</button></div></section>" +
+        '<section class="ob-body"><div class="ob-status"><h3>' +
+        esc(c.statusH) +
+        '</h3><div class="ob-steps">' +
+        steps +
+        '</div><div class="ogl-timeline ogl-timeline-rich">' +
+        buildTimeline((c.timeline || []).slice(0, 4)) +
+        '</div></div><aside class="ob-aside"><h4>Order Information</h4><p class="ob-carrier">' +
+        esc(c.carrier) +
+        ' · <b class="ogl-mono">' +
+        esc(c.tracking) +
+        "</b></p>" +
+        buildItems(c.items) +
+        "</aside></section>" +
+        '<section class="ob-fav"><h3>' +
+        esc(c.favH) +
+        '</h3><p>' +
+        esc(c.favP) +
+        '</p><div class="ob-prods">' +
+        products +
+        "</div></section>" +
+        '<section class="ob-why"><div><h4>' +
+        esc(c.why[0].h) +
+        "</h4><p>" +
+        esc(c.why[0].p) +
+        "</p></div><div><h4>" +
+        esc(c.why[1].h) +
+        "</h4><p>" +
+        esc(c.why[1].p) +
+        "</p></div></section></div>"
+      );
+    }
+
     function buildCaseHtml(c) {
       var layout = c.layout || "hero";
+      if (layout === "brand") return buildLayoutBrand(c);
       if (layout === "split") return buildLayoutSplit(c);
       if (layout === "steps") return buildLayoutSteps(c);
       if (layout === "stack") return buildLayoutStack(c);

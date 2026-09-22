@@ -8549,6 +8549,122 @@
         font-size: 12px;
       }
     }
+    .ob-page { background: #f6f6f7; color: #1a1a1a; }
+    .ob-nav {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .ob-nav-links { display: flex; gap: 14px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #444; }
+    .ob-logo { font-size: 18px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+    .ob-nav .ogl-nav-icons { justify-self: end; }
+    .ob-hero { position: relative; min-height: 320px; height: 420px; overflow: hidden; }
+    .ob-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ob-hero-copy {
+      position: absolute;
+      left: 28px;
+      top: 28px;
+      max-width: min(46%, 420px);
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+      z-index: 1;
+    }
+    .ob-kicker { margin: 0 0 6px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+    .ob-hero-copy h2 { margin: 0; font-size: clamp(26px, 3vw, 40px); line-height: 1.05; letter-spacing: -0.03em; }
+    .ob-hero-copy p { margin: 8px 0 0; font-size: 13px; line-height: 1.4; }
+    .ob-card {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(92%, 460px);
+      z-index: 2;
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+    }
+    .ob-card h3 { margin: 0 0 10px; text-align: center; font-size: 16px; }
+    .ob-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
+    .ob-tabs span {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+    .ob-tabs span.is-on { background: #111; color: #fff; }
+    .ob-card input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      font: inherit;
+      font-size: 13px;
+    }
+    .ob-body {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 16px;
+      padding: 22px 18px;
+    }
+    .ob-status h3, .ob-aside h4, .ob-fav h3, .ob-why h4 { margin: 0 0 8px; }
+    .ob-steps { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .ob-steps span {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #eee;
+      color: #666;
+    }
+    .ob-steps span.done, .ob-steps span.active { background: #111; color: #fff; }
+    .ob-aside {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .ob-carrier { margin: 0 0 8px; font-size: 12px; color: #666; }
+    .ob-fav, .ob-why { padding: 8px 18px 22px; }
+    .ob-prods { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .ob-prod { background: #fff; border-radius: 10px; overflow: hidden; }
+    .ob-prod img { width: 100%; height: 120px; object-fit: cover; display: block; }
+    .ob-prod strong, .ob-prod span { display: block; padding: 0 8px; }
+    .ob-prod strong { padding-top: 8px; font-size: 13px; }
+    .ob-prod span { padding-bottom: 10px; font-size: 12px; color: #666; }
+    .ob-why { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .theme-noissey .ob-nav { background: #111; color: #fff; border-color: #111; }
+    .theme-noissey .ob-nav-links, .theme-noissey .ob-logo, .theme-noissey .ogl-nav-icons { color: #fff; }
+    .theme-noissey .ob-tabs span.is-on { background: #111; }
+    .theme-outin { background: #f4efe4; }
+    .theme-outin .ob-nav { background: #16382c; color: #fff; }
+    .theme-outin .ob-nav-links, .theme-outin .ob-logo, .theme-outin .ogl-nav-icons { color: #fff; }
+    .theme-outin .ob-tabs span.is-on, .theme-outin .ob-steps span.done, .theme-outin .ob-steps span.active { background: #1f6b45; }
+    .theme-swellpro .ob-nav { background: #1a1a1a; color: #fff; }
+    .theme-swellpro .ob-nav-links, .theme-swellpro .ob-logo, .theme-swellpro .ogl-nav-icons { color: #fff; }
+    .theme-swellpro .ob-tabs span.is-on, .theme-swellpro .ob-steps span.done, .theme-swellpro .ob-steps span.active { background: #f97316; }
+    .theme-aussie { background: #f7f3ea; }
+    .theme-aussie .ob-logo { letter-spacing: 0; text-transform: none; font-size: 16px; }
+    .theme-aussie .ob-tabs span.is-on, .theme-aussie .ob-steps span.done, .theme-aussie .ob-steps span.active { background: #8d6b45; }
+    @media (max-width: 640px) {
+      .ob-nav-links { display: none; }
+      .ob-nav { grid-template-columns: 1fr auto; }
+      .ob-hero { height: 280px; min-height: 240px; }
+      .ob-hero-copy { left: 14px; right: 14px; max-width: none; top: 12px; }
+      .ob-hero-copy h2 { font-size: 22px; }
+      .ob-card { left: 12px; right: 12px; width: auto; transform: none; bottom: 10px; padding: 12px; }
+      .ob-body, .ob-why, .ob-prods { grid-template-columns: 1fr; }
+      .ob-body, .ob-fav, .ob-why { padding-left: 12px; padding-right: 12px; }
+    }
 
     /* ——— Layout B: split (beauty) ——— */
     .ogl-page.layout-split { background: #f7f3ef; }

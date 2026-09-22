@@ -4,7 +4,7 @@
 
 ## AI 案例四品牌（2026-09-22）
 
-- 右侧四个案例是真实品牌查询页风格，全部 `layout: "hero"`：`theme-noissey`、`theme-outin`、`theme-swellpro`、`theme-aussie`。单号用星号遮住。
+- 右侧四个案例走 `layout: "brand"`（`buildLayoutBrand`）：NOISSEY 黑底、OutIn 绿色意大利语、SwellPro 橙色、Aussie Betta 米色。结构对齐各品牌公开查询页（顶栏品牌名、主图标题、查询卡、状态、推荐）。单号用星号遮住。
 - 窄屏沿用 ≤640 的 `.ai-case-art` / lightbox 单列和查询卡贴底。Aussie Betta 字标在 640 收到 13px，不要再改回 TRAIL / OGL / LUMÉ / NOVA。
 
 ## 底栏 / Start Free Trial（2026-09-22）
@@ -14,7 +14,7 @@
 
 ## Explore 17RETURNS 配图（2026-09-22）
 
-- 右侧是 Returns 首页 KV 终态静图 `public/assets/returns-kv.jpg`（`.returns-ui-kv`），按卡片宽度缩小，`object-fit: contain`。不要再做 Urban Standards 那套 DOM，也不要接退货流程动画。
+- 右侧是 Returns 首页 KV 终态静图 `public/assets/returns-kv.jpg`（`.returns-ui-kv`），按卡片宽度缩小，`object-fit: contain`。图里不要留首页浅色底，球场照片铺满。不要再做 Urban Standards 那套 DOM，也不要接退货流程动画。
 
 ## Coverage 数字（2026-09-22）
 
