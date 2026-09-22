@@ -50,7 +50,8 @@ export function mount() {
        * Pure linear (no easeOut) so small scrolls stay near 0.
        */
       var start = i * 0.05;
-      var span = 0.9;
+      /* cap span so the last staggered stat still lands on its final value at p=1 */
+      var span = Math.min(0.9, 1 - start);
       var local = clamp((p - start) / span, 0, 1);
 
       var target = parseFloat(stat.getAttribute("data-value") || "0");
@@ -91,9 +92,11 @@ export function mount() {
   }
 
   /**
-   * Progress starts as soon as the section enters the viewport (top edge
-   * crossing the viewport bottom), not when the sticky pins — Park: 曲线
-   * 一进视口就开始增长，不等钉住. Finishes as the sticky travel completes.
+   * Band is a normal in-flow section (09-22 Park: 不要钉住). Progress maps
+   * viewport entry depth: 0 when the section top enters at the viewport
+   * bottom, 1 when its top reaches the viewport top (or when the stats grid
+   * is fully on screen — whichever first). Mobile short-form keeps its
+   * sticky-entry mapping.
    */
   function readScrollProgress() {
     var rect = root.getBoundingClientRect();
@@ -101,12 +104,9 @@ export function mount() {
     var vh = window.innerHeight || 1;
 
     if (rect.height > vh * 1.15) {
-      /* enter = section top at viewport bottom → 0; sticky travel end → 1 */
-      var enter = vh;
-      var total = Math.max(rect.height - vh, 1);
-      var end = enter + total * 0.92;
-      var scrolled = clamp(vh - rect.top, 0, end);
-      return clamp(scrolled / end, 0, 1);
+      var scrolled = clamp(vh - rect.top, 0, vh);
+      /* reach 1 slightly early so the tail completes while still visible */
+      return clamp(scrolled / (vh * 0.85), 0, 1);
     }
 
     /* mobile / short: based on how far sticky has entered */

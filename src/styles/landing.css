@@ -3289,20 +3289,20 @@
       min-height: 0;
     }
 
-    /* Impact — 100vh sticky, 2×2 big stats + upward growth curve (ref) */
+    /* Impact — 100vh band + 2×2 big stats + upward growth curve (ref) */
     /* Business impact — light blue (淡蓝) theme */
     .impact-band {
       position: relative;
       color: var(--text-primary);
       border-bottom: none;
-      /* 200vh → 170vh：sticky 行程约 -30%，数字/曲线跟手更快 */
-      height: 170vh;
+      /* 09-22 Park：不要钉住——原 170vh sticky 行程已删，普通在流段落 */
+      height: auto;
       /* same base as Features — no hard white→gray seam */
       background: var(--bg-subtle, #f7f8fa);
     }
     .impact-band-sticky {
-      position: sticky;
-      top: 0;
+      /* class 名保留（CSS/JS 到处引用），定位已是普通在流块 */
+      position: relative;
       height: 100vh;
       min-height: 620px;
       display: flex;

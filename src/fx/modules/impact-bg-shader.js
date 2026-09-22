@@ -332,8 +332,8 @@ export function mount() {
       scrollRaf = requestAnimationFrame(function () {
         scrollRaf = 0;
         var rect = section.getBoundingClientRect();
-        var total = Math.max(section.offsetHeight - window.innerHeight, 1);
-        scrollP = Math.max(0, Math.min(1, -rect.top / total));
+        /* band is in-flow now (no sticky travel): map entry depth, one vh */
+        scrollP = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / window.innerHeight));
       });
     }
 
