@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-22（拆单：突出 Package 标签，删 Carrier phone，单号再模糊）
+最后更新：2026-09-22（转化卡：Wireless Pro / AI EDD / Sport Earpods，16% 改成效果标签）
 
 ## Features 邮件插图（2026-09-22）
 
@@ -12,6 +12,11 @@
 
 - 右侧 `Package #1 / #2` 标签加大、选中态更实。进度节点保持 Hero 定稿 `Order pending / Info Received / In Transit / Pick Up / Delivered`，不要改回 Ordered / Processed / Shipped / Out。
 - 左信删了 Carrier phone，只留 Carrier。右侧 USPS 单号用 `.fx-so-page .os-carrier-num` 的 `blur(6px)`，比 Hero 的 3px 更糊。
+
+## Features 转化插图（2026-09-22）
+
+- 购物车商品名 **Wireless Pro**，图 `public/assets/features/wireless-pro.jpg`。到货条标签 **AI EDD**。结账按钮只留 Check out，不要 1-tap checkout。
+- 推荐商品 **Sport Earpods**，图 `sport-earpods.jpg`。`16% Higher repurchase rate` 是胶囊效果标签（数字蓝底），不要再铺成一行纯文字。
 
 ## Features 第 1 块插图（Branded Tracking Page，2026-09-22）
 

@@ -434,9 +434,9 @@ export default function FeaturesSection() {
                                   <span>Total</span>
                                 </div>
                                 <div className="fx-cv-item">
-                                  <img className="fx-cv-thumb" src="/assets/products/tips.jpg" alt="" />
+                                  <img className="fx-cv-thumb" src="/assets/features/wireless-pro.jpg" alt="" />
                                   <div className="fx-cv-item-txt">
-                                    <strong>Wireless Earbuds Pro</strong>
+                                    <strong>Wireless Pro</strong>
                                     <span>$129.00</span>
                                     <span className="fx-cv-qty"><i>−</i><em>1</em><i>+</i></span>
                                   </div>
@@ -448,7 +448,7 @@ export default function FeaturesSection() {
                                       <path d="M12 3.2l1.75 4.35L18.1 9.3l-4.35 1.75L12 15.4l-1.75-4.35L5.9 9.3l4.35-1.75z" fill="currentColor"/>
                                       <path d="M18.4 14.8l.75 1.85 1.85.75-1.85.75-.75 1.85-.75-1.85-1.85-.75 1.85-.75z" fill="currentColor" opacity=".65"/>
                                     </svg>
-                                    AI estimate
+                                    AI EDD
                                   </span>
                                   <strong>Arrives Tue, Mar 23 – Mar 30</strong>
                                 </div>
@@ -456,10 +456,7 @@ export default function FeaturesSection() {
                                   <span>Subtotal</span>
                                   <strong>$129.00</strong>
                                 </div>
-                                <span className="fx-cv-pay">
-                                  Check out
-                                  <em>1-tap checkout</em>
-                                </span>
+                                <span className="fx-cv-pay">Check out</span>
                               </div>
                               {/* 推荐：1 张卡，压在购物车右下（左右叠、一上一下） */}
                               <div className="fx-cv-recs">
@@ -467,8 +464,8 @@ export default function FeaturesSection() {
                                 <p className="fx-cv-recs-sub">You might also like</p>
                                 <ul className="fx-cv-recs-list">
                                   <li>
-                                    <img className="fx-cv-thumb" src="/assets/products/earbuds.jpg" alt="" />
-                                    <strong>Sport Ear Tips</strong>
+                                    <img className="fx-cv-thumb" src="/assets/features/sport-earpods.jpg" alt="" />
+                                    <strong>Sport Earpods</strong>
                                     <span className="fx-cv-item-price">$19.00</span>
                                     <span className="fx-cv-rec-actions">
                                       <span className="fx-cv-add">Add to Cart</span>
