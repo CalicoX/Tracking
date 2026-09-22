@@ -4,7 +4,7 @@
 
 ## AI 案例四品牌（2026-09-22）
 
-- NOISSEY 单独走 `layout: "noissey"`（`buildLayoutNoissey`），按 noissey.com 查询页：白顶栏、黑公告条、主图左上标题、查询卡贴在画面下沿（空输入框）、Viral piece、Why NOISSEY 四栏、黑底 campaign。图在 `public/assets/features/noissey-*.jpg`。另外三个仍是 `layout: "brand"`。
+- NOISSEY 单独走 `layout: "noissey"`，文案和主图从 `https://noissey.com/apps/17TRACK` 抓下来：主图 `noissey-hero.jpg`、故事图 `noissey-story.jpg`、logo、三张推荐商品。副标是 “From our studio to your doorstep…”。查询卡是空输入框 + Tracking Number / Order Number。另外三个仍是 `layout: "brand"`。
 - 窄屏沿用 ≤640 的 `.ai-case-art` / lightbox 单列和查询卡贴底。Aussie Betta 字标在 640 收到 13px，不要再改回 TRAIL / OGL / LUMÉ / NOVA。
 
 ## 底栏 / Start Free Trial（2026-09-22）

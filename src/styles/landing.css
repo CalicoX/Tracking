@@ -8559,7 +8559,7 @@
       background: #fff;
     }
     .ns-menu { width: 16px; height: 2px; background: #111; box-shadow: 0 -5px 0 #111, 0 5px 0 #111; }
-    .ns-logo { justify-self: center; font-weight: 750; letter-spacing: 0.22em; font-size: 15px; }
+    .ns-logo { justify-self: center; height: 22px; width: auto; display: block; }
     .ns-tools { display: flex; gap: 12px; }
     .ns-tools i { width: 14px; height: 14px; border: 1.5px solid #111; border-radius: 50%; }
     .ns-ticker {
