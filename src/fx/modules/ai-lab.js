@@ -2389,25 +2389,34 @@ export function mount() {
     }
 
     function buildLayoutNoissey() {
+      var iconUser =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2c1.3-3 3.6-4.4 6.5-4.4s5.2 1.4 6.5 4.4"/></svg>';
+      var iconSearch =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16 16.5L20 20.5"/></svg>';
+      var iconBag =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8h11l-.8 12H7.3L6.5 8z"/><path d="M9 8V6.8A3 3 0 0112 3.8 3 3 0 0115 6.8V8"/></svg>';
       return (
         '<div class="ogl-page ns-page">' +
-        '<header class="ns-head"><span class="ns-menu" aria-hidden="true"></span><img class="ns-logo" src="/assets/features/noissey-logo.png" alt="NOISSEY"><span class="ns-tools" aria-hidden="true"><i></i><i></i><i></i></span></header>' +
+        '<header class="ns-head"><span class="ns-lang">English</span><div class="ns-bar"><span class="ns-menu" aria-hidden="true"></span><img class="ns-logo" src="/assets/features/noissey-logo.png" alt="NOISSEY"><span class="ns-tools" aria-hidden="true">' +
+        iconUser +
+        iconSearch +
+        iconBag +
+        "</span></div></header>" +
         '<div class="ns-ticker">JOIN THE INNER CIRCLE. UNLOCK CLASSIFIED DROPS.</div>' +
         '<section class="ns-hero">' +
         '<img src="/assets/features/noissey-hero.jpg" alt="NOISSEY streetwear">' +
-        '<div class="ns-hero-copy"><p>Order Tracking</p><h2>Track Your<br>NOISSEY Order</h2><span>From our studio to your doorstep — built for the streets, tracked for peace of mind.</span></div>' +
-        '<em class="ns-season">- BACK TO SCHOOL 2026 -</em>' +
-        '<div class="ns-card"><h3>Track Your Order</h3><small>Enter your details below</small><div class="ns-tabs"><span class="is-on">Tracking Number</span><span>Order Number</span></div><input readonly tabindex="-1" placeholder="Enter your tracking number"><button type="button" tabindex="-1">Track Order</button></div>' +
+        '<div class="ns-hero-copy"><p>Order Tracking</p><h2>Track Your NOISSEY Order</h2><span>From our studio to your doorstep — built for the streets, tracked for peace of mind.</span></div>' +
         "</section>" +
-        '<section class="ns-viral"><h3>🔥 Viral piece right now 🔥</h3><div class="ns-pieces"><img src="/assets/features/noissey-p1.jpg" alt=""><img src="/assets/features/noissey-p2.jpg" alt=""><img src="/assets/features/noissey-p3.jpg" alt=""></div></section>' +
-        '<section class="ns-why"><h3>Why NOISSEY</h3><p>Premium high streetwear built for loud self-expression</p><div class="ns-why-grid">' +
+        '<section class="ns-query"><div class="ns-card"><h3>Track Your Order</h3><small>Enter your details below</small><div class="ns-tabs"><span class="is-on">Tracking Number</span><span>Order Number</span></div><input readonly tabindex="-1" placeholder="Enter your tracking number"><button type="button" tabindex="-1">Track Order</button></div></section>' +
+        '<section class="ns-viral"><h3>🔥 Viral piece right now 🔥</h3><div class="ns-pieces"><span><img src="/assets/features/noissey-p1.jpg" alt=""></span><span><img src="/assets/features/noissey-p2.jpg" alt=""></span><span><img src="/assets/features/noissey-p3.jpg" alt=""></span></div></section>' +
+        '<section class="ns-why"><div class="ns-why-head"><h3>Why NOISSEY</h3><p>Premium high streetwear built for loud self-expression</p></div><div class="ns-why-grid">' +
         "<article><b>01</b><strong>300g Heavyweight Tees</strong><span>Substantial fabric weight designed to hold shape and structure.</span></article>" +
         "<article><b>02</b><strong>Stacked Denim</strong><span>Silhouettes engineered for a stacked, statement-ready fit.</span></article>" +
         "<article><b>03</b><strong>High-Impact Graphics</strong><span>Bold visuals made to carry your self-expression loud.</span></article>" +
         "<article><b>04</b><strong>Worldwide Shipping</strong><span>NOISSEY ships globally so the look travels with you.</span></article>" +
         "</div></section>" +
-        '<section class="ns-band"><img src="/assets/features/noissey-story.jpg" alt=""><div><p>Premium high streetwear and heavyweight aesthetics</p><h3>Define Your Look with NOISSEY</h3><span>This ain\'t just threads; it\'s a revolution in self-expression where street culture meets your soul. We craft every piece from the finest, channeling music, art, and life\'s realest moments directly to your fit.</span><div class="ns-tags"><i>Premium</i><i>Heavyweight</i><i>Streetwear</i><i>Color-Led</i></div></div></section>' +
-        '<footer class="ns-foot"><div><b>TRACK ORDER</b><span>Track orders</span></div><div><b>QUICK LINKS</b><span>Account</span><span>Payment method</span></div><div><b>CUSTOMER SERVICE</b><span>Shipping policy</span><span>Contact us</span></div><div><b>DISCOVER NOISSEY</b><span>About NOISSEY</span><span>NOISSEY’s blog</span></div></footer>' +
+        '<section class="ns-band"><img src="/assets/features/noissey-story.jpg" alt=""><div><p>Premium high streetwear and heavyweight aesthetics</p><h3>Define Your Look with NOISSEY</h3><span>This ain\'t just threads; it\'s a revolution in self-expression where street culture meets your soul. We craft every piece from the finest, channeling music, art, and life\'s realest moments directly to your fit. Our designs? Unapologetic symbols of attitude, your statement to the world. Wear NOISSEY. Own your boldest life.</span><div class="ns-tags"><i>Premium</i><i>Heavyweight</i><i>Streetwear</i><i>Color-Led</i></div></div></section>' +
+        '<footer class="ns-foot"><div class="ns-foot-cols"><div><b>Track order</b><span>Track orders</span></div><div><b>Quick links</b><span>Account</span><span>Payment method</span><span>Customer reviews</span><span>Wholesale</span><span>All reviews</span><span>NOISSEY in Shop APP</span></div><div><b>Customer service</b><span>Shipping policy</span><span>Return guidelines</span><span>Contact us</span><span>Refund policy</span><span>Privacy policy</span><span>Terms of service</span><span>Do not sell my info</span></div><div><b>Discover NOISSEY</b><span>About NOISSEY</span><span>Compamy info</span><span>NOISSEY\'s blog</span></div></div><div class="ns-foot-meta"><div><p>Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p><em>Enter your email</em></div><div><strong>NOISSEY LIMITED</strong><span>Rm D07, 8/F, Kai Tak Fty Building, No. 99 King Fuk Street, San Po Kong, Kowloon, Hong Kong</span><b>Contact email</b><span>SUPPORT@NOISSEY.COM</span></div></div><small>© 2026 NOISSEY ALL RIGHTS RESERVED.</small></footer>' +
         "</div>"
       );
     }
@@ -2457,6 +2466,13 @@ export function mount() {
     }
 
     function update() {
+      var nsPages = stage.querySelectorAll(".ns-page");
+      for (var ni = 0; ni < nsPages.length; ni++) {
+        var nsArt = nsPages[ni].closest(".ai-case-art");
+        if (!nsArt) continue;
+        var nsW = nsArt.clientWidth || 1;
+        nsArt.style.setProperty("--ns-fit", String(Math.min(1, nsW / 1120)));
+      }
       var pin =
         document.getElementById("ai-lab-intro-track") || work;
       var rect = pin.getBoundingClientRect();

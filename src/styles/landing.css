@@ -8549,81 +8549,262 @@
         font-size: 12px;
       }
     }
-    .ns-page { background: #f5f5f5; color: #111; }
-    .ns-head {
+    .ai-case-art .ns-page,
+    .ai-case-lightbox-scroll .ns-page {
+      --ns-red: #c73d23;
+      background: #f2f2f2;
+      color: #111;
+      font-family: "Playfair Display", Georgia, serif;
+    }
+    .ai-case-art .ns-page {
+      width: 1120px;
+      transform-origin: top left;
+      transform: scale(var(--ns-fit, 0.4));
+    }
+    .ns-head { background: #fff; position: relative; }
+    .ns-lang {
+      display: block;
+      padding: 8px 18px 0;
+      text-align: right;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: #444;
+    }
+    .ns-lang::after { content: ""; display: inline-block; margin-left: 5px; border: 4px solid transparent; border-top-color: #444; vertical-align: -1px; }
+    .ns-bar {
       display: grid;
       grid-template-columns: 28px 1fr auto;
       align-items: center;
       gap: 12px;
-      padding: 14px 18px;
-      background: #fff;
+      padding: 8px 22px 14px;
     }
-    .ns-menu { width: 16px; height: 2px; background: #111; box-shadow: 0 -5px 0 #111, 0 5px 0 #111; }
-    .ns-logo { justify-self: center; height: 22px; width: auto; display: block; }
-    .ns-tools { display: flex; gap: 12px; }
-    .ns-tools i { width: 14px; height: 14px; border: 1.5px solid #111; border-radius: 50%; }
+    .ns-menu { width: 16px; height: 1.5px; background: #111; box-shadow: 0 -5px 0 #111, 0 5px 0 #111; }
+    .ns-logo { justify-self: center; height: 18px; width: auto; display: block; }
+    .ns-tools { display: flex; gap: 14px; color: #111; }
+    .ns-tools svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
     .ns-ticker {
       background: #111;
       color: #fff;
       text-align: center;
-      font-size: 10px;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
       letter-spacing: 0.16em;
-      padding: 7px 12px;
+      padding: 9px 16px;
     }
-    .ns-hero { position: relative; height: 520px; overflow: hidden; background: #111; }
-    .ns-hero > img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
-    .ns-hero-copy { position: absolute; left: 28px; top: 28px; max-width: 420px; color: #fff; z-index: 1; text-shadow: 0 2px 16px rgba(0,0,0,0.45); }
-    .ns-hero-copy p { margin: 0 0 8px; font-size: 11px; letter-spacing: 0.18em; }
-    .ns-hero-copy h2 { margin: 0; font-size: clamp(36px, 4vw, 56px); line-height: 0.92; letter-spacing: -0.03em; font-weight: 750; }
-    .ns-hero-copy span { display: block; margin-top: 10px; max-width: 34ch; font-size: 13px; line-height: 1.4; }
-    .ns-season { position: absolute; right: 18px; bottom: 28px; z-index: 2; color: #fff; font-size: 11px; letter-spacing: 0.08em; font-style: normal; }
-    .ns-card {
+    .ns-hero {
+      position: relative;
+      min-height: 560px;
+      display: flex;
+      align-items: flex-end;
+      padding: 72px 24px 156px;
+      overflow: hidden;
+      background: #111;
+    }
+    .ns-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+    .ns-hero::before {
+      content: "";
       position: absolute;
-      left: 50%;
-      bottom: 22px;
-      transform: translateX(-50%);
-      width: min(560px, 78%);
-      z-index: 2;
-      background: #fff;
-      padding: 18px 18px 16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.65) 100%);
     }
-    .ns-card h3 { margin: 0; text-align: center; font-size: 18px; }
-    .ns-card small { display: block; margin: 4px 0 12px; text-align: center; letter-spacing: 0.14em; font-size: 10px; color: #6b7280; }
-    .ns-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
-    .ns-tabs span { padding: 7px 10px; font-size: 11px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; background: #ececec; color: #666; }
-    .ns-tabs span.is-on { background: #111; color: #fff; }
-    .ns-card input { width: 100%; box-sizing: border-box; border: 1px solid #e5e7eb; padding: 12px; margin-bottom: 8px; font: inherit; font-size: 13px; }
-    .ns-card button { width: 100%; border: 0; background: #111; color: #fff; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; font-size: 12px; padding: 13px; cursor: default; }
-    .ns-viral, .ns-why { padding: 36px 22px; text-align: center; }
-    .ns-viral h3, .ns-why h3 { margin: 0 0 8px; font-size: 28px; }
-    .ns-why > p { margin: 0 0 18px; color: #6b7280; font-size: 13px; }
-    .ns-pieces { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 860px; margin: 18px auto 0; }
-    .ns-pieces img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #ececec; display: block; }
-    .ns-why-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; text-align: left; }
-    .ns-why-grid article { background: #fff; padding: 16px; }
-    .ns-why-grid b { display: block; font-size: 11px; color: #9ca3af; margin-bottom: 8px; }
-    .ns-why-grid strong { display: block; margin-bottom: 6px; font-size: 14px; }
-    .ns-why-grid span { display: block; font-size: 12px; color: #6b7280; line-height: 1.45; }
-    .ns-band { display: grid; grid-template-columns: 1.1fr 1fr; background: #0d0d0d; color: #fff; }
-    .ns-band img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; display: block; }
-    .ns-band div { padding: 36px 28px; }
-    .ns-band p { margin: 0 0 10px; color: #e11d48; font-size: 11px; letter-spacing: 0.12em; }
-    .ns-band h3 { margin: 0 0 12px; font-size: 32px; line-height: 1.05; }
-    .ns-band span { display: block; color: #d1d5db; font-size: 14px; line-height: 1.5; }
-    .ns-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-    .ns-tags i { font-style: normal; border: 1px solid #444; padding: 4px 8px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
-    .ns-foot { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 28px 22px 40px; background: #f5f5f5; font-size: 12px; color: #4b5563; }
-    .ns-foot b { display: block; margin-bottom: 8px; letter-spacing: 0.1em; font-size: 11px; color: #111; }
-    .ns-foot span { display: block; margin: 4px 0; }
+    .ns-hero-copy { position: relative; z-index: 1; width: min(640px, 100%); color: #fff; }
+    .ns-hero-copy p {
+      display: inline-block;
+      margin: 0 0 16px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.4);
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+    .ns-hero-copy h2 {
+      margin: 0;
+      max-width: 640px;
+      font-size: clamp(36px, 5.4vw, 64px);
+      line-height: 1.05;
+      font-weight: 700;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+    }
+    .ns-hero-copy span {
+      display: block;
+      margin-top: 16px;
+      max-width: 640px;
+      font-size: clamp(15px, 1.4vw, 18px);
+      line-height: 1.6;
+      font-style: italic;
+      color: rgba(255,255,255,0.9);
+    }
+    .ns-query { position: relative; z-index: 2; margin-top: -56px; padding: 0 24px 48px; }
+    .ns-card {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #e2e2e2;
+      border-radius: 4px;
+      padding: 28px;
+      box-shadow: 0 24px 48px -20px rgba(0,0,0,0.28);
+    }
+    .ns-card h3 { margin: 0 0 4px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; text-align: left; }
+    .ns-card small {
+      display: block;
+      margin: 0 0 18px;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #5a5a5a;
+    }
+    .ns-tabs {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      margin-bottom: 16px;
+      background: #f4f4f4;
+      border-radius: 2px;
+    }
+    .ns-tabs span {
+      padding: 9px 18px;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #5a5a5a;
+    }
+    .ns-tabs span.is-on { background: #111; color: #fff; border-radius: 2px; }
+    .ns-card input {
+      display: block;
+      width: 100%;
+      height: 52px;
+      box-sizing: border-box;
+      margin-bottom: 14px;
+      padding: 0 16px;
+      border: 1px solid #e2e2e2;
+      border-radius: 2px;
+      background: #fafafa;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      color: #111;
+    }
+    .ns-card input::placeholder { color: #a0a0a0; }
+    .ns-card button {
+      width: 100%;
+      height: 52px;
+      border: 0;
+      border-radius: 2px;
+      background: #111;
+      color: #fff;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: default;
+    }
+    .ns-viral { padding: 80px 24px; text-align: center; background: #f2f2f2; }
+    .ns-viral h3, .ns-why-head h3 {
+      margin: 0;
+      font-size: clamp(28px, 3.2vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .ns-pieces {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      max-width: 1240px;
+      margin: 32px auto 0;
+    }
+    .ns-pieces span {
+      display: block;
+      background: #fff;
+      border: 1px solid #ececec;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .ns-pieces img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: rgba(20, 35, 55, 0.035); display: block; }
+    .ns-why { padding: 80px 24px; background: #eee; }
+    .ns-why-head { max-width: 1240px; margin: 0 auto 48px; text-align: center; }
+    .ns-why-head p { margin: 8px 0 0; font-size: 16px; font-style: italic; color: #5a5a5a; }
+    .ns-why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      max-width: 1240px;
+      margin: 0 auto;
+      background: #ececec;
+      border: 1px solid #ececec;
+      text-align: left;
+    }
+    .ns-why-grid article { background: #fff; padding: 32px 24px; }
+    .ns-why-grid b {
+      display: block;
+      margin-bottom: 16px;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      color: var(--ns-red, #c73d23);
+    }
+    .ns-why-grid strong { display: block; margin: 0 0 12px; font-size: 20px; font-weight: 700; line-height: 1.25; }
+    .ns-why-grid span { display: block; font-size: 14px; line-height: 1.6; color: #5a5a5a; }
+    .ns-band {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+      padding: 96px 24px;
+      background: #000;
+      color: #fff;
+    }
+    .ns-band img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; border-radius: 4px; }
+    .ns-band p {
+      margin: 0 0 16px;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--ns-red, #c73d23);
+    }
+    .ns-band h3 { margin: 0 0 20px; font-size: clamp(30px, 3.4vw, 44px); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; }
+    .ns-band span { display: block; font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.82); }
+    .ns-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .ns-tags i {
+      font-style: normal;
+      font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 2px;
+    }
+    .ns-foot { padding: 48px 24px 28px; background: #fff; color: #333; font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
+    .ns-foot-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; max-width: 1240px; margin: 0 auto; }
+    .ns-foot b { display: block; margin-bottom: 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #111; }
+    .ns-foot-cols span, .ns-foot-meta span { display: block; margin: 6px 0; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #555; }
+    .ns-foot-meta { display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; max-width: 1240px; margin: 36px auto 0; font-size: 13px; line-height: 1.5; }
+    .ns-foot-meta p { margin: 0 0 12px; max-width: 32ch; }
+    .ns-foot-meta em { display: block; font-style: normal; border-bottom: 1px solid #ccc; padding: 8px 0; color: #888; }
+    .ns-foot-meta strong { display: block; margin-bottom: 6px; }
+    .ns-foot small { display: block; margin-top: 28px; text-align: center; color: #777; font-size: 11px; letter-spacing: 0.08em; }
     @media (max-width: 640px) {
-      .ns-hero { height: 460px; }
-      .ns-hero-copy { left: 14px; right: 14px; top: 14px; }
+      .ai-case-art .ns-page { width: 100%; transform: none; }
+      .ns-hero { min-height: 420px; align-items: flex-start; padding: 56px 20px 88px; }
       .ns-hero-copy h2 { font-size: 32px; }
-      .ns-season { display: none; }
-      .ns-card { left: 12px; right: 12px; width: auto; transform: none; bottom: 12px; }
-      .ns-pieces, .ns-why-grid, .ns-band, .ns-foot { grid-template-columns: 1fr; }
-      .ns-viral, .ns-why, .ns-band div { padding-left: 14px; padding-right: 14px; }
+      .ns-query { margin-top: -28px; padding: 0 16px 24px; }
+      .ns-card { padding: 20px; }
+      .ns-tabs { display: flex; }
+      .ns-tabs span { flex: 1; text-align: center; }
+      .ns-pieces, .ns-band, .ns-foot-cols, .ns-foot-meta { grid-template-columns: 1fr; }
+      .ns-why-grid { grid-template-columns: 1fr 1fr; }
+      .ns-viral, .ns-why { padding: 56px 16px; }
+      .ns-band { padding: 64px 16px; gap: 32px; }
     }
     .ob-page { background: #f6f6f7; color: #1a1a1a; }
     .ob-nav {
