@@ -1,6 +1,11 @@
 # Memory
 
-最后更新：2026-09-22（Branded 拼贴去掉蓝底，四张卡略散开）
+最后更新：2026-09-22（邮件插图加上 Delivery Status、推荐商品、侧面 ↓95% WISMO）
+
+## Features 邮件插图（2026-09-22）
+
+- 仍是异常邮件 + Create flow（触发器 Exception / Detected，不要改）。另外三块来自参考图：左侧 `Delivery Status`（In-Transit 蓝底）、邮件底部 Recommended 三张白底商品（`public/assets/features/email-pick-1.jpg` 圆筒、`email-pick-2.jpg` 方盒、`email-pick-3.jpg` 塔扇，无 logo）、Create flow 右沿绿标 `↓95% WISMO`。
+- 设计宽 **780**。左 padding 152、右 padding 60，把状态卡和 WISMO 标收在 scene 里面。不要再用负的 left/right 探出设计框，390 会把字切掉。状态卡不要压到邮件正文。
 
 ## Features 第 1 块插图（Branded Tracking Page，2026-09-22）
 

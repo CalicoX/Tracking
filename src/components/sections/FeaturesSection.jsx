@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 const SCENE_DIMS = [
   { w: 680, h: 700 }, // 0: Branded Tracking Page
-  { w: 660, h: 490 }, // 1: Branded Email Notification
+  { w: 780, h: 580 }, // 1: Branded Email Notification
   { w: 736, h: 500 }, // 2: Split-Order（左右叠，邮件下层）
   { w: 584, h: 480 }, // 3: Conversion 左右叠，购物车下层
 ];
@@ -247,6 +247,12 @@ export default function FeaturesSection() {
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
                           <div className="fx-em-scene">
+                            <div className="fx-em-status">
+                              <strong>Delivery Status</strong>
+                              <span>Just Shipped</span>
+                              <span className="is-on">In-Transit</span>
+                              <span>Delivered</span>
+                            </div>
                             {/* 左：品牌异常邮件（竖比例，按参考图一排） */}
                             <div className="fx-glass fx-em-letter">
                               <div className="fx-em-letter-head">
@@ -270,6 +276,12 @@ export default function FeaturesSection() {
                                 <div><dt>Carrier</dt><dd>USPS</dd></div>
                                 <div><dt>Carrier phone</dt><dd>+0 321 3278 321</dd></div>
                               </dl>
+                              <p className="fx-em-picks-label">Recommended</p>
+                              <div className="fx-em-picks">
+                                <img src="/assets/features/email-pick-1.jpg" alt="" />
+                                <img src="/assets/features/email-pick-2.jpg" alt="" />
+                                <img src="/assets/features/email-pick-3.jpg" alt="" />
+                              </div>
                               <span className="fx-em-warn" aria-hidden="true">
                                 <svg viewBox="0 0 24 24" fill="none">
                                   <path d="M12 3.6 21.4 20.4H2.6L12 3.6Z" stroke="#fff" strokeWidth="1.85" strokeLinejoin="round"/>
@@ -308,6 +320,7 @@ export default function FeaturesSection() {
                                   <li>Origin</li>
                                 </ul>
                               </div>
+                              <span className="fx-em-wismo">↓95% WISMO</span>
                             </div>
                           </div>
                           </div>

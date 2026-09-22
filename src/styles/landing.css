@@ -5393,16 +5393,23 @@
     /* Branded email：左右排。邮件卡（竖比例）在左，Create flow 列右移压住其右沿 */
     .fx-em-scene {
       position: relative;
-      width: 100%;
-      /* 上限 696（含左右 18 内边距 = 内容 660）：邮件卡稳定在 ~410 宽，1440 也不会被拉成横卡。
-         内边距是给卡片投影留的量——>1024 时 scene 会和右栏同宽，不留就被 overflow 裁掉。 */
-      max-width: 696px;
+      width: 780px;
+      max-width: none;
       margin: 0 auto;
-      padding: 8px 18px 24px;
+      padding: 12px 60px 16px 152px;
       box-sizing: border-box;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+    }
+    .fx-em-scene .fx-em-letter {
+      flex: 0 0 348px;
+      width: 348px;
+    }
+    .fx-em-scene .fx-em-flow {
+      flex: 0 0 248px;
+      width: 248px;
+      margin-left: -28px;
     }
     /* 选择器必须带 [data-theme]：不带会被 .feature-stage[data-theme="lastmile"] .fx-glass
        （0,3,0）抢走 box-shadow，只剩 1px 描边影（Park 09-11：投影应该大一些）。 */
@@ -5724,6 +5731,88 @@
     .fx-em-filter-list li.is-on {
       background: #f1f5f9;
       font-weight: 650;
+    }
+    /* 侧面：物流状态卡在左，↓95% WISMO 挂在 Create flow 右沿 */
+    .fx-em-scene .fx-em-status {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 132px;
+      padding: 10px 8px 8px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow:
+        0 2px 5px rgba(15, 23, 42, 0.05),
+        0 16px 36px -14px rgba(15, 23, 42, 0.28);
+    }
+    .fx-em-scene .fx-em-status strong {
+      display: block;
+      margin: 0 6px 6px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+    .fx-em-scene .fx-em-status span {
+      display: block;
+      margin: 2px 0 0;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 550;
+      line-height: 1.2;
+      color: #334155;
+    }
+    .fx-em-scene .fx-em-status span.is-on {
+      background: #3b82f6;
+      color: #fff;
+      font-weight: 700;
+    }
+    .fx-em-letter .fx-em-picks-label {
+      margin: 16px 0 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+    .fx-em-letter .fx-em-picks {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 248px;
+      margin: 0 auto;
+    }
+    .fx-em-letter .fx-em-picks img {
+      flex: 1 1 0;
+      width: 0;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+    }
+    .fx-em-scene .fx-em-wismo {
+      position: absolute;
+      right: -36px;
+      bottom: 28px;
+      z-index: 6;
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 12px;
+      background: #22c55e;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      box-shadow: 0 12px 28px rgba(22, 163, 74, 0.38);
     }
 
 
@@ -13292,7 +13381,7 @@
         mask-image: none;
       }
       .fx-em-scene {
-        width: 660px;
+        width: 780px;
         max-width: none;
         display: flex;
         align-items: center;
