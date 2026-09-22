@@ -8506,6 +8506,49 @@
     .ogl-page.theme-trail .ogl-track-btn { background: #1f4d3a; border-radius: 10px; }
     .ogl-page.theme-trail .ogl-tl-item.done .ogl-tl-dot,
     .ogl-page.theme-trail .ogl-tl-item.active .ogl-tl-dot { background: #2d6a4f; }
+    .ogl-page.theme-noissey { background: #f3f3f4; }
+    .ogl-page.theme-noissey .ogl-nav { background: #111; border-color: #111; }
+    .ogl-page.theme-noissey .ogl-logo,
+    .ogl-page.theme-noissey .ogl-nav-links,
+    .ogl-page.theme-noissey .ogl-nav-icons { color: #f5f5f5; }
+    .ogl-page.theme-noissey .ogl-logo { letter-spacing: 0.28em; font-weight: 800; }
+    .ogl-page.theme-noissey .ogl-track-btn { background: #111; border-radius: 0; }
+    .ogl-page.theme-outin { background: #f6f1e7; }
+    .ogl-page.theme-outin .ogl-logo { letter-spacing: 0.02em; font-weight: 800; }
+    .ogl-page.theme-outin .ogl-track-btn { background: #1f6b45; border-radius: 999px; }
+    .ogl-page.theme-outin .ogl-tl-item.done .ogl-tl-dot,
+    .ogl-page.theme-outin .ogl-tl-item.active .ogl-tl-dot { background: #1f6b45; }
+    .ogl-page.theme-swellpro { background: #f6f7f8; }
+    .ogl-page.theme-swellpro .ogl-nav { background: #1c1c1c; border-color: #1c1c1c; }
+    .ogl-page.theme-swellpro .ogl-logo,
+    .ogl-page.theme-swellpro .ogl-nav-links,
+    .ogl-page.theme-swellpro .ogl-nav-icons { color: #fff; }
+    .ogl-page.theme-swellpro .ogl-logo { letter-spacing: 0.04em; font-weight: 800; }
+    .ogl-page.theme-swellpro .ogl-track-btn { background: #f97316; border-radius: 8px; }
+    .ogl-page.theme-swellpro .ogl-tl-item.done .ogl-tl-dot,
+    .ogl-page.theme-swellpro .ogl-tl-item.active .ogl-tl-dot { background: #f97316; }
+    .ogl-page.theme-aussie { background: #f6f1e6; }
+    .ogl-page.theme-aussie .ogl-logo {
+      letter-spacing: 0;
+      font-weight: 650;
+      text-transform: none;
+      font-size: 15px;
+    }
+    .ogl-page.theme-aussie .ogl-track-btn { background: #8d6b45; border-radius: 2px; }
+    .ogl-page.theme-aussie .ogl-tl-item.done .ogl-tl-dot,
+    .ogl-page.theme-aussie .ogl-tl-item.active .ogl-tl-dot { background: #8d6b45; }
+    @media (max-width: 640px) {
+      .ogl-page.theme-aussie .ogl-logo,
+      .ai-case-art .ogl-page.theme-aussie .ogl-logo {
+        font-size: 13px;
+        letter-spacing: 0;
+      }
+      .ogl-track-float h3,
+      .ai-case-art .ogl-track-float h3 {
+        letter-spacing: 0.04em;
+        font-size: 12px;
+      }
+    }
 
     /* ——— Layout B: split (beauty) ——— */
     .ogl-page.layout-split { background: #f7f3ef; }

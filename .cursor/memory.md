@@ -1,6 +1,11 @@
 # Memory
 
-最后更新：2026-09-22（深色底栏和 Start Free Trial 去掉 border beam；按钮停在圆钮靠右）
+最后更新：2026-09-22（AI 案例换成 NOISSEY / OutIn / SwellPro / Aussie Betta）
+
+## AI 案例四品牌（2026-09-22）
+
+- 右侧四个案例是真实品牌查询页风格，全部 `layout: "hero"`：`theme-noissey`、`theme-outin`、`theme-swellpro`、`theme-aussie`。单号用星号遮住。
+- 窄屏沿用 ≤640 的 `.ai-case-art` / lightbox 单列和查询卡贴底。Aussie Betta 字标在 640 收到 13px，不要再改回 TRAIL / OGL / LUMÉ / NOVA。
 
 ## 底栏 / Start Free Trial（2026-09-22）
 
