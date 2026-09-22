@@ -1752,7 +1752,7 @@ export function mount() {
         shop: ["Tees", "Denim", "Graphics"],
       },
       {
-        layout: "brand",
+        layout: "outin",
         logo: "OutIn",
         nav: ["Shop", "Explore"],
         theme: "theme-outin",
@@ -2421,9 +2421,33 @@ export function mount() {
       );
     }
 
+    function buildLayoutOutin() {
+      return (
+        '<div class="ogl-page oi-page">' +
+        '<div class="oi-ticker">Meet Nano 2. Enjoy Our Exclusive Launch Offer — Shop Now</div>' +
+        '<header class="oi-head"><img class="oi-logo" src="/assets/features/outin-logo.png" alt="OutIn"><nav class="oi-nav"><span>September Reset</span><span>New Releases</span><span>Gifts &amp; Customization</span><span>Explore</span></nav><span class="oi-tools" aria-hidden="true"><i></i><i></i><i></i></span></header>' +
+        '<section class="oi-hero"><div class="oi-hero-copy"><img src="/assets/features/outin-logo.png" alt=""><h2>Track Your OutIn Order</h2><p>Follow your portable espresso gear on its journey — from our workshop to your next adventure.</p></div></section>' +
+        '<section class="oi-query"><div class="oi-card"><div class="oi-tabs"><span class="is-on">Track Number</span><span>Order Number</span></div><input readonly tabindex="-1" value="TB******278"><button type="button" tabindex="-1">Track Order</button></div></section>' +
+        '<section class="oi-result"><div class="oi-status"><h3>Your order is placed and is about to be shipped</h3><div class="oi-bar"><b></b><span class="is-on">Order pending</span><span class="is-on">Info Received</span><span>In Transit</span><span>Pick Up</span><span>Delivered</span></div><div class="oi-ship"><strong>Amazon Shipping + Amazon MCF</strong><span>2 Sep, 2026 · Label Created</span><em>TB******278</em></div></div><aside class="oi-order"><h3>Order Information</h3><ul><li><b>EVA Protective Case Plus</b><span>Maple Brown · $16.25</span></li><li><b>OutIn Mini Portable Espresso</b><span>Moss Green · $179.00</span></li><li><b>OutIn Nano</b><span>Coffee Green · $79.90</span></li><li><b>OutIn Fino Grinder</b><span>Tundra Brown · $129.90</span></li></ul><p>Destination · United States</p><p>Order Number · ******</p></aside></section>' +
+        '<section class="oi-gallery"><h3>Crafted for Coffee Lovers</h3><div class="oi-pieces"><img src="/assets/features/outin-g1.jpg" alt="Espresso Machines &amp; Grinders"><img src="/assets/features/outin-g2.jpg" alt="Premium Accessories"><img src="/assets/features/outin-g3.jpg" alt="Curated Gifts &amp; Customization"></div></section>' +
+        '<section class="oi-video"><h3>Fresh Espresso, Anywhere</h3><div class="oi-frame"><img src="/assets/features/outin-video.jpg" alt=""><i aria-hidden="true"></i></div></section>' +
+        '<section class="oi-why"><div class="oi-why-head"><h3>Why Choose OutIn</h3><p>Portable electric coffee gear built for life without boundaries.</p></div><div class="oi-why-grid">' +
+        "<article><b>01</b><strong>The #1 Name in Portable Coffee</strong><span>Trusted by coffee lovers worldwide, OutIn sets the standard for mobile brewing.</span></article>" +
+        "<article><b>02</b><strong>Build Your Personal Coffee Station</strong><span>Machines, precision grinders, and stands for a desk, a dorm, or a pack.</span></article>" +
+        "<article><b>03</b><strong>Thoughtful &amp; Elevated Gifting</strong><span>Curated sets that bring a complete brewing ritual in one box.</span></article>" +
+        "<article><b>04</b><strong>Barista-Quality Freedom</strong><span>20-bar crema with ground coffee or capsules, anywhere you land.</span></article>" +
+        "</div></section>" +
+        '<section class="oi-story"><div><p>The OutIn Way is #FreshCoffeeAnywhere</p><h3>The OutIn Story</h3><span>OutIn is born out of the simple wish to enjoy quality coffee outdoors. A delicious cup of freshly brewed coffee can kickstart your day, complete a climb, and soothe a quiet moment. We want everyone to enjoy the perfect cup anywhere, breaking the barrier between indoor and outdoor life.</span><div class="oi-tags"><i>#FreshCoffeeAnywhere</i><i>Personal Coffee Station</i><i>Outdoor Coffee</i><i>Portable Espresso Machine</i></div></div><img src="/assets/features/outin-story.jpg" alt=""></section>' +
+        '<section class="oi-faq"><h3>FAQ</h3><p>Find quick answers about tracking, delivery delays, customs, and missing packages.</p><div class="oi-qs"><b>How can I track my order or check its shipping status?</b><span>When will my order ship, and how long will delivery take?</span><span>Why has tracking not updated, or why is my package delayed?</span><span>What if it shows delivered but I have not received it?</span><span>What if delivery fails, the address is wrong, or customs is due?</span></div><div class="oi-help"><div><strong>Still need help?</strong><span>Send us your order number, tracking number, and a short description of the issue.</span></div><em>Contact support</em></div></section>' +
+        '<footer class="oi-foot"><img src="/assets/features/outin-logo.png" alt=""><div><b>Support</b><span>FAQ</span><span>Contact</span><span>Shipping</span><span>Returns</span></div><div><b>Information</b><span>Guides</span><span>Products</span><span>About us</span><span>Blog</span></div><div><b>Sales</b><span>Wholesale</span><span>Affiliate</span><span>Track an order</span></div><small>© 2026 OutIn</small></footer>' +
+        "</div>"
+      );
+    }
+
     function buildCaseHtml(c) {
       var layout = c.layout || "hero";
       if (layout === "noissey") return buildLayoutNoissey();
+      if (layout === "outin") return buildLayoutOutin();
       if (layout === "brand") return buildLayoutBrand(c);
       if (layout === "split") return buildLayoutSplit(c);
       if (layout === "steps") return buildLayoutSteps(c);
@@ -2466,7 +2490,7 @@ export function mount() {
     }
 
     function update() {
-      var nsPages = stage.querySelectorAll(".ns-page");
+      var nsPages = stage.querySelectorAll(".ns-page, .oi-page");
       for (var ni = 0; ni < nsPages.length; ni++) {
         var nsArt = nsPages[ni].closest(".ai-case-art");
         if (!nsArt) continue;

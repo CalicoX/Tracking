@@ -1,11 +1,12 @@
 # Memory
 
-最后更新：2026-09-22（NOISSEY 案例对照官网查询页）
+最后更新：2026-09-22（OutIn 案例对照官网查询页）
 
 ## AI 案例四品牌（2026-09-22）
 
 - NOISSEY 单独走 `layout: "noissey"`，对照 `https://noissey.com/apps/17TRACK` 的成品页，不是通用品牌模板。结构：白底店头（汉堡 + 居中 logo + 账号/搜索/包）→ 黑公告条 JOIN THE INNER CIRCLE → 主图下沿文案（ORDER TRACKING 描边、Playfair 标题、斜体副标）→ 查询卡压在主图底边上（桌面重叠 56px、底空 48px；≤640 重叠 28px）→ Viral piece 三张商品 `object-fit: contain` → Why NOISSEY 四列，序号 `#C73D23` → 黑底故事 → 店尾四列。主图里已有 “- BACK TO SCHOOL 2026 -”，不要再写一枚 HTML 季标。Hero 里不要再放 logo（官网补丁把 `.yq-hero-brand` 藏了）。
-- 叠卡预览把页面按 1120 宽缩放（`--ns-fit` = 卡宽 / 1120）。放大层不缩放，按弹层宽度排。≤640 取消缩放并改单列（卖点两列）。字体是 Playfair Display + Poppins，链在 `index.html`。另外三个案例仍是 `layout: "brand"`。Aussie Betta 字标在 640 收到 13px，不要再改回 TRAIL / OGL / LUMÉ / NOVA。
+- 叠卡预览把 NOISSEY / OutIn 按 1120 宽缩放（`--ns-fit` = 卡宽 / 1120）。放大层不缩放。≤640 取消缩放并改单列。NOISSEY 字体 Playfair + Poppins，OutIn 用 Hanken Grotesk，链在 `index.html`。
+- OutIn 单独走 `layout: "outin"`，对照 `https://outin.com/apps/17TRACK`。黑公告 + 深色店头（白字 logo）→ 蕨叶主图左上文案 Track Your OutIn Order → 深绿胶囊查询卡压在主图底边（Track Number / Order Number，按钮 `#093C32`）→ 结果双卡（进度 Order pending / Info Received / In Transit / Pick Up / Delivered，单号 TB******278）→ Crafted for Coffee Lovers 三张官图 → Fresh Espresso, Anywhere → Why Choose OutIn 四列 → The OutIn Story → FAQ。底色 `#EAE5D6`。SwellPro、Aussie Betta 仍是 `layout: "brand"`。Aussie Betta 字标在 640 收到 13px，不要再改回 TRAIL / OGL / LUMÉ / NOVA。
 
 ## 底栏 / Start Free Trial（2026-09-22）
 
