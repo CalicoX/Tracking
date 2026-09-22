@@ -1,6 +1,10 @@
 # Memory
 
-最后更新：2026-09-22（Coverage 五组数字换成 3,500+ / 230+ / 33+ / 22M+ / 16 years）
+最后更新：2026-09-22（17RETURNS 卡右侧换成 Returns 首页 KV 静图，只缩小不动画）
+
+## Explore 17RETURNS 配图（2026-09-22）
+
+- 右侧是 Returns 首页 KV 终态静图 `public/assets/returns-kv.jpg`（`.returns-ui-kv`），按卡片宽度缩小，`object-fit: contain`。不要再做 Urban Standards 那套 DOM，也不要接退货流程动画。
 
 ## Coverage 数字（2026-09-22）
 

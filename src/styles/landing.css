@@ -10145,18 +10145,28 @@
     }
     /* stage = reverse parallax layer (same pattern as .explore-api-visual) */
     .explore-card-returns .returns-ui {
-      background: #d8f3ea;
+      background: transparent;
       border: 0;
       box-shadow: none;
       overflow: hidden;
       height: auto;
       min-height: 0;
       max-height: none;
-      align-self: stretch;
+      align-self: center;
       border-radius: var(--r-inner);
       transform: none;
-      color: #0f172a !important;
-      -webkit-text-fill-color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 8px 8px 0;
+    }
+    .returns-ui-kv {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 18px;
     }
     /* explicit dark type on every mock text node (beats inherit white) */
     .explore-card-returns .returns-ui-brand,

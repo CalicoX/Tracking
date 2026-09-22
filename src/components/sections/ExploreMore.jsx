@@ -27,62 +27,7 @@ export default function ExploreMore() {
                 </span>
               </div>
               <div className="returns-ui" aria-hidden="true">
-                <img className="returns-ui-photo" src="/assets/returns-scene.jpg" alt="" />
-                <div className="returns-ui-blobs" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                </div>
-                <div className="returns-ui-stack">
-                  <div className="returns-ui-card">
-                    <div className="returns-win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
-                    <p className="returns-ui-brand">Urban Standards</p>
-                    <div className="returns-ui-head">
-                      <strong>Select an item to return</strong>
-                      <span>You can add more items later.</span>
-                    </div>
-                    <div className="returns-ui-list">
-                      <div className="returns-ui-item is-active" data-product="sneakers">
-                        <div className="returns-ui-thumb">
-                          <img src="/assets/returns-scene.jpg" alt="" />
-                        </div>
-                        <div className="returns-ui-meta">
-                          <span className="name">Sneakers</span>
-                          <span className="sub"><em>Size 38</em><i>·</i><b>$100.00</b></span>
-                        </div>
-                        <span className="returns-ui-arrow" aria-hidden="true">
-                          <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="returns-method">
-                    <div className="returns-win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
-                    <p className="returns-method-title">Return method</p>
-                    <div className="returns-method-list">
-                      <div className="returns-method-opt" data-kind="refund">
-                        <span className="rm-dot"></span>
-                        <span className="rm-ico" aria-hidden="true">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.4"/><path d="M6 12h.01M18 12h.01"/></svg>
-                        </span>
-                        <span className="rm-label">Refund</span>
-                      </div>
-                      <div className="returns-method-opt is-selected" data-kind="green">
-                        <span className="rm-dot"></span>
-                        <span className="rm-ico" aria-hidden="true">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-                        </span>
-                        <span className="rm-label">Green return</span>
-                        <span className="rm-tag">ECO</span>
-                      </div>
-                      <div className="returns-method-opt" data-kind="exchange">
-                        <span className="rm-dot"></span>
-                        <span className="rm-ico" aria-hidden="true">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
-                        </span>
-                        <span className="rm-label">Exchange</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <img className="returns-ui-kv" src="/assets/returns-kv.jpg" alt="" />
               </div>
             </a>
             <a className="explore-card explore-card-api" href="https://api.17track.net/zh-cn/doc#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97" target="_blank" rel="noopener">

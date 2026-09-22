@@ -147,7 +147,7 @@ describe("React landing structure (gating)", () => {
     expect(features).toMatch(/Track order/);
     expect(features).toMatch(/shipping@yourstore\.com/);
     expect(features).toMatch(/split into 2 packages/);
-    expect(features).toMatch(/assets\/products\/tips\.jpg/);
+    expect(features).toMatch(/assets\/features\/wireless-pro\.jpg/);
     expect(features).toMatch(/Recommended For You/);
     expect(features).toMatch(/You might also like/);
     expect(features).toMatch(/Add to Cart/);
@@ -444,10 +444,9 @@ describe("React landing structure (gating)", () => {
     // drops the unprefixed property and Chrome loses glass on Vercel.
     expect(css).not.toMatch(/backdrop-filter:[^;]+;\s*-webkit-backdrop-filter:/);
     const explore = read("components/sections/ExploreMore.jsx");
-    expect(explore).toMatch(/returns-ui-photo/);
-    expect(explore).toMatch(/returns-scene\.jpg/);
-    expect(explore).toMatch(/returns-ui-thumb/);
-    expect(explore).toMatch(/returns-ui-thumb">\s*<img src="\/assets\/returns-scene\.jpg"/);
+    expect(explore).toMatch(/returns-ui-kv/);
+    expect(explore).toMatch(/returns-kv\.jpg/);
+    expect(explore).not.toMatch(/returns-ui-thumb/);
   });
 
   it("responsive-fx is sync-mounted before async heavy FX in useLandingEffects", () => {
