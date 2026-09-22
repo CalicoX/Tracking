@@ -288,6 +288,7 @@ export function mount() {
     var introOrbRow = document.getElementById("ai-intro-orb-row");
     var h2 = root.querySelector("h2");
     var lead = root.querySelector(".lead");
+    var aiBadge = root.querySelector(".ai-powered-tag");
     var pills = document.getElementById("ai-pills");
     var bgImg = document.getElementById("ai-intro-bg-img");
     var lab = document.getElementById("ai-lab");
@@ -473,6 +474,7 @@ export function mount() {
       root.classList.add("is-intro-in");
       if (introOrbRow) introOrbRow.classList.add("is-in");
       if (lead) lead.classList.add("is-in");
+      if (aiBadge) aiBadge.classList.add("is-in");
       if (pills) pills.classList.add("is-in");
       if (h2) {
         words = Array.prototype.slice.call(h2.querySelectorAll(".ai-word"));
@@ -515,6 +517,7 @@ export function mount() {
       root.classList.add("is-intro-out");
       if (introOrbRow) introOrbRow.classList.remove("is-in");
       if (lead) lead.classList.remove("is-in");
+      if (aiBadge) aiBadge.classList.remove("is-in");
       /* pills keep is-in during morph/rail — only hide via CSS is-intro-out if needed */
       if (h2) {
         clearShineTimers();

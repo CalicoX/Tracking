@@ -1,6 +1,11 @@
 # Memory
 
-最后更新：2026-09-22（转化卡：Wireless Pro / AI EDD / Sport Earpods，16% 改成效果标签）
+最后更新：2026-09-22（AI intro 底部加 Powered by AI 镭射标签）
+
+## AI intro 镭射标签（2026-09-22）
+
+- 副标下面居中一枚 `Powered by AI`（`.ai-powered-tag`）。底是流动镭射渐变，上面一条高光扫过。`prefers-reduced-motion` 时停住动画、标签还在。
+- 跟 `.lead` 一起进出场：`ai-lab.js` 的 `restoreIntroCopy` / `setIn` 给它加删 `is-in`。不要只写 `ai-reveal` 却不挂 `is-in`，否则会一直 opacity 0。
 
 ## Features 邮件插图（2026-09-22）
 

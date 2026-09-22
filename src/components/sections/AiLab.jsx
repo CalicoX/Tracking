@@ -95,6 +95,7 @@ export default function AiLab() {
                     (avoids plain-text fallback flash + missed scroll stagger). */}
                 <IntroTitle />
                 <p className="lead ai-reveal delay-2">AI brings smarter prediction, personalization, and engagement to the post-purchase journey — from delivery estimates and intelligent tracking experiences to opportunities that drive repeat purchase.</p>
+                <span className="ai-powered-tag ai-reveal">Powered by AI</span>
               </div>
             </div>
             </div>
