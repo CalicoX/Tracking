@@ -1,10 +1,12 @@
 # Memory
 
-最后更新：2026-09-22（Features「Branded Tracking Page」右栏换成店面拼贴，不再用 Hero OGL mock）
+最后更新：2026-09-22（Branded 拼贴去掉蓝底，四张卡略散开）
 
 ## Features 第 1 块插图（Branded Tracking Page，2026-09-22）
 
-- 右栏是店面拼贴 `.fx-btp-scene`（设计 680×700），不再用 Hero 的 `HeroTrackingMock` / `.fx-hero-page`。蓝底上叠：店铺窗（`/assets/features/energy-motion.jpg` + ENERGY IN MOTION）、订单查询卡、AI Tracking Page 模块卡、New Arrivals 卡（`/assets/features/new-arrivals.jpg`）。
+- 右栏是店面拼贴 `.fx-btp-scene`（设计 680×700），不再用 Hero 的 `HeroTrackingMock` / `.fx-hero-page`。四张卡浮在板块灰底上：店铺窗（`/assets/features/energy-motion.jpg` + ENERGY IN MOTION）、订单查询卡、AI Tracking Page 模块卡、New Arrivals 卡（`/assets/features/new-arrivals.jpg`）。
+- **不要蓝底板（09-22 Park：去掉背景）**。`.fx-btp-scene` 的 background / 圆角 / 投影都不要加回来。
+- **卡片略散开，不要叠回成一块**：店铺窗贴左上，查询卡偏右上，AI 卡偏左下，New Arrivals 偏右下，中间留出灰底。再散一档会拆构图。
 - 文案是 HTML。照片只负责人物。不要整张换成一张生成图。
 - 设计宽高要同时改 `FeaturesSection.jsx` 的 `SCENE_DIMS` 和 `src/fx/modules/landing-inline.js`。Hero 的 OGL mock 不动。
 - AI 卡比 New Arrivals 高，场景高度必须包住 AI 卡底（短了卡会伸出蓝底）。
