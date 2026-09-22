@@ -17,7 +17,7 @@
 
 ## Explore 17RETURNS 配图（2026-09-22）
 
-- 右侧是 Returns 首页 KV 终态静图 `public/assets/returns-kv.jpg`（`.returns-ui-kv`），按卡片宽度缩小，`object-fit: contain`。图里不要留首页浅色底，球场照片铺满。不要再做 Urban Standards 那套 DOM，也不要接退货流程动画。
+- 右侧底图是纯球场照片 `public/assets/returns-kv.jpg`（`.returns-ui-kv`），尺寸按卡片宽度缩小，不要把三张玻璃卡烤进这张图。三张卡是浮层（`.returns-kv-flow` / `.returns-kv-method`），比底图框更大，可以悬出照片圆角。不要接退货流程动画。API 落地页同一套浮层。
 
 ## Coverage 数字（2026-09-22）
 

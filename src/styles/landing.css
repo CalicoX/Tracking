@@ -10797,7 +10797,7 @@
       background: transparent;
       border: 0;
       box-shadow: none;
-      overflow: hidden;
+      overflow: visible;
       height: auto;
       min-height: 0;
       max-height: none;
@@ -10809,14 +10809,130 @@
       justify-content: center;
       padding: 8px 8px 8px 0;
     }
+    .returns-kv-stage {
+      position: relative;
+      width: 100%;
+      overflow: visible;
+      padding-bottom: 36px;
+    }
     .returns-ui-kv {
       display: block;
       width: 100%;
       height: auto;
+      aspect-ratio: 1624 / 1120;
       max-width: 100%;
-      object-fit: contain;
-      border-radius: 18px;
+      object-fit: cover;
+      object-position: center 42%;
+      border-radius: 22px;
     }
+    .returns-kv-flow,
+    .returns-kv-method {
+      position: absolute;
+      z-index: 2;
+    }
+    .returns-kv-flow {
+      left: 1%;
+      top: 2%;
+      width: 62%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      transform: scale(0.84);
+      transform-origin: left top;
+    }
+    .returns-kv-method {
+      right: 1%;
+      bottom: 4%;
+      width: 44%;
+      z-index: 3;
+      padding: 12px 12px 10px;
+    }
+    .returns-kv-card,
+    .returns-kv-method {
+      border-radius: 20px;
+      color: #111827;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.85) inset,
+        0 18px 40px -16px rgba(15, 23, 42, 0.32);
+      backdrop-filter: blur(22px) saturate(1.4);
+      -webkit-backdrop-filter: blur(22px) saturate(1.4);
+    }
+    .returns-kv-card { padding: 10px 10px 8px; }
+    .returns-kv-card p,
+    .returns-kv-method p {
+      margin: 0 0 6px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #111827;
+      white-space: nowrap;
+    }
+    .returns-kv-item {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr) 14px;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 4px;
+      border-radius: 10px;
+    }
+    .returns-kv-item.is-on { background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08); }
+    .returns-kv-item img { width: 28px; height: 28px; border-radius: 7px; object-fit: cover; display: block; }
+    .returns-kv-item strong { display: block; font-size: 12px; font-weight: 650; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .returns-kv-item em { display: block; margin-top: 1px; font-style: normal; font-size: 10.5px; color: #71717a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .returns-kv-item i,
+    .returns-kv-item b,
+    .returns-kv-reason i,
+    .returns-kv-reason b {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid #d4d4d8;
+      box-sizing: border-box;
+    }
+    .returns-kv-item b,
+    .returns-kv-reason.is-on b {
+      border-color: #14b8a6;
+      background: #14b8a6;
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+    .returns-kv-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 16px;
+      margin: -2px 0;
+      z-index: 3;
+    }
+    .returns-kv-link b { width: 8px; height: 8px; border-radius: 50%; background: #14b8a6; box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.22); }
+    .returns-kv-link s { flex: 1; width: 0; margin: 2px 0; border-left: 1.5px dashed #5eead4; }
+    .returns-kv-reason {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 1px 0;
+      font-size: 11.5px;
+      color: #52525b;
+      white-space: nowrap;
+    }
+    .returns-kv-reason.is-on { color: #111827; font-weight: 600; }
+    .returns-kv-method div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      margin-top: 6px;
+      padding: 0 10px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      font-size: 13px;
+      font-weight: 650;
+      color: #111;
+    }
+    .returns-kv-method div.is-on { box-shadow: 0 0 0 2px #14b8a6; }
+    .returns-kv-method svg { width: 18px; height: 18px; flex: none; color: #0f766e; }
     /* explicit dark type on every mock text node (beats inherit white) */
     .explore-card-returns .returns-ui-brand,
     .explore-card-returns .returns-ui-head strong,
