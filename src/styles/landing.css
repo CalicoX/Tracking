@@ -10818,10 +10818,10 @@
       display: block;
       width: 100%;
       height: auto;
-      aspect-ratio: 1624 / 1120;
+      aspect-ratio: 2 / 3;
       max-width: 100%;
       object-fit: cover;
-      object-position: center top;
+      object-position: center;
       border-radius: 22px;
     }
     .returns-kv-flow,

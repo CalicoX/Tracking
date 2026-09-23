@@ -17,7 +17,7 @@
 
 ## Explore 17RETURNS 配图（2026-09-22）
 
-- 右侧底图是纯球场照片 `public/assets/returns-kv.jpg`，`object-position: center top`，头顶不要被裁掉。三张玻璃卡按退货页原尺寸（左栏 292 / 右栏 248）整体 `scale(0.64)`。左栏两张卡之间用 88px 连接拉开，方式卡偏右下，让球场和人脸从缝里露出来。不要用百分比宽度把字折行。API 同一套。
+- 右侧底图是更高的 2:3 网球场照片 `public/assets/returns-kv.jpg`（框 `aspect-ratio: 2 / 3`，`object-position: center`）。三张玻璃卡按退货页原尺寸（左栏 292 / 右栏 248）整体 `scale(0.64)`。左栏两张卡之间用 88px 连接拉开，方式卡贴右下，让球场从缝里露出来。不要用百分比宽度把字折行。API 同一张图。
 
 ## Coverage 数字（2026-09-22）
 
