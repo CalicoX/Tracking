@@ -14316,7 +14316,7 @@
       .feature-stage[data-theme="conversion"] .fx-cv-recs {
         margin: 0 0 0 -56px;
       }
-      .explore-card-returns .returns-ui { --kv-s: min(0.78, 100cqw / 704px); }
+      .explore-card-returns .returns-ui { --kv-s: min(0.5, 100cqw / 704px); }
       .returns-ui-photo {
         object-position: 8% 86%;
       }
