@@ -446,6 +446,7 @@ describe("React landing structure (gating)", () => {
     const explore = read("components/sections/ExploreMore.jsx");
     expect(explore).toMatch(/returns-ui-kv/);
     expect(explore).toMatch(/returns-kv\.jpg/);
+    expect(explore).toMatch(/returns-kv-fit/);
     expect(explore).not.toMatch(/returns-ui-thumb/);
   });
 

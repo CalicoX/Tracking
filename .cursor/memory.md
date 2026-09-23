@@ -1,6 +1,6 @@
 # Memory
 
-最后更新：2026-09-22（Aussie Betta 案例对照官网查询页）
+最后更新：2026-09-23（Explore 17RETURNS 插图换成 Returns hero 整组等比缩放）
 
 ## AI 案例四品牌（2026-09-22）
 
@@ -15,7 +15,14 @@
 - 深色底栏（`dock-on-dark`）不再 `setActive` border beam。描边留在 `.dock-on-dark .tabs` 的 1px 白边，不要把 `border-color` 再降到 0.08 交给 beam。
 - `.btn-switch` 圆钮固定在右侧（原先 hover 终态），没有滑行 morph，也不挂 border beam。内层 shader 停在 hover 那一帧，不要再开 `btn-switch-shader-flow`。
 
-## Explore 17RETURNS 配图（2026-09-22）
+## Explore 17RETURNS 配图（2026-09-23）
+
+- 右侧是 Returns hero 整组插图的终态，等比缩小放进卡片。底图直接用 returns 仓的 `hero-returns.jpg`（已覆盖 `public/assets/returns-kv.jpg`，864×1152，欧美网球动作）。设计盒 **704 × 572**：stage 620 + flow 左悬出 56 + method 右探出 28。`.returns-kv-stage` 固定 620 宽、`scale(var(--kv-s))`、`transform-origin: top left`，卡按 hero 原位（flow `left:-56; top:28`、method `right:0; bottom:24`、连接线 36px），不要再用百分比宽度或单独缩放卡把字折行。
+- `--kv-s` 桌面 `min(0.5, 100cqw / 704px)`，≤640 `min(0.78, 100cqw / 704px)`。`.returns-ui` 是 `container-type: inline-size` + `overflow: clip`，窄屏自动缩进卡片，不要写死 scale。底图 `object-position: center 30%`，按 hero 的 68% 36% 会把脚裁掉。
+- **停在最后一帧，不要动画，不要 hover**（09-23 Park）。三张卡直接亮着：jacket 选中、Arrive too late 选中、Green Return 描边。不要演示光标，不要逐卡入场，也不要给这张插图加 hover 放大/位移。卡片本身的 spotlight 没动。
+- 旧的「三张卡各自 scale(0.64) + 88px 连接线」已废，不要改回去。
+
+## Explore 17RETURNS 配图（2026-09-22，已废）
 
 - 右侧底图是更高的 2:3 网球场照片 `public/assets/returns-kv.jpg`（框 `aspect-ratio: 2 / 3`，`object-position: center`）。三张玻璃卡按退货页原尺寸（左栏 292 / 右栏 248）整体 `scale(0.64)`。左栏两张卡之间用 88px 连接拉开，方式卡贴右下，让球场从缝里露出来。不要用百分比宽度把字折行。API 同一张图。
 

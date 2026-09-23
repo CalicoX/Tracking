@@ -27,42 +27,44 @@ export default function ExploreMore() {
                 </span>
               </div>
               <div className="returns-ui" aria-hidden="true">
-                <div className="returns-kv-stage">
-                  <img className="returns-ui-kv" src="/assets/returns-kv.jpg" alt="" />
-                  <div className="returns-kv-flow">
-                    <div className="returns-kv-card">
-                      <p>What would you like to return?</p>
-                      <div className="returns-kv-item">
-                        <img src="/assets/returns-thumb-set.jpg" alt="" />
-                        <span><strong>Olive Green Sports Set</strong><em>Olive | xxl · $80.00 · x2</em></span>
-                        <i />
+                <div className="returns-kv-fit">
+                  <div className="returns-kv-stage">
+                    <img className="returns-ui-kv" src="/assets/returns-kv.jpg" alt="" />
+                    <div className="returns-kv-flow">
+                      <div className="returns-kv-card">
+                        <p>What would you like to return?</p>
+                        <div className="returns-kv-item">
+                          <img src="/assets/returns-thumb-set.jpg" alt="" />
+                          <span><strong>Olive Green Sports Set</strong><em>Olive | xxl · $80.00 · x2</em></span>
+                          <i />
+                        </div>
+                        <div className="returns-kv-item is-on">
+                          <img src="/assets/returns-thumb-jacket.jpg" alt="" />
+                          <span><strong>Athletic Zip-Up Jacket</strong><em>White | xxl · $60.00 · x1</em></span>
+                          <b />
+                        </div>
+                        <div className="returns-kv-item">
+                          <img src="/assets/returns-thumb-sneakers.jpg" alt="" />
+                          <span><strong>Beige Athletic Sneakers</strong><em>US 9.5 · $90.00 · x1</em></span>
+                          <i />
+                        </div>
                       </div>
-                      <div className="returns-kv-item is-on">
-                        <img src="/assets/returns-thumb-jacket.jpg" alt="" />
-                        <span><strong>Athletic Zip-Up Jacket</strong><em>White | xxl · $60.00 · x1</em></span>
-                        <b />
-                      </div>
-                      <div className="returns-kv-item">
-                        <img src="/assets/returns-thumb-sneakers.jpg" alt="" />
-                        <span><strong>Beige Athletic Sneakers</strong><em>US 9.5 · $90.00 · x1</em></span>
-                        <i />
+                      <span className="returns-kv-link" aria-hidden="true"><b /><s /><b /></span>
+                      <div className="returns-kv-card">
+                        <p>Select return reason</p>
+                        <div className="returns-kv-reason is-on"><b />Arrive too late</div>
+                        <div className="returns-kv-reason"><i />Poor quality/faulty</div>
+                        <div className="returns-kv-reason"><i />Parcel damaged on arrival</div>
+                        <div className="returns-kv-reason"><i />Doesn't suit me</div>
+                        <div className="returns-kv-reason"><i />Looks different to image on site</div>
                       </div>
                     </div>
-                    <span className="returns-kv-link" aria-hidden="true"><b /><s /><b /></span>
-                    <div className="returns-kv-card">
-                      <p>Select return reason</p>
-                      <div className="returns-kv-reason is-on"><b />Arrive too late</div>
-                      <div className="returns-kv-reason"><i />Poor quality/faulty</div>
-                      <div className="returns-kv-reason"><i />Parcel damaged on arrival</div>
-                      <div className="returns-kv-reason"><i />Doesn't suit me</div>
-                      <div className="returns-kv-reason"><i />Looks different to image on site</div>
+                    <div className="returns-kv-method">
+                      <p>Select return method</p>
+                      <div><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 4.5H4.2A1.2 1.2 0 003 5.7v8.6A1.2 1.2 0 004.2 15.5h7.6M13.5 15.5h2.3A1.2 1.2 0 0017 14.3V5.7A1.2 1.2 0 0015.8 4.5H8.2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><path d="M8.2 7.2L6.2 5.2 8.2 3.2M11.8 12.8l2 2 2-2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>Exchanges</div>
+                      <div><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 7.2L10 4l6.5 3.2v8.1L10 18.4 3.5 15.3V7.2zM10 4v14.4M3.5 7.2L10 10.5l6.5-3.3" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/></svg>Return and Refund</div>
+                      <div className="is-on"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.8 8.2h12.4v7.3A1.7 1.7 0 0114.5 17.2H5.5A1.7 1.7 0 013.8 15.5V8.2zM3.8 8.2l1.4-3.4A1.4 1.4 0 016.5 3.8h7a1.4 1.4 0 011.3 1L16.2 8.2M7 11.4h6" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>Green Return</div>
                     </div>
-                  </div>
-                  <div className="returns-kv-method">
-                    <p>Select return method</p>
-                    <div><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 4.5H4.2A1.2 1.2 0 003 5.7v8.6A1.2 1.2 0 004.2 15.5h7.6M13.5 15.5h2.3A1.2 1.2 0 0017 14.3V5.7A1.2 1.2 0 0015.8 4.5H8.2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><path d="M8.2 7.2L6.2 5.2 8.2 3.2M11.8 12.8l2 2 2-2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>Exchanges</div>
-                    <div><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 7.2L10 4l6.5 3.2v8.1L10 18.4 3.5 15.3V7.2zM10 4v14.4M3.5 7.2L10 10.5l6.5-3.3" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/></svg>Return and Refund</div>
-                    <div className="is-on"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.8 8.2h12.4v7.3A1.7 1.7 0 0114.5 17.2H5.5A1.7 1.7 0 013.8 15.5V8.2zM3.8 8.2l1.4-3.4A1.4 1.4 0 016.5 3.8h7a1.4 1.4 0 011.3 1L16.2 8.2M7 11.4h6" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>Green Return</div>
                   </div>
                 </div>
               </div>
