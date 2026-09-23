@@ -10830,8 +10830,8 @@
       z-index: 2;
     }
     .returns-kv-flow {
-      left: 10px;
-      top: 12px;
+      left: 0;
+      top: -6px;
       width: 292px;
       display: flex;
       flex-direction: column;
@@ -10840,8 +10840,8 @@
       transform-origin: left top;
     }
     .returns-kv-method {
-      right: 10px;
-      bottom: 12px;
+      right: -18px;
+      bottom: -22px;
       width: 248px;
       z-index: 3;
       padding: 16px 16px 14px;
@@ -10901,8 +10901,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 36px;
-      margin: -5px 0;
+      height: 88px;
+      margin: 6px 0;
       z-index: 3;
     }
     .returns-kv-link b { width: 8px; height: 8px; border-radius: 50%; background: #14b8a6; box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.22); }
