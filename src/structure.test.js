@@ -130,13 +130,15 @@ describe("React landing structure (gating)", () => {
     expect(fx).toMatch(/bottom-cta|bottomCta/);
     const features = read("components/sections/FeaturesSection.jsx");
     expect(features).toMatch(/feature-scroll|id="feature-scroll"/);
-    // 09-08 文案：4 个卖点标签（手风琴，首字母大写），不再锁旧三块标题
+    // 11-24 文案：5 个卖点标签（手风琴，首字母大写）
     expect(features).toMatch(/Branded Tracking Page/);
-    expect(features).toMatch(/Branded Email Notification/);
+    expect(features).toMatch(/Automated Email Notifications/);
     expect(features).toMatch(/Split-Order Management/);
-    expect(features).toMatch(/Conversion &amp; Loyalty/);
+    expect(features).toMatch(/Exception Management/);
+    expect(features).toMatch(/Estimated Delivery Date \(EDD\)/);
     expect(features).not.toMatch(/Proactive notifications/);
-    expect(features).not.toMatch(/data-feature="4"/);
+    expect(features).toMatch(/data-feature="4"/);
+    expect(features).not.toMatch(/data-feature="5"/);
     expect(features).toMatch(/feature-desc/);
     expect(features).toMatch(/Create flow/);
     expect(features).toMatch(/↓95% WISMO/);
@@ -148,8 +150,11 @@ describe("React landing structure (gating)", () => {
     expect(features).toMatch(/shipping@yourstore\.com/);
     expect(features).toMatch(/split into 2 packages/);
     expect(features).toMatch(/assets\/features\/wireless-pro\.jpg/);
-    expect(features).toMatch(/Recommended For You/);
-    expect(features).toMatch(/You might also like/);
+    expect(features).toMatch(/fx-ex-admin/);
+    expect(features).toMatch(/Alert Rules/);
+    expect(features).toMatch(/fx-edd-scene/);
+    expect(features).toMatch(/EDD Source Priority/);
+    expect(features).toMatch(/17TRACK AI EDD/);
     expect(features).toMatch(/Add to Cart/);
     expect(features).toMatch(/Package #1/);
     expect(features).toMatch(/Package #2/);

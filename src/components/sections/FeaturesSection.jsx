@@ -2,9 +2,10 @@ import { useEffect, useRef } from "react";
 
 const SCENE_DIMS = [
   { w: 680, h: 700 }, // 0: Branded Tracking Page
-  { w: 780, h: 660 }, // 1: Branded Email Notification
-  { w: 736, h: 500 }, // 2: Split-Order（左右叠，邮件下层）
-  { w: 584, h: 480 }, // 3: Conversion 左右叠，购物车下层
+  { w: 844, h: 660 }, // 1: Automated Email Notifications
+  { w: 788, h: 520 }, // 2: Split-Order（左右叠，邮件下层）
+  { w: 740, h: 616 }, // 3: Exception Management（B端真实后台：异常列表主工作台 + 提醒规则毛玻璃叠卡）
+  { w: 760, h: 584 }, // 4: Estimated Delivery Date (EDD)（PC左右商品页下层 + 售后蓝紫Live EDD与多源毛玻璃叠右下）
 ];
 
 /** Presentational section: FeaturesSection */
@@ -90,48 +91,59 @@ export default function FeaturesSection() {
                   <div className="feature-list" role="tablist" aria-label="Key features">
                     <button className="feature active" type="button" id="feature-tab-0" data-feature="0" role="tab" aria-selected="true" aria-controls="feature-panel-0">
                       <h3>Branded Tracking Page</h3>
-                      <p className="feature-desc">Create an AI-powered branded tracking page that turns every shipment update into a personalized post-purchase experience — without design or coding work.</p>
+                      <p className="feature-desc">Turn every order lookup into a personalized post-purchase experience with an AI-powered branded tracking page.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
-                          <li>AI-Generated Design</li>
-                          <li>Drive 16% Repeat purchases</li>
-                          <li>Enable Agile Operations</li>
-                          <li>Consistent Brand Experience</li>
+                          <li>AI-Generated Design, Zero-Code Launch</li>
+                          <li>One-Click Checkout to Boost Post-Purchase Conversion</li>
+                          <li>Smart Product Recommendations Driving 16% Repeat Purchases</li>
+                          <li>Agile Updates for a Consistent Brand Experience</li>
                         </ul>
                       </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-1" data-feature="1" role="tab" aria-selected="false" aria-controls="feature-panel-1">
-                      <h3>Branded Email Notification</h3>
-                      <p className="feature-desc">Automate timely shipment updates to keep customers informed throughout delivery and reduce unnecessary WISMO inquiries.</p>
+                      <h3>Automated Email Notifications</h3>
+                      <p className="feature-desc">Automatically notify customers on every shipment update to reduce WISMO inquiries and keep post-purchase care proactive and timely.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
-                          <li>19 Notification Scenarios</li>
-                          <li>Custom Triggers for Business-Specific Needs</li>
-                          <li>Delay, Exception &amp; Delivery Alerts</li>
-                          <li>Reduce 95% WISMO</li>
+                          <li>19 Notification Scenarios Across Key Delivery Milestones</li>
+                          <li>Custom Triggers Tailored to Your Business Rules</li>
+                          <li>Proactive Exception Alerts Reducing WISMO by 95%</li>
+                          <li>Visualized Email Analytics for Clear Reach &amp; Performance</li>
                         </ul>
                       </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-2" data-feature="2" role="tab" aria-selected="false" aria-controls="feature-panel-2">
                       <h3>Split-Order Management</h3>
-                      <p className="feature-desc">Give customers one clear view of every package in an order, even when shipments are split across multiple parcels.</p>
+                      <p className="feature-desc">Present shipped and pending packages in one unified view so split orders stay crystal clear.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
-                          <li>Multi-Shipment Tracking</li>
-                          <li>Clear Shipment Status</li>
-                          <li>Real-Time Updates</li>
+                          <li>Smart Split-Order Detection Linking Orders &amp; Packages</li>
+                          <li>Custom Split-Shipment Emails to Prevent Confusion</li>
+                          <li>End-to-End Multi-Package Tracking in Real Time</li>
                         </ul>
                       </div>
                     </button>
                     <button className="feature" type="button" id="feature-tab-3" data-feature="3" role="tab" aria-selected="false" aria-controls="feature-panel-3">
-                      <h3>Conversion &amp; Loyalty</h3>
-                      <p className="feature-desc">Turn post-purchase touchpoints into opportunities to increase purchase confidence, drive conversion, and encourage repeat purchases.</p>
+                      <h3>Exception Management</h3>
+                      <p className="feature-desc">Automatically detect shipping exceptions from pre-shipment to delivery and proactively alert buyers to reduce complaints.</p>
                       <div className="feature-points">
                         <ul className="feature-points-inner">
-                          <li>AI-Powered pre&amp;post-purchase EDD</li>
-                          <li>One-Click Checkout</li>
-                          <li>Smart Product Recommendations</li>
-                          <li>Re-engagement Opportunities</li>
+                          <li>Full-Journey Exception Detection From Order to Delivery</li>
+                          <li>Custom Alert Rules by Country &amp; Scenario</li>
+                          <li>Automated Exception Cases With Clear Priorities &amp; Actions</li>
+                          <li>31 Languages Supported With Full Handling Records</li>
+                        </ul>
+                      </div>
+                    </button>
+                    <button className="feature" type="button" id="feature-tab-4" data-feature="4" role="tab" aria-selected="false" aria-controls="feature-panel-4">
+                      <h3>Estimated Delivery Date (EDD)</h3>
+                      <p className="feature-desc">Display estimated delivery dates pre-purchase and continuously update delivery expectations after shipment.</p>
+                      <div className="feature-points">
+                        <ul className="feature-points-inner">
+                          <li>Multi-Source Predictions From Carriers, Merchants &amp; AI</li>
+                          <li>Pre-Purchase Product Page Display for Confident Buying</li>
+                          <li>Continuous Post-Purchase Updates to Reduce Inquiries</li>
                         </ul>
                       </div>
                     </button>
@@ -192,7 +204,10 @@ export default function FeaturesSection() {
                               <div className="fx-btp-ai">
                                 <div className="fx-btp-ai-head">
                                   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2 13.6 8l4.8 1.6L13.6 11.2 12 16l-1.6-4.8L5.6 9.6 10.4 8 12 3.2Z" fill="#7c3aed"/><path d="M18.2 14.2 19 16.4l2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" fill="#a78bfa"/></svg>
-                                  <strong>AI Tracking Page</strong>
+                                  <span className="fx-btp-ai-title">
+                                    <strong>AI Tracking Page</strong>
+                                    <small>Zero-Code · Auto-Generated</small>
+                                  </span>
                                   <em>Live</em>
                                 </div>
                                 <p className="fx-btp-ai-label">Active Modules</p>
@@ -226,13 +241,33 @@ export default function FeaturesSection() {
                                 <div className="fx-btp-new">Create New Variant</div>
                               </div>
                               <div className="fx-btp-arrivals">
-                                <img src="/assets/features/new-arrivals.jpg" alt="" />
+                                <img className="fx-btp-arrivals-bg" src="/assets/features/new-arrivals.jpg" alt="" />
                                 <div className="fx-btp-arrivals-copy">
                                   <strong>NEW<br />ARRIVALS</strong>
                                   <i />
                                   <p>Fresh Styles. Made to Move.</p>
-                                  <span>SHOP NOW</span>
                                 </div>
+                                <div className="fx-btp-rec">
+                                  <div className="fx-btp-rec-head">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2 13.6 8l4.8 1.6L13.6 11.2 12 16l-1.6-4.8L5.6 9.6 10.4 8 12 3.2Z" fill="#7c3aed"/></svg>
+                                    <span>AI Recommended</span>
+                                  </div>
+                                  <div className="fx-btp-rec-row">
+                                    <img className="fx-btp-rec-thumb" src="/assets/features/sport-earpods.jpg" alt="" />
+                                    <span className="fx-btp-rec-info">
+                                      <strong>Sport Earpods</strong>
+                                      <em>$19.00</em>
+                                    </span>
+                                    <span className="fx-btp-rec-cta">
+                                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M9.2 1.8 3.6 9h4.1l-.9 5.2L12.4 7H8.3l.9-5.2Z" fill="currentColor"/></svg>
+                                      1-Click Buy
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="fx-btp-metric">
+                                <strong>↑16%</strong>
+                                <span>Repeat Purchases</span>
                               </div>
                             </div>
                           </div>
@@ -248,7 +283,10 @@ export default function FeaturesSection() {
                           <div className="fx-mock">
                           <div className="fx-em-scene">
                             <div className="fx-em-status">
-                              <strong>Delivery Status</strong>
+                              <div className="fx-em-status-head">
+                                <strong>Delivery Status</strong>
+                                <em>19 Scenarios</em>
+                              </div>
                               <span>Just Shipped</span>
                               <span className="is-on">In-Transit</span>
                               <span>Delivered</span>
@@ -302,37 +340,67 @@ export default function FeaturesSection() {
                                 </svg>
                               </span>
                             </div>
-                            {/* 右：Create flow 单面板（触发条件 → 绿色虚线 → 筛选），右移压住邮件右沿 */}
+                            {/* 右：Create flow 单面板 + Email Analytics 效果可视化卡，压住邮件右沿 */}
                             <div className="fx-em-flow">
-                              <div className="fx-glass fx-em-flow-card">
-                                <div className="fx-em-flow-head">
-                                  <span className="fx-em-flow-ico" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                      <circle cx="6.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
-                                      <circle cx="17.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
-                                      <circle cx="12" cy="17.4" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
-                                      <path d="M8.6 8.4 10.7 15.1M15.4 8.4 13.3 15.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                                    </svg>
+                              <div className="fx-em-flow-wrap">
+                                <div className="fx-glass fx-em-flow-card">
+                                  <div className="fx-em-flow-head">
+                                    <span className="fx-em-flow-ico" aria-hidden="true">
+                                      <svg viewBox="0 0 24 24" fill="none">
+                                        <circle cx="6.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                        <circle cx="17.5" cy="7" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                        <circle cx="12" cy="17.4" r="2.35" stroke="currentColor" strokeWidth="1.8"/>
+                                        <path d="M8.6 8.4 10.7 15.1M15.4 8.4 13.3 15.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                                      </svg>
+                                    </span>
+                                    <div className="fx-em-flow-head-text">
+                                      <h4>Create flow</h4>
+                                      <p>When to send email</p>
+                                    </div>
+                                  </div>
+                                  <div className="fx-em-flow-row">
+                                    <span>Exception</span>
+                                    <em>is</em>
+                                    <span>Detected</span>
+                                  </div>
+                                  <div className="fx-em-flow-link" aria-hidden="true" />
+                                  <span className="fx-em-add">+ Add filters</span>
+                                  <ul className="fx-em-filter-list">
+                                    <li className="is-on">Origin carrier</li>
+                                    <li>Destination carrier</li>
+                                    <li>Origin</li>
+                                  </ul>
+                                </div>
+                                <span className="fx-em-wismo">↓95% WISMO</span>
+                              </div>
+                              <div className="fx-em-stats">
+                                <div className="fx-em-stats-head">
+                                  <span className="fx-em-stats-ico" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 18v-5M10 18V9M15 18v-7M20 18V5"/></svg>
                                   </span>
-                                  <div className="fx-em-flow-head-text">
-                                    <h4>Create flow</h4>
-                                    <p>When to send email</p>
+                                  <strong>Email Analytics</strong>
+                                  <em>99.4% Sent</em>
+                                </div>
+                                <div className="fx-em-stats-kpis">
+                                  <div className="fx-em-kpi">
+                                    <strong>68.4%</strong>
+                                    <span>Open Rate</span>
+                                  </div>
+                                  <div className="fx-em-kpi">
+                                    <strong>24.2%</strong>
+                                    <span>Click Rate</span>
                                   </div>
                                 </div>
-                                <div className="fx-em-flow-row">
-                                  <span>Exception</span>
-                                  <em>is</em>
-                                  <span>Detected</span>
+                                <div className="fx-em-bars" aria-hidden="true">
+                                  <i style={{ height: "42%" }} />
+                                  <i style={{ height: "58%" }} />
+                                  <i style={{ height: "52%" }} />
+                                  <i style={{ height: "74%" }} />
+                                  <i style={{ height: "68%" }} />
+                                  <i style={{ height: "86%" }} />
+                                  <i className="is-peak" style={{ height: "100%" }} />
                                 </div>
-                                <div className="fx-em-flow-link" aria-hidden="true" />
-                                <span className="fx-em-add">+ Add filters</span>
-                                <ul className="fx-em-filter-list">
-                                  <li className="is-on">Origin carrier</li>
-                                  <li>Destination carrier</li>
-                                  <li>Origin</li>
-                                </ul>
                               </div>
-                              <span className="fx-em-wismo">↓95% WISMO</span>
                             </div>
                           </div>
                           </div>
@@ -364,7 +432,9 @@ export default function FeaturesSection() {
                                     <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#111" stroke="#fff" strokeWidth="1.2" d="M4.2 3.4l14.2 9.1-6.4 1.5 3.7 7.2-2.6 1.3-3.8-7.3-5.1 4.8z"/></svg>
                                   </i>
                                 </span>
-                                <dl className="fx-em-meta">
+                                <dl className="fx-em-meta fx-so-meta">
+                                  <div><dt>Package #1</dt><dd><i className="is-shipped" />Shipped</dd></div>
+                                  <div><dt>Package #2</dt><dd><i className="is-pending" />Pending</dd></div>
                                   <div><dt>Carrier</dt><dd>USPS</dd></div>
                                 </dl>
                               </div>
@@ -416,66 +486,277 @@ export default function FeaturesSection() {
                       </div>
                     </div>
                   </article>
-                  {/* 3 · Conversion & Loyalty — 左右叠：购物车下层，推荐卡毛玻璃压右沿 */}
+                  {/* 3 · Exception Management — B端真实后台：Exception List 工作台下层 + Alert Rules 毛玻璃叠卡 */}
                   <article className="feature-panel" data-feature="3" id="feature-panel-3" role="tabpanel" aria-labelledby="feature-tab-3">
                     <div className="feature-visual">
-                      <div className="feature-stage" data-theme="conversion" style={{ ['--fx-c']: 1, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
+                      <div className="feature-stage" data-theme="exception" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
                         <div className="feature-stage-art" aria-hidden="true">
                           <div className="fx-mock">
-                            <div className="fx-cv-scene">
-                              {/* 结账卡：AI-Powered pre-purchase EDD + One-Click Checkout */}
-                              <div className="fx-glass fx-cv-card">
-                                <div className="fx-cv-bar">
-                                  <span className="fx-cv-bar-title">Your cart</span>
-                                  <span className="fx-cv-bar-meta">Continue shopping</span>
-                                </div>
-                                <div className="fx-cv-cols">
-                                  <span>Product</span>
-                                  <span>Total</span>
-                                </div>
-                                <div className="fx-cv-item">
-                                  <img className="fx-cv-thumb" src="/assets/features/wireless-pro.jpg" alt="" />
-                                  <div className="fx-cv-item-txt">
-                                    <strong>Wireless Pro</strong>
-                                    <span>$129.00</span>
-                                    <span className="fx-cv-qty"><i>−</i><em>1</em><i>+</i></span>
+                            <div className="fx-ex-scene">
+                              {/* 下层：B端 Exception List 工作台（复刻真实后台） */}
+                              <div className="fx-ex-admin">
+                                <div className="fx-ex-nav">
+                                  <strong>Exception Management</strong>
+                                  <div className="fx-ex-nav-tabs">
+                                    <span className="is-on">Exception List</span>
+                                    <span>Alert Rules</span>
+                                    <span>Notifications</span>
                                   </div>
-                                  <span className="fx-cv-item-price">$129.00</span>
+                                  <div className="fx-ex-nav-acts">
+                                    <span className="fx-ex-btn-ghost">Export</span>
+                                    <span className="fx-ex-btn-dark">+ Log Dispute</span>
+                                  </div>
                                 </div>
-                                <div className="fx-cv-eda">
-                                  <span className="fx-cv-eda-tag">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                      <path d="M12 3.2l1.75 4.35L18.1 9.3l-4.35 1.75L12 15.4l-1.75-4.35L5.9 9.3l4.35-1.75z" fill="currentColor"/>
-                                      <path d="M18.4 14.8l.75 1.85 1.85.75-1.85.75-.75 1.85-.75-1.85-1.85-.75 1.85-.75z" fill="currentColor" opacity=".65"/>
-                                    </svg>
-                                    AI EDD
-                                  </span>
-                                  <strong>Arrives Tue, Mar 23 – Mar 30</strong>
+                                <div className="fx-ex-admin-body">
+                                  <div className="fx-ex-kpis">
+                                    <div className="fx-ex-kpi">
+                                      <span>Open Cases</span>
+                                      <strong>12</strong>
+                                      <small>Pending + In Progress</small>
+                                    </div>
+                                    <div className="fx-ex-kpi">
+                                      <span>P1 High Risk</span>
+                                      <strong>3</strong>
+                                      <small>1 overdue</small>
+                                    </div>
+                                    <div className="fx-ex-kpi">
+                                      <span>Buyers Notified</span>
+                                      <strong>10 / 12</strong>
+                                      <small>Auto-alerted</small>
+                                    </div>
+                                    <div className="fx-ex-kpi">
+                                      <span>Avg. Resolution</span>
+                                      <strong>4.2h</strong>
+                                      <small>32% faster vs last wk</small>
+                                    </div>
+                                  </div>
+                                  <div className="fx-ex-table-card">
+                                    <div className="fx-ex-filter-tabs">
+                                      <span className="is-on">All (24)</span>
+                                      <span>Pending (4)</span>
+                                      <span>In Progress (8)</span>
+                                      <span>Resolved (12)</span>
+                                    </div>
+                                    <div className="fx-ex-table-head">
+                                      <span>Case / Shipment</span>
+                                      <span>Status</span>
+                                      <span>Exception Type</span>
+                                      <span>Risk</span>
+                                      <span>Action</span>
+                                    </div>
+                                    <ul className="fx-ex-rows">
+                                      <li>
+                                        <div className="fx-ex-id">
+                                          <strong>EC-75291... / #1091</strong>
+                                          <small>4PX3003334111135CN</small>
+                                        </div>
+                                        <span className="fx-ex-st is-prog">In Progress</span>
+                                        <div className="fx-ex-type">
+                                          <span>Delivery Dispute</span>
+                                          <em>Dispute</em>
+                                        </div>
+                                        <span className="fx-ex-risk is-p1">P1</span>
+                                        <span className="fx-ex-act">View</span>
+                                      </li>
+                                      <li>
+                                        <div className="fx-ex-id">
+                                          <strong>EC-75286... / #1090</strong>
+                                          <small>4PX3003304222922CN</small>
+                                        </div>
+                                        <span className="fx-ex-st is-prog">In Progress</span>
+                                        <div className="fx-ex-type">
+                                          <span>No update &gt; 5 days</span>
+                                          <em>Custom Rule</em>
+                                        </div>
+                                        <span className="fx-ex-risk is-p2">P2</span>
+                                        <span className="fx-ex-act">View</span>
+                                      </li>
+                                      <li>
+                                        <div className="fx-ex-id">
+                                          <strong>EC-75240... / #1088</strong>
+                                          <small>4PX3003337896756CN</small>
+                                        </div>
+                                        <span className="fx-ex-st is-res">Resolved</span>
+                                        <div className="fx-ex-type">
+                                          <span>Undelivered &gt; 7 days</span>
+                                          <em>Custom Rule</em>
+                                        </div>
+                                        <span className="fx-ex-risk is-p2">P2</span>
+                                        <span className="fx-ex-act">View</span>
+                                      </li>
+                                      <li>
+                                        <div className="fx-ex-id">
+                                          <strong>EC-75239... / #1085</strong>
+                                          <small>4PX3003338918310CN</small>
+                                        </div>
+                                        <span className="fx-ex-st is-res">Resolved</span>
+                                        <div className="fx-ex-type">
+                                          <span>Pending pickup &gt; 3d</span>
+                                          <em>Custom Rule</em>
+                                        </div>
+                                        <span className="fx-ex-risk is-p2">P2</span>
+                                        <span className="fx-ex-act">View</span>
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
-                                <div className="fx-cv-sub">
-                                  <span>Subtotal</span>
-                                  <strong>$129.00</strong>
-                                </div>
-                                <span className="fx-cv-pay">Check out</span>
                               </div>
-                              {/* 推荐：1 张卡，压在购物车右下（左右叠、一上一下） */}
-                              <div className="fx-cv-recs">
-                                <h4>Recommended For You</h4>
-                                <p className="fx-cv-recs-sub">You might also like</p>
-                                <ul className="fx-cv-recs-list">
-                                  <li>
-                                    <img className="fx-cv-thumb" src="/assets/features/sport-earpods.jpg" alt="" />
-                                    <strong>Sport Earpods</strong>
-                                    <span className="fx-cv-item-price">$19.00</span>
-                                    <span className="fx-cv-rec-actions">
-                                      <span className="fx-cv-add">Add to Cart</span>
-                                      <span className="fx-cv-buy">Buy Now</span>
+                              {/* 左下：31 种语言胶囊 */}
+                              <div className="fx-ex-lang">
+                                <strong>31</strong>
+                                <span>
+                                  <b>Languages</b>
+                                  <small>Auto-alert &amp; full logs</small>
+                                </span>
+                              </div>
+                              {/* 右下上层：Alert Rules 毛玻璃叠卡（复刻真实提醒规则页） */}
+                              <div className="fx-ex-rules">
+                                <div className="fx-ex-rules-head">
+                                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12.5 8H3.5M7 4.5 3.5 8 7 11.5"/></svg>
+                                  <strong>Alert Rules</strong>
+                                  <em>Country &amp; Scenario</em>
+                                </div>
+                                <div className="fx-ex-rule-box is-open">
+                                  <div className="fx-ex-rule-bar">
+                                    <span>Rule: Undelivered after X days</span>
+                                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m4.5 10 3.5-3.5L11.5 10"/></svg>
+                                  </div>
+                                  <div className="fx-ex-rule-form">
+                                    <span className="fx-ex-grip" aria-hidden="true">⋮⋮</span>
+                                    <span>Destination</span>
+                                    <span className="fx-ex-input is-country">
+                                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="7.2" cy="7.2" r="4.4"/><path d="m10.8 10.8 2.8 2.8" strokeLinecap="round"/></svg>
+                                      United States (US)
                                     </span>
-                                  </li>
-                                </ul>
-                                <div className="fx-cv-metric">
-                                  <strong>16%</strong>
-                                  <span>Higher repurchase rate</span>
+                                    <span>&gt;</span>
+                                    <span className="fx-ex-input is-num">7</span>
+                                    <span>days, alert me</span>
+                                  </div>
+                                  <div className="fx-ex-rule-add">
+                                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5.2v5.6M5.2 8h5.6" strokeLinecap="round"/></svg>
+                                    Add condition
+                                  </div>
+                                </div>
+                                <div className="fx-ex-rule-box">
+                                  <div className="fx-ex-rule-bar">
+                                    <span>Rule: No tracking update for X days</span>
+                                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m4.5 6.5 3.5 3.5 3.5-3.5"/></svg>
+                                  </div>
+                                </div>
+                                <div className="fx-ex-rule-box">
+                                  <div className="fx-ex-rule-bar">
+                                    <span>Rule: Past EDD without delivery</span>
+                                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m4.5 6.5 3.5 3.5 3.5-3.5"/></svg>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                  {/* 4 · Estimated Delivery Date (EDD) — PC左右布局商品页下层 + 售后蓝紫Live EDD与多源毛玻璃压右下 */}
+                  <article className="feature-panel" data-feature="4" id="feature-panel-4" role="tabpanel" aria-labelledby="feature-tab-4">
+                    <div className="feature-visual">
+                      <div className="feature-stage" data-theme="edd" style={{ ['--fx-c']: 0, ['--fx-iso']: 0, ['--fx-spread']: 1 }}>
+                        <div className="feature-stage-art" aria-hidden="true">
+                          <div className="fx-mock">
+                            <div className="fx-edd-scene">
+                              {/* 下层：PC 桌面左右布局商品详情页（左图右文 + 淡绿 Pre-Purchase EDD） */}
+                              <div className="fx-edd-pdp browser">
+                                <div className="browser-top">
+                                  <span className="dot"></span>
+                                  <span className="dot"></span>
+                                  <span className="dot"></span>
+                                  <span className="browser-url">
+                                    <svg className="browser-url-lock" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2.5" y="5.5" width="7" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.1"/><path d="M4 5.5V4a2 2 0 014 0v1.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/></svg>
+                                    yourstore.com/products/wireless-pro
+                                  </span>
+                                  <span className="fx-edd-stage-pill">Pre-Purchase</span>
+                                </div>
+                                <div className="fx-edd-pdp-grid">
+                                  <div className="fx-edd-pdp-media">
+                                    <img className="fx-edd-photo" src="/assets/features/wireless-pro.jpg" alt="" />
+                                  </div>
+                                  <div className="fx-edd-pdp-body">
+                                    <div className="fx-edd-prod-head">
+                                      <strong>Wireless Pro</strong>
+                                      <span className="fx-edd-rating">★ 4.9 <em>(1,240 reviews)</em></span>
+                                      <b>$129.00</b>
+                                    </div>
+                                    <div className="fx-edd-green-card">
+                                      <div className="fx-edd-green-ico" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3.2v3.6M16 3.2v3.6M3.5 10.2h17"/><path d="m9.2 15.2 2 2 4-4.2"/></svg>
+                                      </div>
+                                      <div className="fx-edd-green-txt">
+                                        <span>Estimated Delivery</span>
+                                        <strong>Mar 24 – Mar 26</strong>
+                                        <small>Order before 16:00 · Free shipping</small>
+                                      </div>
+                                    </div>
+                                    <div className="fx-edd-pdp-acts">
+                                      <span className="fx-edd-atc">Add to Cart</span>
+                                      <span className="fx-edd-buy">Buy Now</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {/* 右下上层毛玻璃：横向双栏（左：蓝紫售后 Live EDD + 进度；右：多源优先级） */}
+                              <div className="fx-edd-live">
+                                <div className="fx-edd-live-top">
+                                  <span>Post-Purchase Tracking</span>
+                                  <em><i />Live Updated</em>
+                                </div>
+                                <div className="fx-edd-live-cols">
+                                  <div className="fx-edd-live-left">
+                                    <div className="fx-edd-hero-box">
+                                      <div className="fx-edd-hero-meta">
+                                        <span>UPDATED ARRIVAL</span>
+                                        <s>Mar 24 – 26</s>
+                                      </div>
+                                      <strong>Wed, Mar 25</strong>
+                                      <div className="fx-edd-hero-foot">
+                                        <span>In Transit · LA</span>
+                                        <em>1d earlier</em>
+                                      </div>
+                                    </div>
+                                    <div className="fx-edd-steps">
+                                      <div className="is-done"><i /><span>Ordered</span></div>
+                                      <div className="is-done"><i /><span>Shipped</span></div>
+                                      <div className="is-now"><i /><span>In Transit</span></div>
+                                      <div><i /><span>Delivered</span></div>
+                                    </div>
+                                  </div>
+                                  <div className="fx-edd-pri">
+                                    <p className="fx-edd-pri-label">EDD Source Priority</p>
+                                    <ul className="fx-edd-pri-list">
+                                      <li>
+                                        <span className="fx-edd-grip" aria-hidden="true">⋮⋮</span>
+                                        <div className="fx-edd-pri-txt">
+                                          <strong>1. Carrier Official</strong>
+                                          <small>3,500+ carriers</small>
+                                        </div>
+                                        <b className="fx-edd-switch is-on" />
+                                      </li>
+                                      <li className="is-ai">
+                                        <span className="fx-edd-grip" aria-hidden="true">⋮⋮</span>
+                                        <div className="fx-edd-pri-txt">
+                                          <strong>2. 17TRACK AI EDD</strong>
+                                          <small>12B+ live data</small>
+                                        </div>
+                                        <b className="fx-edd-switch is-ai-on" />
+                                      </li>
+                                      <li>
+                                        <span className="fx-edd-grip" aria-hidden="true">⋮⋮</span>
+                                        <div className="fx-edd-pri-txt">
+                                          <strong>3. Custom Merchant</strong>
+                                          <small>Regional rules</small>
+                                        </div>
+                                        <b className="fx-edd-switch is-on" />
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
                             </div>

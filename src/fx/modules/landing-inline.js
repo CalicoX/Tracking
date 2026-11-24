@@ -290,9 +290,10 @@ export function mount() {
 
       var SCENE_DIMS = [
         { w: 680, h: 700 }, /* Tab 0: Branded Tracking Page */
-        { w: 780, h: 660 }, /* Tab 1: Branded Email (Letter + Flow) */
-        { w: 736, h: 500 }, /* Tab 2: Split-Order 左右叠，邮件下层 */
-        { w: 584, h: 480 }  /* Tab 3: Conversion 左右叠，购物车下层 */
+        { w: 844, h: 660 }, /* Tab 1: Automated Email Notifications (Letter + Flow) */
+        { w: 788, h: 520 }, /* Tab 2: Split-Order 左右叠，邮件下层 */
+        { w: 740, h: 616 }, /* Tab 3: Exception Management（B端后台列表 + 提醒规则毛玻璃） */
+        { w: 760, h: 584 }  /* Tab 4: Estimated Delivery Date (EDD)（PC左右商品页 + 售后蓝紫毛玻璃压右下） */
       ];
 
       function updateFeatureScales() {

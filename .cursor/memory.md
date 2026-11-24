@@ -1,6 +1,13 @@
 # Memory
 
-最后更新：2026-09-23（Explore 17RETURNS 插图换成 Returns hero 整组等比缩放）
+最后更新：2026-11-24（Features 扩为 5 项英文文案：新增 Exception Management 与 EDD）
+
+## Features 5 项改版（2026-11-24）
+
+- `#key-features` 手风琴从 4 项扩为 **5 项**（英文 Title Case）：`Branded Tracking Page` / `Automated Email Notifications` / `Split-Order Management` / `Exception Management` / `Estimated Delivery Date (EDD)`。原 Conversion & Loyalty 的一键购买与 16% 复购推荐已并入第 1 项。
+- 数值视觉标杆（2026-11-24 Park 定案）：全套 Features 插图的关键数值统一对齐图 1 `↑16% Repeat Purchases` 胶囊量级（基准 `28px@680` / 药丸高 `46px`），按各画布宽度折算缩放后屏幕实测等大：图 2 `↓95% WISMO` 升至 `26px` 大胶囊（`54px` 高、宽 `844`）、`Email Analytics` KPI 升至 `31px`；图 4 `31 Languages` 升至 `31px`（药丸高 `50px`）、4 张后台 KPI 升至 `28px`；图 5 `Wed, Mar 25` 升至 `31px`、售前绿卡日期与价格升至 `23px`。
+- 面板对应：`0`（Branded Tracking Page）在原四卡散开基础上按方案 A 升级：左下 `AI Tracking Page` 标题补 `Zero-Code · Auto-Generated`；右下 `NEW ARRIVALS` 保留人物图，去静态 `SHOP NOW` 改为底部毛玻璃 `AI Recommended` 商品条（`sport-earpods.jpg` + `1-Click Buy` 按钮），卡下挂等宽 `300px` 的 `↑16% Repeat Purchases` 蓝白量化胶囊（数字 `28px`）。`1`（Automated Email Notifications，设计宽 `844`）在原异常邮件 + Create flow 基础上，左 `Delivery Status` 补 `19 Scenarios` 徽标，右侧 `Create flow`（`↓95% WISMO` 大胶囊 `right: -34px`）下方新增同层毛玻璃 `Email Analytics` 卡（`99.4% Sent` + `68.4% Open Rate` / `24.2% Click Rate` 31px + 迷你柱状图）。`2`（Split-Order，设计宽 `788`）左邮件加宽到 `372px`、加高并补 `Package #1 Shipped / Package #2 Pending` 状态行。`3`（Exception Management，设计 `740×616`）严格复刻 17TRACK B 端真实后台：下层浅灰+纯白 `Exception List` 工作台（顶栏 Tab + `+ Log Dispute` 黑钮 + 4 张 KPI 卡 + 含 `In Progress`/`Resolved` 与 `P1`/`P2` 风险标的 4 行案件表）+ 右下上层重毛玻璃 `Alert Rules` 叠卡（复刻「超过 X 天未签收」按国家/天数句子式表单 + 折叠规则）+ 左下大号 `31 Languages`（31px）胶囊。`4`（Estimated Delivery Date (EDD)，设计 `760×584`）上下错层 PC 双卡：下层实心白 PC 浏览器左右布局商品详情页（左图 `wireless-pro.jpg` + 右侧标题/价格/翠绿日历 `Mar 24 – Mar 26` 预计送达卡 + `Add to Cart / Buy Now`）+ 右下上层横向双栏重毛玻璃卡（左栏蓝紫渐变焦点大卡 `Wed, Mar 25` + 4 步进度条，右栏 3 条精简 `EDD Source Priority` 拖拽开关）。
+- `SCENE_DIMS`（`FeaturesSection.jsx` & `landing-inline.js`）、≤640 移动端 `grid-area`（10 行图文 + 第 11 行 CTA）与 `structure.test.js`（锁 5 项标题 + 存在 `data-feature="4"` / 禁 `data-feature="5"`）已同步扩成 5 项。
 
 ## AI 案例四品牌（2026-09-22）
 
