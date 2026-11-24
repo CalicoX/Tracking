@@ -413,7 +413,7 @@ describe("React landing structure (gating)", () => {
     expect(rootBlock).not.toMatch(/font-size:\s*var\(--fs-h2\)/);
     const i640 = css.indexOf("/* —— ≤640 phone");
     expect(i640).toBeGreaterThan(-1);
-    const block480 = css.slice(i640, i640 + 14000);
+    const block480 = css.slice(i640, i640 + 20000);
     expect(block480).toMatch(/\.features-section > \.section-inner/);
     expect(block480).toMatch(/padding-top:\s*72px/);
     expect(block480).toMatch(/flex-direction:\s*column/);

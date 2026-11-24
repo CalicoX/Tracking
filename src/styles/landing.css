@@ -15315,12 +15315,24 @@
         display: grid;
         grid-template-columns: 1fr;
         column-gap: 0;
-        row-gap: 16px;
+        row-gap: 0;
         align-items: stretch;
+      }
+      .feature-list .feature,
+      .feature-list .feature.active {
+        display: contents;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
       }
       .feature-list .feature h3,
       .feature-list .feature.active h3 {
-        margin: 0 0 8px;
+        position: relative;
+        z-index: 2;
+        margin: 56px 0 8px;
+        text-align: left;
         font-weight: 700;
         letter-spacing: -0.025em;
         background-image: linear-gradient(105deg, #1d4ed8 0%, #2563eb 48%, #4f46e5 100%);
@@ -15329,42 +15341,59 @@
         color: transparent;
         -webkit-text-fill-color: transparent;
       }
-      .feature-list .feature,
-      .feature-list .feature.active {
+      .feature-list .feature[data-feature="0"] h3,
+      .feature-list .feature[data-feature="0"].active h3 {
+        margin-top: 0;
+      }
+      .feature-list .feature .feature-desc,
+      .feature-list .feature.active .feature-desc {
         position: relative;
         z-index: 2;
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-        box-shadow: none;
-        padding: 0;
+        max-height: none;
+        opacity: 1;
+        overflow: visible;
+        text-align: left;
+        margin: 0 0 12px;
       }
       .feature-list .feature .feature-points {
+        position: relative;
+        z-index: 2;
         grid-template-rows: 1fr !important;
         pointer-events: auto;
         max-height: none;
         opacity: 1;
+        text-align: left;
+        margin: 4px 0 0;
       }
-      /* Features 五组图文纵向交叉排列：图 0 -> 文 0 -> ... -> 图 4 -> 文 4 -> CTA */
-      .feature-panel[data-feature="0"] .feature-visual { grid-area: 1 / 1; }
-      .feature-list .feature[data-feature="0"] { grid-area: 2 / 1; }
-      .feature-panel[data-feature="1"] .feature-visual { grid-area: 3 / 1; }
-      .feature-list .feature[data-feature="1"] { grid-area: 4 / 1; }
-      .feature-panel[data-feature="2"] .feature-visual { grid-area: 5 / 1; }
-      .feature-list .feature[data-feature="2"] { grid-area: 6 / 1; }
-      .feature-panel[data-feature="3"] .feature-visual { grid-area: 7 / 1; }
-      .feature-list .feature[data-feature="3"] { grid-area: 8 / 1; }
-      .feature-panel[data-feature="4"] .feature-visual { grid-area: 9 / 1; }
-      .feature-list .feature[data-feature="4"] { grid-area: 10 / 1; }
+      /* Features 五组移动端顺序：标题 -> 描述 -> 插图 -> 要点列表 -> ... -> CTA */
+      .feature-list .feature[data-feature="0"] h3 { grid-area: 1 / 1; }
+      .feature-list .feature[data-feature="0"] .feature-desc { grid-area: 2 / 1; }
+      .feature-panel[data-feature="0"] .feature-visual { grid-area: 3 / 1; }
+      .feature-list .feature[data-feature="0"] .feature-points { grid-area: 4 / 1; }
+
+      .feature-list .feature[data-feature="1"] h3 { grid-area: 5 / 1; }
+      .feature-list .feature[data-feature="1"] .feature-desc { grid-area: 6 / 1; }
+      .feature-panel[data-feature="1"] .feature-visual { grid-area: 7 / 1; }
+      .feature-list .feature[data-feature="1"] .feature-points { grid-area: 8 / 1; }
+
+      .feature-list .feature[data-feature="2"] h3 { grid-area: 9 / 1; }
+      .feature-list .feature[data-feature="2"] .feature-desc { grid-area: 10 / 1; }
+      .feature-panel[data-feature="2"] .feature-visual { grid-area: 11 / 1; }
+      .feature-list .feature[data-feature="2"] .feature-points { grid-area: 12 / 1; }
+
+      .feature-list .feature[data-feature="3"] h3 { grid-area: 13 / 1; }
+      .feature-list .feature[data-feature="3"] .feature-desc { grid-area: 14 / 1; }
+      .feature-panel[data-feature="3"] .feature-visual { grid-area: 15 / 1; }
+      .feature-list .feature[data-feature="3"] .feature-points { grid-area: 16 / 1; }
+
+      .feature-list .feature[data-feature="4"] h3 { grid-area: 17 / 1; }
+      .feature-list .feature[data-feature="4"] .feature-desc { grid-area: 18 / 1; }
+      .feature-panel[data-feature="4"] .feature-visual { grid-area: 19 / 1; }
+      .feature-list .feature[data-feature="4"] .feature-points { grid-area: 20 / 1; }
+
       .feature-side .feature-cta {
-        grid-area: 11 / 1;
-        margin-top: 16px;
-      }
-      .feature-list .feature {
-        margin-bottom: 28px;
-      }
-      .feature-list .feature[data-feature="4"] {
-        margin-bottom: 0;
+        grid-area: 21 / 1;
+        margin-top: 40px;
       }
 
       /* Features 四大插图：设计稿原尺寸 + 整组从顶中等比缩放，槽宽=栏宽，不裁画面 */
@@ -15417,13 +15446,13 @@
         mask-image: none;
       }
       .fx-em-scene {
-        width: 780px;
+        width: 844px;
         max-width: none;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         margin: 0 auto;
-        padding: 8px 18px 24px;
+        padding: 14px 40px 18px 184px;
         box-sizing: border-box;
       }
       .fx-so-cluster {
